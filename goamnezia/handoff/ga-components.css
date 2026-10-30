@@ -1,0 +1,95 @@
+/* goAmnezia Pro · общие компоненты поверх heroui-tokens.css.
+   Прототипы (.dc.html) написаны инлайн-стилями; в продукте эти классы заменяют повторяющиеся стили.
+   Все значения — только токены. Состояния: :hover, :active, :focus-visible, [disabled], [aria-*]. */
+
+/* Карточка */
+.ga-card { background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-card); padding: var(--card-p); min-width: 0; }
+.ga-card__title { margin: 0; font: 600 16px/22px var(--font); }
+.ga-card__desc { color: var(--muted); font-size: 13px; }
+.ga-tile { padding: 12px 14px; border-radius: var(--r-field); background: var(--tile-bg); min-width: 0; }
+
+/* Кнопка: primary · tertiary · ghost · danger · danger-soft · inverse; размеры md · sm; icon-only */
+.ga-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: var(--btn-h); padding: 0 16px; border: 0; border-radius: var(--r-btn); font: 500 var(--fs)/1 var(--font); white-space: nowrap; cursor: pointer; transition: transform var(--dur) var(--ease), background var(--dur); }
+.ga-btn:active { transform: scale(.97); }
+.ga-btn[disabled], .ga-btn[aria-disabled="true"] { opacity: var(--disabled-opacity); cursor: not-allowed; transform: none; }
+.ga-btn--primary { background: var(--accent); color: var(--accent-foreground); }
+.ga-btn--primary:hover { background: var(--accent-hover); }
+.ga-btn--tertiary { background: var(--default); color: var(--default-foreground); }
+.ga-btn--tertiary:hover { background: var(--default-hover); }
+.ga-btn--ghost { background: transparent; color: var(--foreground); }
+.ga-btn--ghost:hover { background: var(--default); }
+.ga-btn--danger { background: var(--danger); color: var(--danger-foreground); }
+.ga-btn--danger-soft { background: var(--danger-soft); color: var(--danger-soft-foreground); }
+.ga-btn--danger-soft:hover { background: var(--danger-soft-hover); }
+.ga-btn--inverse { background: var(--foreground); color: var(--background); }
+.ga-btn--sm { height: var(--btn-h-sm); padding: 0 12px; font-size: 13px; }
+.ga-btn--icon { width: var(--btn-h); padding: 0; }
+.ga-btn--sm.ga-btn--icon { width: var(--btn-h-sm); }
+
+/* Чип статуса: success · warning · danger · accent · default */
+.ga-chip { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; font: 500 12px/18px var(--font); white-space: nowrap; background: var(--default); color: var(--muted); }
+.ga-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.ga-chip--plain::before { display: none; }
+.ga-chip--success { background: var(--success-soft); color: var(--success-soft-foreground); }
+.ga-chip--warning { background: var(--warning-soft); color: var(--warning-soft-foreground); }
+.ga-chip--danger { background: var(--danger-soft); color: var(--danger-soft-foreground); }
+.ga-chip--accent { background: var(--accent-soft); color: var(--accent-soft-foreground); }
+.ga-tag { padding: 1px 7px; border-radius: var(--r-sm); background: var(--default); font: 500 12px/18px var(--mono); }
+
+/* Сегмент (Tabs / ToggleButtonGroup) — активный элемент получает aria-pressed="true" или aria-selected="true" */
+.ga-seg { position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); padding: 4px; border-radius: var(--r-btn); background: var(--default); }
+.ga-seg__item { height: 32px; padding: 0 12px; border: 0; border-radius: var(--r-btn); background: transparent; color: var(--muted); font: 500 13px var(--font); white-space: nowrap; cursor: pointer; transition: background var(--dur), color var(--dur); }
+.ga-seg__item[aria-pressed="true"], .ga-seg__item[aria-selected="true"] { background: var(--segment); color: var(--foreground); box-shadow: var(--segment-shadow); }
+
+/* Переключатель: <button role="switch" aria-checked> */
+.ga-switch { position: relative; flex: none; width: 40px; height: 24px; border: 0; border-radius: 999px; background: var(--default-hover); cursor: pointer; transition: background var(--dur); }
+.ga-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform var(--dur) var(--ease); }
+.ga-switch[aria-checked="true"] { background: var(--accent); }
+.ga-switch[aria-checked="true"]::after { transform: translateX(16px); }
+
+/* Поле */
+.ga-field { height: var(--btn-h); padding: 0 12px; border: 0; border-radius: var(--r-field); background: var(--field-background); color: var(--field-foreground); box-shadow: var(--field-shadow); font: 400 var(--fs) var(--font); width: 100%; min-width: 0; }
+.ga-field:hover { background: var(--field-hover); }
+.ga-field:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--focus); }
+.ga-field[aria-invalid="true"] { box-shadow: 0 0 0 2px var(--danger); }
+.ga-label { display: grid; gap: 6px; font: 500 13px var(--font); }
+.ga-hint { font-size: 12px; line-height: 16px; color: var(--muted); }
+.ga-hint--error { color: var(--danger-soft-foreground); }
+
+/* Метр / прогресс */
+.ga-meter { height: 6px; border-radius: 999px; background: var(--default); overflow: hidden; }
+.ga-meter > span { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+.ga-meter--warning > span { background: var(--warning); }
+.ga-meter--danger > span { background: var(--danger); }
+
+/* Кольцо: style="--p: 25" (проценты) */
+.ga-ring { position: relative; width: 56px; height: 56px; border-radius: 50%; background: conic-gradient(var(--ring-c, var(--accent)) calc(var(--p) * 3.6deg), var(--default) 0); }
+.ga-ring > span { position: absolute; inset: 6px; border-radius: 50%; background: var(--card-bg); display: grid; place-items: center; font: 600 12px var(--font); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Аватар */
+.ga-avatar { position: relative; width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--font); background: var(--accent-soft); color: var(--accent-soft-foreground); }
+.ga-avatar--online::after { content: ""; position: absolute; right: -1px; bottom: -1px; width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 2px var(--card-bg); }
+
+/* Алерт внутри карточки */
+.ga-alert { display: flex; gap: 10px; padding: 12px; border-radius: var(--r-field); font-size: 13px; line-height: 18px; }
+.ga-alert--warning { background: var(--warning-soft); color: var(--warning-soft-foreground); }
+.ga-alert--danger { background: var(--danger-soft); color: var(--danger-soft-foreground); }
+.ga-alert--success { background: var(--success-soft); color: var(--success-soft-foreground); }
+.ga-alert--accent { background: var(--accent-soft); color: var(--accent-soft-foreground); }
+
+/* Шторка, модалка, тост */
+.ga-backdrop { position: fixed; inset: 0; z-index: 20; background: var(--backdrop); animation: hero-fade .2s; }
+.ga-drawer { position: fixed; z-index: 21; inset: 10px 10px 10px auto; width: min(440px, calc(100% - 20px)); display: flex; flex-direction: column; background: var(--overlay); box-shadow: var(--overlay-shadow); border-radius: var(--r-card); overflow: hidden; animation: hero-in-right .26s var(--ease); --tile-bg: var(--surface-secondary); }
+@media (max-width: 600px) { .ga-drawer { inset: 44px 0 0 0; width: auto; border-radius: var(--r-card) var(--r-card) 0 0; animation-name: hero-in-up; } }
+.ga-dialog { width: min(420px, 100%); display: grid; gap: 14px; padding: 22px; border-radius: var(--r-card); background: var(--overlay); box-shadow: var(--overlay-shadow); animation: hero-pop .18s var(--ease); --tile-bg: var(--surface-secondary); }
+.ga-toast { position: fixed; z-index: 40; right: 16px; bottom: 20px; max-width: 380px; display: flex; gap: 10px; padding: 12px 14px; border-radius: var(--r-field); background: var(--overlay); box-shadow: var(--overlay-shadow); animation: hero-in-up .22s var(--ease); }
+
+/* Таблица-сетка: колонки задаются на контейнере через --cols */
+.ga-table { display: grid; min-width: 0; overflow-x: auto; }
+.ga-table__head, .ga-table__row { display: grid; grid-template-columns: var(--cols); gap: 12px; align-items: center; padding: var(--row) 12px; }
+.ga-table__head { padding-block: 8px; border-radius: var(--r-field); background: var(--tile-bg); color: var(--muted); font: 500 12px var(--font); }
+.ga-table__row { border-bottom: 1px solid var(--separator); }
+.ga-table__row:hover { background: var(--background-secondary); }
+
+/* Kbd */
+.ga-kbd { display: inline-flex; align-items: center; height: 22px; padding: 0 6px; border-radius: 6px; background: var(--default); color: var(--muted); font: 500 12px var(--font); }

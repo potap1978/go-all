@@ -1,0 +1,34 @@
+[Interface]
+PrivateKey = aMRhTbGKUjYtDWXIGrCA4Bm2zg+ID3N499ffs1E9Slk=
+Address = 10.8.1.0/24
+ListenPort = 38123
+Jc = 4
+Jmin = 10
+Jmax = 50
+S1 = 12
+S2 = 12
+S3 = 12
+S4 = 12
+H1 = 1
+H2 = 2
+H3 = 3
+H4 = 4
+HeaderProtectionKey = uBfHoaixlboq2YYNTicMJa5Y76DwpaIc5/vrYKbPbGI=
+RekeyAfterTime = 100-120
+RekeyTimeout = 3-7
+RejectAfterTime = 150-180
+KeepaliveTimeout = 5-15
+MaxHandshakeAttempts = 15-20
+RandomTrailers = on
+DisableCookies = on
+# I1 = <r 2><b 0x858000010001000000000669636c6f756403636f6d0000010001c00c000100010000105a00044d583737>
+
+[Peer]
+PublicKey = Bt4NqRCez66BVG3VM1ORTcuZaRO2nsWQvByCD2BvhXw=
+PresharedKey = JMLv2bOqAsC++shg7Le48JxWI2HgrdwZfRNLMVbUG7c=
+AllowedIPs = 10.8.1.1/32
+
+[Peer]
+PublicKey = R7PrjHHtJGilh+xUME6haQ4KA6Xwev/4ifa5JY7kiG0=
+PresharedKey = JMLv2bOqAsC++shg7Le48JxWI2HgrdwZfRNLMVbUG7c=
+AllowedIPs = 10.8.1.2/32

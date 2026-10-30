@@ -1,0 +1,69 @@
+{
+  "_comment": "Короткие ссылки с 2FA через Telegram-бота — фикстура интерфейсов (бот: tests/test_bot_features.py, панель: tests/test_panel_dom.py и tests/test_admin_features.py, SSH: tests/test_wizard_pty.py) строго в форме договора ядра и интерфейсов (docs/SUBSCRIPTION.md, раздел договора; .claude/work/short-links/SPEC.md). actions — ответы моста на short-*: итог short-decide и short-status по договору — поле status (ok | wrong | denied | swapped | expired | frozen, pending — ещё ждёт). events — файлы очереди ${LOCK_DIR}/short-confirm/ (short_confirm, short_decided) и общей очереди (short_alarm), формат ga_notify: одна строка JSON {ts, event, …}. catalog — как ядро может описать действия в lib/actions.json (secret: true, в MCP нет): каталог ядра делает другой исполнитель, здесь — только чтобы интерфейсы видели действия; who у short-replace-request и short-decide — page | panel | ssh | bot. Коды и адреса поддельные.",
+  "actions": {
+    "short-ensure": {"status": "success", "message": "ok", "code": "NV439BKX", "display": "NV43-9BKX",
+                     "url": "https://vpn.example.com/NV43-9BKX", "created": "2026-10-04T12:00:00Z"},
+    "short-list": {"status": "success", "message": "ok", "codes": [
+      {"suffix": "all.yaml", "code": "NV439BKX", "display": "NV43-9BKX", "url": "https://vpn.example.com/NV43-9BKX", "created": "2026-10-04T12:00:00Z"},
+      {"suffix": "awg20.conf", "code": "H3TW7RQZ", "display": "H3T-W7RQZ", "url": "https://vpn.example.com/H3T-W7RQZ", "created": "2026-10-04T12:10:00Z"}]},
+    "short-replace-request": {"status": "success", "message": "ok", "request": "rq7Kq2mXa", "number": 47,
+                              "expires": "2026-10-04T12:05:00Z"},
+    "short-decide": {"status": "ok", "display": "Q8RT-W2KM", "url": "https://vpn.example.com/Q8RT-W2KM"},
+    "short-status": {"status": "pending", "expires": "2026-10-04T12:05:00Z"},
+    "short-pending": {"status": "success", "message": "ok", "requests": [
+      {"request": "rqLogin01", "kind": "login", "name": "anna", "label": "Анна", "suffix": "all.yaml", "device": "iPhone · Safari",
+       "ip": "109.111.12.34", "geo": "Москва, Россия", "options": [47, 12, 85, 33, 61, 90, 28, 74, 19, 56],
+       "created": "2026-10-04T12:00:00Z", "expires": "2026-10-04T12:05:00Z"},
+      {"request": "rqSwap002", "kind": "replace", "name": "anna", "label": "Анна", "suffix": "awg20.conf", "device": "", "ip": "", "geo": "",
+       "options": [23, 58, 91, 14, 67, 40, 82, 35, 76, 50], "created": "2026-10-04T12:01:00Z", "expires": "2026-10-04T12:06:00Z"}]},
+    "short-bans": {"status": "success", "message": "ok", "bans": [
+      {"kind": "ip", "target": "203.0.113.7", "level": 1, "until": "2026-10-05T12:00:00Z", "reason": "misses"},
+      {"kind": "code", "target": "K7Q2MXPA", "level": 2, "until": "2026-11-04T12:00:00Z", "reason": "wrong"}]},
+    "short-unban": {"status": "success", "message": "ok"}
+  },
+  "events": {
+    "short_confirm_login": {"ts": "2026-10-04T12:00:00Z", "event": "short_confirm", "request": "rqLogin01", "kind": "login",
+                            "name": "anna", "label": "Анна", "suffix": "all.yaml", "device": "iPhone · Safari", "ip": "109.111.12.34",
+                            "geo": "Москва, Россия", "options": [47, 12, 85, 33, 61, 90, 28, 74, 19, 56], "expires": "2026-10-04T12:05:00Z"},
+    "short_confirm_replace": {"ts": "2026-10-04T12:01:00Z", "event": "short_confirm", "request": "rqSwap002", "kind": "replace",
+                              "name": "anna", "label": "Анна", "suffix": "awg20.conf", "device": "", "ip": "", "geo": "",
+                              "options": [23, 58, 91, 14, 67, 40, 82, 35, 76, 50], "expires": "2026-10-04T12:06:00Z"},
+    "short_decided": {"ts": "2026-10-04T12:00:30Z", "event": "short_decided", "request": "rqLogin01", "status": "ok", "by": "panel"},
+    "short_alarm": {"ts": "2026-10-04T12:30:00Z", "event": "short_alarm", "misses_hour": 137}
+  },
+  "catalog": {
+    "actions": {
+      "short-ensure": {"mcp": null, "readonly": false, "secret": true, "destructive": false,
+                       "params": {"name": {"ref": "name", "required": true}, "suffix": {"ref": "short_suffix", "required": true}},
+                       "description": {"ru": "Короткая ссылка пары «подписка + суффикс»: код создаётся при первом показе", "en": "The short link of a subscription and suffix pair: the code is created when first shown"}},
+      "short-list": {"mcp": null, "readonly": true, "secret": true, "destructive": false,
+                     "params": {"name": {"ref": "name", "required": true}},
+                     "description": {"ru": "Уже созданные короткие ссылки подписки", "en": "Short links of a subscription created so far"}},
+      "short-replace-request": {"mcp": null, "readonly": false, "secret": true, "destructive": false,
+                                "params": {"name": {"ref": "name", "required": true}, "suffix": {"ref": "short_suffix", "required": true},
+                                           "who": {"ref": "short_who", "required": true}},
+                                "description": {"ru": "Запрос замены короткой ссылки: число показывает тот, кто попросил", "en": "A short link replacement request: the asker shows the number"}},
+      "short-decide": {"mcp": null, "readonly": false, "secret": true, "destructive": false,
+                       "params": {"request": {"ref": "short_request", "required": true}, "answer": {"ref": "short_answer", "required": true},
+                                  "who": {"ref": "short_who", "required": true}},
+                       "description": {"ru": "Ответ администратора на запрос входа или замены", "en": "An administrator's answer to a sign-in or replacement request"}},
+      "short-status": {"mcp": null, "readonly": true, "secret": true, "destructive": false,
+                       "params": {"request": {"ref": "short_request", "required": true}},
+                       "description": {"ru": "Состояние запроса — для опроса", "en": "Request state — for polling"}},
+      "short-pending": {"mcp": null, "readonly": true, "secret": true, "destructive": false, "params": {},
+                        "description": {"ru": "Ждущие подтверждения запросы", "en": "Requests awaiting confirmation"}},
+      "short-bans": {"mcp": null, "readonly": true, "secret": true, "destructive": false, "params": {},
+                     "description": {"ru": "Баны адресов и заморозки кодов", "en": "Address bans and code freezes"}},
+      "short-unban": {"mcp": null, "readonly": false, "secret": true, "destructive": false,
+                      "params": {"target": {"ref": "short_target", "required": true}},
+                      "description": {"ru": "Снять бан адреса или заморозку кода", "en": "Lift an address ban or a code freeze"}}
+    },
+    "param_types": {
+      "short_suffix": {"type": "string", "pattern": "^(all\\.(yaml|txt|vpn)|awg[0-9]{2}\\.(vpn|conf))$"},
+      "short_who": {"type": "string", "enum": ["page", "panel", "ssh", "bot"]},
+      "short_request": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,48}$"},
+      "short_answer": {"type": "string", "pattern": "^([1-9][0-9]|deny|swap)$"},
+      "short_target": {"type": "string", "pattern": "^[0-9A-Za-z.:/_-]{1,64}$"}
+    }
+  }
+}

@@ -1,0 +1,73 @@
+logs_unit_b	Б	B
+logs_unit_kb	КБ	KB
+logs_unit_mb	МБ	MB
+logs_unit_gb	ГБ	GB
+logs_menu_report	Объём логов и файлы	Log size and files
+logs_menu_sweep	Подчистить сейчас	Clean up now
+logs_menu_rate	Замерить, сколько логов пишется	Measure how fast logs are written
+logs_menu_install	Переустановить правила ротации	Reinstall the rotation rules
+logs_rep_title	Бюджет логов goDNS Pro	goDNS Pro log budget
+logs_rep_dir	Каталог	Directory
+logs_rep_files	Файлов	Files
+logs_rep_files_val	%s (сжатых: %s)	%s (compressed: %s)
+logs_rep_plain	Несжатые	Uncompressed
+logs_rep_arch	Сжатый архив	Compressed
+logs_rep_total	Всего	Total
+logs_rep_of	из	of
+logs_rep_rotated	Ротация	Rotation
+logs_rep_rotated_never	ещё не было — файлы не доросли до порога	not yet — no file has reached the threshold
+logs_rep_free	Свободно	Free space
+logs_rep_free_val	%s МБ (порог тревоги %s МБ)	%s MB (alarm threshold %s MB)
+logs_rep_conf	Правила	Rules
+logs_rep_conf_val	%s — файл %s МБ, %s поколений	%s — %s MB per file, %s generations
+logs_rep_conf_missing	не установлены (пункт «Переустановить правила ротации»)	not installed (use 'Reinstall the rotation rules')
+logs_rep_timer	Таймеры	Timers
+logs_rep_timer_val	ротация %s, сторож %s	rotation %s, watchdog %s
+logs_rep_timer_off	не запущены — уборка будет только вручную	not running — cleanup will be manual only
+logs_rep_sweep	Сторож	Watchdog
+logs_rep_sweep_never	ещё не отчитывался	has not reported yet
+logs_rep_empty	Логов пока нет — служба ещё ничего не написала.	No logs yet — the service has not written anything.
+logs_rep_over	Бюджет превышен. Нажмите «Подчистить сейчас».	Over budget. Use 'Clean up now'.
+logs_rep_ok	В бюджете.	Within budget.
+logs_rep_why_file	Логи службы идут в свой файл, а не в общий журнал systemd.	The service log goes to its own file, not to the shared systemd journal.
+logs_rep_why_file2	У journald потолок SystemMaxUse один на всю машину, и сосед	journald's SystemMaxUse ceiling is machine-wide, and the neighbouring
+logs_rep_why_file3	goTelegram выставляет его глобально — делить его нельзя.	goTelegram sets it globally — that budget cannot be shared.
+logs_install_step	Настраиваю бюджет логов	Setting up the log budget
+logs_install_dir	Каталог логов: %s	Log directory: %s
+logs_install_dir_fail	Каталог логов %s не создан — логи останутся в journald.	Log directory %s was not created — logs stay in journald.
+logs_install_rotate	Правила ротации: %s (файл %s МБ, %s поколений, сжатие gzip)	Rotation rules: %s (%s MB per file, %s generations, gzip)
+logs_install_budget	Потолок %s МБ: до %s МБ несжатых, остальное — сжатый архив.	Ceiling %s MB: up to %s MB uncompressed, the rest compressed.
+logs_install_timer	Таймеры: %s (раз в час) и %s (раз в 15 минут)	Timers: %s (hourly) and %s (every 15 minutes)
+logs_install_timer_fail	Таймеры не включились — уборка будет только из меню.	The timers did not start — cleanup will be available from the menu only.
+logs_install_no_logrotate	logrotate в системе нет — ставлю пакет.	logrotate is not installed — installing the package.
+logs_install_logrotate_missing	logrotate не поставился. Ротации не будет, останется сторож.	logrotate was not installed. No rotation, only the watchdog.
+logs_install_no_systemd	systemd не найден — таймеры не ставлю, уборка только из меню.	systemd not found — no timers installed, cleanup from the menu only.
+logs_install_migrated	Старый файл %s перенесён в %s	The old file %s was moved to %s
+logs_install_done	Бюджет логов настроен.	The log budget is set up.
+logs_remove_step	Убираю правила ротации логов	Removing the log rotation rules
+logs_remove_done	Убрано: %s	Removed: %s
+logs_remove_files_ask	Удалить и сами файлы логов?	Delete the log files as well?
+logs_remove_files_kept	Файлы логов оставлены в %s	The log files were left in %s
+logs_sweep_step	Уборка логов	Log cleanup
+logs_sweep_before	Было: %s	Before: %s
+logs_sweep_after	Стало: %s из %s	Now: %s of %s
+logs_sweep_nothing	Уборка не понадобилась: уже в бюджете.	No cleanup needed: already within budget.
+logs_sweep_forced	Живой файл сам по себе больше бюджета — принудительная ротация.	The live file alone exceeds the budget — forcing a rotation.
+logs_sweep_gz	Дожато файлов: %s	Compressed files: %s
+logs_sweep_rm	Удалено старых архивов: %s	Old archives deleted: %s
+logs_sweep_emergency	Место на /var/log кончается (свободно %s МБ) — бюджет урезан вдвое.	/var/log is running out of space (%s MB free) — the budget was halved.
+logs_sweep_still_over	Бюджет всё ещё превышен: %s. Живой файл не обрезаем.	Still over budget: %s. The live file is never truncated.
+logs_rate_step	Считаю поток логов %s секунд…	Counting the log rate for %s seconds…
+logs_rate_result	Пишется примерно %s строк в минуту, около %s в сутки.	About %s lines per minute, roughly %s per day.
+logs_rate_days	При такой скорости несжатого слоя хватает примерно на %s суток.	At this rate the uncompressed layer lasts about %s days.
+logs_rate_days_many	При такой скорости бюджета хватает надолго — счёт идёт на месяцы.	At this rate the budget lasts for months.
+logs_rate_nofile	Файла логов ещё нет — мерить нечего.	There is no log file yet — nothing to measure.
+logs_cut_title	Слой 1 — что вообще пишется	Layer 1 — what gets written at all
+logs_cut_ok	Источник урезан: подробный режим и лог консольных подключений выключены.	Source is trimmed: verbose mode and console-connection logging are off.
+logs_cut_verbose	В %s включён подробный режим — это главный источник объёма.	Verbose mode is on in %s — that is the main source of volume.
+logs_cut_query	В %s включено логирование запросов — на нагрузке это гигабайты в сутки.	Query logging is on in %s — under load that is gigabytes per day.
+logs_cut_hint	«Настройки goDNS Pro» → «Перезапустить» перерисует конфигурацию и вернёт тихий режим.	“goDNS Pro settings” → “Restart” will re-render the configuration and restore quiet mode.
+logs_cut_noconf	Конфигурация службы ещё не установлена — резать нечего.	The service configuration is not installed yet — nothing to trim.
+logs_deploy_failed	Бюджет логов настроить не удалось — логи останутся в журнале systemd.	Could not set up the log budget — logs will stay in the systemd journal.
+logs_install_rotate_fail	Не удалось записать правила ротации: %s — логи будут расти без ограничения.	Could not write the rotation rules: %s — logs will grow without a limit.
+qlog_confirm	Включить подробный лог запросов?	Turn on verbose query logging?

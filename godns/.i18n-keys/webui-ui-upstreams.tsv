@@ -1,0 +1,92 @@
+ui_ups_title	Апстримы	Upstreams
+ui_ups_set_title	Набор апстримов	Upstream set
+ui_ups_set_note	фильтрующие — жёлтым: их NXDOMAIN выглядит как сломанный туннель	filtering resolvers are yellow: their NXDOMAIN looks like a broken tunnel
+ui_ups_note_selected	{0} выбрано	{0} selected
+ui_ups_policy_rr	по кругу	round-robin
+ui_ups_policy_fastest	кто быстрее	fastest wins
+ui_ups_col_resolver	резолвер	resolver
+ui_ups_col_filter	фильтрация	filtering
+ui_ups_col_region	регион	region
+ui_ups_col_latency	задержка	latency
+ui_ups_filter_none	нет	none
+ui_ups_catalog_empty	каталог провайдеров пуст	provider catalogue is empty
+ui_ups_not_measured	не мерили	not measured
+ui_ups_ms	{0} мс	{0} ms
+ui_ups_cold_paren	(хол. {0})	(cold {0})
+ui_ups_btn_measure	замерить задержку	measure latency
+ui_ups_btn_apply	ПРИМЕНИТЬ ▶	APPLY ▶
+ui_ups_lat_hint	задержка — не ping: TLS-рукопожатие плюс запрос по установленному соединению; сортировка по «тёплому» числу	latency is not ping: a TLS handshake plus a query over an established connection; sorted by the warm number
+ui_ups_report_title	Отчёт по живым апстримам	Live upstream report
+ui_ups_btn_report	снять отчёт со службы	pull a report from the service
+ui_ups_report_note	консоль dnsdist: состояние и задержки прогретых соединений	dnsdist console: state and latency of warm connections
+ui_ups_need_one	нужен хотя бы один апстрим	at least one upstream is needed
+ui_ups_applied	применено	applied
+ui_ups_applied_toast	апстримы применены	upstreams applied
+ui_ups_report_wait	снимаю отчёт…	pulling the report…
+ui_ups_error	ошибка: {0}	error: {0}
+# ui_ups_cu_* — форма «Свой апстрим» (DoT / DoH / обычный DNS). Порядок шагов
+# и тексты предупреждений — те же, что у SSH-экрана (ups_custom_* в main.tsv).
+# ui_ups_word_curm — слово подтверждения удаления: сервер принимает оба
+# языка через CONFIRM_WORDS["custom_remove"].
+ui_ups_cu_title	Свой апстрим	Own upstream
+ui_ups_cu_note	DoT, DoH или обычный DNS; сертификат у DoT/DoH проверяется всегда — самоподписанный не заведётся	DoT, DoH or plain DNS; DoT/DoH certificates are always validated — a self-signed one will not work
+ui_ups_cu_proto_dot	DoT · 853	DoT · 853
+ui_ups_cu_proto_doh	DoH · 443	DoH · 443
+ui_ups_cu_proto_plain	обычный DNS · 53	plain DNS · 53
+ui_ups_cu_lbl_dot	DoT	DoT
+ui_ups_cu_lbl_doh	DoH	DoH
+ui_ups_cu_lbl_plain	обычный DNS	plain DNS
+ui_ups_cu_host	хост или IP	host or IP
+ui_ups_cu_host_ph_doh	https://хост[:порт]/путь или хост	https://host[:port]/path or host
+ui_ups_cu_port	порт	port
+ui_ups_cu_path	путь DoH	DoH path
+ui_ups_cu_name	имя в списке	display name
+ui_ups_cu_enable	сразу включить в рабочий набор	put into the active set right away
+ui_ups_cu_enable_dirty	сначала примените изменённый набор выше	apply the changed set above first
+ui_ups_cu_btn_probe	проверить	probe
+ui_ups_cu_btn_add	ДОБАВИТЬ ▶	ADD ▶
+ui_ups_cu_btn_add_anyway	добавить всё равно	add anyway
+ui_ups_cu_probing	пробую апстрим… до 60 с	probing the upstream… up to 60 s
+ui_ups_cu_probe_ok	ответил: {0}	answered: {0}
+ui_ups_cu_probe_fail	не ответил: {0} — в работе будет помечен как недоступный	did not answer: {0} — in service it will be marked down
+ui_ups_cu_resolved	{0} → {1}	{0} → {1}
+ui_ups_cu_plain_private	адрес приватный — запросы к нему остаются внутри вашей сети	the address is private — queries to it stay inside your network
+ui_ups_cu_plain_public	открытый DNS к публичному адресу: запросы ваших клиентов уйдут в интернет НЕЗАШИФРОВАННЫМИ — провайдер и любой на пути их прочитает	plain DNS to a public address: your clients’ queries leave for the internet UNENCRYPTED — the ISP and anyone on the path can read them
+ui_ups_cu_plain_ack	понимаю, всё равно добавить открытый апстрим	I understand, add the plaintext upstream anyway
+ui_ups_cu_added_toast	свой апстрим добавлен	own upstream added
+ui_ups_cu_limit	своих: {0} из {1}	own: {0} of {1}
+ui_ups_cu_limit_reached	предел в {0} своих апстримов достигнут — удалите ненужный	the limit of {0} own upstreams is reached — remove one
+ui_ups_cu_badge	свой	own
+ui_ups_cu_btn_remove	удалить	remove
+ui_ups_word_curm	УБРАТЬ	REMOVE
+ui_ups_cu_rm_hint	Удалить {0} ({1} · {2})? Если он в рабочем наборе — служба перечитает конфигурацию.	Remove {0} ({1} · {2})? If it is in the active set, the service reloads its configuration.
+ui_ups_cu_rm_go	удалить апстрим	remove the upstream
+ui_ups_cu_removed_toast	свой апстрим удалён	own upstream removed
+ui_ups_cu_need_host	укажите хост или IP	enter a host or an IP
+ui_ports_title	Порты и путь	Ports and path
+ui_ports_word_rotate	СМЕНИТЬ	ROTATE
+ui_ports_word_dotoff	ВЫКЛЮЧИТЬ	DISABLE
+ui_ports_sec_ports	Порты	Ports
+ui_ports_doh_port	порт DoH	DoH port
+ui_ports_dot_port	порт DoT	DoT port
+ui_ports_btn_apply	ПРИМЕНИТЬ ▶	APPLY ▶
+ui_ports_hint_busy	чужие порты проверяются в момент применения; свой работающий dnsdist занятым не считается	ports held by others are checked at apply time; our own running dnsdist does not count as busy
+ui_ports_note_ports	после смены порта клиентам нужен новый адрес	after a port change clients need a new address
+ui_ports_sec_path	Секретный путь DoH	Secret DoH path
+ui_ports_btn_rotate	сгенерировать новый путь	generate a new path
+ui_ports_note_path	путь — часть адреса: новый путь отключает ВСЕХ текущих клиентов	the path is part of the address: a new path cuts off ALL current clients
+ui_ports_rotate_warn	Все клиенты со старым адресом отвалятся молча: dnsdist сверяет путь точно и отдаёт 404. Продолжить?	All clients on the old address will drop off silently: dnsdist matches the path exactly and returns 404. Continue?
+ui_ports_rotate_go	сменить путь	change the path
+ui_ports_dot_on	включён · порт {0}	enabled · port {0}
+ui_ports_dot_off_badge	ОТКЛЮЧЁН	DISABLED
+ui_ports_dot_open_note	у DoT нет секретного пути: он открыт любому, кто знает домен	DoT has no secret path: it is open to anyone who knows the domain
+ui_ports_dot_need_note	нужен для Android «Private DNS»; секретного пути у DoT нет	needed for Android Private DNS; DoT has no secret path
+ui_ports_btn_dotoff	выключить DoT	disable DoT
+ui_ports_btn_doton	включить DoT	enable DoT
+ui_ports_dotoff_warn	Android-клиенты с «Private DNS» потеряют DNS сразу после применения.	Android clients with Private DNS will lose DNS immediately after this is applied.
+ui_ports_done	готово	done
+ui_ports_rotated_toast	путь сменён — раздайте клиентам новый адрес	path changed — give clients the new address
+ui_ports_dotoff_toast	DoT выключен	DoT disabled
+ui_ports_applied	применено	applied
+ui_ports_applied_toast	порты применены	ports applied
+ui_ports_doton_toast	DoT включён	DoT enabled

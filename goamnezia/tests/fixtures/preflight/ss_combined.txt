@@ -1,0 +1,2 @@
+tcp   LISTEN 0      511          0.0.0.0:80         0.0.0.0:*     users:(("nginx",pid=812,fd=6),("nginx",pid=811,fd=6))
+udp   UNCONN 0      0            0.0.0.0:443        0.0.0.0:*     users:(("docker-proxy",pid=2360,fd=4))

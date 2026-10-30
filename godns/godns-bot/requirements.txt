@@ -1,0 +1,3 @@
+# goDNS bot — зависимости (venv в /opt/godns-bot/venv)
+# python-telegram-bot v21 — та же линия, что у goTelegram: проверена соседом.
+python-telegram-bot>=21.0,<22.0

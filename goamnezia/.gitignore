@@ -1,0 +1,87 @@
+# goAmnezia pro — что НИКОГДА не уезжает в репозиторий.
+# Правило серии: чувствительные данные (адреса стендов, токены, ключи) живут
+# только локально; перед каждым push идёт grep по IP, доменам и Telegram ID.
+
+# ── Секреты и окружение ──
+.env
+.env.*
+!.env.example
+!config.example.env
+*.pem
+*.key
+*.crt
+*.p12
+id_rsa*
+known_hosts
+token
+.admin_claimed
+
+# ── Данные продукта (генерируются на сервере, не часть кода) ──
+config.json
+users.json
+user_langs.json
+state/
+backups/
+.language
+.disclaimer-accepted
+.install-source
+# lib/actions.json — единственный config.json-подобный файл, который КОДОМ
+# является и обязан быть в репозитории; перекрываем правило выше
+!lib/actions.json
+!lib/upstream/images.json
+!templates_catalog.json
+
+# ── Кэши Python и виртуальные окружения ──
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+venv/
+.venv
+
+# ── Node и фронтовые кэши ──
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Логи, временное, архивы ──
+*.log
+*.tmp
+*.bak
+*.old
+*~
+dumps/
+*.tar
+*.tar.gz
+*.tar.gz.enc
+*.sha256
+*.zip
+
+# ── Мусор ОС и редакторов ──
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ── Тестовые артефакты сессий — НИКОГДА не коммитить (содержат креды стендов) ──
+get.py
+put.py
+ssh.py
+harness.sh
+webtest.sh
+venvtest.sh
+live_*.log
+_opt_*
+*.b64
+
+# ── Рабочие клоны веток и локальные архивы прошлых сессий ──
+ga
+gamain
+_archive_*/
+.claude/
+/*.zip
+handoff/*.zip

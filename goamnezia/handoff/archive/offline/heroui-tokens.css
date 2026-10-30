@@ -1,0 +1,172 @@
+/* goAmnezia Pro × HeroUI v3.
+   Цветовые переменные — адаптация HeroUI v3 default theme
+   (github.com/heroui-inc/heroui · packages/styles/themes/default/variables.css · Apache-2.0).
+   Внешний вид выбирает сам человек: data-атрибуты на корне [data-hero]
+   (theme, tint, density, btn, cards, fs, vibrant, motion, device) + --accent / --radius инлайн. */
+
+html, body { height: 100%; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+
+[data-hero] {
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --white: oklch(100% 0 0); --black: oklch(0% 0 0);
+  --snow: oklch(.9911 0 0); --eclipse: oklch(.2103 .0059 285.89);
+  --radius: .5rem;
+  --r-sm: calc(var(--radius) * .75);
+  --r-field: calc(var(--radius) * 1.5);
+  --r-card: calc(var(--radius) * 3);
+  --accent: oklch(.6204 .195 253.83); --accent-foreground: var(--snow);
+  --success: oklch(.7329 .1935 150.81); --success-foreground: var(--eclipse);
+  --disabled-opacity: .5;
+  --dur: 160ms; --ease: cubic-bezier(.2, .7, .2, 1);
+  --btn-h: 40px; --btn-h-sm: 32px;
+  --brand-grad: linear-gradient(135deg, #2dd4bf, #2563eb);
+  --fs: 14px;
+}
+
+[data-hero][data-theme="light"] {
+  color-scheme: light;
+  --background: oklch(.9702 0 0);
+  --foreground: var(--eclipse);
+  --surface: var(--white);
+  --surface-secondary: oklch(.9524 .0013 286.37);
+  --surface-tertiary: oklch(.9373 .0013 286.37);
+  --overlay: var(--white);
+  --muted: oklch(.5517 .0138 285.94);
+  --default: oklch(94% .001 286.375);
+  --default-foreground: var(--eclipse);
+  --field-background: var(--white);
+  --field-foreground: var(--eclipse);
+  --warning: oklch(.7819 .1585 72.33); --warning-foreground: var(--eclipse);
+  --danger: oklch(.6532 .2328 25.74); --danger-foreground: var(--snow);
+  --segment: var(--white);
+  --border: oklch(90% .004 286.32);
+  --separator: oklch(92% .004 286.32);
+  --backdrop: rgba(0, 0, 0, .5);
+  --surface-shadow: 0 2px 4px 0 rgba(0,0,0,.04), 0 1px 2px 0 rgba(0,0,0,.06), 0 0 1px 0 rgba(0,0,0,.06);
+  --overlay-shadow: 0 2px 8px 0 rgba(0,0,0,.06), 0 -6px 12px 0 rgba(0,0,0,.03), 0 14px 28px 0 rgba(0,0,0,.08);
+  --field-shadow: 0 2px 4px 0 rgba(0,0,0,.04), 0 1px 2px 0 rgba(0,0,0,.06), 0 0 1px 0 rgba(0,0,0,.06);
+  --segment-shadow: 0 1px 2px rgba(0,0,0,.08), 0 0 1px rgba(0,0,0,.08);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-foreground: color-mix(in oklab, var(--accent) 70%, var(--foreground) 30%);
+  --success-soft: color-mix(in oklab, var(--success) 15%, transparent);
+  --success-soft-foreground: color-mix(in oklab, var(--success) 55%, var(--foreground) 45%);
+  --warning-soft: color-mix(in oklab, var(--warning) 18%, transparent);
+  --warning-soft-foreground: color-mix(in oklab, var(--warning) 50%, var(--foreground) 50%);
+  --danger-soft: color-mix(in oklab, var(--danger) 13%, transparent);
+  --danger-soft-foreground: color-mix(in oklab, var(--danger) 72%, var(--foreground) 28%);
+}
+
+[data-hero][data-theme="dark"] {
+  color-scheme: dark;
+  --background: oklch(12% .005 285.823);
+  --foreground: var(--snow);
+  --surface: oklch(.2103 .0059 285.89);
+  --surface-secondary: oklch(.257 .0037 286.14);
+  --surface-tertiary: oklch(.2721 .0024 247.91);
+  --overlay: oklch(.2103 .0059 285.89);
+  --muted: oklch(70.5% .015 286.067);
+  --default: oklch(27.4% .006 286.033);
+  --default-foreground: var(--snow);
+  --field-background: oklch(.2103 .0059 285.89);
+  --field-foreground: var(--snow);
+  --warning: oklch(.8203 .1388 76.34); --warning-foreground: var(--eclipse);
+  --danger: oklch(.594 .1967 24.63); --danger-foreground: var(--snow);
+  --segment: oklch(.3964 .01 285.93);
+  --border: oklch(28% .006 286.033);
+  --separator: oklch(25% .006 286.033);
+  --backdrop: rgba(0, 0, 0, .6);
+  --surface-shadow: 0 0 0 0 transparent;
+  --overlay-shadow: 0 0 1px 0 rgba(255,255,255,.3) inset, 0 20px 50px rgba(0,0,0,.5);
+  --field-shadow: 0 0 0 1px oklch(30% .006 286) inset;
+  --segment-shadow: none;
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, transparent);
+  --accent-soft-foreground: color-mix(in oklab, var(--accent) 80%, var(--foreground) 30%);
+  --success-soft: color-mix(in oklab, var(--success) 14%, transparent);
+  --success-soft-foreground: color-mix(in oklab, var(--success) 80%, var(--foreground) 30%);
+  --warning-soft: color-mix(in oklab, var(--warning) 14%, transparent);
+  --warning-soft-foreground: color-mix(in oklab, var(--warning) 80%, var(--foreground) 30%);
+  --danger-soft: color-mix(in oklab, var(--danger) 18%, transparent);
+  --danger-soft-foreground: color-mix(in oklab, var(--danger) 70%, var(--foreground) 40%);
+}
+
+[data-hero] {
+  --focus: var(--accent);
+  --surface-hover: color-mix(in oklab, var(--surface) 92%, var(--foreground) 8%);
+  --background-secondary: color-mix(in oklab, var(--background) 96%, var(--foreground) 4%);
+  --default-hover: color-mix(in oklab, var(--default) 92%, var(--default-foreground) 8%);
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --danger-hover: color-mix(in oklab, var(--danger) 90%, var(--danger-foreground) 10%);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 22%, transparent);
+  --danger-soft-hover: color-mix(in oklab, var(--danger) 22%, transparent);
+  --field-hover: color-mix(in oklab, var(--field-background) 94%, var(--field-foreground) 6%);
+  --scrollbar-thumb: color-mix(in oklch, var(--foreground) 15%, transparent);
+}
+[data-hero][data-vibrant="true"] {
+  --accent-soft-foreground: color-mix(in oklab, var(--accent) 92%, var(--foreground) 8%);
+  --success-soft-foreground: color-mix(in oklab, var(--success) 92%, var(--foreground) 8%);
+  --warning-soft-foreground: color-mix(in oklab, var(--warning) 92%, var(--foreground) 8%);
+  --danger-soft-foreground: color-mix(in oklab, var(--danger) 92%, var(--foreground) 8%);
+}
+
+/* Оттенок фона — нейтральный (HeroUI), тёплый, холодный */
+[data-hero][data-theme="light"][data-tint="warm"] { --background: oklch(.966 .008 80); --surface-secondary: oklch(.948 .009 80); --surface-tertiary: oklch(.934 .01 80); --default: oklch(.935 .009 80); --border: oklch(.9 .012 80); --separator: oklch(.92 .01 80); --muted: oklch(.53 .02 70); }
+[data-hero][data-theme="light"][data-tint="cool"] { --background: oklch(.966 .007 255); --surface-secondary: oklch(.948 .008 255); --surface-tertiary: oklch(.934 .009 255); --default: oklch(.935 .008 255); --border: oklch(.9 .011 255); --separator: oklch(.92 .01 255); --muted: oklch(.53 .02 255); }
+[data-hero][data-theme="dark"][data-tint="warm"] { --background: oklch(.135 .006 70); --surface: oklch(.212 .008 70); --overlay: oklch(.222 .008 70); --field-background: oklch(.212 .008 70); --surface-secondary: oklch(.255 .008 70); --surface-tertiary: oklch(.27 .008 70); --default: oklch(.272 .008 70); --border: oklch(.29 .009 70); --separator: oklch(.255 .008 70); --segment: oklch(.39 .012 70); }
+[data-hero][data-theme="dark"][data-tint="cool"] { --background: oklch(.13 .012 255); --surface: oklch(.205 .015 255); --overlay: oklch(.215 .015 255); --field-background: oklch(.205 .015 255); --surface-secondary: oklch(.25 .015 255); --surface-tertiary: oklch(.265 .015 255); --default: oklch(.268 .015 255); --border: oklch(.29 .016 255); --separator: oklch(.25 .015 255); --segment: oklch(.39 .02 255); }
+
+/* Подробность: минимализм · баланс · детально */
+[data-hero][data-density="min"]      { --pad: 40px; --gap: 24px; --card-p: 28px; --row: 18px; }
+[data-hero][data-density="balanced"] { --pad: 32px; --gap: 20px; --card-p: 22px; --row: 13px; }
+[data-hero][data-density="detailed"] { --pad: 24px; --gap: 14px; --card-p: 18px; --row: 8px; }
+[data-hero][data-device="phone"]     { --pad: 16px; --gap: 14px; --card-p: 16px; --btn-h: 44px; }
+
+[data-hero][data-btn="pill"]  { --r-btn: 9999px; }
+[data-hero][data-btn="round"] { --r-btn: var(--r-field); }
+
+[data-hero][data-cards="shadow"] { --card-bg: var(--surface); --card-bd: transparent; --card-sh: var(--surface-shadow); --tile-bg: var(--surface-secondary); }
+[data-hero][data-cards="border"] { --card-bg: var(--surface); --card-bd: var(--border); --card-sh: none; --tile-bg: var(--surface-secondary); }
+[data-hero][data-cards="flat"]   { --card-bg: var(--surface-secondary); --card-bd: transparent; --card-sh: none; --tile-bg: var(--surface); }
+[data-hero] [role="dialog"], [data-hero] [role="alertdialog"] { --tile-bg: var(--surface-secondary); }
+
+[data-hero][data-fs="s"] { --fs: 13px; }
+[data-hero][data-fs="m"] { --fs: 14px; }
+[data-hero][data-fs="l"] { --fs: 15.5px; }
+[data-hero][data-device="phone"][data-fs="s"] { --fs: 14px; }
+[data-hero][data-device="phone"][data-fs="m"] { --fs: 15px; }
+[data-hero][data-device="phone"][data-fs="l"] { --fs: 16.5px; }
+
+[data-hero] :focus { outline: none; }
+[data-hero] :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+[data-hero] * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+[data-hero] input::placeholder { color: var(--muted); }
+[data-hero][data-motion="off"] *, [data-hero][data-motion="off"] *::before, [data-hero][data-motion="off"] *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { [data-hero] * { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+
+@keyframes hero-spin { to { transform: rotate(360deg); } }
+@keyframes hero-in-right { from { transform: translateX(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes hero-in-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes hero-pop { from { transform: scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hero-caret { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes hero-pulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+
+/* Иконки: фиксированный размер до загрузки SVG — без скачков раскладки */
+iconify-icon { display: inline-block; flex: none; line-height: 0; vertical-align: -0.125em; overflow: hidden; }
+iconify-icon[width="11"] { width: 11px; height: 11px; }
+iconify-icon[width="12"] { width: 12px; height: 12px; }
+iconify-icon[width="13"] { width: 13px; height: 13px; }
+iconify-icon[width="14"] { width: 14px; height: 14px; }
+iconify-icon[width="15"] { width: 15px; height: 15px; }
+iconify-icon[width="16"] { width: 16px; height: 16px; }
+iconify-icon[width="17"] { width: 17px; height: 17px; }
+iconify-icon[width="18"] { width: 18px; height: 18px; }
+iconify-icon[width="19"] { width: 19px; height: 19px; }
+iconify-icon[width="20"] { width: 20px; height: 20px; }
+iconify-icon[width="24"] { width: 24px; height: 24px; }
+iconify-icon[width="26"] { width: 26px; height: 26px; }
+iconify-icon[width="30"] { width: 30px; height: 30px; }
+
+/* Мини-апп Telegram: цвета из Telegram.WebApp.themeParams (--tg-* задаются инлайн) */
+[data-hero][data-tgc="on"] { --background: var(--tg-secondary-bg); --surface: var(--tg-bg); --overlay: var(--tg-bg); --field-background: var(--tg-bg); --segment: var(--tg-bg); --foreground: var(--tg-text); --default-foreground: var(--tg-text); --field-foreground: var(--tg-text); --muted: var(--tg-hint); --default: color-mix(in oklab, var(--tg-hint) 16%, var(--tg-bg)); --border: color-mix(in oklab, var(--tg-hint) 22%, var(--tg-bg)); --separator: color-mix(in oklab, var(--tg-hint) 18%, var(--tg-bg)); --surface-secondary: var(--tg-secondary-bg); }

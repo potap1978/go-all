@@ -1,0 +1,20 @@
+{
+ "count": 1,
+ "next": null,
+ "results": [
+  {
+   "name": "latest",
+   "digest": "sha256:ea050861bd2012a6265817636ce7c0c15764ef955782d953cef42e05c1381250",
+   "tag_last_pushed": "2023-10-03T12:00:00Z",
+   "last_updated": "2023-10-03T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:ea050861bd2012a6265817636ce7c0c15764ef955782d953cef42e05c1381250",
+     "size": 12345678
+    }
+   ]
+  }
+ ]
+}

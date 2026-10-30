@@ -1,0 +1,11 @@
+{
+  "_comment": "install_bot.sh --pair (SSH-меню «Telegram-бот → Администраторы → Привязать по сообщению») для pty_drive.py: дождаться в списке написавших подставного владельца @ga_live_owner первым номером, выбрать его и подтвердить «1». Запуск — bot_live.sh (в unshare -n: getMe с выдуманным токеном на api.telegram.org не уходит).",
+  "env": {"GOAMNEZIA_LANG": "ru", "GOAMNEZIA_BOT_DIR": "/opt/goamnezia-bot", "GOAMNEZIA_DIR": "/opt/goamnezia"},
+  "steps": [
+    {"name": "pick-owner", "expect": "Боту написали:\\s*\\n\\s*1\\)\\s+@ga_live_owner\\b.*номер — это вы[^\\n]*:\\s*$", "send": "1", "quiet": 0.3},
+    {"name": "confirm", "expect": "Написал @ga_live_owner[^\\n]*Это вы\\?\\s+1\\s+—\\s+да[^\\n]*:\\s*$", "send": "1", "quiet": 0.3}
+  ],
+  "after": "wait",
+  "stall": 150,
+  "timeout": 700
+}

@@ -1,0 +1,66 @@
+# ── меню ────────────────────────────────────────────────────────────
+mon_item_live	Живой экран: запросы и апстримы	Live screen: queries and upstreams
+mon_item_upstreams	Сводка по апстримам	Upstream summary
+mon_item_stats	Статистика запросов: окна и спарклайн	Query statistics: windows and sparkline
+mon_item_follow	Хвост лога в реальном времени	Follow the log in real time
+mon_qlog_label	Подробный лог запросов:	Verbose query log:
+# ── экран наблюдения ────────────────────────────────────────────────
+mon_title	goDNS Pro · живое наблюдение	goDNS Pro · live monitor
+mon_hint	обновление %s c · любая клавиша — выход	refresh every %s s · any key exits
+mon_st_queries	запросов	queries
+mon_st_responses	ответов	answers
+mon_st_cache	кэш	cache
+mon_st_timeouts	таймауты	timeouts
+mon_st_servfail	servfail	servfail
+mon_st_nxdomain	nxdomain	nxdomain
+mon_sec_upstreams	Апстримы	Upstreams
+mon_sec_feed	Последние обмены	Recent exchanges
+mon_sv_name	имя	name
+mon_sv_addr	адрес	address
+mon_sv_state	сост.	state
+mon_sv_queries	запросов	queries
+mon_sv_lat	задержка	latency
+mon_sv_out	в работе	pending
+mon_q_time	время	time
+mon_q_client	клиент	client
+mon_q_proto	прото	proto
+mon_q_name	имя	name
+mon_q_type	тип	type
+mon_q_up	апстрим	upstream
+mon_q_ms	мс	ms
+mon_q_rcode	ответ	answer
+mon_cache_word	кэш	cache
+mon_noanswer	нет ответа	no answer
+mon_inflight	…	…
+mon_ms	мс	ms
+mon_feed_empty	запросов пока не было	no queries yet
+mon_no_servers	апстримов нет	no upstreams
+mon_note	«кэш» в колонке апстрима = ответили сами, наверх не ходили	'cache' as upstream = answered locally, no upstream query
+mon_note2	мс в ленте — весь обмен; в таблице — среднее по прогретому соединению	feed ms = the whole exchange; the table = average on a warm link
+mon_note3	лента — кольцо последних записей dnsdist, а не полный журнал	the feed is dnsdist's ring of recent entries, not a full log
+# ── наблюдение: отказы ──────────────────────────────────────────────
+mon_no_engine	Движок не установлен — смотреть нечего	Engine is not installed — nothing to watch
+mon_not_running	Служба не работает. Запустите: «Настройки goDNS Pro» → «Перезапустить».	The service is not running. Start it: “goDNS Pro settings” → “Restart”.
+mon_no_console	Консоль управления выключена, без неё живой экран невозможен	The control console is off; the live screen needs it
+mon_no_console_fix	Примените конфигурацию заново: «Настройки goDNS Pro» → «Перезапустить».	Apply the configuration again: “goDNS Pro settings” → “Restart”.
+mon_no_python	Нужен python3 — без него таблицу не собрать	python3 is required to lay out the table
+mon_no_helper	Нет помощника вёрстки: %s	Layout helper is missing: %s
+mon_console_failed	Консоль не отвечает — живой экран недоступен	The console does not answer — live screen unavailable
+# ── подробный лог запросов ──────────────────────────────────────────
+qlog_state_on	включён	on
+qlog_state_off	выключен	off
+qlog_state_unknown	неизвестно	unknown
+qlog_already_on	Режим уже включён — перевзведу таймер выключения	Already on — the auto-off timer will be re-armed
+qlog_warn_volume	Две строки лога на КАЖДЫЙ запрос: при %s зап/с это ~%s МБ в час	Two log lines for EVERY query: at %s qps that is ~%s MB per hour
+qlog_warn_volume_unknown	Объём предсказать не удалось: это две строки лога на КАЖДЫЙ запрос	Volume unknown: this is two log lines for EVERY query
+qlog_enabled	Подробный лог запросов включён, выключится сам через %s мин	Verbose query log is on; it turns itself off in %s min
+qlog_enabled_no_timer	Подробный лог запросов включён	Verbose query log is on
+qlog_autooff_failed	Автовыключение не взведено — выключить придётся руками	Auto-off is NOT armed — you must turn it off yourself
+qlog_survives_restart	Перезапуск службы тоже выключает этот режим	Restarting the service also turns this mode off
+qlog_where	Смотреть: %s	Watch it with: %s
+qlog_what	В строках есть backend.name, dns.question.name и dns.response.latency_us	Lines carry backend.name, dns.question.name and dns.response.latency_us
+qlog_disabled	Подробный лог запросов выключен	Verbose query log is off
+qlog_failed	Консоль не приняла команду — режим не переключён	The console rejected the command — mode unchanged
+# ── хвост лога ──────────────────────────────────────────────────────
+logs_follow_hint	Ctrl-C — вернуться в меню	Ctrl-C returns to the menu
+logs_follow_no_source	Ни своего файла лога, ни journalctl — следить не за чем	Neither a log file nor journalctl — nothing to follow

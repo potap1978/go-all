@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coordinating AI Duos"
+  short_description: "Coordinate architect/reviewer AI pairs."
+  default_prompt: "Use this skill to set up a two-AI project workflow where one agent owns architecture and implementation while the other audits, challenges, and proposes improvements."

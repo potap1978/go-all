@@ -1,0 +1,462 @@
+/* Оболочка и компоненты «зелёного терминала». Все значения — из theme.css.
+   Подключать строго после него. Ни одного внешнего ресурса, кроме шрифта.
+   Адаптив: ПК — боковое меню; планшет — верхние вкладки; телефон — нижняя
+   панель под большой палец, таблицы превращаются в карточки.
+
+   Иерархия кнопок (просьба заказчика «кнопки аккуратно встроены в дизайн»):
+     .btn      — обычное действие: тихий призрак, оживает при наведении;
+     .btn.ok   — главное/утвердительное: залито акцентом, одно на форму;
+     .btn.no   — опасное: красный призрак, наливается только под курсором.
+   В плотных таблицах кнопки дополнительно ужимаются (см. td .btn). */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: var(--fs)/1.5 var(--font);
+  -webkit-text-size-adjust: 100%;
+  accent-color: var(--accent);
+}
+a { color: var(--cyan); text-decoration: none; }
+a:hover { color: color-mix(in srgb, var(--cyan) 75%, var(--hi)); }
+h1, h2, h3 { margin: 0; font-weight: 800; color: var(--hi); }
+::placeholder { color: var(--faint); }
+::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--hi); }
+
+/* видимый фокус для клавиатуры — у графиков есть свой, он главнее */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--cyan) 65%, transparent);
+  outline-offset: 2px;
+}
+
+/* полосы прокрутки: тонкие и в цвет панели, а не системно-серые */
+* { scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--line-2); border-radius: 8px;
+  border: 2px solid transparent; background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--line-2) 55%, var(--dim)); }
+
+/* ─── каркас ─────────────────────────────────────────────────────────────── */
+.shell { display: grid; grid-template-columns: var(--nav-w) minmax(0, 1fr); min-height: 100%; }
+/* minmax(0,…) и min-width:0 ниже — чтобы широкая таблица или длинное меню
+   прокручивались внутри себя, а не растягивали всю страницу вбок */
+
+.side {
+  border-right: 1px solid var(--line); background: var(--panel);
+  display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh;
+}
+.brand {
+  display: flex; align-items: center; gap: 8px; padding: 14px var(--pad);
+  height: var(--head-h); border-bottom: 1px solid var(--line);
+  font-weight: 800; letter-spacing: .02em; color: var(--hi);
+}
+.brand b { color: var(--accent); }
+.brand .dot { color: var(--accent); animation: blink 1.2s step-end infinite; }
+@keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+
+nav { display: flex; flex-direction: column; gap: 3px; padding: 12px 10px; overflow: auto; flex: 1; }
+nav a {
+  display: flex; align-items: center; gap: 10px; padding: 8px 11px; border-radius: var(--r-sm);
+  color: var(--dim); border: 1px solid transparent; font-size: var(--fs-sm); font-weight: 500;
+  white-space: nowrap;
+  transition: color var(--speed), border-color var(--speed), background var(--speed);
+}
+nav a:hover { color: var(--fg); background: color-mix(in srgb, var(--hi) 5%, transparent); }
+nav a.on {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+nav .ic { font-style: normal; width: 16px; text-align: center; opacity: .8; }
+nav a.on .ic { opacity: 1; }
+nav a .short { display: none; }
+nav .cnt {
+  margin-left: auto; font-style: normal; font-size: var(--fs-2xs); font-weight: 700;
+  min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 999px;
+  background: color-mix(in srgb, var(--hi) 8%, transparent); color: var(--dim);
+}
+nav .cnt.hot { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+header {
+  position: sticky; top: 0; z-index: 20; height: var(--head-h);
+  display: flex; align-items: center; gap: var(--gap); padding: 0 var(--pad);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+header h1 { font-size: var(--fs-h); letter-spacing: .01em; white-space: nowrap; }
+header .note {
+  font-size: var(--fs-xs); color: var(--faint); font-weight: 400;
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+header .sp { flex: 1; }
+#burger { display: none; }
+
+#view { padding: var(--pad); display: flex; flex-direction: column; gap: 20px; }
+
+.loading, .err, .empty { padding: 28px 18px; text-align: center; color: var(--faint); font-size: var(--fs-sm); }
+.err { color: var(--bad); }
+/* индикатор загрузки: точка-спиннер вместо голой строки */
+.loading::before {
+  content: ""; display: inline-block; vertical-align: -3px; margin-right: 10px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--line-2); border-top-color: var(--accent);
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg) } }
+/* осознанное пустое состояние: пунктирный «слот», а не сирая строка.
+   Исключения обязательны: .mixbar.empty и .spark.empty — это графика,
+   а td.empty (строка «нет данных» в таблице) остаётся просто текстом */
+div.empty:not(.mixbar):not(.spark) {
+  border: 1px dashed color-mix(in srgb, var(--line-2) 85%, transparent);
+  border-radius: var(--r);
+  background: color-mix(in srgb, var(--panel-2) 45%, transparent);
+}
+.mixbar.empty, .spark.empty { padding: 0; }
+
+/* полоса «данные могли устареть» — заметно, но не тревожно: это не авария,
+   а один неудачный такт опроса */
+#stale {
+  margin: var(--gap) var(--pad) 0; padding: 8px 13px;
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--warn2) 38%, transparent);
+  background: color-mix(in srgb, var(--warn2) 9%, transparent);
+  color: color-mix(in srgb, var(--warn2) 85%, var(--hi));
+  font-size: var(--fs-sm);
+}
+#stale[hidden] { display: none; }
+
+/* ─── блоки ──────────────────────────────────────────────────────────────── */
+.block { display: flex; flex-direction: column; gap: 12px; }
+.block > h2 {
+  font-size: var(--fs-h); letter-spacing: .015em;
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+}
+.block > h2 .note { font-size: var(--fs-xs); color: var(--faint); font-weight: 400; letter-spacing: 0; }
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
+  padding: var(--pad);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hi) 4%, transparent);
+}
+
+/* ─── KPI ────────────────────────────────────────────────────────────────── */
+.kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--gap); }
+.kpi-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 13px 15px 12px;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hi) 4%, transparent);
+}
+.kpi-n { font-size: 26px; font-weight: 800; color: var(--hi); line-height: 1.15; letter-spacing: -.01em; }
+.kpi-l {
+  font-size: 10px; font-weight: 500; color: var(--dim);
+  text-transform: uppercase; letter-spacing: .07em; margin-top: 5px;
+}
+.kpi-h { font-size: var(--fs-2xs); color: var(--faint); margin-top: 4px; }
+
+/* ─── таблицы ────────────────────────────────────────────────────────────── */
+.tbl {
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--panel);
+  overflow: auto; max-height: min(64vh, 560px); overscroll-behavior: contain;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hi) 4%, transparent);
+}
+.tbl.tall { max-height: none; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--fs-sm); }
+th, td { text-align: left; padding: 8px 12px; }
+th {
+  position: sticky; top: 0; z-index: 2;
+  background: color-mix(in srgb, var(--panel) 94%, var(--hi));
+  color: var(--faint); font-size: var(--fs-2xs); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em; white-space: nowrap;
+  padding-top: 9px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-2);
+}
+td {
+  color: var(--fg); vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.cut { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+td.empty { padding: 26px 16px; text-align: center; color: var(--faint); }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: color-mix(in srgb, var(--hi) 3%, transparent); }
+
+/* ─── элементы управления ────────────────────────────────────────────────── */
+/* обычное действие: тихий призрак — не спорит с данными в таблицах */
+.btn, button.btn {
+  background: color-mix(in srgb, var(--hi) 4%, transparent);
+  border: 1px solid var(--line-2); color: var(--dim);
+  border-radius: var(--r-sm); padding: 6px 12px; cursor: pointer;
+  font: 500 var(--fs-xs)/1.5 var(--font); white-space: nowrap;
+  transition: color var(--speed), border-color var(--speed), background var(--speed),
+              box-shadow var(--speed);
+}
+.btn:hover {
+  color: var(--hi);
+  border-color: color-mix(in srgb, var(--dim) 45%, var(--line-2));
+  background: color-mix(in srgb, var(--hi) 8%, transparent);
+}
+.btn:active { transform: translateY(1px); }
+/* главное действие: единственная залитая кнопка — как «ПРОВЕРИТЬ» на сайте */
+.btn.ok {
+  background: var(--accent); border-color: var(--accent);
+  color: var(--accent-ink); font-weight: 700;
+}
+.btn.ok:hover {
+  background: color-mix(in srgb, var(--accent) 86%, var(--hi));
+  border-color: color-mix(in srgb, var(--accent) 86%, var(--hi));
+  color: var(--accent-ink);
+}
+/* опасное действие: красный призрак — читается, но не кричит из каждой строки */
+.btn.no {
+  color: var(--bad);
+  border-color: color-mix(in srgb, var(--bad) 30%, transparent);
+  background: color-mix(in srgb, var(--bad) 6%, transparent);
+}
+.btn.no:hover {
+  color: color-mix(in srgb, var(--bad) 75%, var(--hi));
+  border-color: color-mix(in srgb, var(--bad) 60%, transparent);
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+}
+.btn:disabled { opacity: .45; cursor: default; pointer-events: none; }
+/* в строках таблиц кнопки ужимаются — ряд действий не перевешивает данные */
+td .btn { padding: 3px 9px; font-size: var(--fs-2xs); border-radius: 7px; }
+/* …кроме модерации: решения «пустить / отклонить» должны быть крупными */
+td .btn[data-md="approve"], td .btn[data-md="reject"] {
+  padding: 6px 12px; font-size: var(--fs-xs); border-radius: var(--r-sm);
+}
+/* кнопки масштаба диаграммы — компактные квадратики, не пилюли */
+.btn[data-sk="zin"], .btn[data-sk="zout"], .btn[data-sk="zres"] { padding: 6px 9px; }
+
+/* переключатель срезов: один узнаваемый вид во всех разделах и в шапке.
+   На узком экране значения переносятся строкой — прокрутка внутри строки
+   прятала бы варианты от глаза */
+.seg {
+  display: inline-flex; gap: 3px; flex-wrap: wrap; max-width: 100%;
+  padding: 3px; border: 1px solid var(--line); border-radius: calc(var(--r-sm) + 3px);
+  background: color-mix(in srgb, var(--panel-2) 72%, transparent);
+}
+.seg button {
+  background: transparent; border: 1px solid transparent; color: var(--dim);
+  border-radius: calc(var(--r-sm) - 1px); padding: 5px 11px; cursor: pointer;
+  font: 500 var(--fs-sm)/1.2 var(--font);
+  transition: color var(--speed), border-color var(--speed), background var(--speed);
+}
+.seg button:hover { color: var(--fg); background: color-mix(in srgb, var(--hi) 5%, transparent); }
+.seg button.on {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+input, select, textarea {
+  background: var(--panel-2); border: 1px solid var(--line-2); color: var(--hi);
+  border-radius: var(--r-sm); padding: 7px 11px; font: var(--fs-sm)/1.4 var(--font); min-width: 0;
+  transition: border-color var(--speed), box-shadow var(--speed);
+}
+/* кольцо фокуса берёт цвет текста поля: у обычного поля оно спокойно-светлое,
+   у поля с ошибкой (инлайновый красный из логики) само становится красным */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--line-2));
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
+}
+label { display: inline-flex; flex-direction: column; gap: 5px; font-size: var(--fs-xs); color: var(--dim); }
+.row { display: flex; gap: var(--gap); flex-wrap: wrap; align-items: flex-end; }
+
+.badge {
+  display: inline-block; font-size: var(--fs-2xs); font-weight: 600; letter-spacing: .02em;
+  padding: 2.5px 9px; border-radius: 999px;
+  border: 1px solid var(--line-2); color: var(--dim);
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+  white-space: nowrap;
+}
+a.badge { transition: filter var(--speed); }
+a.badge:hover { filter: brightness(1.18); }
+.b-ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 34%, transparent); background: color-mix(in srgb, var(--ok) 10%, transparent); }
+.b-lossy { color: var(--lossy); border-color: color-mix(in srgb, var(--lossy) 34%, transparent); background: color-mix(in srgb, var(--lossy) 9%, transparent); }
+.b-trouble { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 34%, transparent); background: color-mix(in srgb, var(--warn) 9%, transparent); }
+.b-mostly_down { color: var(--warn2); border-color: color-mix(in srgb, var(--warn2) 36%, transparent); background: color-mix(in srgb, var(--warn2) 9%, transparent); }
+.b-banned { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, transparent); background: color-mix(in srgb, var(--bad) 10%, transparent); }
+.b-closed { color: var(--closed); border-color: color-mix(in srgb, var(--closed) 36%, transparent); background: color-mix(in srgb, var(--closed) 9%, transparent); }
+.b-unknown { color: var(--faint); background: color-mix(in srgb, var(--faint) 8%, transparent); border-color: color-mix(in srgb, var(--faint) 28%, transparent); }
+.b-pending { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 36%, transparent); background: color-mix(in srgb, var(--warn) 9%, transparent); }
+.b-info { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 34%, transparent); background: color-mix(in srgb, var(--cyan) 9%, transparent); }
+
+/* ─── графика ────────────────────────────────────────────────────────────── */
+.bar { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--line) 55%, var(--panel-2)); overflow: hidden; margin-top: 4px; }
+.bar i { display: block; height: 100%; border-radius: inherit; }
+.mixbar { display: flex; height: 8px; border-radius: 999px; overflow: hidden; background: color-mix(in srgb, var(--line) 55%, var(--panel-2)); }
+.mixbar i { display: block; height: 100%; }
+.mixbar.empty { opacity: .3; }
+.spark { width: 100%; height: 52px; display: block; }
+.spark.empty { opacity: .25; }
+
+.bars { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 3px; align-items: end; height: 158px; }
+.bars-col { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 5px; min-width: 0;
+            position: relative; outline: none; }
+.bars-col:hover .bars-stack, .bars-col:focus .bars-stack { filter: brightness(1.22); }
+.bars-col:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* Подсказка со значениями. Показывается сразу, а не через секунду, как
+   системная: под курсором тут единственное место, где видны сами числа.
+   У крайних столбцов прижимаем к своему краю, иначе она уезжает за карточку. */
+.bars-pop {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  display: none; z-index: 5; gap: 4px; padding: 10px 12px; white-space: nowrap;
+  background: color-mix(in srgb, var(--panel) 92%, var(--hi));
+  border: 1px solid var(--line-2); border-radius: calc(var(--r) - 2px);
+  box-shadow: var(--shadow); font-size: var(--fs-xs); pointer-events: none;
+}
+/* :focus, а не только :focus-visible — на телефоне наведения нет вовсе,
+   и без этого значения были бы недоступны совсем; рамку фокуса при этом
+   рисуем лишь для клавиатуры, чтобы клик мышью не оставлял обводку */
+.bars-col:hover .bars-pop, .bars-col:focus .bars-pop { display: grid; }
+.bars-col:first-child .bars-pop { left: 0; transform: none; }
+.bars-col:last-child .bars-pop { left: auto; right: 0; transform: none; }
+.bars-pop .pop-t { color: var(--hi); margin-bottom: 2px; }
+.bars-pop span { display: flex; align-items: center; gap: 7px; color: var(--dim); }
+.bars-pop span b { margin-left: auto; color: var(--fg); font-variant-numeric: tabular-nums; }
+.bars-pop i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.bars-pop .pop-all { border-top: 1px solid var(--line); margin-top: 3px; padding-top: 4px; color: var(--faint); }
+.bars-stack { display: flex; flex-direction: column-reverse; border-radius: 3px 3px 0 0; overflow: hidden; min-height: 2px; }
+.bars-stack i { display: block; width: 100%; }
+.bars-x { font-size: 9.5px; color: var(--faint); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.heat td.num { color: #06110a; font-weight: 700; }
+.heat td.num[style] { background-clip: padding-box; }
+.heat td.heat-none { background: none; color: var(--faint); font-weight: 400; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-xs); color: var(--dim); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* ─── всплывающие сообщения ──────────────────────────────────────────────── */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  background: color-mix(in srgb, var(--panel) 92%, var(--hi));
+  border: 1px solid var(--line-2); color: var(--fg);
+  border-radius: calc(var(--r) - 2px); padding: 11px 16px; font-size: var(--fs-sm);
+  box-shadow: var(--shadow); z-index: 100; max-width: min(90vw, 520px);
+  transition: opacity .3s;
+  animation: toast-in .22s ease;
+}
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+.toast.ok { border-color: color-mix(in srgb, var(--ok) 50%, transparent); }
+.toast.bad { border-color: color-mix(in srgb, var(--bad) 50%, transparent); color: var(--bad); }
+.toast.out { opacity: 0; }
+
+/* ─── планшет: меню наверх ───────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .side {
+    position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line);
+    flex-direction: row; align-items: center; gap: 8px; padding-right: 8px;
+    flex-wrap: wrap; min-width: 0;
+  }
+  .brand { border-bottom: 0; flex: none; }
+  /* восемь полных названий в 820 px в одну строку не влезают; прятать их за
+     горизонтальную прокрутку на рабочем инструменте плохо — переносим строкой */
+  nav { flex-direction: row; flex-wrap: wrap; padding: 8px 0; overflow: visible; min-width: 0; gap: 3px; }
+  nav a { flex: none; padding: 6px 10px; }
+  nav a span { display: inline; }
+}
+
+/* ─── телефон: нижняя панель под палец ───────────────────────────────────── */
+@media (max-width: 700px) {
+  :root { --pad: 12px; --gap: 10px; }
+  /* top:auto и height:auto обязательны: в базовом правиле у .side есть
+     top:0 и height:100vh — иначе фиксированная панель растягивается на весь
+     экран и своим фоном закрывает раздел */
+  .side {
+    position: fixed; top: auto; bottom: 0; left: 0; right: 0; height: auto; z-index: 40;
+    border-top: 1px solid var(--line); border-bottom: 0; padding: 0;
+    background: color-mix(in srgb, var(--panel) 90%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 -10px 30px rgb(0 0 0 / .35);
+  }
+  .brand { display: none; }
+  nav { padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); gap: 4px; justify-content: space-between; }
+  nav a { flex-direction: column; gap: 3px; padding: 6px 2px; font-size: 9px;
+          flex: 1 1 0; min-width: 0; text-align: center; }
+  nav a.on { border-color: transparent; }
+  nav a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  nav .ic { font-size: 16px; width: auto; }
+  nav a .full { display: none; }
+  nav a .short { display: inline; }
+  nav .cnt { position: absolute; margin: 0; transform: translate(14px, -6px); }
+  nav a { position: relative; }
+  #view { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  header { position: sticky; }
+  header h1 { font-size: 14px; }
+  /* переключатель периода в шапке: ужимаем и запрещаем сжимать — иначе он
+     перенесётся второй строкой и вылезет из шапки фиксированной высоты;
+     всё сжатие принимает на себя примечание (оно с многоточием) */
+  #period { flex: none; }
+  #period .seg { padding: 2px; gap: 2px; flex-wrap: nowrap; }
+  #period .seg button { padding: 4px 8px; }
+
+  .bars { position: relative; }
+  .bars-col { position: static; }
+  .bars-pop { left: 0; right: 0; transform: none; white-space: normal; }
+
+  /* таблицы становятся карточками: пять колонок в 360 px не помещаются */
+  .tbl { max-height: none; border: 0; background: none; padding: 0; overflow: visible; box-shadow: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  thead { display: none; }
+  tr {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 9px 12px; margin-bottom: 8px;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hi) 4%, transparent);
+  }
+  td { border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); padding: 6px 0;
+       display: flex; gap: 8px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+  /* содержимое значения — гибкие элементы: без запрета на сжатие браузер рвёт
+     подписи посреди слова («ДОСТУ П ЕСТЬ»), потому что каждый span сжимается */
+  td > * { flex: 0 0 auto; max-width: 100%; }
+  td.cut { max-width: none; white-space: normal; overflow-wrap: anywhere; }
+  td.num { text-align: right; }
+  tbody tr:hover td { background: none; }
+  tr td:last-child { border-bottom: 0; }
+  td::before {
+    content: attr(data-l); color: var(--faint); flex: none;
+    font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+  }
+  td[data-l=""]::before { display: none; }
+  td.empty { display: block; text-align: center; }
+  td.empty::before { display: none; }
+  /* полосы внутри карточки — гибкие элементы без собственной ширины:
+     без flex они схлопываются в ноль и строка выглядит пустой */
+  td > .mixbar, td > .bar { flex: 1 1 90px; min-width: 90px; align-self: center; }
+  /* тепловая матрица остаётся таблицей и прокручивается сама; подписи-::before
+     ей не нужны — порты видны в её собственной шапке */
+  .heat table, .heat tbody, .heat tr, .heat td { display: revert; }
+  .heat thead { display: revert; }
+  .heat td::before { display: none; }
+  .heat tr { padding: 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+  .heat { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+}
+
+/* ─── мини-приложение Telegram ────────────────────────────────────────────
+   Тот же экран, что админка на телефоне, с четырьмя поправками:
+     • высота берётся из клиента: 100vh врёт при открытой клавиатуре и в
+       свёрнутом окне — панель уезжала под край;
+     • страницу нельзя тянуть вниз: вертикальный свайп закрывает мини-апп
+       посреди заполненной формы;
+     • нижнее меню поднимается над безопасной зоной и полосой Telegram;
+     • главное действие уходит в родную MainButton — верстанный дублёр
+       (data-tg-main) прячется, иначе на экране две главные кнопки. */
+html[data-tg], html[data-tg] body { height: var(--tg-vh, 100vh); }
+html[data-tg] body { overscroll-behavior-y: none; }
+html[data-tg] #burger { display: none !important; }
+html[data-tg] [data-tg-main] { display: none !important; }
+html[data-tg] nav { padding-bottom: calc(6px + var(--safe-b)); }
+html[data-tg] #view { padding-bottom: calc(96px + var(--safe-b)); }
+/* заголовок раздела в мини-аппе рисует сам Telegram — своя шапка дублирует
+   его и съедает 56 px из шестисот; оставляем только примечание и фильтры */
+html[data-tg] header h1 { display: none; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

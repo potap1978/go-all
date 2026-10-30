@@ -1,0 +1,4 @@
+amnezia-awg2 0.0.0.0:38123->38123/udp, :::38123->38123/udp
+amnezia-awg 0.0.0.0:51820->51820/udp
+amnezia-xray 0.0.0.0:443->443/tcp, 0.0.0.0:443->443/udp
+nginx-proxy 0.0.0.0:80->80/tcp

@@ -1,0 +1,63 @@
+# Состояние (overview.js) и Сертификат (cert.js). ключ TAB ru TAB en.
+# ── Состояние: заголовок, сигналы, KPI ──
+ui_ov_title	Состояние	Status
+ui_ov_no_domain	домен не выбран	no domain selected
+ui_ov_sig_stopped	служба остановлена →	service stopped →
+ui_ov_sig_drift	есть непринятые изменения — применить в «Службе» →	unapplied changes — apply in Service →
+ui_ov_sig_cert_expired	сертификат ИСТЁК — клиенты не подключаются →	certificate EXPIRED — clients cannot connect →
+ui_ov_sig_cert_expiring	сертификат истекает через {0} дн. →	certificate expires in {0} days →
+ui_ov_kpi_service	служба {0}	service {0}
+ui_ov_cert	сертификат	certificate
+ui_ov_until	до {0}	until {0}
+ui_ov_kpi_day	запросов за сутки	queries per day
+ui_ov_slice_ago	срез {0} назад	slice {0} ago
+ui_ov_slices_pending	срезы ещё копятся	collecting slices
+ui_ov_kpi_upstreams	апстримов	upstreams
+# ── Состояние: сроки ──
+ui_ov_sec_dates	Сроки	Expiry
+ui_ov_row_domain	домен	domain
+ui_ov_reg_expired	РЕГИСТРАЦИЯ ИСТЕКЛА {0}	REGISTRATION EXPIRED {0}
+ui_ov_reg_paid	оплачен до {0}	paid until {0}
+ui_ov_reg_pending	срок регистрации уточняется…	checking registration expiry…
+ui_ov_reg_unknown	срок регистрации неизвестен	registration expiry unknown
+ui_ov_until_unknown	срок неизвестен	expiry unknown
+ui_ov_sec_dates_note	два разных срока: регистрацию продлевает регистратор, сертификат перевыпускается сам	two dates: the registrar renews the registration, the certificate renews itself
+# ── Состояние: адреса ──
+ui_ov_sec_addr	Адреса	Addresses
+ui_ov_copy	копировать	copy
+ui_ov_copied	скопировано	copied
+ui_ov_not_configured	не настроен	not configured
+ui_ov_dot_off	ОТКЛЮЧЁН	DISABLED
+ui_ov_dot_off_hint	адрес не показывается, пока DoT выключен	address hidden while DoT is off
+ui_ov_sec_addr_note	секретный путь DoH — часть адреса, не публикуйте его	the secret DoH path is part of the address — do not publish it
+# ── Состояние: запросы и апстримы ──
+ui_ov_sec_queries	Запросы	Queries
+ui_ov_from_cache	из кэша {0}%	cache {0}%
+ui_ov_slices_empty	срезы копятся — числа появятся через минуту-две	collecting slices — numbers appear in a minute or two
+ui_ov_chart_1h	за час · деление 2 мин	past hour · 2 min per bar
+ui_ov_chart_24h	за сутки · деление 30 мин	past 24 h · 30 min per bar
+ui_ov_peak	пик {0}/мин	peak {0}/min
+ui_ov_gap_legend	простой — служба или сервер не работали	downtime — service or server was down
+ui_ov_sec_queries_note	«≈» — окно неполное: служба или сервер перезапускались	"≈" — incomplete window: service or server restarted
+ui_ov_sec_upstreams	Апстримы	Upstreams
+ui_ov_policy	политика: {0} · жёлтым — фильтрующие	policy: {0} · yellow — filtering
+ui_ov_no_upstreams	апстримы не выбраны — раздел «Апстримы»	no upstreams selected — see Upstreams
+# ── Сертификат ──
+ui_cert_title	Сертификат	Certificate
+ui_cert_sec_current	Текущий сертификат	Current certificate
+ui_cert_row_domain	домен	domain
+ui_cert_row_until	годен до	valid until
+ui_cert_row_file	файл	file
+ui_cert_row_issuer	выдан	issuer
+ui_cert_no_domain	домен не выбран — сертификат подбирается в SSH-мастере (godns → 1)	no domain selected — the certificate is picked in the SSH wizard (godns → 1)
+ui_cert_sec_renew	Реакция на перевыпуск	Renewal hook
+ui_cert_hook_certbot	deploy-hook certbot на месте	certbot deploy-hook in place
+ui_cert_hook_acme	path-юнит за acme.sh на месте	acme.sh path unit in place
+ui_cert_hook_none	реакция не настроена	hook not set up
+ui_cert_renew_hint	после перевыпуска служба перечитает сертификат сама, без разрыва соединений	after renewal the service re-reads the certificate itself, without dropping connections
+ui_cert_btn_rehook	переустановить реакцию	reinstall hook
+ui_cert_btn_reload	перечитать сертификат в службе	reload the certificate
+ui_cert_sec_renew_note	чужие сертификаты goDNS Pro только читает — записи в /etc/letsencrypt нет	goDNS Pro only reads third-party certificates — no writes to /etc/letsencrypt
+ui_cert_done	готово	done
+ui_cert_rehook_ok	реакция на перевыпуск переустановлена	renewal hook reinstalled
+ui_cert_reload_ok	служба перечитала сертификат	the service re-read the certificate

@@ -1,0 +1,6 @@
+table ip filter {
+	chain INPUT {
+		type filter hook input priority filter; policy accept;
+		meta l4proto tcp tcp dport 443 counter drop
+	}
+}

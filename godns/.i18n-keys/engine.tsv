@@ -1,0 +1,131 @@
+eng_not_loaded	Движок не загружен — сначала engine_load	No engine loaded — call engine_load first
+eng_bad_name	Недопустимое имя движка: «%s»	Invalid engine name: '%s'
+eng_impl_missing	Нет реализации движка «%s» (ожидался файл %s)	Engine '%s' has no implementation (expected file %s)
+eng_impl_load_failed	Не удалось загрузить реализацию движка «%s»	Failed to load engine implementation '%s'
+eng_init_failed	Движок «%s» загружен, но инициализация возможностей не удалась	Engine '%s' loaded, but capability init failed
+eng_no_impl	Движок «%s» не умеет «%s»: нет возможности или функции	Engine '%s' does not implement '%s': no capability or function
+eng_cap_unknown	Неизвестная возможность «%s» — опечатка в имени	Unknown capability '%s' — a typo in the name
+eng_cap_bad_value	Возможность «%s»: недопустимое значение «%s», считаю «нет»	Capability '%s': invalid value '%s', treating as 'no'
+eng_dnsdist_install_step	Установка dnsdist	Installing dnsdist
+eng_dnsdist_already	dnsdist %s уже установлен и подходит	dnsdist %s is already installed and suitable
+eng_dnsdist_installed	dnsdist %s установлен	dnsdist %s installed
+eng_dnsdist_features	Возможности сборки: %s	Build features: %s
+eng_dnsdist_key_ok	Ключ репозитория получен: %s	Repository key fetched: %s
+eng_dnsdist_key_failed	Не удалось получить ключ репозитория PowerDNS	Failed to fetch the PowerDNS repository key
+eng_dnsdist_try_suite	Пробую ветку репозитория %s-dnsdist-%s	Trying repository suite %s-dnsdist-%s
+eng_dnsdist_suite_ok	Репозиторий подключён: %s-dnsdist-%s	Repository enabled: %s-dnsdist-%s
+eng_dnsdist_no_suite	Ни одна ветка репозитория PowerDNS не подошла для этой Ubuntu	No PowerDNS repository suite matched this Ubuntu release
+eng_dnsdist_repo_write_failed	Не удалось записать файлы apt для репозитория PowerDNS	Failed to write the apt files for the PowerDNS repository
+eng_dnsdist_repo_unreachable	repo.powerdns.com недоступен — перехожу к запасному варианту	repo.powerdns.com is unreachable — falling back
+eng_dnsdist_distro_try	В репозитории Ubuntu есть dnsdist %s — пробую его, чужой репозиторий не понадобится	Ubuntu ships dnsdist %s — trying it; no third-party repository needed
+eng_dnsdist_distro_too_old	dnsdist из репозитория Ubuntu (%s) слишком стар — нужен 1.9 и новее	The dnsdist from the Ubuntu repository (%s) is too old — 1.9 or newer is required
+eng_dnsdist_distro_install_failed	Пакет из репозитория Ubuntu не установился — перехожу к repo.powerdns.com	The Ubuntu package did not install — moving on to repo.powerdns.com
+eng_dnsdist_distro_lacks	В пакете Ubuntu нет нужных возможностей (%s) — перехожу к repo.powerdns.com	The Ubuntu package lacks the required features (%s) — moving on to repo.powerdns.com
+eng_dnsdist_distro_ok	dnsdist %s из репозитория Ubuntu подходит целиком	dnsdist %s from the Ubuntu repository is fully suitable
+eng_dnsdist_reason_key	Ключ репозитория PowerDNS не проверен — перехожу к запасному варианту	The PowerDNS repository key did not verify — falling back
+eng_dnsdist_reason_no_suite	Для этого выпуска Ubuntu в repo.powerdns.com нет подходящей ветки — перехожу к запасному варианту	repo.powerdns.com has no suitable suite for this Ubuntu release — falling back
+eng_dnsdist_reason_deps	Репозиторий доступен, но пакет не встал: скорее всего несовместимые зависимости (собран под другой выпуск)	The repository is reachable, but the package would not install: most likely incompatible dependencies (built for another release)
+eng_dnsdist_apt_update_partial	Полное «apt update» не прошло, но индекс PowerDNS обновлён	The full 'apt update' failed, but the PowerDNS index is up to date
+eng_dnsdist_apt_install_failed	apt не смог установить пакет dnsdist	apt failed to install the dnsdist package
+eng_dnsdist_using_preinstalled	Беру уже установленный dnsdist %s — он подходит	Using the already installed dnsdist %s — it is suitable
+eng_dnsdist_too_old	dnsdist %s непригоден: нужен 1.9+ с dns-over-https и dns-over-tls	dnsdist %s is unusable: 1.9+ with dns-over-https and dns-over-tls
+eng_dnsdist_absent	dnsdist не установлен, а репозиторий PowerDNS недоступен	dnsdist is not installed and the PowerDNS repository is unreachable
+eng_dnsdist_bad_after_install	После установки dnsdist %s всё ещё непригоден (возможности: %s)	After installation dnsdist %s is still unusable (features: %s)
+eng_dnsdist_howto_1	Что делать: dnsdist из репозитория Ubuntu не годится.	What to do: the stock Ubuntu dnsdist will not work.
+eng_dnsdist_howto_2	1) Откройте серверу доступ к %s по HTTPS и запустите установку заново.	1) Give the server HTTPS access to %s and run the installation again.
+eng_dnsdist_howto_3	2) Либо поставьте dnsdist 2.0.x вручную по инструкции repo.powerdns.com.	2) Or install dnsdist 2.0.x by hand per the repo.powerdns.com guide.
+eng_dnsdist_howto_4	Пригодность сборки: в dnsdist --version нужны dns-over-https и dns-over-tls.	Check a build: dnsdist --version must list dns-over-https and dns-over-tls.
+eng_doh_path_generated	Секретный путь DoH сгенерирован: %s	Secret DoH path generated: %s
+eng_doh_path_not_saved	Секретный путь DoH %s не сохранён — не переживёт перезапуск	The secret DoH path %s was not saved — it will not survive a restart
+eng_up_bad_proto	Апстрим «%s»: протокол «%s» неизвестен — пропускаю (dot или doh)	Upstream '%s': unknown protocol '%s' — skipped (dot or doh)
+eng_up_bad_id	Апстрим с недопустимым идентификатором «%s» — пропускаю	Upstream with an invalid id '%s' — skipping
+eng_up_bad_host	Апстрим «%s»: недопустимый адрес «%s» — пропускаю	Upstream '%s': invalid address '%s' — skipping
+eng_up_bad_port	Апстрим «%s»: недопустимый порт «%s» — пропускаю	Upstream '%s': invalid port '%s' — skipping
+eng_up_bad_sni	Апстрим «%s»: недопустимое имя сертификата «%s» — пропускаю	Upstream '%s': invalid certificate name '%s' — skipping
+eng_up_bad_path	Апстрим «%s»: недопустимый путь DoH «%s» — пропускаю	Upstream '%s': invalid DoH path '%s' — skipping
+eng_no_upstreams	Не выбрано ни одного апстрима — конфиг не будет сгенерирован	No upstreams selected — the config will not be generated
+eng_render_no_out	Не указан файл для генерации конфигурации	No output file given for the generated configuration
+eng_render_write_failed	Не удалось записать %s	Failed to write %s
+eng_bad_doh_port	Недопустимый порт DoH: %s	Invalid DoH port: %s
+eng_bad_dot_port	Недопустимый порт DoT: %s	Invalid DoT port: %s
+eng_ports_clash	Порты DoH и DoT совпадают (%s) — так нельзя	The DoH and DoT ports are the same (%s) — that cannot work
+eng_bad_doh_path	Недопустимый путь DoH: «%s». Нужен путь вида /Xk3n2p8Qv7	Invalid DoH path: '%s'. It must look like /Xk3n2p8Qv7
+eng_apply_step	Генерация и применение конфигурации dnsdist	Rendering and applying the dnsdist configuration
+eng_tmp_failed	Не удалось создать временный файл	Failed to create a temporary file
+eng_cert_missing	Сертификат недоступен: %s / %s	Certificate is not available: %s / %s
+eng_cert_hint	Сначала подготовьте сертификат: без него dnsdist не стартует.	Prepare the certificate first — dnsdist will not start without it.
+eng_cert_grant_failed	Не удалось выдать службе права на чтение сертификата	Failed to grant the service read access to the certificate
+eng_certs_module_missing	Модуль сертификатов не загружен — права на ключ не выданы	The certificates module is not loaded — key access was not granted
+eng_check_ok	Конфигурация проверена dnsdist --check-config	Configuration validated by dnsdist --check-config
+eng_check_failed	dnsdist отверг сгенерированную конфигурацию	dnsdist rejected the generated configuration
+eng_check_kept_old	Действующий %s не тронут	The working %s was left untouched
+eng_check_retry_no_console	Проверка не прошла — пробую ту же конфигурацию без консоли	The check failed — retrying the same config without the console
+eng_console_disabled	Консоль управления отключена: эта сборка dnsdist её не принимает	The control console was disabled: this dnsdist build does not accept it
+eng_install_conf_failed	Не удалось установить конфигурацию в %s	Failed to install the configuration into %s
+eng_dropin_failed	systemd drop-in не записан — проверьте /etc/systemd/system	The systemd drop-in was not written — check /etc/systemd/system
+eng_port_busy	Порт %s уже занят: %s	Port %s is already in use: %s
+eng_restart_failed	Служба %s не запустилась	The %s service failed to start
+eng_not_running_after_start	Служба %s запустилась и сразу упала	The %s service started and immediately died
+eng_applied	Конфигурация применена, dnsdist работает	Configuration applied, dnsdist is running
+eng_conf_absent	Файл конфигурации %s отсутствует	The configuration file %s is missing
+eng_reload_is_restart	dnsdist не перечитывает конфигурацию на лету — делаю перезапуск	dnsdist cannot reload its configuration in place — restarting instead
+eng_reloaded	Конфигурация перечитана	Configuration reloaded
+eng_not_running_start_instead	Служба не работает — просто запускаю её с новым сертификатом	The service is not running — starting it with the new certificate instead
+eng_certs_reloaded_live	Сертификаты перечитаны на лету, соединения не разорваны	Certificates reloaded live, no connections dropped
+eng_certs_reloaded_reload	Сертификаты подхвачены через systemctl reload	Certificates picked up via systemctl reload
+eng_certs_reloaded_restart	Сертификаты подхвачены после перезапуска службы	Certificates picked up after a service restart
+eng_certs_restart_needed	Мягкая перезагрузка не сработала — перезапуск оборвёт соединения	The soft reload failed — a restart will drop current connections
+eng_console_absent	Консоль управления не настроена	The control console is not configured
+eng_console_failed	Консоль управления не ответила: %s	The control console did not answer: %s
+eng_status_title	Состояние резолвера	Resolver status
+eng_status_version	Версия	Version
+eng_status_features	Сборка	Build
+eng_status_absent	не установлен	not installed
+eng_status_service	Служба	Service
+eng_status_domain	Домен	Domain
+eng_status_doh	DoH	DoH
+eng_status_dot	DoT	DoT
+eng_status_policy	Политика	Policy
+eng_status_conf	Конфиг	Config
+eng_status_listeners	Слушает:	Listening on:
+eng_status_no_listeners	ничего не слушает	nothing is listening
+eng_status_caps	Возможности движка:	Engine capabilities:
+eng_policy_rr	По кругу	Round-robin
+eng_policy_fastest	Кто быстрее	Fastest wins
+eng_upreport_title	Кто из апстримов обслуживает запросы	Which upstream is serving queries
+eng_upreport_no_console	Консоль управления выключена — точной статистики по апстримам нет.	The control console is off — exact per-upstream statistics are unavailable.
+eng_upreport_console_failed	Консоль управления не ответила.	The control console did not answer.
+eng_upreport_journal	По журналу службы (только события «сервер поднялся / лёг»):	From the service journal (only 'backend up / down' events):
+eng_upreport_journal_empty	в журнале ничего подходящего	nothing relevant in the journal
+eng_upreport_enable_console	Включите консоль (console=yes) и примените — появится showServers().	Enable the console (console=yes) and apply — showServers() appears here.
+eng_upreport_cache_caveat_1	Важно: при включённом кэше политика не видна по одному запросу.	With the cache on, the upstream policy is NOT visible in one query.
+eng_upreport_cache_caveat_2	Попадание в кэш до апстрима не доходит — счётчики почти не растут.	A cache hit never reaches an upstream, so the counters barely move.
+eng_upreport_cache_caveat_3	Чтобы увидеть ротацию, спрашивайте уникальные имена: $RANDOM.example.com	To see the rotation, query unique names: dig @server $RANDOM.example.com
+eng_upreport_nocache	Кэш выключен — каждый запрос уходит апстриму, ротация видна.	The cache is off — every query goes upstream, rotation is visible.
+eng_check_retry_no_extras	Проверка снова не прошла — пробую без необязательных настроек	The check failed again — retrying without the optional settings
+eng_extras_dropped	Необязательные настройки сняты: эта сборка их не приняла.	Optional settings were dropped: this build did not accept them.
+eng_cert_grant_no_domain	Домен резолвера не задан — права на сертификат не выдать	The resolver domain is not set — cannot grant certificate access
+eng_prov_module_missing	Каталог провайдеров не загружен — соберите запись апстрима вручную	The provider catalogue is not loaded — build the upstream record by hand
+eng_prov_no_id	Не указан идентификатор провайдера	No provider id given
+eng_prov_no_addr	У провайдера «%s» нет адреса IPv%s — пропускаю	Provider '%s' has no IPv%s address — skipping
+eng_prov_no_doh	У провайдера «%s» не указан адрес DoH	Provider '%s' has no DoH endpoint
+eng_prov_no_sni	У провайдера «%s» нет имени для проверки сертификата — пропускаю	Provider '%s' has no certificate name to verify against — skipping
+eng_prov_bad_proto	Неизвестный протокол апстрима: «%s»	Unknown upstream protocol: '%s'
+eng_prov_bad_template	В адресе «%s» остался незамещённый шаблон — запись каталога неверна.	The address for '%s' still contains an unsubstituted template — the catalogue entry is wrong.
+eng_uninstall_start	Снимаю то, что ставил goDNS Pro…	Removing what goDNS Pro installed…
+eng_uninstall_removed	удалено: %s	removed: %s
+eng_uninstall_kept	конфигурация сохранена как %s	configuration kept as %s
+eng_uninstall_pkg_kept	Пакет dnsdist оставлен: его мог поставить не goDNS Pro.	The dnsdist package was left in place: goDNS Pro may not have installed it.
+eng_dnsdist_apt_updating	Обновление списка пакетов	Updating the package list
+eng_dnsdist_apt_installing	Установка dnsdist	Installing dnsdist
+eng_upreport_lat_ms	%s, мс	%s, ms
+eng_do53_busy	Локальный DNS-адрес %s занят другим резолвером: %s.	The local DNS address %s is taken by another resolver: %s.
+eng_do53_moved	Плоский Do53-слушатель переезжает на %s — сохранено в настройках, оба резолвера будут жить рядом.	The plain Do53 listener moves to %s — saved to the settings; both resolvers will coexist.
+eng_do53_wildcard	Порт 53 целиком держит %s (слушает 0.0.0.0) — локальный Do53-слушатель выключен, DoH/DoT работают как обычно.	Port 53 is held entirely by %s (listening on 0.0.0.0) — the plain Do53 listener is disabled; DoH/DoT work as usual.
+eng_do53_none_free	Свободного loopback-адреса под :53 не нашлось (занимает %s) — локальный слушатель выключен, DoH/DoT работают как обычно.	No free loopback address for :53 (taken by %s) — the local listener is disabled; DoH/DoT work as usual.
+eng_do53_explicit_busy	Заданный вами адрес %s занят: %s. Оставляю как есть — служба, скорее всего, не поднимется, пока адрес не освободится.	The address you set, %s, is taken by %s. Keeping it as is — the service will most likely fail to start until the address is freed.
+eng_apply_locked	Другое применение конфигурации ещё идёт (панель, бот или SSH) — подождите и повторите.	Another configuration apply is still running (panel, bot or SSH) — wait and retry.
+eng_up_host_not_ip	апстрим %s: адрес должен быть IP-литералом, а не именем: %s	upstream %s: the address must be an IP literal, not a name: %s
+eng_status_ratelimit	Лимит	Limit
+eng_ratelimit_val	%s зап/с на адрес · отброшено: %s	%s q/s per client · dropped: %s
+eng_ratelimit_off	выключен	off

@@ -1,0 +1,12 @@
+# Образец вывода `awg show awg0 dump` для tests/test_core_dryrun.sh (переменная
+# GOAMNEZIA_AWG_SHOW_FIXTURE). Поля через табуляцию. Первая строка — интерфейс:
+# private-key public-key listen-port fwmark, а у awg следом ещё все параметры
+# маскировки (Jc…H4) — полей там больше восьми, поэтому «строка пира = 8 полей»
+# её не отсеивает: разбор обязан узнавать пира по allowed-ips. Далее по строке на пира: public-key
+# preshared-key endpoint allowed-ips latest-handshake transfer-rx transfer-tx
+# persistent-keepalive. Ключи — плейсхолдеры, тест подставляет реальные pubkey
+# пользователей; адреса — из документационных диапазонов (RFC 5737).
+# bob: 644245094 + 536870912 = 1 181 116 006 байт > лимит 1 ГБ (1 073 741 824).
+cFJJVkFURUtFWVBSSVZBVEVLRVlQUklWQVRFS0VZUFI=	U0VSVkVSUFVCS0VZU0VSVkVSUFVCS0VZU0VSVkVSUFU=	40000	off	6	10	50	142	98	16	75	555692212-555693567	1793959156-1793961599	1305041669-1305046280	1798336916-1798339752	off	off
+@PUB_ANNA@	UFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFM=	198.51.100.7:51820	10.8.2.1/32	1788868800	1000	2000	off
+@PUB_BOB@	UFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFNLUFM=	198.51.100.8:51820	10.8.2.2/32	1788868900	644245094	536870912	off

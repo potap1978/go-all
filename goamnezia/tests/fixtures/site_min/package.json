@@ -1,0 +1,7 @@
+{
+  "name": "site-min",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Service file that deploy_template_to_nginx must remove from the web root",
+  "license": "MIT"
+}

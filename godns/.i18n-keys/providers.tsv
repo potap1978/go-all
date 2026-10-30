@@ -1,0 +1,54 @@
+prov_lbl_filter	Фильтрация	Filtering
+prov_lbl_privacy	Приватность	Privacy
+prov_lbl_region	Регион	Region
+prov_lbl_notes	Примечания	Notes
+prov_latency_unknown	— не мерялось	— not measured
+prov_warn_filtered	%s фильтрует запросы: заблокированные домены получат NXDOMAIN.	%s filters queries: blocked domains return NXDOMAIN.
+prov_warn_filtered_2	Со стороны клиента это выглядит как сломанный туннель, а не как фильтр.	To the client that looks like a broken tunnel, not like a filter.
+prov_filter_none	без фильтрации	no filtering
+prov_filter_ads	реклама и трекеры	ads and trackers
+prov_filter_malware	вредоносное ПО	malware
+prov_filter_ads_malware	реклама+вредоносное	ads + malware
+prov_filter_custom	настраиваемая	configurable
+prov_region_ru	Россия	Russia
+prov_region_eu	Европа	Europe
+prov_region_global	глобальный anycast	global anycast
+prov_flag_tls13only	только TLS 1.3	TLS 1.3 only
+prov_flag_ru_jurisdiction	российская юрисдикция	Russian jurisdiction
+prov_flag_no_ipv6	нет IPv6	no IPv6
+prov_flag_undocumented	политика логирования не опубликована	logging policy not published
+prov_flag_volunteer	энтузиастский проект, без гарантий доступности	volunteer-run, no availability guarantee
+prov_flag_nonstd_port	нестандартный порт	non-standard port
+prov_flag_account	требуется учётная запись	account required
+prov_flag_unverified_endpoint	адрес не подтверждён официальной документацией	endpoint not confirmed by official docs
+prov_priv_cloudflare	Логи запросов не хранятся дольше 24 часов.	Query logs are not kept beyond 24 hours.
+prov_priv_google	Временные и постоянные логи, IP анонимизируется.	Temporary and permanent logs; IP is anonymised.
+prov_priv_quad9	IP-адреса пользователей не сохраняются.	User IP addresses are not stored.
+prov_priv_adguard	На публичном сервисе персональные данные не хранятся.	No personal data is stored on the public service.
+prov_priv_mullvad	DNS-запросы не логируются.	DNS queries are not logged.
+prov_priv_dnssb	Заявлено «мы не логируем DNS-запросы».	States "we do not log DNS queries".
+prov_priv_opendns	Телеметрия Cisco.	Cisco telemetry.
+prov_priv_yandex	Политика Яндекса, серверы и юрисдикция — РФ.	Yandex policy; servers and jurisdiction in Russia.
+prov_priv_comss	Политика логирования и владелец не опубликованы.	Logging policy and operator are not published.
+prov_priv_digitalegesellschaft	Логирование не ведётся (заявление оператора).	No logging (operator's statement).
+prov_priv_libredns	Логи не ведутся, проект держат энтузиасты.	No logs; run by volunteers.
+prov_priv_controld	Логи запросов не ведутся на бесплатном профиле.	No query logs on the free profile.
+prov_priv_dns4eu	Финансируется ЕС, работает по GDPR.	EU-funded, operates under GDPR.
+prov_measure_title	Задержка до резолверов	Resolver latency
+prov_measure_readonly	Это только замер: галочки показывают текущий выбор, здесь он не меняется.	This is a measurement only: the checkmarks show the current selection; nothing is changed here.
+prov_region_own	свой	own
+prov_flag_custom	добавлен вами: за его работу отвечаете вы, а не goDNS Pro	added by you: you are responsible for it, not goDNS Pro
+prov_priv_custom	Свой апстрим — политика приватности та, что у него.	Your own upstream — whatever privacy policy it has.
+prov_custom_dot	свой · DoT	own · DoT
+prov_custom_doh	свой · DoH	own · DoH
+prov_custom_plain	свой · обычный DNS	own · plain DNS
+prov_group_custom	── Свои апстримы ──	── Own upstreams ──
+prov_custom_no_config	Хранилище настроек недоступно — добавить свой апстрим нельзя.	The settings store is unavailable — cannot add an own upstream.
+prov_custom_bad_proto	Неизвестный протокол: %s (нужно dot, doh или plain).	Unknown protocol: %s (expected dot, doh or plain).
+prov_custom_not_ip	Это не IP-адрес: %s. Имя должно быть разрешено в адрес до записи.	Not an IP address: %s. A name must be resolved to an address before saving.
+prov_custom_bad_port	Порт вне 1–65535: %s	Port outside 1–65535: %s
+prov_custom_bad_sni	Имя для проверки сертификата выглядит неверно: %s	The certificate name looks wrong: %s
+prov_custom_bad_path	Путь DoH выглядит неверно: %s	The DoH path looks wrong: %s
+prov_custom_braces	Фигурные скобки в адресе — это шаблон, а не адрес.	Curly braces in the address — that is a template, not an address.
+prov_custom_too_many	Своих апстримов уже %s — это предел.	Already %s own upstreams — that is the limit.
+prov_custom_exists	Такой апстрим уже есть: %s	This upstream already exists: %s

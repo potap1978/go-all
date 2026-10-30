@@ -1,0 +1,4 @@
+-P INPUT ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j DROP

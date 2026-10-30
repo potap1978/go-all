@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>зелёный терминал · стенд компонентов</title>
+<meta name="theme-color" content="#080b0a">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/theme.css">
+<link rel="stylesheet" href="../assets/ui.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="dot">▸</span> зелёный<b>терминал</b></div>
+    <nav id="nav"></nav>
+  </aside>
+  <div class="main">
+    <header>
+      <button id="burger" class="btn" type="button" aria-label="меню">☰</button>
+      <h1 id="head-title">стенд компонентов</h1>
+      <span class="note" id="head-note">все кирпичики системы на одном экране</span>
+      <span class="sp"></span>
+      <div id="period"></div>
+    </header>
+    <div id="stale">данные могли устареть: сервер ответил 502 — так выглядит сбой одного такта опроса</div>
+    <main id="view"></main>
+  </div>
+</div>
+
+<script type="module">
+import { h, raw, kpi, table, badge, seg, bar, mixbar, spark, stackedBars, heatmap,
+  section, legendOf, toast, num, pct, ago, okColor, VERDICT_COLOR, STATE_COLOR } from '../assets/ui.js';
+
+const LABELS = { ok: 'доступ есть', lossy: 'с потерями', trouble: 'сложности',
+  mostly_down: 'почти не работает', banned: 'в бане', closed: 'порт закрыт', unknown: 'неизвестно' };
+
+// меню и период — та же разметка, что отдаёт shell.js
+const NAV = [['◉', 'Обзор', 'обзор', true], ['◈', 'Сеть', 'сеть'], ['⧗', 'Как режут', 'DPI'],
+  ['⇄', 'Проверки', 'цели'], ['⌸', 'Партнёры', 'партн.'], ['≡', 'Очередь', 'очередь'],
+  ['☰', 'Журнал', 'журнал'], ['⚑', 'Модерация', 'модер.', false, 3]];
+document.querySelector('#nav').innerHTML = String(h`${NAV.map(([ic, t, sh, on, cnt]) => h`
+  <a href="#" class="${on ? 'on' : ''}"><i class="ic">${ic}</i><span class="full">${t}</span><span class="short">${sh}</span>${
+  cnt ? h`<i class="cnt hot">${cnt}</i>` : ''}</a>`)}`);
+document.querySelector('#period').innerHTML = String(seg('days', 7,
+  [{ v: 1, label: '24ч' }, { v: 7, label: '7д' }, { v: 30, label: '30д' }, { v: 90, label: '90д' }]));
+
+const rows = [
+  { t: 1, ip: '95.213.11.42', isp: 'Ростелеком (АО «Ростелеком», Москва)', port: 22, v: 'ok', pct: 96, src: 'сайт' },
+  { t: 340, ip: '185.22.153.8', isp: 'МТС', port: 2222, v: 'lossy', pct: 71, src: 'API' },
+  { t: 5400, ip: 'my-vps.example.com', isp: 'Билайн', port: 443, v: 'trouble', pct: 42, src: 'API' },
+  { t: 26000, ip: '212.42.19.7', isp: 'МегаФон', port: 22, v: 'banned', pct: 4, src: 'сайт' },
+  { t: 90000, ip: '77.88.55.66', isp: 'Дом.ру', port: 22, v: 'closed', pct: 0, src: 'сайт' },
+];
+const now = Date.now() / 1000;
+const bars = ['12.08', '13.08', '14.08', '15.08', '16.08', '17.08', '18.08'].map((label, i) => ({
+  label, mix: { ok: 40 + i * 7, lossy: 12 + (i % 3) * 5, trouble: 6, mostly_down: 3, banned: 9 - (i % 4), closed: 4 },
+}));
+
+document.querySelector('#view').innerHTML = String(h`
+  <div class="row">
+    <a class="badge b-pending" href="#" style="padding:6px 11px">3 ноды ждут подтверждения →</a>
+    <a class="badge b-unknown" href="#" style="padding:6px 11px">4 офлайн из 52 →</a>
+    <a class="badge b-banned" href="#" style="padding:6px 11px">17 ошибок API за сутки →</a>
+  </div>
+
+  ${kpi([
+    { value: '48/52', label: 'нод онлайн', color: okColor(92), hint: 'ёмкость 208 слотов' },
+    { value: num(18432), label: 'проверок за 7 дн.', hint: '4,1к уник. адресов' },
+    { value: pct(23), label: 'проблемных целей', color: okColor(77) },
+    { value: '61%', label: 'занятость сети', hint: '127 из 208' },
+    { value: '—', label: 'ждут модерации', hint: 'не удалось получить' },
+  ])}
+
+  ${section('Кнопки', h`<div class="card"><div class="row" style="align-items:center">
+    <button class="btn ok">ПРОВЕРИТЬ ▶</button>
+    <button class="btn">править</button>
+    <button class="btn no">удалить</button>
+    <button class="btn" disabled>недоступно</button>
+    <span class="note" style="color:var(--faint);font-size:var(--fs-xs)">одно залитое действие на форму · обычное — призрак · опасное — красный призрак</span>
+  </div></div>`, 'иерархия: ok / обычная / no')}
+
+  ${section('Метки состояний', h`<div class="card"><div class="row">
+    ${Object.keys(LABELS).map((k) => badge(LABELS[k], k))}
+    ${badge('ожидает', 'pending')}${badge('API', 'info')}
+  </div>
+  <div class="legend" style="margin-top:14px">${legendOf({ ok: 812, lossy: 240, trouble: 96, mostly_down: 41, banned: 128, closed: 57 }, VERDICT_COLOR, LABELS)}</div></div>`)}
+
+  ${section('Проверки по дням', h`<div class="card">
+    ${stackedBars(bars, VERDICT_COLOR, { order: Object.keys(VERDICT_COLOR), labels: LABELS })}
+    <div class="legend" style="margin-top:12px">${legendOf(bars.at(-1).mix, VERDICT_COLOR, LABELS)}</div>
+  </div>`, 'наведите на столбик — значения показывает своя подсказка, не браузерная')}
+
+  ${section('Сеть во времени и доли', h`<div class="card" style="display:grid;gap:16px">
+    ${spark([44, 46, 45, 48, 41, 39, 47, 49, 48, 50, 46, 48], { color: 'var(--ok)' })}
+    <div>
+      <div style="font-size:var(--fs-xs);color:var(--dim)">доля удачных соединений</div>
+      ${bar(71, 100, okColor(71))}
+    </div>
+    <div>
+      <div style="font-size:var(--fs-xs);color:var(--dim);margin-bottom:5px">состояния по сети</div>
+      ${mixbar({ open: 120, dpi: 38, refused: 22, timeout: 14, unreach: 6 }, STATE_COLOR)}
+    </div>
+    <div class="mixbar empty"></div>
+  </div>`)}
+
+  ${section('Плотная таблица', table([
+    { key: 't', title: 'когда', cell: (r) => h`${ago(now - r.t)} назад` },
+    { key: 'ip', title: 'цель', wide: true },
+    { key: 'isp', title: 'провайдер', wide: true },
+    { key: 'port', title: 'порт', num: true },
+    { key: 'v', title: 'вердикт', cell: (r) => badge(LABELS[r.v], r.v) },
+    { key: 'pct', title: '%', num: true, cell: (r) => h`${r.pct}%` },
+    { key: 'src', title: 'источник', cell: (r) => badge(r.src, r.src === 'API' ? 'info' : 'unknown') },
+    { key: 'act', title: '', cell: () => h`<button class="btn no" data-toast="цель убрана">убрать</button>` },
+  ], rows), 'ниже 700 px строки становятся карточками — подписи из data-l')}
+
+  ${section('Тепловая матрица «оператор × порт»', heatmap(
+    ['Ростелеком', 'МТС', 'Билайн', 'МегаФон', 'Дом.ру'],
+    ['22', '443', '2222', '8443'],
+    (r, c) => (r === 'Дом.ру' && c === '8443' ? null
+      : { pct: (r.length * 13 + Number(c)) % 100, probes: 10 + (r.length * Number(c)) % 90 }),
+  ), 'витрина уникальных данных — ей нужна максимальная выразительность')}
+
+  ${section('Поля и фильтры', h`<div class="card"><div class="row">
+    <label>адрес<input placeholder="IP или домен · например 95.213.11.42" style="min-width:260px"></label>
+    <label>порт<input value="22" style="width:90px"></label>
+    <label>вердикт<select><option>любой</option><option>в бане</option><option>порт закрыт</option></select></label>
+    <button class="btn ok">применить</button>
+    <button class="btn">сбросить</button>
+  </div>
+  <div class="row" style="margin-top:14px">${seg('src', 'api', [{ v: 'all', label: 'все' }, { v: 'api', label: 'API' }, { v: 'site', label: 'сайт' }])}</div>
+  </div>`)}
+
+  ${section('Состояния данных', h`<div style="display:grid;gap:12px">
+    <div class="card" style="padding:0"><div class="loading">загружаю…</div></div>
+    <div class="empty" style="padding:26px">снимки состояния сети только начали накапливаться — график появится, когда наберётся хотя бы два замера</div>
+    <div class="card" style="padding:0"><div class="err">не удалось получить: очередь API — сигналы по ней не показаны</div></div>
+    <div class="row"><button class="btn" data-toast="ключ отозван">всплывающее сообщение</button>
+      <button class="btn ok" data-toast="сохранено|ok">успех</button>
+      <button class="btn no" data-toast="сервер ответил 502|bad">ошибка</button></div>
+  </div>`, 'четыре состояния обязательны у каждого раздела: загрузка, пусто, ошибка, устарело')}
+`);
+
+document.body.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-toast]');
+  if (!b) return;
+  const [text, kind] = b.dataset.toast.split('|');
+  toast(text, kind || '');
+});
+</script>
+</body>
+</html>

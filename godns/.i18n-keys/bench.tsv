@@ -1,0 +1,24 @@
+bench_ms	мс	ms
+bench_cold_paren	(хол. %s)	(cold %s)
+bench_partial	%s/%s	%s/%s
+bench_summary_line	%s проб по %s, %s с	%s probes of %s, %s s
+bench_method_note	Замер по реальному транспорту (DoT/DoH), запрос %s. Это не ICMP-пинг.	Measured over the real transport (DoT/DoH), query %s. Not an ICMP ping.
+bench_err_timeout	таймаут	timeout
+bench_err_tls	TLS	TLS
+bench_err_resolve	нет DNS	no DNS
+bench_err_refused	отказ	refused
+bench_err_reset	обрыв	reset
+bench_err_unreachable	нет маршрута	unreachable
+bench_err_http	HTTP %s	HTTP %s
+bench_err_proto	не DNS	not DNS
+bench_err_tool	нет curl	no curl
+bench_err_badcand	описан неверно	malformed
+bench_err_other	ошибка	error
+bench_err_no_candidates	Нечего замерять: список кандидатов пуст	Nothing to measure: the candidate list is empty
+bench_err_no_engine	Не найден движок замера: %s	Benchmark engine not found: %s
+bench_err_no_python	python3 не найден — замер невозможен	python3 not found — cannot benchmark
+bench_err_tmp	Не удалось создать временный файл для результата	Could not create a temporary file for the result
+bench_err_failed	Замер не удался (код %s)	Benchmark failed (exit %s)
+bench_err_bad_output	Движок замера вернул неразбираемый JSON	The benchmark engine returned unparsable JSON
+bench_err_bad_input	Не удалось разобрать список кандидатов	Could not parse the candidate list
+bench_err_no_providers	Каталог провайдеров не загружен — мерить нечего.	The provider catalogue is not loaded — nothing to measure.

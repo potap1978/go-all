@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><title>QA: прогон состояний</title>
+<body style="margin:0;font:13px system-ui">
+<iframe id="f" style="width:390px;height:844px;border:0"></iframe>
+<pre id="o"></pre>
+<script>
+// Прогон состояний прототипа: кириллица при lang=en, сдвиг вбок, цели < 44 px.
+// Вызов из консоли: sweep({ target: '../iteration3/Telegram.dc.html', param: 'scene', list: 'tg-scenes.json', from: 0, to: 40, extra: 'lang=en&persist=0' })
+const allow = /^(Русский|🇷🇺 Русский.*|Анна|Лена|Мама.*|Роутер на даче|Бабушкин планшет на кухне|Телевизор в гостиной|Туманный Лондон|Солнечная Манила|Снежная Оттава)$/;
+window.sweep = async (o) => {
+  const all = Array.isArray(o.list) ? o.list : await (await fetch(o.list)).json();
+  const list = all.slice(o.from || 0, o.to || 9999);
+  const f = document.getElementById('f'), out = {}; let total = 0, errs = 0;
+  if (o.width) f.style.width = o.width + 'px';
+  for (const s of list) {
+    await new Promise(r => { f.onload = r; f.src = o.target + '?' + (o.param || 'scene') + '=' + encodeURIComponent(s) + '&' + (o.extra || 'lang=en&persist=0'); });
+    try { f.contentWindow.addEventListener('error', () => errs++); } catch (e) {}
+    await new Promise(r => setTimeout(r, o.wait || 1300));
+    const d = f.contentDocument, txt = d.body.innerText;
+    const lines = o.noCyr === false ? [] : (txt.match(/[^\n]*[А-Яа-яЁё][^\n]*/g) || []).map(x => x.trim()).filter(x => !allow.test(x));
+    const small = [...d.querySelectorAll('button,[role=button],[role=radio],[role=switch],[role=tab],a[href],input,select,summary')].filter(e => { const r = e.getBoundingClientRect(); return r.width && r.height && getComputedStyle(e).visibility !== 'hidden' && (r.width < 44 || r.height < 44); }).map(e => (e.getAttribute('aria-label') || e.textContent || e.tagName).trim().slice(0, 24));
+    const wide = d.documentElement.scrollWidth > f.clientWidth + 1;
+    const bad = { cyr: [...new Set(lines)].slice(0, 10), wide, small: o.touch ? [...new Set(small)].slice(0, 8) : [] };
+    if (bad.cyr.length || wide || bad.small.length) { out[s] = bad; total += lines.length; }
+  }
+  const res = { target: o.target, checked: list.length, withIssues: Object.keys(out).length, total, errs, out };
+  document.getElementById('o').textContent = JSON.stringify(res, null, 1);
+  console.log('SWEEP ' + JSON.stringify({ checked: res.checked, withIssues: res.withIssues, total, errs, scenes: Object.keys(out).join(',') }));
+  const uniq = [...new Set(Object.values(out).flatMap(v => v.cyr))];
+  window.__uniq = uniq;
+  const s = uniq.join(' ¦ ');
+  for (let i = 0; i < s.length; i += 3500) console.log('U' + i + ' ' + s.slice(i, i + 3500));
+  const sm = Object.entries(out).filter(([k, v]) => v.small.length || v.wide).map(([k, v]) => k + (v.wide ? '[WIDE]' : '') + ':' + v.small.join('/')).join(' ; ');
+  for (let i = 0; i < Math.min(sm.length, 4500); i += 450) console.log('S' + (i / 450) + ' ' + sm.slice(i, i + 450));
+  for (let i = 0; i < Math.min(s.length, 6000); i += 450) console.log('C' + (i / 450) + ' ' + s.slice(i, i + 450));
+  return res;
+};
+</script>
+</body>
