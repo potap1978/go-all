@@ -3,7 +3,7 @@
 Установка:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/potap1978/go-all/main/go-installer.sh)
+bash <(curl -fsSL https://github.com/potap1978/go-all/releases/download/v1.0.0/go-installer.sh)
 ```
 
 Локальная установка:
