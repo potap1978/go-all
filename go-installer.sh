@@ -187,7 +187,6 @@ lang_pick() {
 # Спросить язык, если он ещё не выбран и есть с кем говорить.
 lang_startup() {
     [ -z "${GOINST_LANG:-}" ] || return 0
-    _lang_marker "$(lang_file)" >/dev/null && return 0
     [ -t 0 ] && [ -t 1 ] || return 0
     lang_pick
 }
