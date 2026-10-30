@@ -1741,37 +1741,6 @@ ensure_token() {
 # портов и карта портов работают и без него, а требовать ключ ради того,
 # чтобы посмотреть занятые порты, было бы враньём про необходимость.
 token_startup() {
-    [ -n "${GOINST_NO_TOKEN_CHECK:-}" ] && { [ -n "$TOKEN" ] || token_load; return 0; }
-    if [ -z "$TOKEN" ] && ! token_load; then
-        say "$(bi "Ключа доступа нет — без него не скачать ни один продукт." "No access key — no product can be downloaded without it.")"
-        token_prompt || warn "$(bi "Продолжаю без ключа: доступны проверка портов и карта портов." "Continuing without a key: the port check and the port map still work.")"
-        return 0
-    fi
-    say "$(bi "Проверяю ключ доступа…" "Checking the access key…")"
-    token_check
-    case "$TOKEN_STATUS" in
-        ok)
-            ok "$(bi "Ключ действует." "The key works.")"
-            # Ключ, принесённый в переменной, сохраняем: иначе установка
-            # одной командой работает ровно один раз, а следующий запуск
-            # снова спрашивает ключ, который человек уже дал.
-            if [ "$TOKEN_FROM" = "env" ] && [ "$TOKEN" != "$(head -1 "$TOKEN_FILE" 2>/dev/null)" ]; then
-                token_save "$TOKEN" && ok "$(bi "Ключ сохранён в ${TOKEN_FILE} (0600) — спрашивать не буду." "The key is saved to ${TOKEN_FILE} (0600) — it will not be asked again.")"
-            fi ;;
-        denied)
-            warn "$(bi "Ключ не открывает: ${TOKEN_DENIED}— эти продукты не скачаются." "The key does not open: ${TOKEN_DENIED}— those products cannot be downloaded.")"
-            token_where ;;
-        nonet)
-            warn "$(bi "До GitHub не достучаться. Ключ оставляю как есть — он, скорее всего, ни при чём." "GitHub is unreachable. Keeping the key as is — it is most likely not the cause.")"
-            [ -n "${TOKEN_NETRC:-}" ] && say "$(bi "Причина" "Cause"): $(gh_net_reason "$TOKEN_NETRC"). $(bi "Пробовал ${GH_TRIES} раза на каждый запрос, ожидание до ${GH_MT} с." "Tried ${GH_TRIES} times per request, waiting up to ${GH_MT} s.")" ;;
-        limited)
-            warn "$(bi "GitHub временно не отвечает по ключу клуба: исчерпан общий лимит — 5000 запросов в час на всех. Снова заработает к $(gh_reset_text). Ключ исправен и остаётся на месте." "GitHub is temporarily refusing the club key: its shared limit of 5000 requests an hour for everyone is used up. It works again by $(gh_reset_text). The key is fine and stays in place.")" ;;
-        *)
-            err "$(bi "Сохранённый ключ больше не работает: GitHub его не принимает." "The saved key no longer works: GitHub rejects it.")"
-            token_forget
-            TOKEN=""; TOKEN_FROM=""
-            token_prompt || warn "$(bi "Продолжаю без ключа: доступны проверка портов и карта портов." "Continuing without a key: the port check and the port map still work.")" ;;
-    esac
     return 0
 }
 
@@ -5789,7 +5758,6 @@ ui_draw() {
         ports)   ui_scr_ports "$UI_CUR" ;;
         key)     ui_scr_key "$UI_CUR" ;;
         keyinput) ui_scr_keyinput "${#UI_KEYBUF}" "${UI_KEYST:-}" ;;
-        nokey)   ui_scr_nokey "$UI_CUR" ;;
         lang)    ui_scr_lang "$UI_CUR" ;;
         err)     ui_scr_err "${UI_POLLERR:-github}" "$UI_CUR" ;;
         selfupd) ui_scr_selfupd "$UI_CUR" ;;
@@ -5945,7 +5913,7 @@ ui_act() {  # ui_act <действие пункта>
         group:*) UI_CUR="${a#group:}" ;;
         keycheck) token_check; UI_KEYAT=$(date +%H:%M); ui_model_load ;;
         keyinput) UI_KEYBUF=""; UI_KEYST=""; UI_INPUT=1; ui_go keyinput 0 ;;
-        keyforget) token_forget; TOKEN=""; TOKEN_STATUS=""; ui_root nokey ;;
+        keyforget) true ;;
         lang:*) LANG_CODE="${a#lang:}"; LANG_ASKED=yes; lang_persist; ui_model_load; ui_back ;;
         retry) ui_poll_start && ui_root splash ;;
         sumyes) summary_enable; ui_first_screen ;;
@@ -6001,7 +5969,7 @@ ui_main() {
             ui_poll_finish; last_poll=$SECONDS; dirty=1
             # Ключ отвергнут — стираем и просим новый (исчерпанный лимит сюда
             # не попадает: это состояние limited, ключ остаётся).
-            if [ "${TOKEN_STATUS:-}" = bad ]; then token_forget; TOKEN=""; UI_KEYBAD=1; ui_model_load; ui_root nokey; continue; fi
+            if [ "${TOKEN_STATUS:-}" = bad ]; then token_forget; TOKEN=""; UI_KEYBAD=1; ui_model_load; continue; fi
             ui_model_load
             if [ "$UI_SCR" = splash ]; then if [ -n "$UI_POLLERR" ]; then ui_root err; else ui_root menu; fi; fi
         fi
@@ -6113,7 +6081,6 @@ summary_watch() {
     local tmp n p id ok=0 v prev rc=0
     local -a ids=()
     summary_enabled && summary_hook_write
-    token_load || true
     [ -n "${TOKEN:-}" ] || return 0
     VER_TTL=0
     digest_fetch || rc=$?
@@ -6338,7 +6305,6 @@ main() {
             exit 0 ;;
         # Сводка версий для клуба — её собирает GitHub Actions, не root и не
         # на сервере: ключ из GH_TOKEN, вывод в stdout.
-        --digest) token_load || true; digest_build; exit $? ;;
     esac
 
     # Язык — первым экраном, до любых проверок: всё дальнейшее, включая
@@ -6373,7 +6339,6 @@ main() {
     # Ключ читаем ДО разбора команды. Раньше его подхватывал только путь
     # меню, и `--versions` на машине с сохранённым ключом честно отвечал
     # «нет ключа»: ключ лежал рядом, но никто его не открывал.
-    token_load || true
 
     case "${1:-}" in
         --list) list_products; exit 0 ;;
@@ -6390,22 +6355,7 @@ main() {
                 *) usage; exit 64 ;;
             esac ;;
         --key)
-            case "${2:-}" in
-                forget) token_forget; ok "$(bi "Сохранённый ключ удалён." "The saved key is removed.")"; exit 0 ;;
-                check)  token_load || { err "$(bi "Ключа нет." "No key.")"; exit 1; }
-                        token_check
-                        case "$TOKEN_STATUS" in
-                            ok)     ok "$(bi "Ключ читает все репозитории продуктов." "The key reads every product repository.")"; exit 0 ;;
-                            denied) warn "$(bi "Ключ не открывает: ${TOKEN_DENIED}" "The key does not open: ${TOKEN_DENIED}")"; exit 2 ;;
-                            nonet)  warn "$(bi "До GitHub не достучаться." "GitHub is unreachable.")"
-                                    [ -n "${TOKEN_NETRC:-}" ] && say "$(bi "Причина" "Cause"): $(gh_net_reason "$TOKEN_NETRC"). $(bi "Пробовал ${GH_TRIES} раза на каждый запрос, ожидание до ${GH_MT} с." "Tried ${GH_TRIES} times per request, waiting up to ${GH_MT} s.")"
-                                    exit 3 ;;
-                            limited) warn "$(bi "Исчерпан общий лимит запросов GitHub, снова заработает к $(gh_reset_text). Ключ не виноват." "The shared GitHub request limit is used up until $(gh_reset_text). The key is not at fault.")"; exit 4 ;;
-                            *)      err "$(bi "GitHub этот ключ не принимает." "GitHub rejects this key.")"; exit 1 ;;
-                        esac ;;
-                ''|set)  TOKEN=""; TOKEN_FROM=""; token_prompt; exit $? ;;
-                *) usage; exit 64 ;;
-            esac ;;
+            echo "$(bi "���� �� �����: ����������� ���������." "No key needed: repository is public.")"; exit 0 ;;
         --check)
             valid_id "${2:-}" || { usage; exit 64; }
             mode_arg "$2" "${3:-}" || exit 64
@@ -6448,7 +6398,6 @@ main() {
     # «Аркада»: ключ проверяется и версии спрашиваются в фоне, под заставкой;
     # меню открывается сразу, без ожидания сети.
     if ui_can_run; then
-        token_load || true
         ui_main
         if [ -n "${UI_UNINSTALL:-}" ]; then
             goinst_remove "$UI_UNINSTALL" && goinst_remove_done "$UI_UNINSTALL"
