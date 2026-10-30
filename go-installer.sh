@@ -5930,11 +5930,7 @@ ui_act() {  # ui_act <действие пункта>
 # Первый экран: нет ключа — ввод ключа; сведения свежие — меню; иначе
 # заставка с опросом GitHub.
 ui_first_screen() {
-    if [ -z "${TOKEN:-}" ]; then ui_root nokey
-    elif [ -n "${GOINST_NO_NET:-}" ]; then ui_root menu
-    elif ver_cache_read "${PRODUCTS[0]}" main >/dev/null 2>&1; then ui_root menu
-    elif ui_poll_start; then ui_root splash
-    else ui_root menu; fi
+    ui_root menu
 }
 
 # Главный цикл «Аркады».
