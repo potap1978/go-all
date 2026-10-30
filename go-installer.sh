@@ -1,4 +1,5 @@
 #!/bin/bash
+# Updated
 # goInstaller — Copyright (c) 2026 potap1978. All rights reserved.
 #
 # Единый установщик продуктов серии go: goVLESS pro, goTelegram pro,
