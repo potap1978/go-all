@@ -186,9 +186,9 @@ lang_pick() {
 
 # Спросить язык, если он ещё не выбран и есть с кем говорить.
 lang_startup() {
-    [ -z "${GOINST_LANG:-}" ] || return 0
-    [ -t 0 ] && [ -t 1 ] || return 0
-    lang_pick
+    reattach_tty
+    lang_pick || true
+    return 0
 }
 
 # Запомнить выбор. Зовётся ПОСЛЕ проверки root: язык нужно было спросить
