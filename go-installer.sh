@@ -5594,20 +5594,12 @@ ui_poll_state() {
         read -r lrc ltry ltot < <(tail -n 1 "$UI_POLLDIR/retries")
         UI_PI_NOTE="$(bi "GitHub отвечает с трудом, повтор ${ltry} из ${ltot}" "GitHub answers with difficulty, retry ${ltry} of ${ltot}"): $(gh_net_reason "$lrc")"
     fi
-    UI_PI_NAME=("goInstaller"); ut "ключ доступа" "access key"; UI_PI_NAME+=("$UI_TX")
+    UI_PI_NAME=("goInstaller")
     for id in "${PRODUCTS[@]}"; do UI_PI_NAME+=("$(prod_name "$id")"); done
     UI_PI_ST=(); UI_PI_RES=(); UI_PI_TOK=()
     if [ -e "$UI_POLLDIR/self" ]; then
         local sv; sv=$(ver_cache_get "$SELF_ID" main 2>/dev/null) || sv=""
         UI_PI_ST+=(done); UI_PI_RES+=("${sv:-$GOINST_VERSION}"); if [ -n "$sv" ] && ver_newer "$GOINST_VERSION" "$sv"; then UI_PI_TOK+=(update); else UI_PI_TOK+=(text); fi
-    else UI_PI_ST+=(run); UI_PI_RES+=(""); UI_PI_TOK+=(text); fi
-    if [ -e "$UI_POLLDIR/key" ]; then
-        IFS='|' read -r st den _ < "$UI_POLLDIR/key"
-        k=0; for id in $den; do [ "$id" = pro ] && k=$(( k + 1 )); done
-        case "$st" in
-            ok|denied) ut "открывает $(( 6 - k )) из 6" "opens $(( 6 - k )) of 6"; UI_PI_ST+=(done); UI_PI_RES+=("$UI_TX"); if [ "$k" -gt 0 ]; then UI_PI_TOK+=(warn); else UI_PI_TOK+=(text); fi ;;
-            *) UI_PI_ST+=(fail); UI_PI_RES+=(""); UI_PI_TOK+=(err) ;;
-        esac
     else UI_PI_ST+=(run); UI_PI_RES+=(""); UI_PI_TOK+=(text); fi
     for ((i = 0; i < ${#PRODUCTS[@]}; i++)); do
         id="${PRODUCTS[$i]}"
@@ -6036,7 +6028,6 @@ ui_main() {
                             compact) ut "Размер: 80×24 в углу (F2 — дальше)" "Size: 80×24 in the corner (F2 — next)" ;;
                         esac
                         UI_NOTE="$UI_TX"; UI_NOTE_T=$(( SECONDS + 4 )) ;;
-                    r) [ "$UI_SCR" = key ] || ui_go key 0 ;;
                     l|f4) [ "$UI_SCR" = lang ] || ui_go lang "$([ "${LANG_CODE:-ru}" = en ] && echo 1 || echo 0)" ;;
                     u) [ -n "${UD_VERNEW:-}" ] && ui_go selfupd 0 ;;
                 esac; fi ;;
