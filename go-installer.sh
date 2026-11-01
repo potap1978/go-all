@@ -482,6 +482,19 @@ ver_extract_any() {
 # Файлы, в которых версия может лежать. Первый — подсказка из таблицы,
 # дальше общие места. Спрашиваем по очереди и останавливаемся на первом
 # ответе: лишние запросы к GitHub стоят времени на глазах у человека.
+# prod_dir <id> — подкаталог продукта в монорепозитории go-all.
+prod_dir() {
+    case "$1" in
+        govless)    printf 'govless' ;;
+        gotelegram) printf 'gotelegram' ;;
+        godns)      printf 'godns' ;;
+        gokaskad)   printf 'gokaskad' ;;
+        gowarp)     printf 'gowarp' ;;
+        goamnezia)  printf 'goamnezia' ;;
+        *)          printf '' ;;
+    esac
+}
+
 prod_ver_paths() {
     local id="$1" spec hint
     spec=$(prod_ver_spec "$id") || spec=""
@@ -1987,6 +2000,7 @@ run_product_installer() {
 
     true
     say "$(bi "Скачиваю ${entry} из ${repo}@${ref}…" "Downloading ${entry} from ${repo}@${ref}…")"
+    mkdir -p "$(dirname "$work/$entry")" || return 1
     fetch_raw "$repo" "$ref" "$entry" "$work/$entry" || return 1
     chmod 700 "$work/$entry"
     echo ""
@@ -1998,19 +2012,19 @@ run_product_installer() {
         # bootstrap goVLESS клонирует репозиторий в /opt/govless-installer; ключ читает из GH_TOKEN.
         # Смену ветки у установленного загрузчик goVLESS делает сам с 1.3.7;
         # итог сверяет installer_postcheck.
-        govless)    ( cd "$work" && GOVLESS_BRANCH="$ref" bash ./bootstrap.sh ); rc=$? ;;
+        govless)    ( cd "$work" && GOVLESS_BRANCH="$ref" bash "./$entry" ); rc=$? ;;
         # bootstrap goTelegram качает файлы по SHA ветки; ключ — GOTELEGRAM_PAT.
-        gotelegram) ( cd "$work" && GOTELEGRAM_BRANCH="$ref" bash ./bootstrap.sh ); rc=$? ;;
+        gotelegram) ( cd "$work" && GOTELEGRAM_BRANCH="$ref" bash "./$entry" ); rc=$? ;;
         # install.sh goDNS тянет tarball через api.github.com; ключ — GH_TOKEN.
-        godns)      ( cd "$work" && GODNS_REF="$ref" bash ./install.sh ); rc=$? ;;
+        godns)      ( cd "$work" && GODNS_REF="$ref" bash "./$entry" ); rc=$? ;;
         # Kaskad и goWARP — сами себе программа: копируют $0 в /usr/local/bin,
         # поэтому запускать их надо ИЗ ФАЙЛА, а не из подстановки процесса.
         # 3.x записывает KASKAD_BRANCH ветвью обновлений; 2.x ни её, ни KASKAD_LANG не читает.
-        gokaskad)   ( cd "$work" && KASKAD_BRANCH="$ref" KASKAD_LANG="$(gokaskad_lang_env)" ./install.sh ); rc=$? ;;
-        gowarp)     ( cd "$work" && bash ./warp.sh "$key" ); rc=$? ;;
+        gokaskad)   ( cd "$work" && KASKAD_BRANCH="$ref" KASKAD_LANG="$(gokaskad_lang_env)" "./$entry" ); rc=$? ;;
+        gowarp)     ( cd "$work" && bash "./$entry" "$key" ); rc=$? ;;
         # bootstrap goAmnezia качает срез ветки по SHA; ключ — GOAMNEZIA_PAT.
         # ${amz[@]+…}: пустой массив под set -u в bash до 4.4 — «unbound variable».
-        goamnezia)  ( cd "$work" && GOAMNEZIA_BRANCH="$ref" bash ./bootstrap.sh ${amz[@]+"${amz[@]}"} ); rc=$? ;;
+        goamnezia)  ( cd "$work" && GOAMNEZIA_BRANCH="$ref" bash "./$entry" ${amz[@]+"${amz[@]}"} ); rc=$? ;;
     esac
     return "$rc"
 }
@@ -2162,8 +2176,9 @@ ver_cache_touch() { local v; v=$(ver_cache_get "$1" "$2") || v=""; ver_cache_wri
 # Один запрос: сырой файл из ветки → номер версии. Ошибки молчат: отсутствие
 # ветки и отсутствие сети для этого экрана — не событие.
 _ver_fetch_one() {
-    local id="$1" ref="$2" cfg="$3" repo spec var path url tmp v=""
+    local id="$1" ref="$2" cfg="$3" repo spec var path url tmp v="" dir
     repo=$(prod_repo "$id")
+    dir=$(prod_dir "$id")
     spec=$(prod_ver_spec "$id") || spec=""
     var="${spec#*|}"; [ "$var" = "$spec" ] && var=""
     tmp=$(mktemp "${TMPDIR:-/tmp}/goinst-ver.XXXXXX") || return 0
@@ -2178,7 +2193,7 @@ _ver_fetch_one() {
     fi
     while IFS= read -r path; do
         [ -n "$path" ] || continue
-        url="https://raw.githubusercontent.com/${repo}/${at}/${path}"
+        url="https://raw.githubusercontent.com/${repo}/${at}/${dir:+$dir/}${path}"
         gh_curl --config "$cfg" --max-time "${GOINST_VER_TIMEOUT:-$GH_MT}" -o "$tmp" "$url" >/dev/null 2>&1 || continue
         # Сначала ищем названную переменную, потом любую «…VERSION=».
         # Второе спасает, когда продукт переименовал её у себя.
@@ -4873,7 +4888,8 @@ ui_scr_check() {  # ui_scr_check <продукт> <cur> <мастер 0|1>  (UI_
             a="$UI_TX"; ut "Продолжить" "Continue"; ui_item 1 "$UI_TX" continue "$a"
         fi
     else
-        if [ -n "${UD_MODES[$p]:-}" ]; then ut "Проверить другой режим" "Check another mode"; ui_item 1 "$UI_TX" othermode; fi
+        if [ "${UI_PF_BAD:-0}" -eq 0 ]; then ut "Продолжить установку" "Continue"; ui_item 1 "$UI_TX" continue; fi
+        if [ -n "${UD_MODES[$p]:-}" ]; then ut "Проверить другой режим" "Check another mode"; ui_item 2 "$UI_TX" othermode; fi
     fi
     ui_item_back
     ui_wiz_steps "$p"; ui_step_idx "Проверка" "Check"; UI_WIDX=$UI_I
@@ -6351,7 +6367,7 @@ main() {
                 *) usage; exit 64 ;;
             esac ;;
         --key)
-            echo "$(bi "���� �� �����: ����������� ���������." "No key needed: repository is public.")"; exit 0 ;;
+            echo "$(bi "���� �� �����: ����������� ���������." "No key needed: repository is public.")"; exit 0 ;;
         --check)
             valid_id "${2:-}" || { usage; exit 64; }
             mode_arg "$2" "${3:-}" || exit 64

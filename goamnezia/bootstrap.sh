@@ -12,6 +12,9 @@
 set -euo pipefail
 
 REPO="potap1978/go-all"
+# Продукт живёт в подкаталоге монорепозитория go-all: файлы качаются из
+# https://raw.githubusercontent.com/<repo>/<ref>/<SUBDIR>/...
+SUBDIR="${GOAMNEZIA_REPO_DIR:-goamnezia}"
 # Веток две, как у всей серии (goinstaller-ready §2): main — стабильная и ставится по умолчанию, dev —
 # экспериментальная. С 13.09.2026 до выхода в main ветка была одна, dev, и умолчанием стояла она. Рабочую
 # ветку автора (стенды) тоже можно назвать явно — людям предлагаются только эти две.
@@ -20,7 +23,11 @@ PAT="${GOAMNEZIA_PAT:-}"
 # Заголовок идёт через stdin: во время долгой загрузки приватного репозитория
 # токен не должен появляться в argv curl, доступном другим пользователям VPS.
 github_curl() {
-    printf 'Authorization: token %s\n' "$PAT" | curl -H @- "$@"
+    if [ -n "$PAT" ]; then
+        printf 'Authorization: token %s\n' "$PAT" | curl -H @- "$@"
+    else
+        curl "$@"
+    fi
 }
 # Каталог установки. GOAMNEZIA_DIR — та же переменная, которой стенды и тесты
 # уводят продукт из /opt (CONTRACT §1); на боевой машине она не задана.
@@ -251,7 +258,7 @@ _loader_by_sha() {
     local tmp first=""
     tmp=$(mktemp "${TMPDIR:-/tmp}/goamnezia-bootstrap.XXXXXX" 2>/dev/null) || return 1
     if ! github_curl -fsSL --max-time 60 -o "$tmp" \
-         "https://raw.githubusercontent.com/${REPO}/$1/bootstrap.sh" 2>/dev/null; then
+         "https://raw.githubusercontent.com/${REPO}/$1/${SUBDIR}/bootstrap.sh" 2>/dev/null; then
         rm -f "$tmp" 2>/dev/null || true
         return 1
     fi
@@ -318,7 +325,7 @@ elif [ -n "$PAT" ]; then
     fi
 fi
 unset _ref_given _rc _sha _loader
-RAW="https://raw.githubusercontent.com/${REPO}/${RESOLVED_REF}"
+RAW="https://raw.githubusercontent.com/${REPO}/${RESOLVED_REF}/${SUBDIR}"
 
 # ── Рамка приветствия ────────────────────────────────────────────────────────
 # Раньше рамка была нарисована «на глаз»: верх и низ — 54 знака ═, слева ║, а
@@ -371,11 +378,6 @@ if [ "$DRY" != "1" ] && [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if [ -z "$PAT" ] && [ -z "$LOCAL_TREE" ]; then
-    echo -e "  ${RED}✗${NC} $(bs need_pat)"
-    echo -e "  ${YELLOW}$(bs need_pat_how)${NC}"
-    exit 1
-fi
 if [ -n "$LOCAL_TREE" ]; then
     if [ ! -f "$LOCAL_TREE/install.sh" ] || [ ! -f "$LOCAL_TREE/lib/common.sh" ]; then
         echo -e "  ${RED}✗${NC} $(bs no_tree): ${LOCAL_TREE//[^A-Za-z0-9._\/-]/?}"
@@ -661,6 +663,11 @@ fetch_snapshot() {
     for root in "${work}/x"/*/; do
         [ -d "$root" ] || continue
         root="${root%/}"
+        # Монорепозиторий go-all: продукт лежит в подкаталоге ${SUBDIR}.
+        if [ -f "${root}/${SUBDIR}/install.sh" ]; then
+            printf '%s' "${root}/${SUBDIR}"
+            return 0
+        fi
         [ -f "${root}/install.sh" ] || continue
         printf '%s' "$root"
         return 0
@@ -1095,7 +1102,7 @@ fi
 # экспериментальную одним Enter (goinstaller-ready §6). Через времянку и mv: оборванная запись не оставит
 # половину файла.
 _src="${INSTALL_DIR}/.install-source"
-if printf 'branch=%s\nrepo=%s\nref=%s\n' "$BRANCH" "$REPO" "$RESOLVED_REF" 2>/dev/null >"${_src}.tmp"; then
+if printf 'branch=%s\nrepo=%s\nref=%s\ndir=%s\n' "$BRANCH" "$REPO" "$RESOLVED_REF" "$SUBDIR" 2>/dev/null >"${_src}.tmp"; then
     mv -f "${_src}.tmp" "$_src" 2>/dev/null || rm -f "${_src}.tmp" 2>/dev/null || true
 else
     rm -f "${_src}.tmp" 2>/dev/null || true

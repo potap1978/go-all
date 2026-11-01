@@ -5995,6 +5995,13 @@ _install_source_field() {
     printf '%s' "$v"
 }
 
+# _su_dir — подкаталог продукта в монорепозитории go-all (по умолчанию goamnezia).
+_su_dir() {
+    local d=""
+    d=$(_install_source_field dir 2>/dev/null) || d=""
+    printf '%s' "${d:-goamnezia}"
+}
+
 # Имя ветки и репозитория уходят в адреса GitHub вместе с ключом владельца: из .install-source берём только
 # похожее на них (то же правило, что у имени ветки в bootstrap.sh).
 _su_branch_ok() { [[ "${1:-}" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,99}$ ]] && [[ "$1" != *..* ]]; }
@@ -6039,7 +6046,7 @@ _su_head_sha() {
 _su_remote_version() {
     local tmp code v=""
     tmp=$(mktemp "${TMPDIR:-/tmp}/goamnezia-su.XXXXXX" 2>/dev/null) || return 1
-    code=$(_su_get "$1" "https://raw.githubusercontent.com/$2/$3/lib/common.sh" "$tmp")
+    code=$(_su_get "$1" "https://raw.githubusercontent.com/$2/$3/$(_su_dir)/lib/common.sh" "$tmp")
     if [ "$code" = 200 ]; then
         v=$(sed -n -E 's/^GOAMNEZIA_VERSION="([0-9][0-9A-Za-z.+-]*)".*/\1/p' "$tmp" 2>/dev/null) || v=""
     fi
@@ -6190,7 +6197,7 @@ _selfupdate_screen() {
         log_error "$(t mt_selfupdate_fetch_failed)"
         return 1
     fi
-    code=$(_su_get "$pat" "https://raw.githubusercontent.com/${repo}/${src}/bootstrap.sh" "$loader")
+    code=$(_su_get "$pat" "https://raw.githubusercontent.com/${repo}/${src}/$(_su_dir)/bootstrap.sh" "$loader")
     { IFS= read -r first <"$loader"; } 2>/dev/null || true
     if [ "$code" != 200 ] || [[ "$first" != '#!'* ]]; then
         rm -f "$loader"
@@ -8207,7 +8214,7 @@ _site_ensure_catalog() {
     pat="${GOAMNEZIA_PAT:-}"
     [ -n "$pat" ] || _su_ask_pat pat
     [ -n "$pat" ] || { log_error "$(t mt_selfupdate_no_pat)"; return 1; }
-    url="https://raw.githubusercontent.com/${repo}/${ref}/templates_catalog.json"
+    url="https://raw.githubusercontent.com/${repo}/${ref}/$(_su_dir)/templates_catalog.json"
     tmp="${f}.part"
     # curl -# рисует полосу загрузки: 14 МБ без признаков движения выглядят
     # зависанием (то же замечание, что про Docker и образ).
