@@ -9,7 +9,7 @@
 # Lite: IP:порт без домена   ·   Pro: домен, сайт-маскировка, панель на домене, мини-апп
 #
 # Install (main — стабильная; экспериментальная dev — то же с `export GOAMNEZIA_BRANCH=dev` перед командой):
-#   export GOAMNEZIA_PAT="YOUR_READ_ONLY_GITHUB_TOKEN"; bash <(printf 'Authorization: token %s\n' "$GOAMNEZIA_PAT" | curl -fsSL -H @- https://raw.githubusercontent.com/potap1978/go-all/main/bootstrap.sh)
+#   bash <(curl -fsSL https://raw.githubusercontent.com/potap1978/go-all/main/goamnezia/bootstrap.sh)
 # ══════════════════════════════════════════════════════════════════════════════
 
 # -e НЕ включаем сознательно: интерактивное меню обязано пережить любую неудачу
@@ -6012,7 +6012,7 @@ _su_repo_ok()   { [[ "${1:-}" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{0,99}/[A-Za-z0-9._-]
 # локальному пользователю в /proc/*/cmdline (то же правило, что у токена бота в _bot_install_interactive).
 _su_get() {
     local pat="$1" url="$2" out="$3" accept="${4:-}" code=""
-    code=$( { printf 'header = "Authorization: token %s"\n' "$pat"
+    code=$( { if [ -n "$pat" ]; then printf 'header = "Authorization: token %s"\n' "$pat"; fi
               if [ -n "$accept" ]; then printf 'header = "Accept: %s"\n' "$accept"; fi
             } | curl -sSL --max-time 60 -K - -o "$out" -w '%{http_code}' "$url" 2>/dev/null ) || code=""
     [[ "$code" =~ ^[0-9]{3}$ ]] || code="000"
@@ -6129,13 +6129,9 @@ _selfupdate_screen() {
         *)  log_error "$(t invalid_choice)"; return 1 ;;
     esac
 
+    # Репозиторий публичный: ключ не нужен. GOAMNEZIA_PAT принимается только
+    # для закрытого форка — заголовок уходит в curl лишь когда ключ задан.
     pat="${GOAMNEZIA_PAT:-}"
-    [ -n "$pat" ] || _su_ask_pat pat
-    if [ -z "$pat" ]; then
-        log_error "$(t mt_selfupdate_no_pat)"
-        log_dim "$(t mt_selfupdate_hint)"
-        return 1
-    fi
 
     # Коммит головы ветки — у API: raw по имени ветки кэшируется на пять минут, и сразу после выпуска приехал бы
     # прежний загрузчик. Не ответил API (сеть, лимит) — берём по имени ветки, но не падаем (goinstaller-ready §3).
@@ -8198,7 +8194,7 @@ _site_domain_change() {
 # сервер (.install-source); токен приватного репозитория нигде не хранится,
 # поэтому спрашиваем его (или берём из GOAMNEZIA_PAT).
 _site_ensure_catalog() {
-    local f repo ref pat url tmp
+    local f repo ref pat url tmp rc=0
     f="${GOAMNEZIA_CATALOG:-$SCRIPT_DIR/templates_catalog.json}"
     if [ -s "$f" ] && jq -e 'length > 0' "$f" >/dev/null 2>&1; then
         return 0
@@ -8212,16 +8208,20 @@ _site_ensure_catalog() {
     log_info "$(t ms_catalog_missing)"
     confirm "$(t ms_catalog_ask)" || { log_info "$(t cancelled)"; return 1; }
     pat="${GOAMNEZIA_PAT:-}"
-    [ -n "$pat" ] || _su_ask_pat pat
-    [ -n "$pat" ] || { log_error "$(t mt_selfupdate_no_pat)"; return 1; }
     url="https://raw.githubusercontent.com/${repo}/${ref}/$(_su_dir)/templates_catalog.json"
     tmp="${f}.part"
     # curl -# рисует полосу загрузки: 14 МБ без признаков движения выглядят
     # зависанием (то же замечание, что про Docker и образ).
     log_info "$(t ms_catalog_downloading)"
     # Ключ — в stdin curl, а не в аргументах: см. загрузку bootstrap.sh выше.
-    if ! printf 'header = "Authorization: token %s"\n' "$pat" \
-         | curl -fL --progress-bar -K - -o "$tmp" "$url"; then
+    # Публичный репозиторий качается без заголовка; ключ нужен только форку.
+    if [ -n "$pat" ]; then
+        printf 'header = "Authorization: token %s"\n' "$pat" \
+            | curl -fL --progress-bar -K - -o "$tmp" "$url" || rc=$?
+    else
+        curl -fL --progress-bar -o "$tmp" "$url" || rc=$?
+    fi
+    if [ "$rc" -ne 0 ]; then
         rm -f "$tmp"
         log_error "$(t ms_catalog_failed)"
         return 1

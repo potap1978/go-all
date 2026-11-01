@@ -1,11 +1,11 @@
 #!/bin/bash
 # goDNS — Copyright (c) 2026 potap1978. All rights reserved.
 #
-# Установщик-загрузчик. Репозиторий ЗАКРЫТЫЙ: без GH_TOKEN публичный
-# raw.githubusercontent.com отдаёт 404, поэтому исходники тянутся через
-# api.github.com/…/tarball, а токен берётся из окружения.
+# Установщик-загрузчик. Продукт лежит в публичном монорепозитории
+# potap1978/go-all (подкаталог godns), поэтому исходники тянутся через
+# api.github.com/…/tarball анонимно; GH_TOKEN нужен только для форка.
 #
-#   GH_TOKEN=<ключ на чтение> bash install.sh      # из репозитория
+#   bash install.sh                                 # из репозитория
 #   GODNS_LOCAL_SRC=/путь bash install.sh          # из принесённого дерева
 #
 # Ветка — GODNS_REF (по умолчанию main).
@@ -193,7 +193,7 @@ else
 say "$(bi "Скачиваю goDNS Pro (${REPO_REF})…" "Downloading goDNS Pro (${REPO_REF})…")"
 if ! curl --config "$CURL_CFG" -o "${TMP}/src.tar.gz" "$TARBALL"; then
     rm -f "$CURL_CFG"
-    die "$(bi "Не скачалось. Проверьте сеть; для приватного репозитория задайте GH_TOKEN." "Download failed. Check the network; for a private repository set GH_TOKEN.")"
+    die "$(bi "Не скачалось. Проверьте сеть и повторите попытку." "Download failed. Check the network and try again.")"
 fi
 rm -f "$CURL_CFG"
 
@@ -203,6 +203,11 @@ tar xzf "${TMP}/src.tar.gz" -C "$TMP/x" || die "$(bi "Архив не распа
 fi
 SRC="$(find "$TMP/x" -maxdepth 1 -mindepth 1 -type d 2>/dev/null)" || SRC=""
 SRC="${SRC%%$'\n'*}"
+# The monorepo tarball unpacks into <repo>-<sha>/godns; use the product
+# subdirectory when it is there (a single-product archive keeps files at root).
+if [ -n "$SRC" ] && [ -f "$SRC/godns/godns.sh" ]; then
+    SRC="$SRC/godns"
+fi
 [ -n "$SRC" ] && [ -f "$SRC/godns.sh" ] || die "$(bi "В архиве нет godns.sh." "No godns.sh in the archive.")"
 
 # ── обновление поверх ───────────────────────────────────────────────────

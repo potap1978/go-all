@@ -19,15 +19,17 @@ export GIT_ASKPASS=/bin/false
 export GIT_HTTP_LOW_SPEED_LIMIT=1024
 export GIT_HTTP_LOW_SPEED_TIME=20
 
-# Source repo. goVLESS is a private repo, so anonymous public clone will
-# fail with auth error. End-user install path requires ONE of:
+# Source repo. goVLESS pro lives in the public monorepo potap1978/go-all,
+# in the "govless" subdirectory. The whole repository is cloned because
+# goInstaller reads this checkout's HEAD to learn the installed branch; the
+# product's own files are run from $INSTALL_DIR/$GOVLESS_REPO_DIR.
+# GH_TOKEN is optional and only needed for a fork or a private mirror:
 #   1) gh auth login (interactive, GH PAT) before running this script;
 #   2) GH_TOKEN env var set, passed via Authorization Basic header (NOT in URL —
-#      keeps token out of .git/config and stderr on failure);
-#   3) Once a public release-mirror is set up, switch REPO to that.
-# For now, REPO points to the canonical private goVLESS on main; if the
-# clone fails for the user, the script prints a clear error.
+#      keeps token out of .git/config and stderr on failure).
 REPO="${GOVLESS_REPO:-https://github.com/potap1978/go-all.git}"
+# Subdirectory of the monorepo that holds this product.
+SUBDIR="${GOVLESS_REPO_DIR:-govless}"
 BRANCH="${GOVLESS_BRANCH:-main}"
 # Overridable only so the branch-switch test can drive the real script against a
 # throwaway directory; every real install uses the default.
@@ -174,13 +176,13 @@ if [ -d "$INSTALL_DIR/.git" ] && [ -z "$FOREIGN_ORIGIN" ]; then
             # stale. Run it, but never call that an update.
             echo -e "  ${CYAN}ℹ${NC}  Could not reach the repo — running the LOCAL copy of '$BRANCH'."
             echo -e "  ${CYAN}ℹ${NC}  NO update was applied; this copy may be outdated."
-            echo -e "  ${CYAN}ℹ${NC}  To update next time: set GH_TOKEN or use a public mirror."
+            echo -e "  ${CYAN}ℹ${NC}  To update next time: fix the network and run the installer again."
         else
             # A different branch was asked for and we have no way to get it.
             # Starting the installed one would run code the operator did not pick.
             die "Asked for branch '$BRANCH', but the repo is unreachable." \
                 "The installed copy is on '${WAS_BRANCH:-unknown}', so running it would be the wrong branch." \
-                "Set GH_TOKEN (or fix the network) and run again. Nothing was changed."
+                "Fix the network (or set GH_TOKEN for a private mirror) and run again. Nothing was changed."
         fi
     fi
 else
@@ -196,8 +198,8 @@ else
     rm -rf "$NEW_DIR"
     if ! timeout 180 git "${GIT_AUTH_ARGS[@]}" clone --progress -b "$BRANCH" --depth 1 "$REPO_CANONICAL" "$NEW_DIR"; then
         rm -rf "$NEW_DIR"
-        echo -e "  ${RED}✗${NC} Failed to clone $REPO_CANONICAL (branch $BRANCH)"
-        echo -e "  ${RED}✗${NC} goVLESS is private — set GH_TOKEN env var or run 'gh auth login' first."
+        echo -e "  ${RED}✗${NC} Failed to reach $REPO_CANONICAL (branch $BRANCH)."
+        echo -e "  ${RED}✗${NC} Check the network; set GH_TOKEN only if the repository needs auth."
         if [ -e "$INSTALL_DIR" ]; then
             echo -e "  ${RED}✗${NC} $INSTALL_DIR was left as it was. Nothing was started."
         fi
@@ -213,7 +215,7 @@ else
         "Cloned $REPO_CANONICAL but HEAD is on '${CLONED_BRANCH:-unknown}', not '$BRANCH'."
 fi
 
-if [ ! -f "$INSTALL_DIR/govless.sh" ]; then
+if [ ! -f "$INSTALL_DIR/$SUBDIR/govless.sh" ]; then
     echo -e "  ${RED}✗${NC} Download failed"
     exit 1
 fi
@@ -233,7 +235,7 @@ if [ "${GOVLESS_BOOTSTRAP_ONLY:-0}" = "1" ]; then
 fi
 
 # Run
-cd "$INSTALL_DIR"
+cd "$INSTALL_DIR/$SUBDIR"
 # curl|bash puts THIS script on stdin; reconnect the child's stdin to the
 # controlling terminal (when one exists) IN the exec so govless.sh prompts read
 # keystrokes. Detached/non-interactive runs (no /dev/tty) keep piped stdin.

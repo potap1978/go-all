@@ -7,19 +7,13 @@
 # порты и соседей ДО запуска штатного установщика продукта, а потом отдаёт
 # управление ему. Каждый продукт ставится своим собственным кодом.
 #
-#   GH_TOKEN=<ключ на чтение> bash go-installer.sh
+#   bash go-installer.sh
 #   bash go-installer.sh --list              # что установлено
 #
-# После первого запуска доступна команда `goinstall`. Ключ доступа хранится
-# в /opt/go-installer/token (0600) и проверяется при каждом запуске запросом
-# к репозиториям продуктов; не подошёл — установщик попросит новый.
-#   bash go-installer.sh --ports             # кто какие порты держит
-#   bash go-installer.sh --check govless pro # проверка портов без установки
-#   bash go-installer.sh --install godns     # сразу к установке продукта
-#
-# Один ключ на все закрытые репозитории: GH_TOKEN (принимаются также
-# GOTELEGRAM_PAT, GITHUB_PAT, GOINST_TOKEN). В аргументы curl ключ не
-# попадает: /proc/<pid>/cmdline читает любой локальный пользователь.
+# Репозиторий публичный: ключ не нужен. Если GH_TOKEN (или GOTELEGRAM_PAT,
+# GITHUB_PAT, GOINST_TOKEN) задан, он используется только для доступа к
+# форкам; в аргументы curl ключ не попадает: /proc/<pid>/cmdline читает
+# любой локальный пользователь.
 #
 # Локальное дерево вместо GitHub: GOINST_SRC_<id>=/путь, где id — один из
 # govless gotelegram godns gokaskad gowarp. Ветка: GOINST_REF_<id>.
@@ -439,7 +433,7 @@ prod_ver_spec() {
 prod_local_dirs() {
     local r="${GOINST_FS_ROOT:-}"
     case "$1" in
-        govless)    printf '%s\n' "$r/opt/govless-installer" "$r$HOME/goVLESS" "$r/root/goVLESS" ;;
+        govless)    printf '%s\n' "$r/opt/govless-installer" "$r/opt/govless-installer/govless" "$r$HOME/goVLESS" "$r$HOME/goVLESS/govless" "$r/root/goVLESS" "$r/root/goVLESS/govless" ;;
         gotelegram) printf '%s\n' "$r/opt/gotelegram" ;;
         godns)      printf '%s\n' "$r/opt/godns-installer" ;;
         gokaskad)   printf '%s\n' "$r/usr/local/bin" ;;
@@ -3647,13 +3641,11 @@ goInstaller ${GOINST_VERSION}
   goinstall --versions            $(bi "версии на сервере и в ветках GitHub" "versions on this server and on GitHub branches")
   goinstall --self-update [$(bi "ветка" "branch")]
                                   $(bi "обновить сам goInstaller" "update goInstaller itself")
-  goinstall --key [set|check|forget]
-                                  $(bi "ключ доступа: ввести, проверить, удалить" "access key: set, check, remove")
   goinstall --check <id> [$(bi "режим" "mode")]
                                   $(bi "проверка портов без установки; код: 0 ок, 1 препятствия, 2 замечания" "port check without installing; rc: 0 ok, 1 blockers, 2 remarks")
   goinstall --install <id> [$(bi "режим" "mode")] [$(bi "ветка" "branch")]
                                   $(bi "сразу к установке; без ветки спросит; без режимов — сразу ветка: --install gokaskad dev" "straight to installing; asks for the branch if omitted; no modes — branch right away: --install gokaskad dev")
-  goinstall --uninstall [--yes] [--keep-key]
+  goinstall --uninstall [--yes]
                                   $(bi "удалить сам goInstaller; продукты не трогает" "remove goInstaller itself; products are untouched")
   goinstall --net                 $(bi "проверить размер пакета до GitHub и предложить исправление" "check the packet size to GitHub and offer a fix")
   goinstall --summary on|off       $(bi "сводка при входе по SSH и опрос раз в 30 минут" "login summary over SSH and polling every 30 minutes")
@@ -3662,7 +3654,7 @@ goInstaller ${GOINST_VERSION}
   id: ${PRODUCTS[*]}
   $(bi "режимы" "modes"): ${modes_line}
 
-  $(bi "Окружение" "Environment"): GH_TOKEN, GOINST_SRC_<id>, GOINST_REF_<id>, GOINST_REPO_<id>, GOWARP_KEY, GOINST_LANG=ru|en,
+  $(bi "Окружение" "Environment"): GOINST_SRC_<id>, GOINST_REF_<id>, GOINST_REPO_<id>, GOWARP_KEY, GOINST_LANG=ru|en,
     GOINST_LAZY_DOMAIN, GOINST_LAZY_KEYS ($(bi "Ленивый pro у goamnezia" "Lazy pro of goamnezia"))
 USAGE
 }
@@ -4247,9 +4239,9 @@ ui_menu_info() {
 ui_menu_keys() {
     local a=() k1 k2
     ut "сразу" "jump"; k1="$UI_TX"
-    a=("↑↓||" "Enter||" "1–9|$k1|")
+    a=("↑↓||" "Enter||" "1–8|$k1|")
     if [ -n "$UD_VERNEW" ]; then ut "обновить" "update"; a+=("u|$UI_TX|"); fi
-    ut "порты" "ports"; a+=("p|$UI_TX|"); ut "ключ" "key"; a+=("r|$UI_TX|"); ut "язык" "language"; a+=("l|$UI_TX|")
+    ut "порты" "ports"; a+=("p|$UI_TX|"); ut "язык" "language"; a+=("l|$UI_TX|")
     ut "выход" "quit"; a+=("0|$UI_TX|$UI_TX")
     ui_keys_fit "${a[@]}"
 }
@@ -4274,8 +4266,7 @@ ui_menu_items() {
     for ((i = 0; i < ${#UD_NAME[@]}; i++)); do _mi p "$(( i + 1 ))" "" "${UD_NAME[$i]}" "" muted "" "$i"; done
     local a b
     ut "Карта портов" "Port map"; a="$UI_TX"; ut "кто какие порты держит" "who holds which ports"; _mi s 7 p "$a" "$UI_TX"
-    ut "Ключ доступа" "Access key"; _mi s 8 r "$UI_TX" "$UD_KEYNOTE" "$UD_KEYTOK"
-    ut "Язык" "Language"; _mi s 9 l "$UI_TX" "$UD_LANGNOTE"
+    ut "Язык" "Language"; _mi s 8 l "$UI_TX" "$UD_LANGNOTE"
     if [ -n "$UD_VERNEW" ]; then ut "Обновить goInstaller" "Update goInstaller"; _mi s u "" "$UI_TX" "$UD_VER → $UD_VERNEW" update update; fi
     ut "Удалить goInstaller" "Remove goInstaller"; _mi s x "" "$UI_TX" ""
     ut "Выход" "Quit"; _mi s 0 q "$UI_TX" ""
@@ -4456,7 +4447,7 @@ ui_scr_menu() {  # ui_scr_menu <cur>
                 elif [ "${UD_INST[$p]:-0}" = 1 ]; then _s "$UI_GT" "$UI_G"; _s text " "; _s text "$UI_SW ${UD_SRV[$p]}"
                 else _s "$UI_GT" "$UI_G"; _s text " "; if [ "${UD_ST[$p]}" = ready ]; then _s text "$UI_SW"; else _s warn "$UI_SW"; fi; fi
             else
-                if [ "${MI_KEY[$i]}" = 9 ]; then ui_padr "${MI_LABEL[$i]} · ${MI_NOTE[$i]}" 34; else ui_padr "${MI_LABEL[$i]}" 34; fi
+                if [ "${MI_KEY[$i]}" = 8 ]; then ui_padr "${MI_LABEL[$i]} · ${MI_NOTE[$i]}" 34; else ui_padr "${MI_LABEL[$i]}" 34; fi
                 if [ "$i" = "$cur" ]; then _s title "$UI_P"; else _s "${MI_TOK[$i]:-name}" "$UI_P"; fi
                 _s key "${MI_HOT[$i]}"
             fi
@@ -5829,7 +5820,7 @@ ui_item_act() {  # ui_item_act <номер пункта>
     if [ "$UI_SCR" = menu ]; then
         case "${MI_KIND[$i]}" in
             p) UI_WP="${MI_P[$i]}"; ui_mark_seen "${PRODUCTS[${MI_P[$i]}]}"; ui_go product 0 ;;
-            *) case "${MI_KEY[$i]}" in 7) ui_ports_load; ui_go ports 0 ;; 8) ui_go key 0 ;; 9) ui_go lang "$([ "${LANG_CODE:-ru}" = en ] && echo 1 || echo 0)" ;; u) ui_go selfupd 0 ;; x) ui_go uninstall 0 ;; 0) UI_SCR=quit ;; esac ;;
+            *) case "${MI_KEY[$i]}" in 7) ui_ports_load; ui_go ports 0 ;; 8) ui_go lang "$([ "${LANG_CODE:-ru}" = en ] && echo 1 || echo 0)" ;; u) ui_go selfupd 0 ;; x) ui_go uninstall 0 ;; 0) UI_SCR=quit ;; esac ;;
         esac
         return 0
     fi

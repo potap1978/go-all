@@ -1,10 +1,9 @@
 #!/bin/bash
-# goAmnezia pro — загрузчик из приватного репозитория (порт из goTelegram Pro).
+# goAmnezia pro — загрузчик из публичного монорепозитория go-all (порт из goTelegram Pro).
 # Скачивает файлы продукта в /opt/goamnezia и запускает install.sh.
 #
 # Однострочник установки — стабильная ветка main:
-#   export GOAMNEZIA_PAT=…; bash <(printf 'Authorization: token %s\n' "$GOAMNEZIA_PAT" | curl -fsSL -H @- \
-#     https://raw.githubusercontent.com/potap1978/go-all/main/bootstrap.sh)
+#   bash <(curl -fsSL https://raw.githubusercontent.com/potap1978/go-all/main/goamnezia/bootstrap.sh)
 # Экспериментальная ветка dev — тот же однострочник, а перед ним `export GOAMNEZIA_BRANCH=dev`. Ветку выбирает
 # переменная, а не адрес в однострочнике: загрузчик сам передаёт управление своей копии из коммита выбранной
 # ветки (ниже, «Сам загрузчик — тоже по SHA»).
@@ -290,7 +289,9 @@ elif [ -n "$LOCAL_TREE" ]; then
         RESOLVED_REF="$_prev_ref"
     fi
     unset _prev_ref
-elif [ -n "$PAT" ]; then
+else
+    # Публичный репозиторий: SHA спрашиваем анонимно. Ключ нужен только
+    # закрытому форку; без него работаем по имени ветки (как раньше).
     _rc=0
     _sha=$(_head_sha "$BRANCH") || _rc=$?
     if [ "$_rc" = 0 ] && [ -n "$_sha" ]; then

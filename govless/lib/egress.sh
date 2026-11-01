@@ -26,6 +26,9 @@ AWG_DIR="$EGRESS_DIR/awg"
 AWG_GO="$AWG_DIR/amneziawg-go"
 AWG_TOOL="$AWG_DIR/awg"
 AWG_REPO="${AWG_REPO:-potap1978/go-all}"
+# Path to the AmneziaWG binaries inside AWG_REPO. Set AWG_BIN_DIR=bin when
+# AWG_REPO points at a single-product repository instead of the monorepo.
+AWG_BIN_DIR="${AWG_BIN_DIR:-govless/bin}"
 # Observatory health-probe MUST be plain HTTP: xray's internal HTTPS probe can
 # fail with "tls: CurvePreferences includes unsupported curve" on go1.26+ builds,
 # which would mark every (working) upstream dead. A plain-HTTP 204 avoids it.
@@ -434,7 +437,7 @@ egress_ensure_awg() {
     tok="${GH_TOKEN:-}"
     [ -n "$tok" ] && hdr=(-H "Authorization: token $tok")
     for ref in dev main test; do
-        base="https://raw.githubusercontent.com/${AWG_REPO}/${ref}/bin"
+        base="https://raw.githubusercontent.com/${AWG_REPO}/${ref}/${AWG_BIN_DIR}"
         if curl -fsSL "${hdr[@]}" --max-time 90 -o "$AWG_GO" "$base/amneziawg-go-linux-$arch" 2>/dev/null && [ -s "$AWG_GO" ]; then
             curl -fsSL "${hdr[@]}" --max-time 60 -o "$AWG_TOOL" "$base/awg-linux-$arch" 2>/dev/null
             break

@@ -1,10 +1,12 @@
 #!/bin/bash
-# GoTelegram Pro — Bootstrap installer for private repo
+# GoTelegram Pro - Bootstrap installer (public monorepo potap1978/go-all)
 # Downloads all files and launches install.sh
 
 set -euo pipefail
 
 REPO="potap1978/go-all"
+# Product subdirectory inside the monorepo.
+SUBDIR="${GOTELEGRAM_REPO_DIR:-gotelegram}"
 BRANCH="${GOTELEGRAM_BRANCH:-main}"
 REPO_SLUG="${REPO}"
 PAT="${GOTELEGRAM_PAT:-}"
@@ -28,14 +30,19 @@ INSTALL_DIR="/opt/gotelegram"
 # присваивание неуспешным — и скрипт молча уходил на запасной путь (а то и падал).
 # По той же причине на каждом шаге стоит `|| true`.
 RESOLVED_REF="${BRANCH}"
-_api_json="$(curl -fsSL -H "Authorization: token ${PAT}" \
+# The repository is public, so the token is optional: pass GOTELEGRAM_PAT only
+# for a private fork. An empty "Authorization: token " header makes GitHub
+# reject the request, so the header is added conditionally.
+_api_auth=()
+[ -n "${PAT}" ] && _api_auth=(-H "Authorization: token ${PAT}")
+_api_json="$(curl -fsSL "${_api_auth[@]+"${_api_auth[@]}"}" \
              "https://api.github.com/repos/${REPO}/commits/${BRANCH}" 2>/dev/null || true)"
 _sha="$(printf '%s' "${_api_json}" | grep -oE '"sha"[[:space:]]*:[[:space:]]*"[0-9a-f]{40}"' \
         | head -1 | grep -oE '[0-9a-f]{40}' || true)"
 if [ -n "${_sha}" ]; then RESOLVED_REF="${_sha}"; fi
 # GOTELEGRAM_RAW — другой источник тех же файлов: зеркало или локальный
 # HTTP-сервер на стенде, где нет ключа. Отвечать он должен так же — кодом 200.
-RAW="${GOTELEGRAM_RAW:-https://raw.githubusercontent.com/${REPO}/${RESOLVED_REF}}"
+RAW="${GOTELEGRAM_RAW:-https://raw.githubusercontent.com/${REPO}/${RESOLVED_REF}/${SUBDIR}}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -59,11 +66,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-if [ -z "$PAT" ]; then
-    echo -e "  ${RED}✗${NC} Не задан GitHub token."
-    echo -e "  ${YELLOW}Запустите так:${NC} ${CYAN}GOTELEGRAM_PAT=YOUR_PAT sudo -E bash bootstrap.sh${NC}"
-    exit 1
-fi
+# No token required: the repository is public. GOTELEGRAM_PAT stays supported
+# for a private fork, but an empty token is fine.
 
 # Check dependencies
 for cmd in curl jq; do
@@ -84,7 +88,7 @@ download_file() {
     local attempt http_code
     for attempt in 1 2 3; do
         http_code=$(curl -sL -w "%{http_code}" -o "$local_path" \
-            -H "Authorization: token ${PAT}" \
+            "${_api_auth[@]+"${_api_auth[@]}"}" \
             "${RAW}/${remote_path}")
         if [ "$http_code" = "200" ]; then
             return 0

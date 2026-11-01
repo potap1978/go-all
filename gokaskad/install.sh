@@ -640,7 +640,7 @@ migrate_dnat_comments() {
 }
 
 # ─── Правила бесплатного Kaskad ──────────────────────────────
-# Бесплатный Kaskad (github.com/potap1978/kaskad) ставит те же правила, что и
+# Бесплатный Kaskad ставит те же правила, что и
 # pro, но без меток «kaskad:», а pro видит только помеченные. Поставленный
 # поверх бесплатного, pro показывал «Нет активных правил», старые каскады
 # работали мимо его меню, а правило pro на том же порту вставало ПОСЛЕ старого
@@ -806,7 +806,7 @@ manage_aliases_menu() {
 # ─── Auto-update ──────────────────────────────────────────────
 
 self_update() {
-    local repo_url="https://raw.githubusercontent.com/potap1978/go-all/main/install.sh"
+    local repo_url="https://raw.githubusercontent.com/potap1978/go-all/main/gokaskad/install.sh"
     source "$KASKAD_CONF" 2>/dev/null
     local update_token; update_token=$(kaskad_gh_token)
     echo -e "${YELLOW}[*] Загрузка обновления...${NC}"
@@ -1721,9 +1721,11 @@ EGRESS_PROBE_SVC="kaskad-egress-probe"
 AWG_DIR="$EGRESS_DIR/awg"
 AWG_GO="$AWG_DIR/amneziawg-go"
 AWG_TOOL="$AWG_DIR/awg"
-# Репозиторий с ядром AmneziaWG (bin/). ПРИВАТНЫЙ: без ключа GitHub raw.githubusercontent
-# отдаёт 404. Переопределяется окружением (selftest подставляет несуществующий).
+# Репозиторий с ядром AmneziaWG (публичный монорепозиторий potap1978/go-all).
+# AWG_BIN_DIR — путь к bin/ внутри него; для одиночного репозитория задайте
+# AWG_BIN_DIR=bin. Переопределяется окружением (selftest подставляет несуществующий).
 AWG_REPO="${AWG_REPO:-potap1978/go-all}"
+AWG_BIN_DIR="${AWG_BIN_DIR:-gokaskad/bin}"
 # Observatory health-probe MUST be plain HTTP: xray's internal HTTPS probe can
 # fail with "tls: CurvePreferences includes unsupported curve" on go1.26+ builds,
 # which would mark every (working) upstream dead. A plain-HTTP 204 avoids it.
@@ -2300,7 +2302,7 @@ egress_awg_stage_disk() {
 egress_awg_fetch() {
     local arch="$1" tok="$2" need="${3:-}" d="$4" ref base
     for ref in main test; do
-        base="https://raw.githubusercontent.com/${AWG_REPO}/${ref}/bin"
+        base="https://raw.githubusercontent.com/${AWG_REPO}/${ref}/${AWG_BIN_DIR}"
         rm -f "$d/amneziawg-go" "$d/awg" 2>/dev/null
         kaskad_gh_curl "$tok" "$base/amneziawg-go-linux-$arch" "$d/amneziawg-go" 90 || continue
         kaskad_gh_curl "$tok" "$base/awg-linux-$arch" "$d/awg" 60 || continue
@@ -2348,8 +2350,8 @@ egress_ensure_awg() {
         # а не отправлять в другое меню и «повторите». Только при живом stdin И stdout:
         # egress_menu вызывает rebuild с выводом в /dev/null, там приглашение никто не увидит.
         if [ "$ok" != "1" ] && [ -z "$tok" ] && [ -t 0 ] && [ -t 1 ]; then
-            echo -e "${YELLOW}Репозиторий ${AWG_REPO} приватный — без ключа GitHub ядро не скачать.${NC}"
-            echo -e "${WHITE}Введите GitHub PAT (тот же, что для обновления скрипта) или Enter для отмены:${NC}"
+            echo -e "${YELLOW}Не удалось скачать ядро AmneziaWG из ${AWG_REPO} (${AWG_BIN_DIR}).${NC}"
+            echo -e "${WHITE}Если репозиторий закрыт форком — введите GitHub PAT, иначе Enter для отмены:${NC}"
             read -r -p "> " tok || tok=""
             if [ -n "$tok" ] && egress_awg_fetch "$arch" "$tok" "$need" "$st"; then
                 ok=1; mkdir -p "$BOT_STATE_DIR"; bot_set_state "system" "UPDATE_TOKEN=$tok"; save_config_val "GITHUB_PAT" "$tok"
@@ -2367,16 +2369,16 @@ egress_ensure_awg() {
     rm -rf "$fb"
     if [ "$need" = "3" ] && egress_awg_runs; then
         echo -e "${YELLOW}Ключу AmneziaWG 3.x нужно ядро 3.1, а получить его не вышло — ключ 3.x не подключится.${NC}"
-        echo -e "${YELLOW}Ключи 1.x/2.0 работают на прежнем ядре. Для 3.x: ключ GitHub (меню 8 → 6) или клон kaskad-pro${NC}"
+        echo -e "${YELLOW}Ключи 1.x/2.0 работают на прежнем ядре. Для 3.x: проверьте сеть и файлы bin в ${AWG_REPO}${NC}"
         echo -e "${YELLOW}с bin/ в /opt/kaskad-pro (есть старый — git -C /opt/kaskad-pro pull), затем снова откройте${NC}"
         echo -e "${YELLOW}«Прокси для API Telegram».${NC}"
         return 0
     fi
     # Честный отказ: какие файлы, откуда, что сделать.
     echo -e "${RED}Не удалось подготовить ядро AmneziaWG (amneziawg-go + awg) для ${arch}.${NC}"
-    echo -e "${RED}Нужны bin/amneziawg-go-linux-${arch} и bin/awg-linux-${arch} из репозитория ${AWG_REPO}.${NC}"
-    echo -e "${RED}Репозиторий приватный: без ключа GitHub он отдаёт 404. Что сделать (любое из):${NC}"
-    echo -e "${RED}  1) ключ GitHub — меню 8 → 6 (или переменная GH_TOKEN при запуске gokaskad);${NC}"
+    echo -e "${RED}Нужны bin/amneziawg-go-linux-${arch} и bin/awg-linux-${arch} из репозитория ${AWG_REPO} (${AWG_BIN_DIR}).${NC}"
+    echo -e "${RED}Скачать не удалось. Что сделать (любое из):${NC}"
+    echo -e "${RED}  1) проверить сеть; для закрытого форка — ключ GitHub (меню 8 → 6 или GH_TOKEN);${NC}"
     echo -e "${RED}  2) клон kaskad-pro с bin/ в /opt/kaskad-pro;${NC}"
     echo -e "${RED}  3) положить файлы вручную: ${AWG_GO} и ${AWG_TOOL}.${NC}"
     return 1

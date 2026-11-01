@@ -27,6 +27,8 @@ REPO_DIR="${HOME}/goVLESS"  # local checkout; URL controlled by GOVLESS_REPO/GH_
 # Build auth args once (used for both clone and fetch)
 REPO_URL="${GOVLESS_REPO:-https://github.com/potap1978/go-all.git}"
 BRANCH="${GOVLESS_BRANCH:-main}"
+# Product subdirectory inside the monorepo.
+SUBDIR="${GOVLESS_REPO_DIR:-govless}"
 GIT_AUTH_ARGS=()
 if [ -n "${GH_TOKEN:-}" ] && [[ "$REPO_URL" == https://github.com/* ]] && [[ "$REPO_URL" != *"@"* ]]; then
     AUTH_B64=$(printf "x-access-token:%s" "$GH_TOKEN" | base64 -w0)
@@ -68,7 +70,7 @@ if [ -d "$REPO_DIR" ]; then
             echo "✓  Обновлено начисто."
         else
             rm -rf "$_tmp"
-            _lv=$(grep -oE 'GOVLESS_VERSION=\"[^\"]+\"' "$REPO_DIR/lib/common.sh" 2>/dev/null | head -1)
+            _lv=$(grep -oE 'GOVLESS_VERSION=\"[^\"]+\"' "$REPO_DIR/$SUBDIR/lib/common.sh" 2>/dev/null | head -1)
             # Running a stale copy of the SAME branch is a judgement call the
             # operator can live with. Running a different branch under the name
             # they asked for is not — stop instead.
@@ -86,13 +88,13 @@ if [ -d "$REPO_DIR" ]; then
 else
     if ! git "${GIT_AUTH_ARGS[@]}" clone -q --branch "$BRANCH" "$REPO_URL" "$REPO_DIR" 2>/dev/null; then
         echo "Error: failed to clone $REPO_URL"
-        echo "goVLESS is private. Set GH_TOKEN env var or run 'gh auth login' first."
-        echo "Or set GOVLESS_REPO to a public mirror URL."
+        echo "Check the network, or set GH_TOKEN / run 'gh auth login' if the repository needs auth."
+        echo "Or set GOVLESS_REPO to another mirror URL."
         exit 1
     fi
     git -C "$REPO_DIR" config --replace-all remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' 2>/dev/null || true
 fi
 
-cd "$REPO_DIR"
+cd "$REPO_DIR/$SUBDIR"
 chmod +x govless.sh
 ./govless.sh
