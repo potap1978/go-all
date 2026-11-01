@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o pipefail
+
+# KASKAD PRO v2.11 — Cascading VPN / Proxy Manager (test stub)
+KASKAD_VERSION="2.13"
+KASKAD_DIR="/etc/kaskad"

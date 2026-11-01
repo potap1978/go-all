@@ -1,0 +1,22 @@
+[Unit]
+Description=Kaskad 3 gateway: accel-ppp (L2TP, PPTP, SSTP)
+After=network-online.target kaskad-net.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/kaskad/gw/accel/env
+Environment=LD_LIBRARY_PATH=/opt/kaskad/accel-ppp/lib/accel-ppp
+LogsDirectory=kaskad-gw-accel
+ExecStartPre=-/usr/sbin/modprobe -a $MODULES
+ExecStartPre=-/bin/sh /etc/kaskad/gw/accel/l2tp-guard.sh
+ExecStart=/opt/kaskad/accel-ppp/sbin/accel-pppd -c /etc/kaskad/gw/accel/accel-ppp.conf
+ExecReload=/bin/kill -USR1 $MAINPID
+ExecStopPost=-/bin/sh /etc/kaskad/gw/accel/l2tp-guard.sh off
+ExecStopPost=-/opt/kaskad/bin/kaskadctl gw hook-reset l2tp pptp sstp
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

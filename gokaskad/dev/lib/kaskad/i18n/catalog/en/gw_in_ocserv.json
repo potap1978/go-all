@@ -1,0 +1,19 @@
+{
+ "gw_in_ocserv.log.skipped": "skipped devices with an unsuitable or duplicate login: {devices}",
+ "gw_in_ocserv.err.on_apply": "OpenConnect: the certificate and passwords are prepared only by kaskadctl gw apply.",
+ "gw_in_ocserv.made.hash": "password hash of {device}",
+ "gw_in_ocserv.unexpected": "unexpected output",
+ "gw_in_ocserv.err.no_cert": "OpenConnect: no server certificate, run kaskadctl gw apply first.",
+ "gw_in_ocserv.log.removed": "removed (packages and passwords stay)",
+ "gw_in_ocserv.log.applied": "applied: {action}; logins: {users}; files: {files}{created}",
+ "gw_in_ocserv.err.no_password": "The OpenConnect password of device {device} isn’t ready yet: kaskadctl gw apply.",
+ "gw_in_ocserv.le_note": "The server certificate is Let’s Encrypt for {domain}: the client verifies it on its own, no fingerprint to compare.",
+ "gw_in_ocserv.rec.guide": "OpenConnect — how to connect",
+ "gw_in_ocserv.gui_le": "OpenConnect GUI (Windows, macOS): “New profile” → server {server} → “Connect”.",
+ "gw_in_ocserv.cisco_le": "Cisco Secure Client (iOS, Android, Windows, macOS): add the connection {server} and connect — the certificate is trusted, leave “Block connections to untrusted servers” as is.",
+ "gw_in_ocserv.linux_note": "openconnect asks for the password itself (package openconnect).",
+ "gw_in_ocserv.label.fingerprint": "Certificate fingerprint",
+ "gw_in_ocserv.self_signed": "The server’s certificate is self-signed: compare the fingerprint on the first connection.",
+ "gw_in_ocserv.gui_self": "OpenConnect GUI (Windows, macOS): “New profile” → server {server} → “Connect”; when asked about the certificate, compare the fingerprint {pin} and accept it.",
+ "gw_in_ocserv.cisco_self": "Cisco Secure Client (iOS, Android, Windows, macOS): in the settings turn off “Block connections to untrusted servers”, add the connection {server}, and when asked about the certificate choose “Connect Anyway”."
+}

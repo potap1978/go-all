@@ -1,0 +1,6 @@
+{
+ "qr.failed": "qrencode failed: {error}",
+ "qr.missing": "QR code not drawn: qrencode is not installed on the server (apt install qrencode, or SSH menu gokaskad → 17, the “Issue settings” screen). The settings are in the text.",
+ "qr.not_drawn": "qrencode didn’t draw the QR code: {why}",
+ "qr.rc": "code {rc}"
+}

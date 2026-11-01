@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="__KASKAD_LANG__" data-hero="" data-theme="dark" data-tint="neutral" data-density="detailed" data-btn="pill" data-cards="shadow" data-fs="m" data-vibrant="false" data-motion="on" data-device="desktop" data-nav="full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:,">
+  <title>Kaskad</title>
+  <!-- Без вложенных скриптов и стилей: CSP панели — default-src 'self'; style-src 'self'; script-src 'self'.
+       __KASKAD_V__ сервер заменяет на «<версия>-<sha10>» при отдаче: адрес с версией кэшируется как immutable;
+       __KASKAD_LANG__ — на язык сервера (ru|en) при каждой отдаче: boot.js берёт его, app.js грузит словарь.
+       Порядок скриптов (UX-FOUNDATION §3.3): icons.js → stream.js (сетка «Режима стрима» — до первых данных) → словари ru → ux.js → kit.js → templates.js → find.js (модель поиска) → app.js; разделы из pages/
+       app.js догружает сам (K.loadPage). Разделы, которых нет ниже, app.js добавляет по описи SECTIONS. -->
+  <script src="boot.js?v=__KASKAD_V__"></script>
+  <link rel="stylesheet" href="tokens.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="components.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="styles.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="give.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="ux.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="charts.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="mobile.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="find.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="xt.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="people.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="check.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="speed.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="ovb.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="grid.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="pset.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="regroup.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="addresses.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="stream.css?v=__KASKAD_V__">
+</head>
+<body>
+  <div class="gx-app" id="app">
+    <aside class="gx-side" id="side" hidden></aside>
+    <div class="gx-mainwrap">
+      <div class="gx-frame">
+        <header class="gx-head" id="head"></header>
+        <main class="gx-main" id="main">
+          <div id="progress" class="gx-busy" role="status" aria-live="polite" hidden></div>
+          <section class="gx-page" data-page="overview"></section>
+          <section class="gx-page" data-page="forwards" hidden></section>
+          <section class="gx-page" data-page="inbounds" hidden></section>
+          <section class="gx-page" data-page="people" hidden></section>
+          <section class="gx-page" data-page="exits" hidden></section>
+          <section class="gx-page" data-page="rules" hidden></section>
+          <section class="gx-page" data-page="scheme" hidden></section>
+          <section class="gx-page" data-page="settings" hidden></section>
+        </main>
+        <nav class="gx-tabs" id="tabs" hidden></nav>
+      </div>
+    </div>
+  </div>
+  <div id="loginHost" hidden></div>
+  <div id="layers"></div>
+  <div id="toastHost"></div>
+  <noscript><p class="kk-noscript"><span lang="en">The panel needs JavaScript.</span><span class="kk-ns-sep" aria-hidden="true"> · </span><span lang="ru">Для работы панели нужен JavaScript.</span></p></noscript>
+  <script defer src="icons.js?v=__KASKAD_V__"></script>
+  <script defer src="stream.js?v=__KASKAD_V__"></script>
+  <script defer src="i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="ux-i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="kit-i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="ux.js?v=__KASKAD_V__"></script>
+  <script defer src="kit.js?v=__KASKAD_V__"></script>
+  <script defer src="templates.js?v=__KASKAD_V__"></script>
+  <script defer src="find.js?v=__KASKAD_V__"></script>
+  <script defer src="xt.js?v=__KASKAD_V__"></script>
+  <script defer src="spark.js?v=__KASKAD_V__"></script>
+  <script defer src="app.js?v=__KASKAD_V__"></script>
+</body>
+</html>

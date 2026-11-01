@@ -1,0 +1,501 @@
+домен,категория,rcode,DoT_cold_мс,DoT_warm_мс,DoH_cold_мс,DoH_warm_мс,ответы_совпали,TTL,записей,байт,CNAME,A-адреса
+youtube.fr,ccTLD-зеркала,NOERROR,143.22,,,410.08,да,300,1,55,,142.251.143.142
+o-o---preferred---sn-p5q7yne7---v17---lscache1.c.youtube.com,youtube.com,NOERROR,,99.49,429.06,,да,272,2,158,o-o.preferred.sn-p5q7yne7.v17.lscache1.c.youtube.com.,216.58.201.174
+m.youtube.com.do,ccTLD-зеркала,NOERROR,131.93,,,117.16,да,300,2,88,m.youtube.com.,172.217.19.238
+m.youtube.com,youtube.com,NOERROR,,92.21,77.39,,да,228,1,58,,216.58.201.206
+r3.sn-uxa3vhnxa-jb36.googlevideo.com,googlevideo (CDN видео),NOERROR,118.63,,,65.11,да,1800,1,81,,114.120.225.14
+o-o.preferred.stc-ruh2.v12.lscache1.c.youtube.com,youtube.com,NOERROR,,92.52,90.92,,да,272,1,94,,142.250.203.14
+m.youtube.co.uk,ccTLD-зеркала,NOERROR,93.79,,,125.89,да,66,2,87,m.youtube.com.,172.217.19.238
+o-o.preferred.stc-ruh3.v3.lscache1.c.youtube.com,youtube.com,NOERROR,,141.58,93.49,,да,273,1,93,,142.250.187.78
+r2.sn-qjuxji2i-q8ve.googlevideo.com,googlevideo (CDN видео),NOERROR,121.27,,,65.18,да,1800,1,80,,120.72.31.237
+m.youtube.co.id,ccTLD-зеркала,NOERROR,,93.35,95.13,,да,273,2,87,m.youtube.com.,172.217.19.238
+www.youtube.com.uy,ccTLD-зеркала,NOERROR,186.52,,,66.74,да,300,11,244,youtube-ui.l.google.com.,142.251.142.238 172.217.19.238 172.217.20.174 216.58.201.206 216.58.201.238 216.58.207.110 216.58.201.174 192.178.25.14 142.251.143.142 142.251.38.110
+www.youtube.tv,ccTLD-зеркала,NOERROR,,103.19,121.52,,да,273,2,90,www3.l.google.com.,142.251.142.238
+o-o.preferred.qtel-doh1.v1.lscache1.c.youtube.com,youtube.com,NOERROR,118.58,,,81.54,да,300,1,94,,216.58.201.174
+r4.sn-qu5j-c33e6.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.91,90.94,,да,1773,1,77,,115.67.33.15
+r14.sn-3c27sne7.googlevideo.com,googlevideo (CDN видео),NOERROR,118.92,,,65.12,да,1800,1,76,,173.194.189.96
+o-o---preferred---sn-a5m7znez---v6---lscache1.c.youtube.com,youtube.com,NOERROR,,91.94,90.77,,да,273,2,156,o-o.preferred.sn-a5m7znez.v6.lscache1.c.youtube.com.,216.58.201.174
+m.youtube.at,ccTLD-зеркала,NOERROR,117.76,,,65.09,да,300,2,84,m.youtube.com.,172.217.19.238
+video-analytics.google.com,ytimg / ggpht / прочее,NOERROR,,143.8,90.04,,да,273,2,103,video-analytics.l.google.com.,142.251.38.110
+rr12.sn-n8v7kn7d.googlevideo.com,googlevideo (CDN видео),NOERROR,168.98,,,65.8,да,1800,1,77,,173.194.176.222
+r8.sn-ci5gup-qxay.googlevideo.com,googlevideo (CDN видео),NOERROR,,95.45,90.47,,да,1772,1,78,,182.79.144.147
+yt2.googleusercontent.com,ytimg / ggpht / прочее,NOERROR,134.52,,,64.87,да,300,2,99,googlehosted.l.googleusercontent.com.,172.217.20.161
+m.youtube.si,ccTLD-зеркала,NOERROR,,100.58,152.79,,да,272,2,84,m.youtube.com.,172.217.19.238
+o-o---preferred---sn-ab5e6m7e---v3---lscache1.c.youtube.com,youtube.com,NOERROR,119.88,,,64.8,да,300,2,156,o-o.preferred.sn-ab5e6m7e.v3.lscache1.c.youtube.com.,216.58.201.174
+o-o.preferred.satnet-ltx1.v9.lscache1.c.youtube.com,youtube.com,NOERROR,,92.25,90.48,,да,272,1,96,,216.58.201.174
+lh5.googleusercontent.com,ytimg / ggpht / прочее,NOERROR,132.98,,,67.25,да,300,2,99,googlehosted.l.googleusercontent.com.,172.217.20.161
+eligibility-panelresearch.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.87,105.85,,да,272,2,114,www3.l.google.com.,142.251.142.238
+o-o.preferred.stc-jed1.v6.lscache1.c.youtube.com,youtube.com,NOERROR,135.66,,,128.95,да,300,1,93,,142.250.75.206
+o-o.preferred.stc-ruh4.v4.lscache1.c.youtube.com,youtube.com,NOERROR,,142.78,93.41,,да,273,1,93,,142.250.202.14
+m.youtube.co.at,ccTLD-зеркала,NOERROR,118.21,,,70.56,да,300,2,87,m.youtube.com.,172.217.19.238
+o-o.preferred.lax02s13.v20.lscache1.c.youtube.com,youtube.com,NOERROR,,92.22,99.45,,да,273,1,94,,216.58.201.174
+o-o.preferred.cablevisionmx-mex1.v4.lscache1.c.youtube.com,youtube.com,NOERROR,116.02,,,64.78,да,300,1,103,,142.250.189.14
+www.youtube.mk,ccTLD-зеркала,NOERROR,,104.8,131.98,,да,273,11,240,youtube-ui.l.google.com.,142.251.143.142 172.217.20.174 142.251.142.238 172.217.19.238 216.58.201.238 142.251.38.110 192.178.25.14 216.58.201.206 216.58.201.174 216.58.207.110
+r3.sn-u0g3uxax3-5q5s.googlevideo.com,googlevideo (CDN видео),NOERROR,134.64,,,63.87,да,1800,1,81,,212.156.183.142
+o-o.preferred.tiws-mia4.v12.lscache1.c.youtube.com,youtube.com,NOERROR,,92.82,93.4,,да,273,1,95,,216.58.201.174
+r17.sn-axq7sn7z.googlevideo.com,googlevideo (CDN видео),NOERROR,155.67,,,65.19,да,1800,1,76,,173.194.163.35
+www.youtube.com.jm,ccTLD-зеркала,NOERROR,,92.12,92.93,,да,273,11,244,youtube-ui.l.google.com.,216.58.201.206 216.58.207.110 142.251.143.142 216.58.201.174 172.217.19.238 216.58.201.238 142.251.142.238 172.217.20.174 142.251.38.110 192.178.25.14
+r3.sn-2uuxa3vh-ngbl.googlevideo.com,googlevideo (CDN видео),NOERROR,119.12,,,64.42,да,1800,1,80,,118.98.108.206
+r3.sn-8qj-i5oze.googlevideo.com,googlevideo (CDN видео),NOERROR,,141.81,90.2,,да,1772,1,76,,113.171.198.238
+o-o.preferred.stc-ruh5.v7.lscache1.c.youtube.com,youtube.com,NOERROR,118.65,,,65.37,да,300,1,93,,216.58.201.174
+r3.sn-5np5po4v-iqte.googlevideo.com,googlevideo (CDN видео),NOERROR,,95.0,104.17,,да,1772,1,80,,115.87.70.206
+www.youtube.com.es,ccTLD-зеркала,NOERROR,124.91,,,128.23,да,300,11,244,youtube-ui.l.google.com.,216.58.201.174 192.178.25.14 142.251.143.142 142.251.142.238 142.251.38.110 172.217.19.238 172.217.20.174 216.58.201.238 216.58.207.110 216.58.201.206
+o-o.preferred.nrt19s15.v23.lscache1.c.youtube.com,youtube.com,NOERROR,,100.63,142.06,,да,272,1,94,,216.58.201.174
+r5.sn-3u-bh2lk.googlevideo.com,googlevideo (CDN видео),NOERROR,159.93,,,66.58,да,1800,1,75,,59.18.30.144
+r3.sn-2aqu-jbtd.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.52,93.56,,да,1772,1,76,,202.138.160.110
+r3.sn-4g5ednss.googlevideo.com,googlevideo (CDN видео),NOERROR,118.68,,,64.15,да,1800,1,75,,173.194.188.104
+youtubego.co.id,ytimg / ggpht / прочее,NOERROR,,92.42,78.63,,да,33,1,60,,216.239.32.29
+o-o---preferred---sn-p5q7ynel---v1---lscache1.c.youtube.com,youtube.com,NOERROR,120.14,,,64.77,да,300,2,156,o-o.preferred.sn-p5q7ynel.v1.lscache1.c.youtube.com.,216.58.201.174
+r2.sn-uh-30ale.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.1,91.18,,да,1773,1,75,,1.9.91.141
+m.youtube.ly,ccTLD-зеркала,NOERROR,122.42,,,65.49,да,300,2,84,m.youtube.com.,172.217.19.238
+r3.sn-p5qlsndr.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.36,92.39,,да,1773,1,75,,172.217.135.40
+v8.cache1.c.youtube.com,youtube.com,NOERROR,168.59,,,64.64,да,300,2,110,bandaid-redirector.l.google.com.,216.58.201.174
+r1.sn-2uuxa3vh-jb3e6.googlevideo.com,googlevideo (CDN видео),NOERROR,,153.68,90.64,,да,1773,1,81,,36.92.235.76
+socialimpact.youtube.com,youtube.com,NOERROR,92.36,,,93.37,да,64,2,97,www3.l.google.com.,142.251.142.238
+r2.sn-npoeener.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.8,95.14,,да,1773,1,78,,74.125.96.7
+tc.v11.cache1.c.youtube.com,youtube.com,NOERROR,122.01,,,102.84,да,300,2,114,bandaid-redirector.l.google.com.,216.58.201.174
+jnn-pa.googleapis.com,ytimg / ggpht / прочее,NOERROR,,92.5,80.74,,да,115,8,178,,172.217.115.4 172.217.113.4 172.217.116.4 172.217.118.4 172.217.114.4 172.217.117.4 172.217.119.4 172.217.112.4
+kids.youtube.com,youtube.com,NOERROR,92.68,,,93.0,да,63,11,239,youtube-ui.l.google.com.,142.251.38.110 216.58.201.174 142.251.142.238 142.251.143.142 216.58.201.206 216.58.207.110 172.217.20.174 172.217.19.238 216.58.201.238 192.178.25.14
+rr4.sn-tt1e7nl6.googlevideo.com,googlevideo (CDN видео),NOERROR,,141.53,105.21,,да,1772,1,76,,173.194.61.9
+www.youtube.ae,ccTLD-зеркала,NOERROR,117.94,,,64.04,да,300,11,240,youtube-ui.l.google.com.,172.217.19.238 142.251.38.110 216.58.201.174 216.58.201.238 172.217.20.174 142.251.143.142 216.58.201.206 142.251.142.238 192.178.25.14 216.58.207.110
+youtubeembeddedplayer.googleapis.com,ytimg / ggpht / прочее,NOERROR,,93.93,91.23,,да,272,8,193,,172.217.117.4 172.217.119.4 172.217.116.4 172.217.113.4 172.217.112.4 172.217.118.4 172.217.115.4 172.217.114.4
+r5---sn-4g5e6nsz.googlevideo.com,googlevideo (CDN видео),NOERROR,118.43,,,65.52,да,1800,2,106,r5.sn-4g5e6nsz.googlevideo.com.,173.194.182.234
+o-o---preferred---sn-x5guiapo3uxax-cbfe---v22---lscache1.c.youtube.com,youtube.com,NOERROR,,102.14,91.52,,да,272,2,178,o-o.preferred.sn-x5guiapo3uxax-cbfe.v22.lscache1.c.youtube.com.,216.58.201.174
+o-o.preferred.stc-ruh6.v14.lscache1.c.youtube.com,youtube.com,NOERROR,118.7,,,64.56,да,300,1,94,,216.58.201.174
+rr3.sn-q4fl6ndz.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.44,133.8,,да,1772,1,76,,173.194.141.136
+rr1---sn-4g5lzner.googlevideo.com,googlevideo (CDN видео),NOERROR,118.23,,,64.29,да,1800,2,108,rr1.sn-4g5lzner.googlevideo.com.,74.125.162.70
+r8.sn-42u-nbos6.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.58,91.42,,да,1772,1,76,,42.112.11.179
+youtube.dk,ccTLD-зеркала,NOERROR,159.77,,,64.98,да,300,1,55,,192.178.25.14
+www.youtubekids.com,ytimg / ggpht / прочее,NOERROR,,142.1,92.44,,да,273,11,242,youtube-ui.l.google.com.,142.251.38.110 216.58.201.238 142.251.142.238 216.58.201.206 172.217.19.238 192.178.25.14 172.217.20.174 216.58.207.110 142.251.143.142 216.58.201.174
+www.youtube.com.ni,ccTLD-зеркала,NOERROR,119.09,,,105.25,да,300,11,244,youtube-ui.l.google.com.,216.58.201.206 216.58.201.174 216.58.201.238 192.178.25.14 142.251.143.142 216.58.207.110 142.251.38.110 142.251.142.238 172.217.19.238 172.217.20.174
+youtube.com.mk,ccTLD-зеркала,NOERROR,,91.24,91.72,,да,273,1,59,,216.58.201.238
+o-o.preferred.fra02s05.v5.lscache1.c.youtube.com,youtube.com,NOERROR,117.67,,,65.07,да,300,1,93,,216.58.201.174
+m.youtube.ch,ccTLD-зеркала,NOERROR,,105.16,111.3,,да,273,2,84,m.youtube.com.,172.217.19.238
+o-o---preferred---sn-vgqeln76---v23---lscache1.c.youtube.com,youtube.com,NOERROR,119.49,,,64.1,да,300,2,158,o-o.preferred.sn-vgqeln76.v23.lscache1.c.youtube.com.,216.58.201.174
+m.youtube.ae,ccTLD-зеркала,NOERROR,,92.14,135.51,,да,273,2,84,m.youtube.com.,172.217.19.238
+o-o.preferred.fra07t12.v7.cache1.c.youtube.com,youtube.com,NOERROR,118.0,,,64.94,да,300,1,91,,216.58.201.174
+r3---sn-q4flrner.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.89,93.97,,да,1772,2,106,r3.sn-q4flrner.googlevideo.com.,172.217.131.8
+youtube.jp,ccTLD-зеркала,NOERROR,149.54,,,66.74,да,300,1,55,,172.217.19.238
+o-o.preferred.stc-ruh1.v13.lscache1.c.youtube.com,youtube.com,NOERROR,,142.24,90.67,,да,272,1,94,,142.250.202.142
+r5.sn-nv47znee.googlevideo.com,googlevideo (CDN видео),NOERROR,117.45,,,64.52,да,1800,1,75,,173.194.15.138
+rr4.sn-n8v7znly.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.53,91.33,,да,1772,1,76,,173.194.178.214
+o-o.preferred.bom03s03.v12.lscache1.c.youtube.com,youtube.com,NOERROR,120.85,,,64.75,да,300,1,94,,216.58.201.174
+o-o.preferred.viva-bah1.v18.lscache1.c.youtube.com,youtube.com,NOERROR,,104.25,94.41,,да,272,1,95,,216.58.201.174
+r1.sn-25glenez.googlevideo.com,googlevideo (CDN видео),NOERROR,133.28,,,132.38,да,1800,1,75,,173.194.190.102
+r6.sn-2aqu-n4xe.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.4,151.94,,да,1772,1,76,,122.2.214.49
+youtube.lv,ccTLD-зеркала,NOERROR,151.91,,,88.78,да,300,1,55,,142.251.142.238
+o-o.preferred.bru02t11.v3.cache1.c.youtube.com,youtube.com,NOERROR,,92.25,91.69,,да,272,1,91,,216.58.201.174
+o-o.preferred.nrt19s15.v8.lscache1.c.youtube.com,youtube.com,NOERROR,118.1,,,71.54,да,300,1,93,,216.58.201.174
+br.youtube.com,youtube.com,NOERROR,,142.02,100.55,,да,273,11,237,youtube-ui.l.google.com.,142.251.38.110 216.58.201.206 172.217.19.238 216.58.201.238 142.251.142.238 216.58.201.174 142.251.143.142 192.178.25.14 172.217.20.174 216.58.207.110
+o-o.preferred.stc-ruh7.v11.lscache1.c.youtube.com,youtube.com,NOERROR,119.72,,,65.52,да,300,1,94,,142.250.187.46
+m.youtube.mk,ccTLD-зеркала,NOERROR,,92.44,96.53,,да,273,2,84,m.youtube.com.,172.217.19.238
+o-o.preferred.stc-jed5.tc.v7.cache1.c.youtube.com,youtube.com,NOERROR,118.97,,,65.55,да,300,1,94,,142.250.75.78
+o-o---preferred---sn-vgqeln7d---v7---lscache1.c.youtube.com,youtube.com,NOERROR,,104.59,91.23,,да,273,2,156,o-o.preferred.sn-vgqeln7d.v7.lscache1.c.youtube.com.,216.58.201.174
+o-o.preferred.fra02s01.v9.lscache1.c.youtube.com,youtube.com,NOERROR,167.25,,,63.96,да,300,1,93,,216.58.201.174
+o-o---preferred---sn-ponpbiu-nq4l---v5---lscache1.c.youtube.com,youtube.com,NOERROR,,93.98,143.09,,да,273,2,164,o-o.preferred.sn-ponpbiu-nq4l.v5.lscache1.c.youtube.com.,216.58.201.174
+rr3.sn-4g5ednld.googlevideo.com,googlevideo (CDN видео),NOERROR,119.94,,,65.17,да,1800,1,76,,173.194.182.104
+m.youtube.com.ro,ccTLD-зеркала,NOERROR,,96.88,90.49,,да,272,2,88,m.youtube.com.,172.217.19.238
+o-o.preferred.prg01s01.v21.lscache1.c.youtube.com,youtube.com,NOERROR,117.93,,,100.14,да,300,1,94,,216.58.201.174
+r4.sn-8vguxmoxunva-cvhe.googlevideo.com,googlevideo (CDN видео),NOERROR,,135.19,91.02,,да,1772,1,84,,103.88.222.143
+web-release-qa.youtube.com,youtube.com,NOERROR,117.68,,,66.15,да,300,2,99,www3.l.google.com.,142.251.142.238
+youtube.la,ccTLD-зеркала,NOERROR,,96.37,91.06,,да,272,1,55,,216.58.201.206
+r1.sn-n8v7znsz.googlevideo.com,googlevideo (CDN видео),NOERROR,168.87,,,65.14,да,1800,1,75,,173.194.180.19
+es.youtube.com,youtube.com,NOERROR,,100.15,89.5,,да,272,11,237,youtube-ui.l.google.com.,172.217.20.174 216.58.201.206 142.251.142.238 216.58.207.110 142.251.143.142 216.58.201.238 172.217.19.238 192.178.25.14 142.251.38.110 216.58.201.174
+r1.sn-5np5po4v-joml.googlevideo.com,googlevideo (CDN видео),NOERROR,119.63,,,64.04,да,1800,1,80,,115.87.71.76
+o-o---preferred---sn-ponpbiu-nq4l---v23---lscache1.c.youtube.com,youtube.com,NOERROR,,93.71,159.87,,да,272,2,166,o-o.preferred.sn-ponpbiu-nq4l.v23.lscache1.c.youtube.com.,216.58.201.174
+rr1.sn-4g5ednz7.googlevideo.com,googlevideo (CDN видео),NOERROR,116.82,,,65.18,да,1800,1,76,,74.125.173.230
+o-o.preferred.virginmedia-lhr1.v8.lscache1.c.youtube.com,youtube.com,NOERROR,,92.98,91.17,,да,273,1,101,,216.58.201.174
+o-o.preferred.fra07s04.v1.lscache1.c.youtube.com,youtube.com,NOERROR,118.28,,,67.37,да,300,1,93,,216.58.201.174
+www.youtube.cz,ccTLD-зеркала,NOERROR,,140.18,95.94,,да,273,11,240,youtube-ui.l.google.com.,216.58.201.238 142.251.142.238 142.251.143.142 216.58.201.206 216.58.201.174 142.251.38.110 172.217.20.174 192.178.25.14 216.58.207.110 172.217.19.238
+o-o---preferred---sn-o097zne7---v8---lscache1.c.youtube.com,youtube.com,NOERROR,167.38,,,64.93,да,300,2,156,o-o.preferred.sn-o097zne7.v8.lscache1.c.youtube.com.,216.58.201.174
+youtube-ui.l.google.com,ytimg / ggpht / прочее,NOERROR,,94.07,91.63,,да,273,10,212,,172.217.19.238 172.217.20.174 142.251.142.238 142.251.143.142 216.58.201.174 142.251.38.110 216.58.201.238 192.178.25.14 216.58.207.110 216.58.201.206
+www.youtube.hr,ccTLD-зеркала,NOERROR,124.21,,,129.41,да,300,11,240,youtube-ui.l.google.com.,172.217.20.174 216.58.201.174 172.217.19.238 216.58.207.110 216.58.201.238 142.251.142.238 142.251.143.142 142.251.38.110 216.58.201.206 192.178.25.14
+o-o---preferred---sn-o097zne7---v5---lscache1.c.youtube.com,youtube.com,NOERROR,,102.22,91.96,,да,273,2,156,o-o.preferred.sn-o097zne7.v5.lscache1.c.youtube.com.,216.58.201.174
+r4---sn-npoe7ne7.c.youtube.com,youtube.com,NOERROR,133.17,,,64.73,да,1800,2,104,r4.sn-npoe7ne7.c.youtube.com.,173.194.59.9
+r1.sn-8pxuuxa-i5oer.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.02,151.26,,да,1772,1,80,,203.113.129.204
+www.youtube.com.hk,ccTLD-зеркала,NOERROR,121.68,,,64.79,да,300,11,244,youtube-ui.l.google.com.,216.58.201.238 142.251.142.238 172.217.20.174 142.251.143.142 216.58.207.110 142.251.38.110 216.58.201.206 216.58.201.174 192.178.25.14 172.217.19.238
+o-o.preferred.stc-jed1.v21.lscache1.c.youtube.com,youtube.com,NOERROR,,94.29,91.11,,да,272,1,94,,142.250.75.110
+o-o.preferred.rogers-yyz1.v13.lscache1.c.youtube.com,youtube.com,NOERROR,145.52,,,65.0,да,300,1,97,,216.58.201.174
+o-o.preferred.sn-vgqelnee.v10.lscache7.c.youtube.com,youtube.com,NOERROR,,140.22,89.65,,да,272,1,97,,216.58.201.174
+r6.sn-42u-i5ols.googlevideo.com,googlevideo (CDN видео),NOERROR,118.32,,,64.56,да,1800,1,76,,42.119.208.81
+manifest.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.07,66.64,,да,1,1,69,,142.251.142.238
+r2.sn-jpgjax-q5js.googlevideo.com,googlevideo (CDN видео),NOERROR,116.58,,,63.76,да,1800,1,78,,103.62.142.13
+r3---sn-25glenez.c.youtube.com,youtube.com,NOERROR,,104.61,91.69,,да,1772,2,104,r3.sn-25glenez.c.youtube.com.,173.194.190.104
+o-o.preferred.lhr07s13.v2.lscache1.c.youtube.com,youtube.com,NOERROR,121.02,,,64.79,да,300,1,93,,216.58.201.174
+youtube.ua,ccTLD-зеркала,NOERROR,,92.83,91.33,,да,272,1,55,,142.251.142.238
+r7.sn-poqvn5u-jb36.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,166.06,,,64.93,да,1800,1,82,,114.4.7.18
+rr5---sn-4g5ednrz.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.48,91.99,,да,1772,2,108,rr5.sn-4g5ednrz.googlevideo.com.,173.194.10.42
+au.youtube.com,youtube.com,NOERROR,119.0,,,130.64,да,300,11,237,youtube-ui.l.google.com.,216.58.201.238 172.217.20.174 142.251.38.110 192.178.25.14 142.251.142.238 216.58.201.206 216.58.201.174 216.58.207.110 142.251.143.142 172.217.19.238
+r2---sn-4g5e6nzs.c.youtube.com,youtube.com,NOERROR,,140.92,105.88,,да,1773,2,104,r2.sn-4g5e6nzs.c.youtube.com.,74.125.13.231
+r1.sn-ug5on-unxl.googlevideo.com,googlevideo (CDN видео),NOERROR,132.16,,,65.0,да,1800,1,77,,178.22.168.236
+r2.sn-2aqu-hoale.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.25,89.93,,да,1773,1,77,,122.2.215.77
+s.ytimg.com,ytimg / ggpht / прочее,NOERROR,92.0,,,105.42,да,3,1,56,,142.251.38.110
+r2.sn-5hnekn7s.googlevideo.com,googlevideo (CDN видео),NOERROR,,104.47,90.57,,да,1773,1,75,,74.125.100.39
+youtube.ba,ccTLD-зеркала,NOERROR,181.15,,,64.94,да,300,1,55,,172.217.19.238
+v3.lscache1.c.youtube.com,youtube.com,NOERROR,,94.54,90.13,,да,272,2,112,bandaid-redirector.l.google.com.,216.58.201.174
+www.youtube.jo,ccTLD-зеркала,NOERROR,118.82,,,69.07,да,300,11,240,youtube-ui.l.google.com.,192.178.25.14 216.58.207.110 172.217.20.174 172.217.19.238 142.251.143.142 142.251.142.238 142.251.38.110 216.58.201.174 216.58.201.206 216.58.201.238
+o-o.preferred.zajil-kwi1.v18.lscache1.c.youtube.com,youtube.com,NOERROR,,92.59,146.09,,да,272,1,96,,216.58.201.174
+rr2.sn-2gb7snez.googlevideo.com,googlevideo (CDN видео),NOERROR,119.8,,,62.92,да,1800,1,76,,173.194.10.135
+r7---sn-u0g3uxax3-xnce.googlevideo.com,googlevideo (CDN видео),NOERROR,,139.86,90.42,,да,1772,2,118,r7.sn-u0g3uxax3-xnce.googlevideo.com.,212.156.179.18
+o-o.preferred.cogeco-yhm1.v5.lscache1.c.youtube.com,youtube.com,NOERROR,118.82,,,92.37,да,300,1,96,,216.58.201.174
+rr3---sn-c0q7lnly.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.19,105.21,,да,1772,2,108,rr3.sn-c0q7lnly.googlevideo.com.,74.125.154.8
+www.youtube.com.pe,ccTLD-зеркала,NOERROR,165.7,,,69.42,да,300,11,244,youtube-ui.l.google.com.,192.178.25.14 216.58.201.206 216.58.201.238 172.217.19.238 172.217.20.174 216.58.201.174 142.251.142.238 142.251.38.110 142.251.143.142 216.58.207.110
+o-o.preferred.atheeb-ruh1.v6.lscache1.c.youtube.com,youtube.com,NOERROR,,104.16,91.41,,да,272,1,96,,216.58.201.174
+r1.sn-3qqp-pcge.googlevideo.com,googlevideo (CDN видео),NOERROR,201.34,,,65.23,да,1800,1,76,,111.86.247.76
+www.youtube.com.bd,ccTLD-зеркала,NOERROR,,93.52,89.52,,да,272,11,244,youtube-ui.l.google.com.,216.58.207.110 216.58.201.174 142.251.143.142 142.251.38.110 216.58.201.206 172.217.19.238 142.251.142.238 172.217.20.174 216.58.201.238 192.178.25.14
+o-o.preferred.bskyb-lhr1.v22.lscache1.c.youtube.com,youtube.com,NOERROR,118.11,,,66.21,да,300,6,176,,142.250.151.101 142.250.151.100 142.250.151.138 142.250.151.102 142.250.151.139 142.250.151.113
+o-o.preferred.stcigw-ruh1.v7.lscache1.c.youtube.com,youtube.com,NOERROR,,91.94,144.79,,да,272,1,96,,216.58.201.174
+o-o---preferred---sn-ponpbiu-nq4e---v6---lscache1.c.youtube.com,youtube.com,NOERROR,120.19,,,65.98,да,300,2,164,o-o.preferred.sn-ponpbiu-nq4e.v6.lscache1.c.youtube.com.,216.58.201.174
+youtube.qa,ccTLD-зеркала,NOERROR,,141.31,65.66,,да,1,1,55,,172.217.19.238
+o-o.preferred.stc-jed4.v14.lscache1.c.youtube.com,youtube.com,NOERROR,119.3,,,64.89,да,300,1,94,,142.250.75.110
+v19.lscache1.c.youtube.com,youtube.com,NOERROR,,92.23,93.49,,да,273,2,113,bandaid-redirector.l.google.com.,216.58.201.174
+r4---sn-4g5ednld.googlevideo.com,googlevideo (CDN видео),NOERROR,117.88,,,66.04,да,1800,2,106,r4.sn-4g5ednld.googlevideo.com.,173.194.182.105
+i3.ytimg.com,ytimg / ggpht / прочее,NOERROR,,104.29,91.88,,да,272,2,73,,216.239.38.64 216.239.36.64
+r4.sn-gwpa-w5pr.googlevideo.com,googlevideo (CDN видео),NOERROR,118.11,,,124.44,да,1800,1,76,,49.44.209.15
+o-o.preferred.zainba-bah1.v23.lscache1.c.youtube.com,youtube.com,NOERROR,,91.51,91.78,,да,272,1,97,,216.58.201.174
+accounts.youtube.com,youtube.com,NOERROR,117.83,,,65.19,да,300,2,93,www3.l.google.com.,142.251.142.238
+o-o.preferred.stc-ruh3.v2.lscache1.c.youtube.com,youtube.com,NOERROR,,92.17,106.52,,да,272,1,93,,142.250.202.14
+m.youtube.co.nz,ccTLD-зеркала,NOERROR,134.09,,,64.78,да,300,2,87,m.youtube.com.,172.217.19.238
+m.youtube.com.ng,ccTLD-зеркала,NOERROR,,143.84,160.2,,да,272,2,88,m.youtube.com.,172.217.19.238
+r6.sn-gwpa-gq2d.googlevideo.com,googlevideo (CDN видео),NOERROR,119.2,,,64.86,да,1800,1,76,,49.44.210.17
+rr16.sn-3c27sn7l.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.65,92.21,,да,1772,1,77,,74.125.15.98
+r4.sn-5fo-0gue.googlevideo.com,googlevideo (CDN видео),NOERROR,117.65,,,65.47,да,1800,1,75,,49.231.98.207
+youtube.com.az,ccTLD-зеркала,NOERROR,,130.02,91.08,,да,272,1,59,,142.251.38.110
+o-o---preferred---sn-jvhj5nu-hp5e---v10---lscache1.c.youtube.com,youtube.com,NOERROR,118.52,,,71.0,да,300,2,166,o-o.preferred.sn-jvhj5nu-hp5e.v10.lscache1.c.youtube.com.,216.58.201.174
+youtube.bo,ccTLD-зеркала,NOERROR,,91.64,91.38,,да,272,1,55,,142.251.142.238
+o-o.preferred.flow-pos1.v24.lscache1.c.youtube.com,youtube.com,NOERROR,167.87,,,65.84,да,300,1,95,,216.58.201.174
+r1---sn-8qj-i2id.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.68,161.19,,да,1773,2,106,r1.sn-8qj-i2id.googlevideo.com.,113.171.253.76
+o-o.preferred.stc-ruh1.v20.lscache1.c.youtube.com,youtube.com,NOERROR,135.06,,,125.89,да,300,1,94,,142.251.37.78
+r11.sn-8qj-i5ozd.googlevideo.com,googlevideo (CDN видео),NOERROR,,117.93,92.01,,да,1773,1,77,,113.171.240.218
+o-o.preferred.sjc07s14.v6.lscache1.c.youtube.com,youtube.com,NOERROR,118.48,,,71.28,да,300,1,93,,216.58.201.174
+o-o.preferred.mobily-ruh1.v22.lscache1.c.youtube.com,youtube.com,NOERROR,,92.39,91.18,,да,273,1,97,,216.58.201.174
+o-o.preferred.sea09s07.v19.lscache1.c.youtube.com,youtube.com,NOERROR,117.18,,,69.44,да,300,1,94,,216.58.201.174
+m.youtube.be,ccTLD-зеркала,NOERROR,,104.41,92.48,,да,272,2,84,m.youtube.com.,172.217.19.238
+r3.sn-3u-nf0s.googlevideo.com,googlevideo (CDN видео),NOERROR,152.28,,,64.83,да,1800,1,74,,59.12.162.14
+o-o.preferred.stc-ruh3.v11.lscache1.c.youtube.com,youtube.com,NOERROR,,91.4,91.1,,да,272,1,94,,142.250.202.110
+o-o.preferred.cableonda-pty1.v3.lscache1.c.youtube.com,youtube.com,NOERROR,122.76,,,64.79,да,300,1,99,,216.58.201.174
+o-o.preferred.tfn-tpe1.v1.lscache1.c.youtube.com,youtube.com,NOERROR,,94.83,154.23,,да,272,1,93,,216.58.201.174
+r5.sn-4g5e6nzs.googlevideo.com,googlevideo (CDN видео),NOERROR,116.42,,,106.84,да,1800,1,75,,74.125.13.234
+youtube.co.za,ccTLD-зеркала,NOERROR,,140.81,106.34,,да,272,1,58,,142.251.142.238
+o-o.preferred.stcigw-ruh1.v24.lscache1.c.youtube.com,youtube.com,NOERROR,119.9,,,64.43,да,300,1,97,,216.58.201.174
+r2---sn-hgn7rne7.c.youtube.com,youtube.com,NOERROR,,91.41,104.39,,да,1772,2,104,r2.sn-hgn7rne7.c.youtube.com.,172.217.133.39
+o-o.preferred.uninet-mex10.v22.lscache1.c.youtube.com,youtube.com,NOERROR,165.15,,,64.49,да,300,1,98,,216.58.201.174
+o-o.preferred.turktelekom-sof1.v20.lscache1.c.youtube.com,youtube.com,NOERROR,,105.41,92.42,,да,272,1,102,,216.58.201.174
+m.youtube.in,ccTLD-зеркала,NOERROR,148.31,,,63.99,да,300,2,84,m.youtube.com.,172.217.19.238
+yt3.googleusercontent.com,ytimg / ggpht / прочее,NOERROR,,93.12,99.35,,да,273,10,214,,142.251.143.129 216.58.201.193 216.58.201.161 216.58.201.225 142.251.38.97 216.58.207.97 172.217.19.225 172.217.20.161 192.178.25.1 142.251.142.225
+www.youtube.co.th,ccTLD-зеркала,NOERROR,117.65,,,64.24,да,300,11,243,youtube-ui.l.google.com.,172.217.19.238 142.251.38.110 172.217.20.174 216.58.201.206 142.251.143.142 216.58.207.110 216.58.201.238 142.251.142.238 216.58.201.174 192.178.25.14
+youtubei.googleapis.com,ytimg / ggpht / прочее,NOERROR,,92.51,120.01,,да,96,8,180,,172.217.117.4 172.217.113.4 172.217.116.4 172.217.112.4 172.217.114.4 172.217.115.4 172.217.118.4 172.217.119.4
+i1.ytimg.com,ytimg / ggpht / прочее,NOERROR,105.82,,,90.74,да,8,1,57,,216.58.201.174
+o-o.preferred.mena-bah1.v15.lscache1.c.youtube.com,youtube.com,NOERROR,,141.01,91.58,,да,273,1,95,,216.58.201.174
+r4---sn-5hnekn7d.c.youtube.com,youtube.com,NOERROR,151.36,,,64.85,да,1800,2,104,r4.sn-5hnekn7d.c.youtube.com.,209.85.226.41
+rr3---sn-nv47ln6e.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.68,91.8,,да,1772,2,108,rr3.sn-nv47ln6e.googlevideo.com.,173.194.15.200
+rr2.sn-c0q7lnse.googlevideo.com,googlevideo (CDN видео),NOERROR,117.83,,,109.34,да,1800,1,76,,74.125.173.71
+m.youtube.com.pe,ccTLD-зеркала,NOERROR,,102.32,90.94,,да,272,2,88,m.youtube.com.,172.217.19.238
+rr1---sn-nv47lnly.googlevideo.com,googlevideo (CDN видео),NOERROR,119.28,,,77.55,да,1800,2,108,rr1.sn-nv47lnly.googlevideo.com.,172.217.130.102
+rr2---sn-npoe7nlz.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.82,91.83,,да,1772,2,108,rr2.sn-npoe7nlz.googlevideo.com.,74.125.164.39
+r3---sn-a5msen7s.googlevideo.com,googlevideo (CDN видео),NOERROR,120.11,,,65.22,да,1800,2,106,r3.sn-a5msen7s.googlevideo.com.,173.194.167.104
+o-o.preferred.lgupluswireline-gmp1.v8.lscache1.c.youtube.com,youtube.com,NOERROR,,93.35,157.04,,да,272,1,105,,216.58.201.174
+o-o.preferred.ams03g05.v9.lscache1.c.youtube.com,youtube.com,NOERROR,166.04,,,67.93,да,300,1,93,,216.58.201.174
+rr1.sn-q4fl6nds.googlevideo.com,googlevideo (CDN видео),NOERROR,,140.76,92.52,,да,1772,1,76,,173.194.141.38
+youtube.cr,ccTLD-зеркала,NOERROR,118.69,,,64.11,да,300,1,55,,142.251.38.110
+r7.sn-gwpa-w5pk.googlevideo.com,googlevideo (CDN видео),NOERROR,,95.81,90.43,,да,1772,1,76,,49.44.186.82
+o-o.preferred.stc-jed8.v21.lscache1.c.youtube.com,youtube.com,NOERROR,121.27,,,65.31,да,300,1,94,,142.250.75.110
+rr10.sn-n8v7kn76.googlevideo.com,googlevideo (CDN видео),NOERROR,,100.3,92.65,,да,1772,1,77,,173.194.176.156
+o-o.preferred.qualitynet-kwi1.v14.lscache1.c.youtube.com,youtube.com,NOERROR,120.79,,,67.0,да,300,1,101,,216.58.201.174
+o-o.preferred.ams03s11.v10.lscache1.c.youtube.com,youtube.com,NOERROR,,92.5,94.64,,да,273,1,94,,216.58.201.174
+o-o.preferred.comstar-svo1.v15.lscache1.c.youtube.com,youtube.com,NOERROR,162.79,,,115.96,да,300,1,98,,216.58.201.174
+www.youtube.com.br,ccTLD-зеркала,NOERROR,,93.71,152.1,,да,273,11,244,youtube-ui.l.google.com.,142.251.142.238 172.217.20.174 172.217.19.238 142.251.143.142 216.58.201.238 216.58.201.174 216.58.201.206 192.178.25.14 142.251.38.110 216.58.207.110
+v1.lscache1.c.youtube.com,youtube.com,NOERROR,116.54,,,64.08,да,300,2,112,bandaid-redirector.l.google.com.,216.58.201.174
+rr5---sn-aj4g55-5t.googlevideo.com,googlevideo (CDN видео),NOERROR,,141.04,93.2,,да,1773,2,110,rr5.sn-aj4g55-5t.googlevideo.com.,173.194.19.69
+r4.sn-uxa0n-ttjs.googlevideo.com,googlevideo (CDN видео),NOERROR,133.92,,,70.81,да,1800,1,77,,209.91.105.143
+www.youtube.com.py,ccTLD-зеркала,NOERROR,,93.52,103.69,,да,272,11,244,youtube-ui.l.google.com.,172.217.19.238 172.217.20.174 216.58.207.110 216.58.201.238 192.178.25.14 216.58.201.174 142.251.143.142 142.251.142.238 216.58.201.206 142.251.38.110
+fr.youtube.com,youtube.com,NOERROR,118.87,,,67.9,да,300,11,237,youtube-ui.l.google.com.,142.251.142.238 216.58.201.238 142.251.38.110 192.178.25.14 216.58.201.174 172.217.20.174 172.217.19.238 216.58.201.206 142.251.143.142 216.58.207.110
+o-o.preferred.nuq04s17.v8.lscache1.c.youtube.com,youtube.com,NOERROR,,102.64,92.27,,да,272,1,93,,216.58.201.174
+r3.sn-gwpa-h55r.googlevideo.com,googlevideo (CDN видео),NOERROR,154.07,,,63.34,да,1800,1,76,,49.44.142.238
+rr3.sn-a5m7lnlr.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.81,91.36,,да,1772,1,76,,173.194.26.8
+m.youtube.ee,ccTLD-зеркала,NOERROR,120.24,,,64.8,да,300,2,84,m.youtube.com.,172.217.19.238
+o-o---preferred---sn-o097zne7---v11---lscache1.c.youtube.com,youtube.com,NOERROR,,92.25,142.35,,да,272,2,158,o-o.preferred.sn-o097zne7.v11.lscache1.c.youtube.com.,216.58.201.174
+o-o.preferred.etisalat-auh1.v3.lscache1.c.youtube.com,youtube.com,NOERROR,119.12,,,64.89,да,300,1,98,,216.58.201.174
+o-o---preferred---sn-5hn7zn7k---v5---lscache1.c.youtube.com,youtube.com,NOERROR,,142.41,91.96,,да,272,2,156,o-o.preferred.sn-5hn7zn7k.v5.lscache1.c.youtube.com.,216.58.201.174
+youtube.com.gr,ccTLD-зеркала,NOERROR,117.7,,,126.01,да,300,1,59,,216.58.201.206
+o-o.preferred.sjc07s11.v13.lscache1.c.youtube.com,youtube.com,NOERROR,,92.28,105.89,,да,272,1,94,,216.58.201.174
+r4.sn-0hvcpax-30ad.googlevideo.com,googlevideo (CDN видео),NOERROR,166.57,,,64.84,да,1800,1,79,,123.136.114.143
+m.youtube.pk,ccTLD-зеркала,NOERROR,,103.96,91.62,,да,273,2,84,m.youtube.com.,172.217.19.238
+r1---sn-q4flrnek.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,117.18,,,64.69,да,1800,2,109,r1.sn-q4flrnek.a1.googlevideo.com.,173.194.143.134
+o-o.preferred.stc-jed2.v2.lscache1.c.youtube.com,youtube.com,NOERROR,,94.07,92.74,,да,273,1,93,,142.250.75.142
+www.youtube.com.ar,ccTLD-зеркала,NOERROR,125.73,,,65.57,да,300,11,244,youtube-ui.l.google.com.,192.178.25.14 142.251.142.238 142.251.143.142 216.58.207.110 172.217.19.238 172.217.20.174 216.58.201.174 142.251.38.110 216.58.201.206 216.58.201.238
+o-o.preferred.citelecom-abj1.v22.lscache1.c.youtube.com,youtube.com,NOERROR,,92.12,141.99,,да,273,1,100,,216.58.201.174
+upload.youtube.com,youtube.com,NOERROR,119.05,,,63.82,да,300,2,102,yt-video-upload.l.google.com.,172.217.20.175
+rr2.sn-5hne6nsr.googlevideo.com,googlevideo (CDN видео),NOERROR,,140.95,106.68,,да,1773,1,76,,172.217.132.71
+rr2.sn-qja5mc-5h.googlevideo.com,googlevideo (CDN видео),NOERROR,161.8,,,68.14,да,1800,1,77,,74.125.157.162
+o-o.preferred.stc-ruh5.v1.lscache1.c.youtube.com,youtube.com,NOERROR,,93.26,107.0,,да,272,1,93,,216.58.201.174
+rr2---sn-a5mekn6s.googlevideo.com,googlevideo (CDN видео),NOERROR,118.16,,,65.07,да,1800,2,108,rr2.sn-a5mekn6s.googlevideo.com.,173.194.8.135
+m.youtube.com.br,ccTLD-зеркала,NOERROR,,143.72,65.04,,да,300,2,88,m.youtube.com.,172.217.19.238
+m.youtube.ge,ccTLD-зеркала,NOERROR,243.36,,,129.55,да,300,2,84,m.youtube.com.,172.217.19.238
+r4.sn-8ph2xajvh-n8vs.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.72,91.82,,да,1772,1,81,,85.249.244.47
+rr1---sn-hpa7knld.googlevideo.com,googlevideo (CDN видео),NOERROR,162.34,,,66.22,да,1800,2,108,rr1.sn-hpa7knld.googlevideo.com.,173.194.19.198
+o-o.preferred.mobily-jed1.v3.lscache1.c.youtube.com,youtube.com,NOERROR,,92.98,150.58,,да,272,1,96,,216.58.201.174
+o-o.preferred.stc-ruh8.v7.lscache1.c.youtube.com,youtube.com,NOERROR,120.43,,,64.12,да,300,1,93,,142.251.37.78
+www.youtube.com.sa,ccTLD-зеркала,NOERROR,,100.86,94.38,,да,272,11,244,youtube-ui.l.google.com.,142.251.143.142 216.58.201.238 192.178.25.14 216.58.201.174 216.58.207.110 142.251.142.238 216.58.201.206 142.251.38.110 172.217.20.174 172.217.19.238
+m.youtube.com.mt,ccTLD-зеркала,NOERROR,120.67,,,65.0,да,300,2,88,m.youtube.com.,172.217.19.238
+rr4---sn-n8v7znly.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.13,92.82,,да,1772,2,108,rr4.sn-n8v7znly.googlevideo.com.,173.194.178.214
+o-o.preferred.etisalat-auh1.v13.lscache1.c.youtube.com,youtube.com,NOERROR,116.23,,,64.11,да,300,1,99,,216.58.201.174
+r4.sn-2uuxa3vh-jb3ez.googlevideo.com,googlevideo (CDN видео),NOERROR,,103.84,92.77,,да,1773,1,81,,36.92.235.15
+r7.sn-8xgp1vo-p5qs.googlevideo.com,googlevideo (CDN видео),NOERROR,165.97,,,69.37,да,1800,1,79,,63.88.73.146
+youtube.iq,ccTLD-зеркала,NOERROR,,93.01,103.5,,да,273,1,55,,172.217.20.174
+nl.youtube.com,youtube.com,NOERROR,132.44,,,73.49,да,300,11,237,youtube-ui.l.google.com.,142.251.143.142 172.217.19.238 172.217.20.174 142.251.142.238 142.251.38.110 216.58.207.110 192.178.25.14 216.58.201.174 216.58.201.238 216.58.201.206
+www.youtube.co.ke,ccTLD-зеркала,NOERROR,,94.89,139.51,,да,273,11,243,youtube-ui.l.google.com.,192.178.25.14 142.251.142.238 142.251.143.142 172.217.20.174 216.58.201.238 216.58.207.110 216.58.201.206 142.251.38.110 216.58.201.174 172.217.19.238
+r5---sn-gvnuxaxjvh-axq6.googlevideo.com,googlevideo (CDN видео),NOERROR,118.06,,,119.28,да,1800,2,120,r5.sn-gvnuxaxjvh-axq6.googlevideo.com.,178.66.83.112
+o-o.preferred.bskyb-lba2.v22.lscache1.c.youtube.com,youtube.com,NOERROR,,140.41,91.53,,да,272,1,96,,216.58.201.174
+o-o.preferred.kddi-hnd2.v13.lscache1.c.youtube.com,youtube.com,NOERROR,120.41,,,65.33,да,300,1,95,,216.58.201.174
+r2.sn-uxa3vhnxa-nvje.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.35,90.0,,да,1772,1,81,,182.2.32.141
+rr4.sn-a5msen7l.googlevideo.com,googlevideo (CDN видео),NOERROR,153.19,,,64.55,да,1800,1,76,,173.194.167.73
+www.youtube.ge,ccTLD-зеркала,NOERROR,,96.12,89.49,,да,272,11,240,youtube-ui.l.google.com.,142.251.38.110 216.58.201.174 172.217.20.174 216.58.201.238 216.58.207.110 142.251.143.142 142.251.142.238 216.58.201.206 192.178.25.14 172.217.19.238
+o-o---preferred---sn-o097zne7---v24---lscache1.c.youtube.com,youtube.com,NOERROR,118.48,,,65.17,да,300,2,158,o-o.preferred.sn-o097zne7.v24.lscache1.c.youtube.com.,216.58.201.174
+r4.sn-8pxuuxa-uiqe.googlevideo.com,googlevideo (CDN видео),NOERROR,,94.56,253.5,,да,1772,1,79,,171.255.203.47
+o-o.preferred.mobily-ruh1.v5.lscache1.c.youtube.com,youtube.com,NOERROR,117.42,,,63.92,да,300,1,96,,216.58.201.174
+www.youtube.bg,ccTLD-зеркала,NOERROR,,93.48,94.08,,да,272,11,240,youtube-ui.l.google.com.,192.178.25.14 142.251.143.142 172.217.19.238 142.251.38.110 172.217.20.174 216.58.201.238 216.58.207.110 216.58.201.174 216.58.201.206 142.251.142.238
+youtube.ni,ccTLD-зеркала,NOERROR,120.14,,,64.4,да,300,1,55,,142.251.142.238
+youtube.mn,ccTLD-зеркала,NOERROR,,144.66,107.24,,да,273,1,55,,172.217.19.238
+youtube.co.ma,ccTLD-зеркала,NOERROR,166.78,,,63.95,да,300,1,58,,142.251.142.238
+de.youtube.com,youtube.com,NOERROR,,92.84,91.96,,да,273,11,237,youtube-ui.l.google.com.,172.217.20.174 192.178.25.14 142.251.38.110 216.58.201.206 142.251.143.142 216.58.201.174 172.217.19.238 142.251.142.238 216.58.207.110 216.58.201.238
+youtube.md,ccTLD-зеркала,NOERROR,131.84,,,64.98,да,300,1,55,,216.58.201.174
+r3.sn-aigl6ned.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.95,89.14,,да,1773,1,75,,173.194.183.72
+youtube.am,ccTLD-зеркала,NOERROR,118.83,,,130.29,да,300,1,55,,172.217.20.174
+r6.sn-u0g3uxax3-qpte.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.66,140.04,,да,1773,1,81,,212.156.185.17
+www.youtube.ru,ccTLD-зеркала,NOERROR,123.94,,,65.29,да,300,11,240,youtube-ui.l.google.com.,142.251.38.110 192.178.25.14 142.251.142.238 216.58.201.174 172.217.19.238 142.251.143.142 172.217.20.174 216.58.201.238 216.58.207.110 216.58.201.206
+www.youtube.vn,ccTLD-зеркала,NOERROR,,92.4,523.61,,да,273,16,320,youtube-ui.l.google.com.,142.251.210.206 142.251.211.14 142.250.177.238 142.250.177.78 142.250.217.110 142.251.41.142 142.250.188.174 142.251.210.238 142.251.210.110 142.250.189.110 142.251.32.14 142.251.34.238 142.251.214.78 142.251.41.78 142.250.189.142
+v6.cache1.c.youtube.com,youtube.com,NOERROR,149.06,,,64.81,да,300,2,110,bandaid-redirector.l.google.com.,216.58.201.174
+o-o.preferred.ord12s05.v15.lscache1.c.youtube.com,youtube.com,NOERROR,,154.58,92.28,,да,272,1,94,,216.58.201.174
+youtube.si,ccTLD-зеркала,NOERROR,156.02,,,65.6,да,300,1,55,,142.251.142.238
+m.youtube.com.jm,ccTLD-зеркала,NOERROR,,92.56,93.65,,да,273,2,88,m.youtube.com.,172.217.19.238
+o-o.preferred.att-ord1.v17.lscache1.c.youtube.com,youtube.com,NOERROR,119.27,,,69.57,да,300,1,94,,216.58.201.174
+o-o.preferred.ams03g05.v20.lscache1.c.youtube.com,youtube.com,NOERROR,,93.07,92.32,,да,273,1,94,,216.58.201.174
+youtube.pl,ccTLD-зеркала,NOERROR,133.81,,,64.78,да,300,1,55,,216.58.207.110
+r2.sn-hvo3xtcg5pon-n4ve.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.2,91.34,,да,1773,1,84,,148.64.104.77
+r4.sn-n4v7sney.googlevideo.com,googlevideo (CDN видео),NOERROR,133.54,,,130.83,да,1800,1,75,,74.125.103.41
+o-o.preferred.lhr14s07.v19.lscache1.c.youtube.com,youtube.com,NOERROR,,92.77,153.16,,да,273,1,94,,216.58.201.174
+m.youtube.com.pt,ccTLD-зеркала,NOERROR,132.15,,,65.59,да,300,2,88,m.youtube.com.,172.217.19.238
+o-o.preferred.ams04s07.v10.lscache1.c.youtube.com,youtube.com,NOERROR,,152.39,91.36,,да,273,1,94,,216.58.201.174
+o-o---preferred---sn-o097zne7---v17---lscache1.c.youtube.com,youtube.com,NOERROR,116.8,,,64.48,да,300,2,158,o-o.preferred.sn-o097zne7.v17.lscache1.c.youtube.com.,216.58.201.174
+r5---sn-25ge7nsd.c.youtube.com,youtube.com,NOERROR,,92.74,92.76,,да,1773,2,104,r5.sn-25ge7nsd.c.youtube.com.,173.194.183.234
+rr1---sn-a5mekn6r.googlevideo.com,googlevideo (CDN видео),NOERROR,119.85,,,93.69,да,1800,2,108,rr1.sn-a5mekn6r.googlevideo.com.,173.194.12.134
+ai.ytimg.com,ytimg / ggpht / прочее,NOERROR,,92.12,89.51,,да,273,1,57,,172.253.152.129
+o-o.preferred.atheeb-ruh1.v14.lscache1.c.youtube.com,youtube.com,NOERROR,135.49,,,66.51,да,300,1,97,,216.58.201.174
+www.youtube.pt,ccTLD-зеркала,NOERROR,,93.55,248.93,,да,273,11,240,youtube-ui.l.google.com.,192.178.25.14 216.58.201.206 142.251.38.110 216.58.207.110 172.217.19.238 142.251.142.238 142.251.143.142 216.58.201.238 216.58.201.174 172.217.20.174
+youtube.com.kw,ccTLD-зеркала,NOERROR,119.68,,,64.26,да,300,1,59,,216.58.201.206
+redirector.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.87,77.58,,да,48,1,71,,142.251.142.238
+www.youtube.es,ccTLD-зеркала,NOERROR,123.28,,,65.09,да,300,11,240,youtube-ui.l.google.com.,142.251.38.110 216.58.201.238 216.58.207.110 142.251.142.238 172.217.20.174 192.178.25.14 216.58.201.174 142.251.143.142 216.58.201.206 172.217.19.238
+v20.lscache1.c.youtube.com,youtube.com,NOERROR,,150.69,93.52,,да,273,2,113,bandaid-redirector.l.google.com.,216.58.201.174
+m.youtube.my,ccTLD-зеркала,NOERROR,170.15,,,103.63,да,300,2,84,m.youtube.com.,172.217.19.238
+rr4.sn-4g5edndl.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.85,91.36,,да,1773,1,76,,74.125.162.169
+m.youtube.ru,ccTLD-зеркала,NOERROR,247.36,,,64.92,да,300,2,84,m.youtube.com.,172.217.19.238
+rr3.sn-n4v7snly.googlevideo.com,googlevideo (CDN видео),NOERROR,,95.25,260.29,,да,1773,1,76,,173.194.25.72
+o-o.preferred.softbankbb-hnd4.v17.lscache1.c.youtube.com,youtube.com,NOERROR,126.05,,,64.33,да,300,1,101,,216.58.201.174
+youtube.co.jp,ccTLD-зеркала,NOERROR,,92.5,91.14,,да,273,1,58,,142.251.38.110
+r6.sn-bavcx-hoae6.googlevideo.com,googlevideo (CDN видео),NOERROR,117.52,,,64.27,да,1800,1,78,,1.37.40.145
+analytics.youtube.com,youtube.com,NOERROR,,91.41,92.66,,да,273,11,244,youtube-ui.l.google.com.,142.251.143.142 142.251.142.238 172.217.19.238 172.217.20.174 216.58.201.174 216.58.201.206 142.251.38.110 216.58.201.238 216.58.207.110 192.178.25.14
+tc.v23.cache1.c.youtube.com,youtube.com,NOERROR,143.16,,,65.42,да,300,2,114,bandaid-redirector.l.google.com.,216.58.201.174
+o-o.preferred.bskyb-bhx1.v19.lscache1.c.youtube.com,youtube.com,NOERROR,,151.71,95.26,,да,273,1,96,,216.58.201.174
+m.youtube.qa,ccTLD-зеркала,NOERROR,135.88,,,64.43,да,300,2,84,m.youtube.com.,172.217.19.238
+m.youtube.pa,ccTLD-зеркала,NOERROR,,93.18,244.14,,да,273,2,84,m.youtube.com.,172.217.19.238
+www.youtube.co.il,ccTLD-зеркала,NOERROR,118.42,,,63.31,да,300,11,243,youtube-ui.l.google.com.,172.217.20.174 142.251.143.142 216.58.207.110 216.58.201.238 172.217.19.238 192.178.25.14 142.251.38.110 216.58.201.174 216.58.201.206 142.251.142.238
+www.youtube.no,ccTLD-зеркала,NOERROR,,91.86,111.42,,да,274,11,240,youtube-ui.l.google.com.,192.178.25.14 172.217.20.174 142.251.143.142 172.217.19.238 142.251.38.110 216.58.201.238 216.58.201.174 142.251.142.238 216.58.201.206 216.58.207.110
+o-o.preferred.lax04t08.v3.cache1.c.youtube.com,youtube.com,NOERROR,125.74,,,64.71,да,300,1,91,,216.58.201.174
+r2.sn-n3cgv5qc5oq-vnoe.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.42,95.42,,да,1774,1,83,,123.212.208.77
+r2---sn-4g5e6nsz.googlevideo.com,googlevideo (CDN видео),NOERROR,143.18,,,130.87,да,1800,2,106,r2.sn-4g5e6nsz.googlevideo.com.,173.194.182.231
+r4.sn-ipoxu-3ii6.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.56,92.03,,да,1773,1,77,,202.39.67.143
+rr14---sn-n8v7znlr.googlevideo.com,googlevideo (CDN видео),NOERROR,117.88,,,65.22,да,1800,2,110,rr14.sn-n8v7znlr.googlevideo.com.,173.194.178.160
+youtube.pa,ccTLD-зеркала,NOERROR,,154.08,222.95,,да,273,1,55,,142.251.142.238
+r1.sn-4g5ednly.googlevideo.com,googlevideo (CDN видео),NOERROR,116.83,,,64.66,да,1800,1,75,,173.194.187.230
+r5.sn-ab02a0nfpgxapox-jwwe7.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.88,91.37,,да,1773,1,88,,203.248.132.144
+youtubego.com,ytimg / ggpht / прочее,NOERROR,105.5,,,64.3,да,205,1,58,,216.239.32.29
+o-o.preferred.sn-35153iuxa-unxe.v14.lscache1.c.youtube.com,youtube.com,NOERROR,,99.23,90.93,,да,273,1,103,,216.58.201.174
+o-o.preferred.hansenet-dus1.v13.lscache1.c.youtube.com,youtube.com,NOERROR,184.34,,,64.77,да,300,1,99,,216.58.201.174
+o-o.preferred.dfw06g05.v4.lscache1.c.youtube.com,youtube.com,NOERROR,,93.1,91.96,,да,273,1,93,,216.58.201.174
+www.youtubeeducation.com,ytimg / ggpht / прочее,NOERROR,118.26,,,67.04,да,300,11,247,youtube-ui.l.google.com.,142.251.38.110 142.251.143.142 216.58.207.110 142.251.142.238 172.217.19.238 216.58.201.206 192.178.25.14 172.217.20.174 216.58.201.238 216.58.201.174
+o-o.preferred.batelco-bah1.v4.lscache1.c.youtube.com,youtube.com,NOERROR,,92.13,117.47,,да,273,1,97,,216.58.201.174
+o-o.preferred.yemennet-sah1.v22.lscache1.c.youtube.com,youtube.com,NOERROR,118.23,,,64.41,да,300,1,99,,216.58.201.174
+r1.sn-jvhnu5g-n8vk.googlevideo.com,googlevideo (CDN видео),NOERROR,,145.31,130.73,,да,1773,1,79,,212.188.35.12
+o-o---preferred---sn-5uu-vgqe---v4---lscache1.c.youtube.com,youtube.com,NOERROR,120.3,,,133.31,да,300,2,156,o-o.preferred.sn-5uu-vgqe.v4.lscache1.c.youtube.com.,216.58.201.174
+r3.sn-8pxuuxa-q5qel.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.92,93.33,,да,1774,1,80,,27.71.245.14
+www.gstatic.com,ytimg / ggpht / прочее,NOERROR,166.59,,,68.72,да,231,1,60,,142.251.143.131
+youtube.sv,ccTLD-зеркала,NOERROR,,91.95,102.72,,да,274,1,55,,216.58.201.206
+r1.sn-nu5gi0c-npoee.googlevideo.com,googlevideo (CDN видео),NOERROR,120.63,,,65.18,да,1800,1,80,,203.117.35.44
+r8.sn-u0g3uxax3-5tue.googlevideo.com,googlevideo (CDN видео),NOERROR,,94.99,94.68,,да,1773,1,81,,212.156.184.19
+youtube.com.pa,ccTLD-зеркала,NOERROR,118.63,,,64.27,да,300,1,59,,142.251.143.142
+o-o---preferred---sn-nwj7knle---v9---lscache1.c.youtube.com,youtube.com,NOERROR,,93.63,91.36,,да,273,2,156,o-o.preferred.sn-nwj7knle.v9.lscache1.c.youtube.com.,216.58.201.174
+m.youtube.by,ccTLD-зеркала,NOERROR,121.08,,,65.02,да,300,2,84,m.youtube.com.,172.217.19.238
+www.youtube.com.ec,ccTLD-зеркала,NOERROR,,151.3,140.44,,да,273,11,244,youtube-ui.l.google.com.,142.251.143.142 216.58.201.238 172.217.20.174 216.58.201.206 216.58.201.174 216.58.207.110 192.178.25.14 142.251.142.238 172.217.19.238 142.251.38.110
+youtube.com.hr,ccTLD-зеркала,NOERROR,162.96,,,70.34,да,300,1,59,,192.178.25.14
+o-o---preferred---sn-jvhj5nu-hp5e---v20---lscache1.c.youtube.com,youtube.com,NOERROR,,93.29,92.59,,да,273,2,166,o-o.preferred.sn-jvhj5nu-hp5e.v20.lscache1.c.youtube.com.,216.58.201.174
+r1.sn-q4flrney.googlevideo.com,googlevideo (CDN видео),NOERROR,119.57,,,129.37,да,1800,1,75,,172.217.131.38
+r2.sn-8pxuuxa-8j5e6.googlevideo.com,googlevideo (CDN видео),NOERROR,,90.95,102.58,,да,1773,1,80,,117.0.212.205
+r2.sn-bxggtpo4v23-3ipe.googlevideo.com,googlevideo (CDN видео),NOERROR,119.99,,,63.84,да,1800,1,83,,202.69.47.13
+o-o.preferred.lhr14s14.v20.lscache1.c.youtube.com,youtube.com,NOERROR,,92.16,92.42,,да,273,1,94,,216.58.201.174
+o-o.preferred.lhr14s15.v8.lscache1.c.youtube.com,youtube.com,NOERROR,121.35,,,65.17,да,300,1,93,,216.58.201.174
+m.youtube.co.ke,ccTLD-зеркала,NOERROR,,91.47,93.83,,да,273,2,87,m.youtube.com.,172.217.19.238
+r3.sn-n4v7snee.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,162.49,,,64.17,да,1800,1,78,,173.194.167.168
+r8.sn-0op8pnpvo-0aoz.googlevideo.com,googlevideo (CDN видео),NOERROR,,155.17,141.01,,да,1774,1,81,,103.206.152.19
+m.youtube.ug,ccTLD-зеркала,NOERROR,124.17,,,64.8,да,300,2,84,m.youtube.com.,172.217.19.238
+o-o.preferred.nuq04s12.v1.lscache1.c.youtube.com,youtube.com,NOERROR,,91.93,93.14,,да,274,1,93,,216.58.201.174
+tc.v6.cache1.c.youtube.com,youtube.com,NOERROR,119.0,,,64.19,да,300,2,113,bandaid-redirector.l.google.com.,216.58.201.174
+www.youtube.com.mt,ccTLD-зеркала,NOERROR,,91.78,102.87,,да,274,11,244,youtube-ui.l.google.com.,172.217.20.174 142.251.143.142 192.178.25.14 172.217.19.238 142.251.38.110 216.58.201.174 216.58.207.110 216.58.201.206 216.58.201.238 142.251.142.238
+o-o.preferred.sea09s03.v8.lscache1.c.youtube.com,youtube.com,NOERROR,118.14,,,64.4,да,300,1,93,,216.58.201.174
+www.youtube.co.at,ccTLD-зеркала,NOERROR,,93.33,105.52,,да,273,11,243,youtube-ui.l.google.com.,142.251.143.142 142.251.38.110 216.58.201.238 172.217.20.174 216.58.201.206 216.58.201.174 216.58.207.110 172.217.19.238 142.251.142.238 192.178.25.14
+o-o.preferred.stc-ruh7.v14.lscache1.c.youtube.com,youtube.com,NOERROR,163.19,,,64.15,да,300,1,94,,142.251.37.142
+youtube.co.hu,ccTLD-зеркала,NOERROR,,92.65,90.85,,да,273,1,58,,172.217.19.238
+r1---sn-ab5sznld.c.youtube.com,youtube.com,NOERROR,117.67,,,131.72,да,1800,2,104,r1.sn-ab5sznld.c.youtube.com.,173.194.185.134
+youtube.co.ae,ccTLD-зеркала,NOERROR,,153.71,129.49,,да,273,1,58,,172.217.19.238
+rr2---sn-nv47ln6e.c.youtube.com,youtube.com,NOERROR,118.5,,,65.8,да,1800,2,106,rr2.sn-nv47ln6e.c.youtube.com.,173.194.15.199
+www.youtube.pk,ccTLD-зеркала,NOERROR,,91.94,196.45,,да,273,11,240,youtube-ui.l.google.com.,172.217.20.174 216.58.207.110 142.251.142.238 142.251.143.142 192.178.25.14 172.217.19.238 216.58.201.174 142.251.38.110 216.58.201.238 216.58.201.206
+o-o.preferred.lis01s04.v4.lscache1.c.youtube.com,youtube.com,NOERROR,117.98,,,64.08,да,300,1,93,,216.58.201.174
+o-o.preferred.hkbn-hkg1.v18.lscache1.c.youtube.com,youtube.com,NOERROR,,93.17,108.66,,да,273,1,95,,142.251.211.46
+gr.youtube.com,youtube.com,NOERROR,169.23,,,65.18,да,300,11,237,youtube-ui.l.google.com.,142.251.142.238 172.217.20.174 216.58.201.206 216.58.201.238 216.58.207.110 216.58.201.174 142.251.38.110 172.217.19.238 192.178.25.14 142.251.143.142
+r2.sn-2uuxa3vh-habl.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.15,102.03,,да,1773,1,83,,36.92.232.205
+r8.sn-8pxuuxa-jmgl.googlevideo.com,googlevideo (CDN видео),NOERROR,119.21,,,67.98,да,1800,1,79,,203.113.161.51
+s.youtube.com,youtube.com,NOERROR,,91.78,115.79,,да,147,8,170,,142.251.154.6 142.251.151.6 142.251.157.6 142.251.155.6 142.251.153.6 142.251.150.6 142.251.156.6 142.251.152.6
+o-o.preferred.wataniya-kwi1.v16.lscache1.c.youtube.com,youtube.com,NOERROR,120.66,,,102.07,да,300,1,99,,216.58.201.174
+o-o.preferred.uninet-mex1.v21.lscache1.c.youtube.com,youtube.com,NOERROR,,156.19,92.41,,да,274,1,97,,216.58.201.174
+r5.sn-jpgjax-q5jl.googlevideo.com,googlevideo (CDN видео),NOERROR,118.01,,,100.62,да,1800,1,78,,103.62.143.240
+r1.sn-uxa3vhnxa-n0c6.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.22,105.47,,да,1774,1,81,,114.125.96.140
+r2.sn-h0jeener.googlevideo.com,googlevideo (CDN видео),NOERROR,166.05,,,104.08,да,1800,1,75,,172.217.133.103
+o-o.preferred.lattelecom-rix1.v7.lscache1.c.youtube.com,youtube.com,NOERROR,,93.0,92.46,,да,273,1,100,,216.58.201.174
+r3.sn-i3b7knld.googlevideo.com,googlevideo (CDN видео),NOERROR,120.89,,,102.32,да,1800,1,75,,173.194.4.200
+o-o.preferred.nrt19s05.v15.lscache1.c.youtube.com,youtube.com,NOERROR,,92.24,91.83,,да,273,1,94,,216.58.201.174
+o-o.preferred.mil01s08.v21.lscache1.c.youtube.com,youtube.com,NOERROR,116.87,,,101.22,да,300,1,94,,216.58.201.174
+r5.sn-2aqu-jxcs.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.72,139.8,,да,1773,1,76,,103.233.36.144
+o-o.preferred.zainba-bah1.v13.lscache1.c.youtube.com,youtube.com,NOERROR,118.9,,,66.59,да,300,1,97,,216.58.201.174
+youtube.com.tw,ccTLD-зеркала,NOERROR,,151.74,90.77,,да,273,1,59,,216.58.201.206
+o-o.preferred.stc-jed7.v6.lscache1.c.youtube.com,youtube.com,NOERROR,166.66,,,65.27,да,300,1,93,,142.250.75.46
+r5.sn-5ualdnle.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.78,104.62,,да,1773,1,75,,74.125.6.42
+o-o.preferred.stc-ruh8.v1.lscache1.c.youtube.com,youtube.com,NOERROR,118.38,,,78.12,да,300,1,93,,142.250.202.110
+m.youtube.com.tn,ccTLD-зеркала,NOERROR,,92.88,90.97,,да,273,2,88,m.youtube.com.,172.217.19.238
+www.youtube.in,ccTLD-зеркала,NOERROR,158.64,,,64.27,да,300,11,240,youtube-ui.l.google.com.,172.217.20.174 142.251.143.142 172.217.19.238 216.58.201.174 216.58.201.206 216.58.207.110 216.58.201.238 142.251.142.238 142.251.38.110 192.178.25.14
+o-o---preferred---sn-jvhj5nu-q4fe---v7---lscache1.c.youtube.com,youtube.com,NOERROR,,91.22,90.99,,да,274,2,164,o-o.preferred.sn-jvhj5nu-q4fe.v7.lscache1.c.youtube.com.,216.58.201.174
+r5.sn-ci5gup-qxay.googlevideo.com,googlevideo (CDN видео),NOERROR,117.66,,,65.94,да,1800,1,78,,182.79.144.144
+o-o.preferred.stc-jed6.v10.lscache1.c.youtube.com,youtube.com,NOERROR,,92.15,144.35,,да,274,1,94,,142.250.75.142
+www.youtube.com.tn,ccTLD-зеркала,NOERROR,135.17,,,65.4,да,300,11,244,youtube-ui.l.google.com.,192.178.25.14 216.58.207.110 172.217.20.174 142.251.142.238 216.58.201.174 172.217.19.238 142.251.143.142 216.58.201.206 142.251.38.110 216.58.201.238
+r5.sn-u0g3uxax3-5tul.googlevideo.com,googlevideo (CDN видео),NOERROR,,154.97,92.15,,да,1774,1,81,,212.156.184.80
+o-o.preferred.fra07t11.v5.cache1.c.youtube.com,youtube.com,NOERROR,120.53,,,64.35,да,300,1,91,,216.58.201.174
+o-o.preferred.shaw-yvr1.v4.lscache1.c.youtube.com,youtube.com,NOERROR,,92.03,195.22,,да,274,1,468,,216.58.201.174
+youtube.hu,ccTLD-зеркала,NOERROR,123.29,,,140.74,да,300,1,55,,192.178.25.14
+o-o.preferred.stc-jed1.v11.lscache1.c.youtube.com,youtube.com,NOERROR,,94.14,91.16,,да,273,1,94,,142.250.75.142
+il.youtube.com,youtube.com,NOERROR,118.91,,,120.92,да,300,11,237,youtube-ui.l.google.com.,216.58.201.238 172.217.20.174 216.58.201.206 216.58.201.174 142.251.142.238 216.58.207.110 172.217.19.238 192.178.25.14 142.251.143.142 142.251.38.110
+youtube.com.co,ccTLD-зеркала,NOERROR,,91.93,144.91,,да,273,1,59,,172.217.20.174
+r5.sn-npoe7nl6.googlevideo.com,googlevideo (CDN видео),NOERROR,155.14,,,66.68,да,1800,1,75,,173.194.4.106
+o-o.preferred.stc-ruh1.v24.lscache1.c.youtube.com,youtube.com,NOERROR,,91.69,90.06,,да,273,1,94,,142.250.202.142
+www.youtube.ng,ccTLD-зеркала,NOERROR,125.38,,,63.75,да,300,2,90,www3.l.google.com.,142.251.142.238
+o-o.preferred.sea09s06.v23.lscache1.c.youtube.com,youtube.com,NOERROR,,153.26,105.94,,да,273,1,94,,216.58.201.174
+o-o.preferred.par08s05.v6.lscache1.c.youtube.com,youtube.com,NOERROR,120.4,,,158.86,да,300,1,93,,216.58.201.174
+o-o.preferred.sea09s03.v4.lscache1.c.youtube.com,youtube.com,NOERROR,,93.6,89.59,,да,273,1,93,,216.58.201.174
+youtube.com.eg,ccTLD-зеркала,NOERROR,117.11,,,64.23,да,300,1,59,,142.251.142.238
+r1.sn-cnoa-jwce.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.98,92.69,,да,1774,1,76,,117.219.230.140
+o-o.preferred.stc-ruh6.v2.lscache1.c.youtube.com,youtube.com,NOERROR,161.13,,,72.43,да,300,1,93,,216.58.201.174
+m.youtube.com.es,ccTLD-зеркала,NOERROR,,92.6,144.23,,да,274,2,88,m.youtube.com.,172.217.19.238
+r7.sn-8pxuuxa-2m0s.googlevideo.com,googlevideo (CDN видео),NOERROR,119.74,,,96.38,да,1800,1,79,,203.113.162.114
+o-o---preferred---lax04s14---v2---lscache1.c.youtube.com,youtube.com,NOERROR,,91.57,93.07,,да,274,2,150,o-o.preferred.lax04s14.v2.lscache1.c.youtube.com.,216.58.201.174
+r4.sn-3u-jwws.googlevideo.com,googlevideo (CDN видео),NOERROR,118.06,,,63.74,да,1800,1,74,,210.126.102.143
+youtubemobilesupport.com,ytimg / ggpht / прочее,NOERROR,,153.53,103.11,,да,274,1,69,,216.239.32.27
+m.youtube.kz,ccTLD-зеркала,NOERROR,118.65,,,63.61,да,300,2,84,m.youtube.com.,172.217.19.238
+o-o.preferred.stc-ruh4.v19.lscache1.c.youtube.com,youtube.com,NOERROR,,94.2,91.98,,да,273,1,94,,142.250.202.14
+m.youtube.soy,ccTLD-зеркала,NOERROR,167.38,,,63.95,да,300,2,85,m.youtube.com.,172.217.19.238
+m.youtube.lt,ccTLD-зеркала,NOERROR,,91.86,128.46,,да,273,2,84,m.youtube.com.,172.217.19.238
+a.rtmp.youtube.com,youtube.com,NOERROR,118.42,,,64.31,да,300,10,207,,142.251.38.108 172.217.19.236 192.178.25.12 216.58.201.236 216.58.201.172 216.58.201.204 172.217.20.172 216.58.207.108 142.251.142.236 142.251.143.140
+o-o.preferred.svo01s02.v10.lscache1.c.youtube.com,youtube.com,NOERROR,,92.27,105.86,,да,273,1,94,,216.58.201.174
+tv.youtube.com,youtube.com,NOERROR,119.3,,,65.75,да,300,1,59,,142.251.143.142
+r1.sn-h5t5jtcxgcq-n2ql.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.23,106.69,,да,1773,1,83,,223.25.255.216
+www.youtube.ma,ccTLD-зеркала,NOERROR,208.34,,,64.84,да,300,11,240,youtube-ui.l.google.com.,142.251.142.238 216.58.201.174 216.58.201.206 172.217.20.174 142.251.143.142 172.217.19.238 216.58.207.110 216.58.201.238 192.178.25.14 142.251.38.110
+r2.sn-xqbxa5c-cvnd.googlevideo.com,googlevideo (CDN видео),NOERROR,,153.96,91.91,,да,1773,1,79,,64.15.126.121
+o-o.preferred.kddi-hnd1.v19.lscache1.c.youtube.com,youtube.com,NOERROR,132.26,,,64.96,да,300,1,95,,216.58.201.174
+rr3---sn-5hne6nsz.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.03,100.57,,да,842,2,108,rr3.sn-5hne6nsz.googlevideo.com.,74.125.100.72
+www.youtube.co.uk,ccTLD-зеркала,NOERROR,119.42,,,178.05,да,300,11,243,youtube-ui.l.google.com.,216.58.201.174 142.251.143.142 192.178.25.14 216.58.201.238 142.251.38.110 172.217.19.238 216.58.207.110 216.58.201.206 142.251.142.238 172.217.20.174
+r2.sn-3u-nf0s.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.07,90.96,,да,1774,1,74,,59.12.162.13
+r4.sn-f5f7kn7e.googlevideo.com,googlevideo (CDN видео),NOERROR,118.53,,,64.13,да,1800,1,75,,74.125.104.137
+youtube.co.ug,ccTLD-зеркала,NOERROR,,92.79,135.67,,да,274,1,58,,216.58.201.206
+hu.youtube.com,youtube.com,NOERROR,118.87,,,70.15,да,300,11,237,youtube-ui.l.google.com.,216.58.201.174 142.251.38.110 172.217.20.174 216.58.201.238 172.217.19.238 142.251.143.142 216.58.201.206 142.251.142.238 216.58.207.110 192.178.25.14
+o-o.preferred.megacable-xal1.v2.lscache1.c.youtube.com,youtube.com,NOERROR,,92.58,90.88,,да,274,1,99,,216.58.201.174
+www.youtube.kz,ccTLD-зеркала,NOERROR,118.55,,,64.89,да,300,11,240,youtube-ui.l.google.com.,172.217.20.174 142.251.143.142 216.58.201.206 172.217.19.238 142.251.142.238 216.58.201.174 142.251.38.110 192.178.25.14 216.58.207.110 216.58.201.238
+youtube.com.bo,ccTLD-зеркала,NOERROR,,153.14,102.89,,да,274,1,59,,216.58.207.110
+www.youtube.lu,ccTLD-зеркала,NOERROR,126.23,,,65.42,да,300,11,240,youtube-ui.l.google.com.,142.251.142.238 216.58.207.110 172.217.20.174 216.58.201.174 142.251.38.110 172.217.19.238 216.58.201.238 142.251.143.142 216.58.201.206 192.178.25.14
+www.youtube.at,ccTLD-зеркала,NOERROR,,92.33,106.4,,да,273,11,240,youtube-ui.l.google.com.,192.178.25.14 216.58.201.206 216.58.201.174 172.217.19.238 216.58.201.238 142.251.143.142 142.251.38.110 142.251.142.238 172.217.20.174 216.58.207.110
+m.youtube.it,ccTLD-зеркала,NOERROR,121.19,,,64.92,да,300,2,84,m.youtube.com.,172.217.19.238
+www.youtube.sg,ccTLD-зеркала,NOERROR,,93.98,97.64,,да,273,11,240,youtube-ui.l.google.com.,172.217.19.238 216.58.201.238 142.251.142.238 216.58.207.110 142.251.143.142 192.178.25.14 216.58.201.206 172.217.20.174 142.251.38.110 216.58.201.174
+o-o.preferred.atl14s18.v12.lscache1.c.youtube.com,youtube.com,NOERROR,120.43,,,85.0,да,300,1,94,,216.58.201.174
+o-o---preferred---sn-jvhj5nu-hp5e---v5---lscache1.c.youtube.com,youtube.com,NOERROR,,92.92,121.84,,да,273,2,164,o-o.preferred.sn-jvhj5nu-hp5e.v5.lscache1.c.youtube.com.,216.58.201.174
+r4.sn-nv47lns6.googlevideo.com,googlevideo (CDN видео),NOERROR,150.68,,,76.88,да,1800,1,75,,173.194.160.105
+www.youtube.by,ccTLD-зеркала,NOERROR,,92.63,91.39,,да,273,11,240,youtube-ui.l.google.com.,216.58.201.174 216.58.201.206 216.58.201.238 192.178.25.14 142.251.142.238 142.251.38.110 172.217.20.174 172.217.19.238 216.58.207.110 142.251.143.142
+charts.youtube.com,youtube.com,NOERROR,117.78,,,63.96,да,300,11,241,youtube-ui.l.google.com.,142.251.142.238 192.178.25.14 142.251.143.142 216.58.201.174 142.251.38.110 172.217.20.174 216.58.207.110 216.58.201.206 216.58.201.238 172.217.19.238
+o-o---preferred---sn-ponpbiu-nq4e---v15---lscache1.c.youtube.com,youtube.com,NOERROR,,151.53,107.34,,да,273,2,166,o-o.preferred.sn-ponpbiu-nq4e.v15.lscache1.c.youtube.com.,216.58.201.174
+youtube.com,youtube.com,NOERROR,117.63,,,67.02,да,300,1,56,,172.217.19.238
+r3.sn-cp1oxu-q2nl.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.3,102.35,,да,1774,1,78,,117.102.111.206
+o-o---preferred---sn-q4f7dney---v9---lscache1.c.youtube.com,youtube.com,NOERROR,117.18,,,64.65,да,300,2,156,o-o.preferred.sn-q4f7dney.v9.lscache1.c.youtube.com.,216.58.201.174
+o-o.preferred.stc-ruh2.v2.lscache1.c.youtube.com,youtube.com,NOERROR,,92.24,90.41,,да,274,1,93,,142.250.202.142
+m.youtube.hk,ccTLD-зеркала,NOERROR,170.61,,,65.63,да,300,2,84,m.youtube.com.,172.217.19.238
+o-o---preferred---sn-o097zne7---v2---lscache1.c.youtube.com,youtube.com,NOERROR,,91.78,131.38,,да,274,2,156,o-o.preferred.sn-o097zne7.v2.lscache1.c.youtube.com.,216.58.201.174
+m.youtube.com.lb,ccTLD-зеркала,NOERROR,119.56,,,64.7,да,300,2,88,m.youtube.com.,172.217.19.238
+corp.youtube.com,youtube.com,NOERROR,,93.59,92.22,,да,274,1,61,,64.233.161.129
+o-o.preferred.megafon-pkv1.v8.lscache1.c.youtube.com,youtube.com,NOERROR,117.86,,,119.43,да,300,1,97,,216.58.201.174
+o-o.preferred.lvlt-iad1.v19.lscache1.c.youtube.com,youtube.com,NOERROR,,152.97,105.28,,да,274,1,95,,216.58.201.174
+youtube.sa,ccTLD-зеркала,NOERROR,119.5,,,67.16,да,300,1,55,,172.217.19.238
+m.youtube.co.zw,ccTLD-зеркала,NOERROR,,92.2,105.29,,да,273,2,87,m.youtube.com.,172.217.19.238
+r2.sn-ogul7nez.googlevideo.com,googlevideo (CDN видео),NOERROR,166.91,,,65.59,да,1800,1,75,,74.125.102.231
+r2.sn-g5njvh-n8vl.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.07,91.92,,да,1773,1,78,,81.27.242.141
+o-o.preferred.tm-jhb1.v2.lscache1.c.youtube.com,youtube.com,NOERROR,132.28,,,64.95,да,300,1,92,,216.58.201.174
+r5.sn-8qj-8ppd.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.9,127.62,,да,1773,1,75,,113.171.198.80
+rr2---sn-4g5lznek.googlevideo.com,googlevideo (CDN видео),NOERROR,117.79,,,64.58,да,1800,2,108,rr2.sn-4g5lznek.googlevideo.com.,74.125.162.39
+r1.sn-i5uif5t-h55l.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.84,92.68,,да,1773,1,79,,202.88.160.12
+youtube.com.sv,ccTLD-зеркала,NOERROR,118.91,,,66.47,да,300,1,59,,172.217.20.174
+youtube.gr,ccTLD-зеркала,NOERROR,,155.36,105.02,,да,274,1,55,,172.217.19.238
+redirector.c.youtube.com,youtube.com,NOERROR,155.32,,,65.38,да,300,1,69,,172.217.20.174
+youtube.com.pk,ccTLD-зеркала,NOERROR,,93.29,90.61,,да,274,1,59,,216.58.201.174
+r6.sn-8pxuuxa-i5oss.googlevideo.com,googlevideo (CDN видео),NOERROR,119.69,,,128.58,да,1800,1,80,,171.255.202.17
+tc.v16.cache1.c.youtube.com,youtube.com,NOERROR,,94.37,92.18,,да,274,2,114,bandaid-redirector.l.google.com.,216.58.201.174
+m.youtube.cz,ccTLD-зеркала,NOERROR,124.75,,,64.58,да,300,2,84,m.youtube.com.,172.217.19.238
+r2---sn-nv47lns7.googlevideo.com,googlevideo (CDN видео),NOERROR,,91.07,142.3,,да,1774,2,106,r2.sn-nv47lns7.googlevideo.com.,74.125.110.71
+rr18.sn-n8v7knel.googlevideo.com,googlevideo (CDN видео),NOERROR,131.27,,,67.05,да,1800,1,77,,173.194.180.100
+m.youtube.com.gt,ccTLD-зеркала,NOERROR,,93.11,90.44,,да,274,2,88,m.youtube.com.,172.217.19.238
+o-o.preferred.stc-jed1.v19.lscache1.c.youtube.com,youtube.com,NOERROR,147.13,,,65.01,да,300,1,94,,142.250.75.142
+o-o.preferred.turktelekom-sof1.v9.lscache1.c.youtube.com,youtube.com,NOERROR,,152.04,105.53,,да,273,1,101,,216.58.201.174
+www.youtube.cl,ccTLD-зеркала,NOERROR,158.37,,,64.58,да,300,11,240,youtube-ui.l.google.com.,192.178.25.14 216.58.201.174 142.251.142.238 216.58.201.206 172.217.19.238 142.251.143.142 172.217.20.174 216.58.207.110 142.251.38.110 216.58.201.238
+o-o.preferred.stc-jed6.v22.lscache1.c.youtube.com,youtube.com,NOERROR,,92.96,91.99,,да,273,1,94,,142.250.75.174
+o-o.preferred.tpginternet-syd1.v1.lscache1.c.youtube.com,youtube.com,NOERROR,116.62,,,63.91,да,300,1,101,,216.58.201.174
+r2.sn-8xgp1vo-2iae.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.14,91.44,,да,1773,1,79,,65.246.5.13
+families.youtube.com,youtube.com,NOERROR,121.68,,,64.75,да,300,11,243,youtube-ui.l.google.com.,172.217.19.238 216.58.201.174 192.178.25.14 216.58.201.238 142.251.38.110 142.251.143.142 216.58.201.206 142.251.142.238 216.58.207.110 172.217.20.174
+r1.sn-bjp-5oje.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.05,143.99,,да,1773,1,75,,66.58.255.12
+r2.sn-8pxuuxa-q5qel.googlevideo.com,googlevideo (CDN видео),NOERROR,126.97,,,132.31,да,1800,1,80,,27.71.245.13
+o-o---preferred---sn-q4f7dn7r---v15---lscache1.c.youtube.com,youtube.com,NOERROR,,93.02,105.38,,да,273,2,158,o-o.preferred.sn-q4f7dn7r.v15.lscache1.c.youtube.com.,216.58.201.174
+r1.sn-gwpa-cagr.googlevideo.com,googlevideo (CDN видео),NOERROR,132.09,,,66.97,да,1800,1,76,,49.44.185.76
+rr1.sn-npoe7ned.googlevideo.com,googlevideo (CDN видео),NOERROR,,153.15,94.88,,да,1774,1,76,,74.125.12.166
+o-o.preferred.fra07t18.v3.cache1.c.youtube.com,youtube.com,NOERROR,118.75,,,64.78,да,300,1,91,,216.58.201.174
+r6.sn-n3cgv5qc5oq-3fwe.googlevideo.com,googlevideo (CDN видео),NOERROR,,94.88,94.32,,да,1774,1,83,,175.113.74.17
+rr4---sn-5hnekn76.googlevideo.com,googlevideo (CDN видео),NOERROR,132.05,,,66.32,да,1800,2,108,rr4.sn-5hnekn76.googlevideo.com.,209.85.226.9
+youtube.cat,ccTLD-зеркала,NOERROR,,119.87,67.0,,да,300,1,56,,216.58.207.110
+rr3---sn-vgqskns7.googlevideo.com,googlevideo (CDN видео),NOERROR,140.39,,,63.94,да,1800,2,108,rr3.sn-vgqskns7.googlevideo.com.,74.125.9.168
+o-o.preferred.kazakhtel-tse1.v17.lscache1.c.youtube.com,youtube.com,NOERROR,,90.71,160.09,,да,274,1,100,,216.58.201.174
+www.youtube.com.lv,ccTLD-зеркала,NOERROR,122.43,,,66.92,да,300,11,244,youtube-ui.l.google.com.,142.251.143.142 172.217.20.174 216.58.201.238 216.58.201.206 216.58.207.110 192.178.25.14 142.251.38.110 142.251.142.238 216.58.201.174 172.217.19.238
+o-o.preferred.stc-jed1.v9.lscache1.c.youtube.com,youtube.com,NOERROR,,92.13,105.91,,да,273,1,93,,142.250.75.174
+www.youtube.soy,ccTLD-зеркала,NOERROR,147.55,,,66.41,да,300,11,241,youtube-ui.l.google.com.,216.58.207.110 172.217.20.174 192.178.25.14 172.217.19.238 216.58.201.238 142.251.143.142 216.58.201.174 216.58.201.206 142.251.38.110 142.251.142.238
+o-o.preferred.dfw06s08.v19.lscache1.c.youtube.com,youtube.com,NOERROR,,128.12,91.65,,да,273,1,94,,216.58.201.174
+m.youtube.com.ua,ccTLD-зеркала,NOERROR,117.43,,,126.34,да,300,2,88,m.youtube.com.,172.217.19.238
+r1.sn-8qj-nbosd.googlevideo.com,googlevideo (CDN видео),NOERROR,,94.84,91.69,,да,1773,1,76,,113.171.212.204
+o-o.preferred.hkg03s05.v10.lscache1.c.youtube.com,youtube.com,NOERROR,138.84,,,65.17,да,300,1,94,,216.58.201.174
+youtube.com.my,ccTLD-зеркала,NOERROR,,96.93,90.93,,да,273,1,59,,172.217.19.238
+o-o---preferred---sn-o097zne7---v14---lscache1.c.youtube.com,youtube.com,NOERROR,119.23,,,64.54,да,300,2,158,o-o.preferred.sn-o097zne7.v14.lscache1.c.youtube.com.,216.58.201.174
+r7.sn-3u-bh2sl.googlevideo.com,googlevideo (CDN видео),NOERROR,,93.46,142.03,,да,1773,1,75,,59.18.31.210
+mx.youtube.com,youtube.com,NOERROR,120.07,,,63.92,да,300,11,237,youtube-ui.l.google.com.,142.251.38.110 172.217.20.174 216.58.201.206 192.178.25.14 172.217.19.238 216.58.207.110 216.58.201.174 142.251.143.142 142.251.142.238 216.58.201.238
+insight.youtube.com,youtube.com,NOERROR,,94.33,107.31,,да,274,3,133,video-analytics.google.com. video-analytics.l.google.com.,142.251.38.110
+r2.sn-524pcxgpo-8u1s.googlevideo.com,googlevideo (CDN видео),NOERROR,119.12,,,65.5,да,1800,1,81,,103.211.110.205
+r3.sn-npoe7ney.a1.googlevideo.com,googlevideo (CDN видео),NOERROR,,142.45,92.0,,да,1774,1,78,,74.125.101.40
+o-o.preferred.fasttelco-kwi1.v24.lscache1.c.youtube.com,youtube.com,NOERROR,162.64,,,64.39,да,300,1,100,,216.58.201.174
+o-o---preferred---sn-jvhj5nu-q4fe---v23---lscache1.c.youtube.com,youtube.com,NOERROR,,92.54,90.66,,да,274,2,166,o-o.preferred.sn-jvhj5nu-q4fe.v23.lscache1.c.youtube.com.,216.58.201.174
+rr4---sn-u0g3uxax3-pnur.googlevideo.com,googlevideo (CDN видео),NOERROR,119.32,,,64.81,да,1800,2,120,rr4.sn-u0g3uxax3-pnur.googlevideo.com.,212.156.176.143
+o-o---preferred---sn-5uaezn7y---v6---lscache1.c.youtube.com,youtube.com,NOERROR,,91.42,90.28,,да,274,2,156,o-o.preferred.sn-5uaezn7y.v6.lscache1.c.youtube.com.,216.58.201.174
+o-o---preferred---sn-o097zne7---v21---lscache1.c.youtube.com,youtube.com,NOERROR,118.5,,,134.38,да,300,2,158,o-o.preferred.sn-o097zne7.v21.lscache1.c.youtube.com.,216.58.201.174
+rr4---sn-4g5e6nzs.googlevideo.com,googlevideo (CDN видео),NOERROR,,92.11,143.59,,да,1774,2,108,rr4.sn-4g5e6nzs.googlevideo.com.,74.125.13.233
+lh3.googleusercontent.com,ytimg / ggpht / прочее,NOERROR,106.2,,,66.38,да,223,2,99,googlehosted.l.googleusercontent.com.,172.217.20.161
+notifications-pa.googleapis.com,ytimg / ggpht / прочее,NOERROR,,92.23,79.15,,да,68,8,188,,172.217.119.4 172.217.116.4 172.217.113.4 172.217.117.4 172.217.118.4 172.217.115.4 172.217.114.4 172.217.112.4
+rr2.sn-npoldn7z.googlevideo.com,googlevideo (CDN видео),NOERROR,179.53,,,63.83,да,1800,1,76,,142.251.85.71
+payments.youtube.com,youtube.com,NOERROR,,155.6,115.86,,да,273,1,468,,142.250.27.92
+m.youtube.com.az,ccTLD-зеркала,NOERROR,133.69,,,162.08,да,300,2,88,m.youtube.com.,172.217.19.238
+youtube.com.ro,ccTLD-зеркала,NOERROR,,93.27,92.66,,да,273,1,59,,216.58.207.110

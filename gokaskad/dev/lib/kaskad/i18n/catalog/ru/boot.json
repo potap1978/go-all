@@ -1,0 +1,10 @@
+{
+ "boot.kind.compat_missing": "правило совместимости iptables",
+ "boot.kind.drift": "маршруты устройств в таблице nftables",
+ "boot.kind.gw_compat_in": "правило совместимости шлюза для UFW",
+ "boot.kind.gw_ip6": "таблица IPv6 шлюза",
+ "boot.kind.gw_routing": "маршрутизация шлюза",
+ "boot.kind.gw_rp_filter": "rp_filter интерфейсов шлюза",
+ "boot.kind.ip_forward": "пересылка пакетов",
+ "boot.summary": "{prefix} после перезагрузки: правила шлюза восстановлены ({parts})"
+}

@@ -1,0 +1,14 @@
+#!/bin/sh
+# Kaskad 3 gateway: accel-ppp ip-pre-up. chap-secrets is shared by L2TP, PPTP and SSTP, so here the
+# login must have THIS inbound (allow/<kind>); a non-zero exit refuses the session before it is up.
+# accel-ppp runs it as <script> <ifname> none 0 <local-ip> <peer-ip> <calling-sid>, PEERNAME=<login>.
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
+case "$1" in
+    kgw-l2tp*) kind=l2tp ;;
+    kgw-pptp*) kind=pptp ;;
+    kgw-sstp*) kind=sstp ;;
+    *) exit 1 ;;
+esac
+[ -n "$PEERNAME" ] || exit 1
+exec grep -qxF -e "$PEERNAME" "/etc/kaskad/gw/accel/allow/$kind"

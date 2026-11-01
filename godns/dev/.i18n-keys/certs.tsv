@@ -1,0 +1,49 @@
+certs_scan_start	Ищу сертификаты, уже выпущенные на этом сервере	Looking for certificates already issued on this server
+certs_scan_found	Найдено сертификатов: %s	Certificates found: %s
+certs_scan_none	Готовых сертификатов на сервере не найдено	No existing certificates found on this server
+certs_openssl_missing	openssl не найден — проверить сертификаты нечем	openssl not found — certificates cannot be inspected
+certs_sqlite_missing	sqlite3 не установлен — база 3X-UI пропущена	sqlite3 is not installed — skipping the 3X-UI database
+certs_govless_lite_no_cert	goVLESS в режиме Lite: домена нет, только сертификат на IP	goVLESS is in Lite mode: no domain, only an IP certificate
+certs_govless_cert_absent	goVLESS указывает домен, но файла нет: %s	goVLESS names a domain, but the file is missing: %s
+certs_lite_no_cert	goTelegram в режиме Lite: своего сертификата нет (mask_host — чужой)	goTelegram is in Lite mode: no certificate of its own (mask_host)
+certs_gotelegram_cert_absent	goTelegram указывает домен, но файла нет: %s	goTelegram names a domain, but the file is missing: %s
+certs_src_govless	goVLESS Pro, режим %s	goVLESS Pro, mode %s
+certs_src_gotelegram	goTelegram Pro, домен %s	goTelegram Pro, domain %s
+certs_src_letsencrypt	Let's Encrypt, линия %s	Let's Encrypt, lineage %s
+certs_src_xui_web	3X-UI: сертификат панели	3X-UI: panel certificate
+certs_src_xui_sub	3X-UI: сервер подписок	3X-UI: subscription server
+certs_src_acme_ip	goVLESS: сертификат на IP %s (acme.sh)	goVLESS: certificate for IP %s (acme.sh)
+certs_why_no_files	файлы сертификата или ключа не читаются	the certificate or key files cannot be read
+certs_why_no_openssl	openssl недоступен — проверить сертификат нечем	openssl is unavailable — the certificate cannot be checked
+certs_why_expired	срок действия истёк или истекает в ближайшие сутки	expired, or expiring within the next 24 hours
+certs_why_key_mismatch	приватный ключ не подходит к этому сертификату	the private key does not match this certificate
+certs_why_ip_only	в SAN только IP — клиент, пришедший по имени, проверку не пройдёт	SAN holds IP addresses only — a client using the hostname will fail
+certs_why_no_san	нет ни одного SAN — современные клиенты такой сертификат отвергают	no SAN at all — modern clients reject such a certificate
+certs_why_self_signed	самоподписанный (issuer совпадает с subject) — клиенты его отвергнут	self-signed (issuer equals subject) — clients will reject it
+certs_menu_title	Сертификаты, найденные на сервере	Certificates found on this server
+certs_menu_hint	Введите номер сертификата, 0 — отмена	Enter the certificate number, 0 to cancel
+certs_days_left_fmt	осталось дней: %s	days left: %s
+certs_none_usable	Ни один найденный сертификат не годится для DoH/DoT по имени хоста	None of the certificates found is usable for hostname-addressed DoH/DoT
+certs_bad_choice	Такого номера в списке нет	No such number in the list
+certs_pick_unusable_confirm	Этот сертификат помечен как непригодный. Всё равно использовать?	This certificate is marked unusable. Use it anyway?
+certs_grant_start	Открываю доступ к приватному ключу пользователю %s	Granting private-key read access to user %s
+certs_grant_root	Служба работает от root — доступ открывать не нужно	The service runs as root — no access changes needed
+certs_grant_no_domain	Не указан домен: непонятно, к какому ключу открывать доступ	No domain given: unclear which key to grant access to
+certs_grant_no_user_arg	Не указан пользователь службы	No service user given
+certs_grant_no_lineage	Каталога сертификата нет: %s	The certificate directory does not exist: %s
+certs_grant_no_user	Пользователь %s в системе не существует	User %s does not exist on this system
+certs_grant_group_fail	Не удалось создать группу ssl-cert	Failed to create the ssl-cert group
+certs_grant_user_fail	Не удалось добавить %s в группу ssl-cert	Failed to add %s to the ssl-cert group
+certs_grant_chmod_fail	Не удалось сменить владельца или права: %s	Failed to change owner or permissions: %s
+certs_grant_proved	Проверено: пользователь %s читает privkey.pem	Verified: user %s can read privkey.pem
+certs_grant_denied	Пользователь %s ВСЁ ЕЩЁ не может прочитать %s	User %s STILL cannot read %s
+certs_grant_unproven	runuser недоступен — права выставлены, но не проверены	runuser is unavailable — permissions were set but not verified
+certs_hook_written	Хук продления установлен: %s	Renewal hook installed: %s
+certs_hook_removed	Хук продления удалён: %s	Renewal hook removed: %s
+certs_hook_fail	Не удалось записать хук: %s	Failed to write the hook: %s
+certs_hook_note	Каталог deploy-хуков аддитивный: файлы соседей не тронуты	The deploy-hook directory is additive: neighbours are untouched
+certs_watch_written	Слежение за файлом сертификата включено: %s	Watching the certificate file: %s
+certs_watch_no_path	Не указан путь к сертификату для слежения	No certificate path given to watch
+certs_watch_no_systemd	systemd недоступен — слежение за сертификатом не установлено	systemd is unavailable — the certificate watcher was not installed
+certs_watch_fail	Не удалось записать unit слежения	Failed to write the watcher unit
+certs_watch_enable_fail	Unit слежения записан, но включить его не удалось	The watcher unit was written but could not be enabled

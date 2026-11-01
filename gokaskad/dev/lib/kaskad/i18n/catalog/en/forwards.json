@@ -1,0 +1,6 @@
+{
+ "forwards.exists": "Forward {proto}/{port} already exists (→ {to}:{to_port}). To replace it, delete it first.",
+ "forwards.legacy_engine": "Forwards are run by the legacy forwarding engine (iptables); this command is for the nftables engine.",
+ "forwards.missing": "There is no forward {proto} :{port}.",
+ "forwards.rename_dup": "The name “{name}” is already used by the forward {ids}. Save anyway?"
+}

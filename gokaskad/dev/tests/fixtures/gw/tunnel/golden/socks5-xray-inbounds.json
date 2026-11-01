@@ -1,0 +1,26 @@
+[
+  {
+    "listen": "0.0.0.0",
+    "port": 1080,
+    "protocol": "socks",
+    "settings": {
+      "accounts": [
+        {
+          "pass": "Pw1qqqqqqqqqqq",
+          "user": "dev-guest"
+        },
+        {
+          "pass": "Pw2qqqqqqqqqqq",
+          "user": "dev-pc"
+        },
+        {
+          "pass": "Pw3qqqqqqqqqqq",
+          "user": "dev-vienna"
+        }
+      ],
+      "auth": "password",
+      "udp": true
+    },
+    "tag": "gw-socks5"
+  }
+]

@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2563eb"/><text x="50" y="62" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="#fff" text-anchor="middle">GA</text></svg></template>
+<x-dc>
+<helmet><link rel="stylesheet" href="../heroui-tokens.css"><script src="../ga-icons.js"></script><style>a{color:inherit}a:hover{opacity:.8}</style></helmet>
+<div data-hero="" data-theme="{{ th }}" data-tint="{{ ap.tint }}" data-density="{{ ap.density }}" data-btn="{{ ap.btn }}" data-cards="{{ ap.cards }}" data-fs="{{ ap.fs }}" data-vibrant="{{ vib }}" data-motion="{{ motionAttr }}" data-device="{{ device }}" data-tgc="{{ tgc }}" style="--tg-bg:{{ tgBg }};--tg-secondary-bg:{{ tgBg2 }};--tg-text:{{ tgText }};--tg-hint:{{ tgHint }};--accent:{{ accent }};--accent-foreground:{{ accentFg }};--radius:{{ radiusPx }};position:relative;display:flex;height:100%;min-height:100%;overflow:hidden;background:var(--background);color:var(--foreground);font:400 var(--fs)/1.5 var(--font);-webkit-font-smoothing:antialiased">
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;display:grid;place-items:center;padding:24px 16px;overflow:auto">
+    <div style="width:min(400px,100%);display:grid;gap:20px">
+      <div style="display:flex;align-items:center;gap:12px;justify-content:center"><div style="width:40px;height:40px;border-radius:12px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 14px/1 var(--font)">GA</div><b style="font:600 17px var(--font)">goAmnezia Pro</b></div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:28px 24px;display:grid;gap:18px">
+        <div style="text-align:center;display:grid;gap:4px"><h1 style="margin:0;font:600 22px/28px var(--font);letter-spacing:-.01em">Вход в панель</h1><span style="color:var(--muted);font-size:14px">Сервер vpn.example.ru</span></div>
+        <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:var(--r-btn);background:var(--default)">
+          <span style="position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/2);border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ loginTx }};transition:transform var(--dur) var(--ease)"></span>
+          <button type="button" onClick="{{ loginCode }}" style="position:relative;height:32px;border:0;background:transparent;color:{{ lcFg }};font:500 13px var(--font);cursor:pointer">Код из бота</button>
+          <button type="button" onClick="{{ loginPwd }}" style="position:relative;height:32px;border:0;background:transparent;color:{{ lpFg }};font:500 13px var(--font);cursor:pointer">Пароль</button>
+        </div>
+        <sc-if value="{{ isLoginCode }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:0;color:var(--muted);text-align:center;text-wrap:pretty;font-size:14px">Бот <b style="color:var(--foreground);font-weight:500">@goamnezia_home_bot</b> прислал шестизначный код. Он действует 5 минут.</p>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+            <sc-for list="{{ otpSlots }}" as="s" hint-placeholder-count="6">
+              <div style="position:relative;height:56px;border-radius:var(--r-field);background:var(--field-background);box-shadow:{{ s.sh }};display:grid;place-items:center;font:500 22px var(--mono);font-variant-numeric:tabular-nums">{{ s.ch }}<sc-if value="{{ s.caret }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;width:2px;height:22px;background:var(--foreground);animation:hero-caret 1s step-end infinite"></span></sc-if></div>
+            </sc-for>
+            <input value="{{ otp }}" onChange="{{ onOtp }}" onKeyDown="{{ onOtpKey }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-label="Код из Telegram" style="position:absolute;inset:0;width:100%;opacity:0;cursor:text;font-size:16px">
+          </div>
+          <sc-if value="{{ otpErr }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:10px;padding:12px;border-radius:var(--r-field);background:var(--danger-soft);color:var(--danger-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:circle-exclamation" width="18" height="18" style="flex:none"></iconify-icon><span><b style="font-weight:600">Код не подошёл.</b> Откройте последнее сообщение бота: старые коды не действуют. Осталось попыток: 2.</span></div>
+          </sc-if>
+          <sc-if value="{{ otpOk }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:10px;padding:12px;border-radius:var(--r-field);background:var(--success-soft);color:var(--success-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:circle-check" width="18" height="18" style="flex:none"></iconify-icon><span><b style="font-weight:600">Вход выполнен.</b> Сессия действует 12 часов на этом устройстве.</span></div>
+          </sc-if>
+          <button type="button" onClick="{{ submitOtp }}" style="display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 15px var(--font);cursor:pointer;transition:transform var(--dur) var(--ease)" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)">Войти</button>
+          <span style="text-align:center;color:var(--muted);font-size:13px">Прислать код ещё раз можно через 0:42</span>
+        </sc-if>
+        <sc-if value="{{ isLoginPwd }}" hint-placeholder-val="{{ false }}">
+          <label style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Логин</span><input value="owner" readonly style="height:44px;padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:var(--field-shadow);font:400 16px var(--font);width:100%"></label>
+          <label style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Пароль</span><input type="password" value="correcthorse" readonly style="height:44px;padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:var(--field-shadow);font:400 16px var(--font);width:100%"></label>
+          <button type="button" style="height:44px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 15px var(--font);cursor:pointer" style-active="transform:scale(.97)">Войти</button>
+          <span style="text-align:center;color:var(--muted);font-size:13px;text-wrap:pretty">Забыли пароль — задайте новый в SSH-меню: <span style="font-family:var(--mono);color:var(--foreground)">goamnezia → Панель → Пароль</span></span>
+        </sc-if>
+      </div>
+      <div style="display:grid;gap:6px;justify-items:center;text-align:center;color:var(--muted);font-size:13px"><span>Вход через SSH-туннель работает всегда</span><code style="font:12.5px var(--mono);padding:6px 10px;border-radius:var(--r-sm);background:var(--default);color:var(--foreground);overflow-wrap:anywhere">ssh -L 1985:127.0.0.1:1985 root@203.0.113.10</code></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isShell }}" hint-placeholder-val="{{ true }}">
+  <sc-if value="{{ sideFull }}" hint-placeholder-val="{{ true }}">
+    <aside style="width:252px;flex:none;display:flex;flex-direction:column;gap:20px;padding:18px 12px 14px;background:var(--background);overflow:auto">
+      <div style="display:flex;align-items:center;gap:10px;padding:0 8px"><div style="width:34px;height:34px;flex:none;border-radius:10px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 12px/1 var(--font)">GA</div><div style="min-width:0"><div style="font:600 14px/18px var(--font)">goAmnezia Pro</div><div style="font:12px/16px var(--font);color:var(--muted)">vpn.example.ru</div></div></div>
+      <nav style="display:grid;gap:2px">
+        <div style="padding:0 10px 6px;font:500 12px var(--font);color:var(--muted)">Сервер</div>
+        <sc-for list="{{ navs }}" as="n" hint-placeholder-count="4">
+          <button type="button" onClick="{{ n.go }}" aria-current="{{ n.cur }}" style="display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border:0;border-radius:var(--r-field);background:{{ n.bg }};color:{{ n.fg }};font:{{ n.fw }} var(--fs)/1 var(--font);text-align:left;cursor:pointer;box-shadow:{{ n.sh }};transition:background var(--dur)" style-hover="background:var(--default)"><iconify-icon icon="{{ n.icon }}" width="18" height="18" style="flex:none"></iconify-icon><span style="flex:1">{{ n.label }}</span><sc-if value="{{ n.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:{{ n.badgeBg }};color:{{ n.badgeFg }};font:600 11px/20px var(--font);text-align:center">{{ n.badge }}</span></sc-if></button>
+        </sc-for>
+      </nav>
+      <div style="margin-top:auto;display:grid;gap:10px">
+        <div style="display:grid;gap:8px;padding:12px;border-radius:var(--r-field);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <div style="display:flex;align-items:center;gap:8px;font:500 13px var(--font)"><span style="position:relative;width:8px;height:8px;border-radius:50%;background:var(--success)"></span>Сервер отвечает<span style="margin-left:auto;color:var(--muted);font-weight:400">18 дн</span></div>
+          <div style="display:grid;gap:4px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Диск</span><span>38%</span></div><div style="height:4px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:38%;height:100%;border-radius:999px;background:var(--accent)"></div></div></div>
+        </div>
+        <button type="button" onClick="{{ openAp }}" style="display:flex;align-items:center;gap:10px;height:38px;padding:0 10px;border:0;border-radius:var(--r-field);background:transparent;color:var(--foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:palette" width="18" height="18"></iconify-icon>Внешний вид<span style="margin-left:auto;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)"></span></button>
+      </div>
+    </aside>
+  </sc-if>
+  <sc-if value="{{ sideIcons }}" hint-placeholder-val="{{ false }}">
+    <aside style="width:68px;flex:none;display:flex;flex-direction:column;align-items:center;gap:18px;padding:18px 0 14px;background:var(--background)">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 12px/1 var(--font)">GA</div>
+      <nav style="display:grid;gap:4px">
+        <sc-for list="{{ navs }}" as="n" hint-placeholder-count="4">
+          <button type="button" onClick="{{ n.go }}" title="{{ n.label }}" aria-label="{{ n.label }}" style="position:relative;width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:var(--r-field);background:{{ n.bg }};color:{{ n.fg }};box-shadow:{{ n.sh }};cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="{{ n.icon }}" width="20" height="20"></iconify-icon><sc-if value="{{ n.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:{{ n.dot }};box-shadow:0 0 0 2px var(--background)"></span></sc-if></button>
+        </sc-for>
+      </nav>
+      <button type="button" onClick="{{ openAp }}" aria-label="Внешний вид" style="margin-top:auto;width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:var(--r-field);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:palette" width="20" height="20"></iconify-icon></button>
+    </aside>
+  </sc-if>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;height:100%;padding:{{ mainGutter }};padding-left:{{ mainGutterL }}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;border-radius:{{ frameR }};background:{{ frameBg }};overflow:hidden">
+
+    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+      <header style="display:flex;align-items:center;gap:10px;padding:12px 16px 4px">
+        <sc-if value="{{ notTg }}" hint-placeholder-val="{{ true }}"><div style="width:32px;height:32px;flex:none;border-radius:10px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 11px/1 var(--font)">GA</div></sc-if>
+        <div style="flex:1;min-width:0"><div style="font:12px/14px var(--font);color:var(--muted)">vpn.example.ru</div><div style="font:600 19px/24px var(--font);letter-spacing:-.01em">{{ pageTitle }}</div></div>
+        <button type="button" onClick="{{ openCmd }}" aria-label="Поиск" style="width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--foreground);cursor:pointer"><iconify-icon icon="gravity-ui:magnifier" width="18" height="18"></iconify-icon></button>
+        <button type="button" onClick="{{ openAp }}" aria-label="Внешний вид" style="width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--foreground);cursor:pointer"><iconify-icon icon="gravity-ui:palette" width="18" height="18"></iconify-icon></button>
+      </header>
+    </sc-if>
+
+    <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+      <header style="display:flex;align-items:center;gap:8px;padding:18px var(--pad) 6px;min-width:0">
+        <sc-if value="{{ navTop }}" hint-placeholder-val="{{ false }}">
+          <div style="width:32px;height:32px;flex:none;border-radius:10px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 11px/1 var(--font)">GA</div>
+          <nav style="display:flex;gap:2px;padding:4px;border-radius:var(--r-btn);background:var(--default)">
+            <sc-for list="{{ navs }}" as="n" hint-placeholder-count="4">
+              <button type="button" onClick="{{ n.go }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ n.segBg }};box-shadow:{{ n.segSh }};color:{{ n.fg }};font:500 13px var(--font);cursor:pointer"><iconify-icon icon="{{ n.icon }}" width="16" height="16"></iconify-icon>{{ n.label }}</button>
+            </sc-for>
+          </nav>
+        </sc-if>
+        <sc-if value="{{ notNavTop }}" hint-placeholder-val="{{ true }}">
+          <div style="min-width:0;flex:none">
+            <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:6px;font:13px var(--font);color:var(--muted);white-space:nowrap"><span>vpn.example.ru</span><iconify-icon icon="gravity-ui:chevron-right" width="12" height="12"></iconify-icon><span>{{ pageTitle }}</span></div></sc-if>
+            <h1 style="margin:2px 0 0;font:600 {{ h1fs }}/1.2 var(--font);letter-spacing:-.02em">{{ pageTitle }}</h1>
+          </div>
+        </sc-if>
+        <div style="flex:1 1 0;min-width:8px"></div>
+        <button type="button" onClick="{{ openCmd }}" title="Поиск ⌘K" style="display:flex;align-items:center;gap:8px;flex:0 1 280px;min-width:40px;overflow:hidden;height:var(--btn-h);padding:0 8px 0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);box-shadow:var(--field-shadow);color:var(--muted);font:400 var(--fs) var(--font);cursor:pointer;text-align:left" style-hover="background:var(--field-hover)"><iconify-icon icon="gravity-ui:magnifier" width="16" height="16"></iconify-icon><span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Поиск людей и действий</span><kbd style="display:inline-flex;align-items:center;gap:2px;height:22px;padding:0 6px;border-radius:6px;background:var(--default);color:var(--muted);font:500 12px var(--font)">⌘K</kbd></button>
+        <button type="button" onClick="{{ refresh }}" aria-label="Обновить" title="Обновить" style="width:var(--btn-h);height:var(--btn-h);display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)" style-active="transform:scale(.94)"><iconify-icon icon="gravity-ui:arrow-rotate-right" width="18" height="18" style="animation:{{ spinAnim }}"></iconify-icon></button>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="width:var(--btn-h);height:var(--btn-h);display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="{{ themeIcon }}" width="18" height="18"></iconify-icon></button>
+        <button type="button" onClick="{{ openAp }}" style="display:inline-flex;align-items:center;gap:8px;height:var(--btn-h);padding:0 14px 0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer;flex:none;white-space:nowrap" style-hover="background:var(--default-hover)" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:sliders" width="16" height="16"></iconify-icon>Вид</button>
+        <div title="owner" style="width:34px;height:34px;flex:none;border-radius:50%;background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center;font:600 13px var(--font)">OW</div>
+      </header>
+    </sc-if>
+
+    <main style="flex:1;min-height:0;overflow:auto;padding:14px var(--pad) {{ mainPadB }}">
+     <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap);max-width:1600px;margin:0 auto">
+
+      <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+        <div role="alert" style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <span style="width:32px;height:32px;flex:none;border-radius:50%;background:var(--warning-soft);color:var(--warning-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:triangle-exclamation" width="17" height="17"></iconify-icon></span>
+          <div style="flex:1 1 240px;min-width:0"><div style="font:600 var(--fs)/20px var(--font)">AmneziaWG 1.5 остановлен</div><div style="color:var(--muted);font-size:13px;line-height:18px">Контейнер amnezia-awg1 не отвечает с 11:52. Сейчас не подключаются 3 человека.</div></div>
+          <div style="display:flex;gap:8px;flex:none">
+            <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ goLogs }}" style="height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 13px var(--font);cursor:pointer" style-hover="background:var(--default)">Логи</button></sc-if>
+            <button type="button" onClick="{{ restart15 }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--foreground);color:var(--background);font:500 13px var(--font);cursor:pointer" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:arrow-rotate-right" width="14" height="14" style="animation:{{ restartAnim }}"></iconify-icon>{{ restartLabel }}</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,{{ kpiMin }}),1fr));gap:var(--gap)">
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;align-content:start">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font:500 13px var(--font)"><span>Пользователи</span><iconify-icon icon="gravity-ui:persons" width="16" height="16"></iconify-icon></div>
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font:600 {{ kpiFs }}/1 var(--font);letter-spacing:-.03em;font-variant-numeric:tabular-nums">{{ kUsers }}</span><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:var(--success-soft);color:var(--success-soft-foreground);font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:var(--success)"></span><span>{{ kOnline }} на связи</span></span></div>
+            <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center">
+                <sc-for list="{{ avatars }}" as="a" hint-placeholder-count="5"><span title="{{ a.n }}" style="width:28px;height:28px;margin-left:-6px;border-radius:50%;background:{{ a.bg }};color:{{ a.fg }};display:grid;place-items:center;font:600 11px var(--font);box-shadow:0 0 0 2px var(--card-bg)">{{ a.i1 }}</span></sc-for>
+                <span style="width:28px;height:28px;margin-left:-6px;border-radius:50%;background:var(--default);color:var(--muted);display:grid;place-items:center;font:600 11px var(--font);box-shadow:0 0 0 2px var(--card-bg)">+9</span>
+              </div>
+            </sc-if>
+          </section>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;align-content:start">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font:500 13px var(--font)"><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">Трафик за 30 дней</span><iconify-icon icon="gravity-ui:arrow-up-arrow-down" width="16" height="16"></iconify-icon></div>
+            <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><span style="font:600 {{ kpiFs }}/1 var(--font);letter-spacing:-.03em;font-variant-numeric:tabular-nums">{{ kTraffic }}</span><span style="color:var(--muted);font:500 15px var(--font)">ГБ</span><sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><span style="margin-left:4px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-soft-foreground);font:500 12px/18px var(--font);white-space:nowrap">+12% к августу</span></sc-if></div>
+            <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:flex-end;gap:3px;height:36px">
+                <sc-for list="{{ bars }}" as="b" hint-placeholder-count="14"><span title="{{ b.t }}" style="flex:1;height:{{ b.h }}%;min-height:3px;border-radius:3px;background:{{ b.c }};transition:height .6s var(--ease)"></span></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isBal }}" hint-placeholder-val="{{ true }}"><div style="color:var(--muted);font-size:13px">↓ 171,2 · ↑ 11,2 ГБ</div></sc-if>
+          </section>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;align-content:start">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font:500 13px var(--font)"><span>Профили</span><iconify-icon icon="gravity-ui:shield-check" width="16" height="16"></iconify-icon></div>
+            <div style="display:flex;align-items:baseline;gap:6px"><span style="font:600 {{ kpiFs }}/1 var(--font);letter-spacing:-.03em">2</span><span style="color:var(--muted);font:500 15px var(--font)">из 3 работают</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ profChips }}" as="c" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font:500 12px/18px var(--font)"><span style="width:6px;height:6px;border-radius:50%;background:{{ c.dot }}"></span>{{ c.v }}</span></sc-for>
+            </div>
+          </section>
+          <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}">
+            <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;align-content:start">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font:500 13px var(--font)"><span>Нагрузка</span><iconify-icon icon="gravity-ui:cpu" width="16" height="16"></iconify-icon></div>
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="position:relative;width:56px;height:56px;flex:none;border-radius:50%;background:conic-gradient(var(--accent) {{ cpuDeg }}deg, var(--default) 0)"><div style="position:absolute;inset:6px;border-radius:50%;background:var(--card-bg);display:grid;place-items:center;font:600 12px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap"><span>{{ kCpu }}%</span></div></div>
+                <div style="display:grid;gap:2px;font-size:13px;min-width:0"><span style="white-space:nowrap">Процессор</span><span style="color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ОЗУ 1,1 из 2 ГБ</span><sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}"><span style="color:var(--muted)">v0.4.4 · аптайм 18 дн</span></sc-if></div>
+              </div>
+            </section>
+          </sc-if>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,{{ colMin }}),1fr));gap:var(--gap);align-items:start">
+          <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}">
+            <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:14px;min-width:0">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px"><div><h2 style="margin:0;font:600 16px/22px var(--font)">Входящий трафик по адресам</h2><div style="color:var(--muted);font-size:13px">A-записи есть у 3 адресов из 4</div></div></div>
+              <div style="display:grid;gap:0;min-width:0;overflow-x:auto">
+                <div style="display:grid;grid-template-columns:{{ ecols }};gap:12px;align-items:center;padding:8px 12px;border-radius:var(--r-field);background:var(--tile-bg);color:var(--muted);font:500 12px var(--font);min-width:{{ eMinW }}">
+                  <span>Адрес</span><span>Состояние</span><sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}"><span style="text-align:right">15 мин</span></sc-if><span style="text-align:right">1 ч</span><span style="text-align:right">Сутки</span>
+                </div>
+                <sc-for list="{{ edges }}" as="e" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:{{ ecols }};gap:12px;align-items:center;padding:var(--row) 12px;border-bottom:1px solid var(--separator);font-variant-numeric:tabular-nums;min-width:{{ eMinW }}">
+                    <span style="display:grid;min-width:0"><span style="font:500 13px var(--mono)">{{ e.ip }}</span><sc-if value="{{ e.noA }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--danger-soft-foreground)">нет A-записи</span></sc-if></span>
+                    <span><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ e.bg }};color:{{ e.fg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ e.dot }}"></span>{{ e.verdict }}</span></span>
+                    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}"><span style="text-align:right">{{ e.m15 }}</span></sc-if>
+                    <span style="text-align:right">{{ e.h1 }}</span><span style="text-align:right">{{ e.d1 }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-if>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;min-width:0">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px"><div><h2 style="margin:0;font:600 16px/22px var(--font)">Профили AmneziaWG</h2><sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><div style="color:var(--muted);font-size:13px">Включение, порт и люди на каждом</div></sc-if></div><button type="button" onClick="{{ goProfiles }}" style="display:inline-flex;align-items:center;gap:4px;height:var(--btn-h-sm);padding:0 10px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 13px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default)">Все<iconify-icon icon="gravity-ui:chevron-right" width="14" height="14"></iconify-icon></button></div>
+            <div style="display:grid">
+              <sc-for list="{{ profRows }}" as="p" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;padding:var(--row) 0;border-bottom:1px solid var(--separator)">
+                  <span style="width:36px;height:36px;flex:none;border-radius:var(--r-field);background:{{ p.tileBg }};color:{{ p.tileFg }};display:grid;place-items:center"><iconify-icon icon="gravity-ui:shield" width="18" height="18"></iconify-icon></span>
+                  <div style="flex:1;min-width:0"><div style="font:500 var(--fs)/20px var(--font)">AmneziaWG {{ p.v }}</div><div style="font:12px/16px var(--font);color:var(--muted)">{{ p.meta }}</div></div>
+                  <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ p.bg }};color:{{ p.fg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ p.dot }}"></span>{{ p.state }}</span>
+                  <button type="button" role="switch" aria-checked="{{ p.on }}" aria-label="Включить AmneziaWG {{ p.v }}" onClick="{{ p.flip }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ p.track }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ p.knob }};transition:transform var(--dur) var(--ease)"></span></button>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+
+        <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--gap);align-items:start">
+            <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:12px;min-width:0">
+              <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end"><div><h2 style="margin:0;font:600 16px/22px var(--font)">Активность по часам</h2><div style="color:var(--muted);font-size:13px">Рукопожатия за 7 дней</div></div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted)">меньше<span style="width:10px;height:10px;border-radius:3px;background:color-mix(in oklab,var(--accent) 12%,var(--default))"></span><span style="width:10px;height:10px;border-radius:3px;background:color-mix(in oklab,var(--accent) 45%,var(--default))"></span><span style="width:10px;height:10px;border-radius:3px;background:var(--accent)"></span>больше</div></div>
+              <div style="display:grid;gap:3px;overflow-x:auto">
+                <sc-for list="{{ heat }}" as="r" hint-placeholder-count="7">
+                  <div style="display:grid;grid-template-columns:22px repeat(24,minmax(8px,1fr));gap:3px;align-items:center"><span style="font-size:11px;color:var(--muted)">{{ r.d }}</span><sc-for list="{{ r.c }}" as="c" hint-placeholder-count="24"><span title="{{ c.t }}" style="aspect-ratio:1;border-radius:3px;background:color-mix(in oklab,var(--accent) {{ c.p }}%,var(--default))"></span></sc-for></div>
+                </sc-for>
+                <div style="display:grid;grid-template-columns:22px repeat(4,1fr);font-size:11px;color:var(--muted)"><span></span><span>00</span><span>06</span><span>12</span><span>18</span></div>
+              </div>
+            </section>
+            <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:12px;min-width:0">
+              <h2 style="margin:0;font:600 16px/22px var(--font)">События</h2>
+              <div style="display:grid">
+                <sc-for list="{{ events }}" as="ev" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:44px 20px minmax(0,1fr);gap:8px;align-items:start;padding:7px 0;border-bottom:1px solid var(--separator);font-size:13px;line-height:18px"><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ ev.t }}</span><iconify-icon icon="{{ ev.icon }}" width="16" height="16" style="color:{{ ev.c }};margin-top:1px"></iconify-icon><span>{{ ev.m }}</span></div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ services }}" as="s" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;background:var(--default);font:500 12px var(--font)"><span style="width:6px;height:6px;border-radius:50%;background:{{ s.dot }}"></span>{{ s.n }}</span></sc-for>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isUsers }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:14px;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="position:relative;display:grid;grid-template-columns:repeat(3,auto);padding:4px;border-radius:var(--r-btn);background:var(--default)">
+              <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+                <button type="button" onClick="{{ f.pick }}" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ f.bg }};box-shadow:{{ f.sh }};color:{{ f.fg }};font:500 13px var(--font);cursor:pointer;white-space:nowrap;transition:background var(--dur)">{{ f.label }}<span style="min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:{{ f.cBg }};font:600 11px/18px var(--font);text-align:center">{{ f.n }}</span></button>
+              </sc-for>
+            </div>
+            <div style="flex:1"></div>
+            <label style="display:flex;align-items:center;gap:8px;flex:1 1 200px;max-width:280px;height:var(--btn-h);padding:0 12px;border-radius:var(--r-field);background:var(--field-background);box-shadow:var(--field-shadow);color:var(--muted)"><iconify-icon icon="gravity-ui:magnifier" width="16" height="16"></iconify-icon><input type="search" value="{{ q }}" onChange="{{ onQ }}" placeholder="Имя или адрес" style="flex:1;min-width:0;border:0;background:transparent;color:var(--field-foreground);font:400 var(--fs) var(--font);outline:none"></label>
+            <button type="button" onClick="{{ addUser }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h);padding:0 16px 0 12px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:plus" width="16" height="16"></iconify-icon>Добавить</button>
+          </div>
+
+          <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;min-width:0">
+              <div style="display:grid;grid-template-columns:{{ ucols }};gap:12px;align-items:center;padding:8px 12px;border-radius:var(--r-field);background:var(--tile-bg);color:var(--muted);font:500 12px var(--font);min-width:{{ uMinW }}">
+                <span>Пользователь</span>
+                <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><span>Профили</span></sc-if>
+                <span>Статус</span><span>Трафик</span>
+                <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><span>Срок</span></sc-if>
+                <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}"><span>Адрес</span><span>Рукопожатие</span><span>7 дней</span></sc-if>
+                <span></span>
+              </div>
+              <sc-for list="{{ usersShown }}" as="u" hint-placeholder-count="8">
+                <div onClick="{{ u.open }}" style="display:grid;grid-template-columns:{{ ucols }};gap:12px;align-items:center;padding:var(--row) 12px;border-bottom:1px solid var(--separator);cursor:pointer;min-width:{{ uMinW }};border-radius:var(--r-sm);transition:background var(--dur)" style-hover="background:var(--background-secondary)">
+                  <span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="position:relative;width:32px;height:32px;flex:none;border-radius:50%;background:{{ u.avBg }};color:{{ u.avFg }};display:grid;place-items:center;font:600 12px var(--font);opacity:{{ u.op }}">{{ u.ini }}<sc-if value="{{ u.isOn }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 0 2px var(--card-bg)"></span></sc-if></span><span style="display:grid;min-width:0"><span style="font:500 var(--fs)/18px var(--font);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.n }}</span><span style="font:12px/16px var(--font);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.sub }}</span></span></span>
+                  <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><span style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ u.chips }}" as="c" hint-placeholder-count="2"><span style="padding:1px 7px;border-radius:var(--r-sm);background:var(--default);font:500 12px/18px var(--mono)">{{ c }}</span></sc-for></span></sc-if>
+                  <span><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ u.sBg }};color:{{ u.sFg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ u.sDot }}"></span>{{ u.sLabel }}</span></span>
+                  <span style="display:grid;gap:5px;font-variant-numeric:tabular-nums;font-size:13px"><span>{{ u.usedT }} <span style="color:var(--muted)">{{ u.limT }}</span></span><sc-if value="{{ u.hasLim }}" hint-placeholder-val="{{ false }}"><span style="height:4px;border-radius:999px;background:var(--default);overflow:hidden"><span style="display:block;height:100%;width:{{ u.pct }}%;border-radius:999px;background:{{ u.barC }}"></span></span></sc-if></span>
+                  <sc-if value="{{ notMin }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:{{ u.expC }}">{{ u.exp }}</span></sc-if>
+                  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}"><span style="font:12.5px var(--mono);color:var(--muted)">{{ u.ep }}</span><span style="font-size:13px;color:var(--muted)">{{ u.hs }}</span><span style="display:flex;align-items:flex-end;gap:2px;height:20px"><sc-for list="{{ u.spark }}" as="k" hint-placeholder-count="7"><span style="flex:1;height:{{ k }}%;min-height:2px;border-radius:2px;background:var(--accent);opacity:.75"></span></sc-for></span></sc-if>
+                  <span style="display:flex;justify-content:flex-end;color:var(--muted)"><iconify-icon icon="gravity-ui:chevron-right" width="16" height="16"></iconify-icon></span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid">
+              <sc-for list="{{ usersShown }}" as="u" hint-placeholder-count="8">
+                <button type="button" onClick="{{ u.open }}" style="display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 0;border:0;border-bottom:1px solid var(--separator);background:none;color:var(--foreground);text-align:left;font:inherit;cursor:pointer">
+                  <span style="position:relative;grid-row:span 2;width:40px;height:40px;border-radius:50%;background:{{ u.avBg }};color:{{ u.avFg }};display:grid;place-items:center;font:600 13px var(--font);opacity:{{ u.op }}">{{ u.ini }}<sc-if value="{{ u.isOn }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:var(--success);box-shadow:0 0 0 2px var(--card-bg)"></span></sc-if></span>
+                  <span style="font:500 16px/20px var(--font)">{{ u.n }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ u.sBg }};color:{{ u.sFg }};font:500 12px/18px var(--font);white-space:nowrap">{{ u.sLabel }}</span>
+                  <span style="grid-column:2 / 4;display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:0"><span style="white-space:nowrap">{{ u.usedT }} {{ u.limT }}</span><span style="white-space:nowrap;color:{{ u.expC }}">{{ u.exp }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px">
+            <span>Показано {{ shownN }} из 14</span>
+            <div style="display:flex;gap:4px"><button type="button" aria-label="Назад" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--muted);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:chevron-left" width="14" height="14"></iconify-icon></button><button type="button" style="width:32px;height:32px;border:0;border-radius:var(--r-btn);background:var(--foreground);color:var(--background);font:500 13px var(--font)">1</button><button type="button" style="width:32px;height:32px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 13px var(--font);cursor:pointer" style-hover="background:var(--default)">2</button><button type="button" aria-label="Вперёд" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:chevron-right" width="14" height="14"></iconify-icon></button></div>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ isProfiles }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:var(--gap);align-items:stretch">
+          <sc-for list="{{ profCards }}" as="p" hint-placeholder-count="3">
+            <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);grid-row:span 5;display:grid;grid-template-rows:subgrid;row-gap:16px;min-width:0">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:40px;height:40px;flex:none;border-radius:var(--r-field);background:{{ p.tileBg }};color:{{ p.tileFg }};display:grid;place-items:center"><iconify-icon icon="gravity-ui:shield" width="20" height="20"></iconify-icon></span>
+                <div style="flex:1;min-width:0"><h2 style="margin:0;font:600 17px/22px var(--font)">AmneziaWG {{ p.v }}</h2><div style="font:12px/16px var(--mono);color:var(--muted)">{{ p.container }}</div></div>
+                <button type="button" role="switch" aria-checked="{{ p.on }}" aria-label="Включить" onClick="{{ p.flip }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ p.track }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ p.knob }};transition:transform var(--dur) var(--ease)"></span></button>
+              </div>
+              
+              
+              <div style="align-self:start;display:grid;min-height:0"><sc-if value="{{ p.updating }}" hint-placeholder-val="{{ false }}">
+                <div style="display:grid;gap:8px;padding:12px;border-radius:var(--r-field);background:var(--accent-soft)">
+                  <div style="display:flex;justify-content:space-between;gap:8px;font:500 13px var(--font);color:var(--accent-soft-foreground)"><span style="display:flex;align-items:center;gap:8px"><span style="width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:hero-spin .9s linear infinite"></span>Обновляем ядро до 4.8.12</span><span style="font-variant-numeric:tabular-nums">{{ clock }}</span></div>
+                  <div style="height:6px;border-radius:999px;background:color-mix(in oklab,var(--accent) 18%,transparent);overflow:hidden"><div style="width:61%;height:100%;border-radius:999px;background:var(--accent)"></div></div>
+                  <div style="font-size:12px;color:var(--accent-soft-foreground)">Шаг 3 из 5 · образ скачан на 61% · обычно 3–15 минут, вкладку можно закрыть</div>
+                </div>
+              </sc-if><sc-if value="{{ p.stopped }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:10px;padding:12px;border-radius:var(--r-field);background:var(--warning-soft);color:var(--warning-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:triangle-exclamation" width="17" height="17" style="flex:none"></iconify-icon><span><b style="font-weight:600">Остановлен в 11:52.</b> Ключи профиля не работают. Нажмите «Перезапустить»; если не поможет, откройте логи контейнера.</span></div>
+              </sc-if></div>
+              <div style="align-self:start;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+                <sc-for list="{{ p.kv }}" as="kv" hint-placeholder-count="4"><div style="padding:10px 12px;border-radius:var(--r-field);background:var(--tile-bg);min-width:0"><div style="font-size:12px;color:var(--muted)">{{ kv.k }}</div><div style="font:500 14px/20px var(--mono);overflow-wrap:anywhere">{{ kv.v }}</div></div></sc-for>
+              </div>
+              <div style="align-self:start;border-radius:var(--r-field);border:1px solid var(--separator)">
+                <button type="button" onClick="{{ p.toggleAcc }}" aria-expanded="{{ p.acc }}" style="display:flex;align-items:center;justify-content:space-between;width:100%;height:44px;padding:0 12px;border:0;background:transparent;color:var(--foreground);font:500 14px var(--font);cursor:pointer">Параметры маскировки<iconify-icon icon="gravity-ui:chevron-down" width="16" height="16" style="transform:{{ p.accRot }};transition:transform var(--dur) var(--ease)"></iconify-icon></button>
+                <sc-if value="{{ p.acc }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:grid;padding:0 12px 8px;animation:hero-fade .2s">
+                    <sc-for list="{{ p.params }}" as="pr" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:6px 0;border-top:1px solid var(--separator);font-size:13px"><span style="font:500 13px var(--mono)">{{ pr.k }}</span><span style="font:13px var(--mono);overflow-wrap:anywhere;color:var(--muted)">{{ pr.v }}</span><span style="font-size:11px;color:{{ pr.sc }}">{{ pr.s }}</span></div></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              
+              <div style="align-self:end;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <button type="button" onClick="{{ p.primaryGo }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ p.pBg }};color:{{ p.pFg }};font:500 13px var(--font);cursor:pointer" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:arrow-rotate-right" width="14" height="14"></iconify-icon>Перезапустить</button>
+                <button type="button" style="height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 13px var(--font);cursor:pointer" style-hover="background:var(--default-hover)">Порт</button>
+                <button type="button" style="height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 13px var(--font);cursor:pointer" style-hover="background:var(--default-hover)">MTU</button>
+                <button type="button" onClick="{{ openConfirmProfile }}" style="margin-left:auto;height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--danger-soft-foreground);font:500 13px var(--font);cursor:pointer" style-hover="background:var(--danger-soft)">Удалить</button>
+              </div>
+            </section>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:18px;min-width:0">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2 style="margin:0;font:600 17px/22px var(--font)">Внешний вид</h2><div style="color:var(--muted);font-size:13px">Выберите тему целиком или настройте цвет, форму и подробность по отдельности</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" onClick="{{ randomAp }}" title="Случайная тема" style="display:inline-flex;align-items:center;gap:8px;height:var(--btn-h);padding:0 14px 0 10px;border:0;border-radius:var(--r-btn);background:var(--accent-soft);color:var(--accent-soft-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--accent-soft-hover)" style-active="transform:scale(.96)"><span style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:1px;width:20px;height:20px;padding:3px;border-radius:5px;background:var(--accent);transform:{{ diceRot }};transition:transform .55s cubic-bezier(.3,1.4,.5,1);flex:none"><sc-for list="{{ pips }}" as="pp" hint-placeholder-count="9"><span style="width:4px;height:4px;place-self:center;border-radius:50%;background:var(--accent-foreground);opacity:{{ pp.op }};transition:opacity .2s"></span></sc-for></span>Случайная</button><button type="button" onClick="{{ openAp }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h);padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:sliders" width="16" height="16"></iconify-icon>Все настройки</button></div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+            <sc-for list="{{ presetList }}" as="pr" hint-placeholder-count="6">
+              <button type="button" onClick="{{ pr.pick }}" aria-pressed="{{ pr.on }}" style="display:grid;gap:8px;padding:6px 6px 10px;border:0;border-radius:calc(var(--r-field) + 4px);background:transparent;box-shadow:{{ pr.ring }};color:var(--foreground);text-align:left;cursor:pointer;font:inherit">
+                <span style="display:grid;grid-template-columns:24px 1fr;gap:6px;height:76px;padding:8px;border-radius:{{ pr.r }};background:{{ pr.bg }}"><span style="display:grid;gap:4px;align-content:start"><span style="height:6px;border-radius:3px;background:{{ pr.accent }}"></span><span style="height:6px;border-radius:3px;background:{{ pr.line }}"></span><span style="height:6px;border-radius:3px;background:{{ pr.line }}"></span></span><span style="display:grid;gap:5px;align-content:start;padding:7px;border-radius:{{ pr.r2 }};background:{{ pr.surface }};box-shadow:{{ pr.sh }};border:1px solid {{ pr.bd }}"><span style="height:6px;width:60%;border-radius:3px;background:{{ pr.line }}"></span><span style="height:6px;width:85%;border-radius:3px;background:{{ pr.line }}"></span><span style="justify-self:start;height:12px;width:34px;border-radius:{{ pr.rb }};background:{{ pr.accent }}"></span></span></span>
+                <span style="display:flex;align-items:center;justify-content:space-between;padding:0 4px;font:500 13px var(--font)">{{ pr.name }}<sc-if value="{{ pr.on }}" hint-placeholder-val="{{ false }}"><iconify-icon icon="gravity-ui:circle-check-fill" width="16" height="16" style="color:var(--accent)"></iconify-icon></sc-if></span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:grid;gap:8px"><span style="font:500 14px var(--font)">Подробность</span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+              <sc-for list="{{ densityList }}" as="d" hint-placeholder-count="3">
+                <button type="button" onClick="{{ d.pick }}" aria-pressed="{{ d.on }}" style="display:grid;gap:8px;padding:12px;border:0;border-radius:var(--r-field);background:var(--tile-bg);box-shadow:{{ d.ring }};color:var(--foreground);text-align:left;cursor:pointer;font:inherit">
+                  <span style="display:grid;grid-template-columns:repeat(4,1fr);gap:{{ d.g }};height:44px;align-content:start"><sc-for list="{{ d.cells }}" as="c" hint-placeholder-count="4"><span style="grid-column:{{ c.col }};height:{{ c.h }};border-radius:4px;background:{{ c.bg }}"></span></sc-for></span>
+                  <span style="font:500 14px var(--font)">{{ d.name }}</span><span style="font-size:12px;line-height:16px;color:var(--muted)">{{ d.desc }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--gap);align-items:start">
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:12px;min-width:0">
+            <h2 style="margin:0;font:600 16px/22px var(--font)">Режим сервера</h2>
+            <div role="radiogroup" style="display:grid;gap:8px">
+              <sc-for list="{{ modes }}" as="m" hint-placeholder-count="3">
+                <button type="button" role="radio" aria-checked="{{ m.on }}" onClick="{{ m.pick }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);gap:2px 12px;padding:12px 14px;border:0;border-radius:var(--r-field);background:{{ m.bg }};box-shadow:{{ m.ring }};color:var(--foreground);text-align:left;font:inherit;cursor:pointer;transition:background var(--dur)">
+                  <span style="width:20px;height:20px;margin-top:1px;border-radius:50%;box-shadow:inset 0 0 0 {{ m.bw }} {{ m.bc }};transition:box-shadow var(--dur) var(--ease)"></span>
+                  <span style="display:grid;gap:2px"><span style="font:500 var(--fs)/20px var(--font)">{{ m.title }}</span><span style="font-size:13px;line-height:18px;color:var(--muted)">{{ m.desc }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </section>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:14px;min-width:0">
+            <h2 style="margin:0;font:600 16px/22px var(--font)">DNS в ключах</h2>
+            <div style="position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:4px;border-radius:var(--r-btn);background:var(--default)">
+              <span style="position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/4);border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ dnsTx }};transition:transform var(--dur) var(--ease)"></span>
+              <sc-for list="{{ dnsOpts }}" as="d" hint-placeholder-count="4"><button type="button" onClick="{{ d.pick }}" style="position:relative;height:32px;border:0;background:transparent;color:{{ d.fg }};font:500 13px var(--font);cursor:pointer">{{ d.label }}</button></sc-for>
+            </div>
+            <sc-if value="{{ dnsIsPreset }}" hint-placeholder-val="{{ true }}"><div style="font:13px var(--mono);color:var(--muted)">{{ dnsVal }}</div></sc-if>
+            <sc-if value="{{ dnsIsCustom }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;animation:hero-fade .2s">
+                <label style="display:grid;gap:6px;min-width:0"><span style="font:500 13px var(--font)">Основной DNS</span><input value="{{ dns1 }}" onChange="{{ onDns1 }}" inputmode="decimal" placeholder="например, 9.9.9.9" aria-invalid="{{ dns1Bad }}" style="height:var(--btn-h);padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:{{ dns1Sh }};font:400 var(--fs) var(--mono);width:100%;min-width:0" style-focus="box-shadow:0 0 0 2px var(--focus)"></label>
+                <label style="display:grid;gap:6px;min-width:0"><span style="font:500 13px var(--font)">Запасной DNS</span><input value="{{ dns2 }}" onChange="{{ onDns2 }}" inputmode="decimal" placeholder="например, 149.112.112.112" aria-invalid="{{ dns2Bad }}" style="height:var(--btn-h);padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:{{ dns2Sh }};font:400 var(--fs) var(--mono);width:100%;min-width:0" style-focus="box-shadow:0 0 0 2px var(--focus)"></label>
+              </div>
+              <div style="font-size:12px;line-height:16px;color:{{ dnsHintC }}">{{ dnsHint }}</div>
+            </sc-if>
+            <div style="font-size:12px;line-height:16px;color:var(--muted)">Меняется только в новых ключах. Выданные ключи продолжают работать.</div>
+          </section>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:12px;min-width:0">
+            <h2 style="margin:0;font:600 16px/22px var(--font)">Вход в панель</h2>
+            <div style="display:grid">
+              <sc-for list="{{ switches }}" as="s" hint-placeholder-count="3">
+                <button type="button" role="switch" aria-checked="{{ s.on }}" onClick="{{ s.flip }}" style="display:flex;align-items:center;gap:14px;padding:10px 0;border:0;border-bottom:1px solid var(--separator);background:none;color:var(--foreground);text-align:left;font:inherit;cursor:pointer">
+                  <span style="flex:1;display:grid;gap:2px"><span style="font:500 var(--fs)/20px var(--font)">{{ s.title }}</span><span style="font-size:13px;line-height:18px;color:var(--muted)">{{ s.desc }}</span></span>
+                  <span style="position:relative;flex:none;width:40px;height:24px;border-radius:999px;background:{{ s.track }};transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ s.knob }};transition:transform var(--dur) var(--ease)"></span></span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;height:var(--btn-h);padding:0 4px 0 12px;border-radius:var(--r-field);background:var(--tile-bg);min-width:0"><code style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:13px var(--mono)">https://vpn.example.ru/p-8f3kq2m7x4c9tz/</code><button type="button" onClick="{{ copyPanel }}" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:0;border-radius:var(--r-btn);background:var(--card-bg);box-shadow:var(--field-shadow);color:var(--foreground);font:500 12px var(--font);cursor:pointer;white-space:nowrap"><iconify-icon icon="{{ cpPanelIcon }}" width="14" height="14" style="color:{{ cpPanelC }}"></iconify-icon>{{ cpPanelLabel }}</button></div>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isTraffic }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:16px;min-width:0">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2 style="margin:0;font:600 16px/22px var(--font)">Трафик сервера</h2><div style="color:var(--muted);font-size:13px">Скачано и отдано через все профили</div></div><div style="position:relative;display:grid;grid-template-columns:repeat(3,auto);padding:4px;border-radius:var(--r-btn);background:var(--default)"><sc-for list="{{ rangeOpts }}" as="o" hint-placeholder-count="3"><button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ o.bg }};box-shadow:{{ o.sh }};color:{{ o.fg }};font:500 13px var(--font);cursor:pointer;white-space:nowrap;transition:background var(--dur)">{{ o.label }}</button></sc-for></div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+            <sc-for list="{{ trTotals }}" as="t" hint-placeholder-count="3"><div style="padding:12px 14px;border-radius:var(--r-field);background:var(--tile-bg);min-width:0"><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:8px;height:8px;border-radius:2px;background:{{ t.c }}"></span>{{ t.l }}</div><div style="font:600 22px/28px var(--font);letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap">{{ t.v }}</div></div></sc-for>
+          </div>
+          <div style="display:grid;gap:6px;min-width:0">
+            <div style="display:flex;align-items:flex-end;gap:{{ trGap }};height:180px;padding-top:8px;border-bottom:1px solid var(--separator)">
+              <sc-for list="{{ trBars }}" as="b" hint-placeholder-count="30"><div title="{{ b.t }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px"><span style="height:{{ b.up }}%;min-height:2px;border-radius:3px 3px 0 0;background:color-mix(in oklab,var(--accent) 40%,var(--default));transition:height .5s var(--ease)"></span><span style="height:{{ b.down }}%;min-height:2px;border-radius:0 0 3px 3px;background:var(--accent);transition:height .5s var(--ease)"></span></div></sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums"><sc-for list="{{ trAxis }}" as="a" hint-placeholder-count="4"><span>{{ a }}</span></sc-for></div>
+          </div>
+        </section>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:var(--gap);align-items:start">
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;min-width:0">
+            <h2 style="margin:0;font:600 16px/22px var(--font)">Больше всего трафика</h2>
+            <sc-for list="{{ trTop }}" as="u" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:6px 0"><span style="grid-row:span 2;width:32px;height:32px;border-radius:50%;background:{{ u.avBg }};color:{{ u.avFg }};display:grid;place-items:center;font:600 12px var(--font)">{{ u.ini }}</span><span style="font:500 var(--fs)/18px var(--font)">{{ u.n }}</span><span style="font:500 13px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap">{{ u.v }}</span><span style="grid-column:2/-1;height:6px;border-radius:999px;background:var(--default);overflow:hidden"><span style="display:block;height:100%;width:{{ u.pct }}%;border-radius:999px;background:var(--accent)"></span></span></div></sc-for>
+          </section>
+          <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:10px;min-width:0">
+            <h2 style="margin:0;font:600 16px/22px var(--font)">По профилям</h2>
+            <div style="display:flex;height:10px;border-radius:999px;overflow:hidden;gap:2px"><sc-for list="{{ trProf }}" as="p" hint-placeholder-count="3"><span style="width:{{ p.pct }}%;background:{{ p.c }}"></span></sc-for></div>
+            <sc-for list="{{ trProf }}" as="p" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--separator);font-size:14px"><span style="width:10px;height:10px;border-radius:3px;background:{{ p.c }}"></span><span style="flex:1">AmneziaWG {{ p.v }}</span><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ p.pct }}%</span><span style="font-weight:500;font-variant-numeric:tabular-nums;min-width:74px;text-align:right">{{ p.val }}</span></div></sc-for>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBackups }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:16px;min-width:0">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><h2 style="margin:0;font:600 16px/22px var(--font)">Бэкапы</h2><div style="color:var(--muted);font-size:13px">Пользователи, ключи, профили и настройки. Хранятся на сервере.</div></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h);padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:arrow-up-from-line" width="16" height="16"></iconify-icon>Загрузить архив</button><button type="button" onClick="{{ makeBackup }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h);padding:0 16px 0 12px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)"><iconify-icon icon="{{ bkIcon }}" width="16" height="16" style="animation:{{ bkAnim }}"></iconify-icon>{{ bkLabel }}</button></div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-field);background:var(--tile-bg)"><span style="flex:1;display:grid;gap:2px"><span style="font:500 14px var(--font)">Каждый день в 03:00</span><span style="font-size:12px;color:var(--muted)">Следующий через 14 ч 56 мин</span></span><button type="button" role="switch" aria-checked="{{ bkAuto }}" aria-label="Автоматический бэкап" onClick="{{ flipBkAuto }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ bkTrack }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ bkKnob }};transition:transform var(--dur) var(--ease)"></span></button></div>
+            <div style="display:grid;gap:6px;padding:12px 14px;border-radius:var(--r-field);background:var(--tile-bg)"><div style="display:flex;justify-content:space-between;font-size:13px"><span style="font-weight:500">Место</span><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ bkUsed }} из 2 ГБ</span></div><div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:{{ bkPct }}%;height:100%;border-radius:999px;background:var(--accent);transition:width .4s var(--ease)"></div></div><span style="font-size:12px;color:var(--muted)">Храним 7 последних, старые удаляются сами</span></div>
+          </div>
+          <div style="display:grid">
+            <sc-for list="{{ backups }}" as="b" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:var(--row) 0;border-bottom:1px solid var(--separator);animation:{{ b.anim }}">
+                <span style="width:36px;height:36px;flex:none;border-radius:var(--r-field);background:{{ b.tileBg }};color:{{ b.tileFg }};display:grid;place-items:center"><iconify-icon icon="gravity-ui:database" width="17" height="17"></iconify-icon></span>
+                <div style="flex:1 1 200px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font:500 var(--fs)/20px var(--font);font-variant-numeric:tabular-nums">{{ b.date }}</span><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font:500 12px/18px var(--font);white-space:nowrap;background:{{ b.kBg }};color:{{ b.kFg }}">{{ b.kind }}</span></div><div style="font-size:12px;color:var(--muted)">{{ b.meta }}</div></div>
+                <div style="display:flex;gap:6px"><button type="button" onClick="{{ b.dl }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h-sm);padding:0 10px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 13px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="14" height="14"></iconify-icon>Скачать</button><button type="button" onClick="{{ b.restore }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 13px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:arrow-rotate-left" width="14" height="14"></iconify-icon>Восстановить</button></div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ isLogs }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:14px;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <select value="{{ logSvc }}" onChange="{{ onLogSvc }}" aria-label="Служба" style="height:var(--btn-h);padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:var(--field-shadow);font:500 var(--fs) var(--mono)"><sc-for list="{{ logSvcs }}" as="s" hint-placeholder-count="5"><option value="{{ s }}">{{ s }}</option></sc-for></select>
+            <div style="position:relative;display:grid;grid-template-columns:repeat(3,auto);padding:4px;border-radius:var(--r-btn);background:var(--default)"><sc-for list="{{ logLvls }}" as="o" hint-placeholder-count="3"><button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="height:32px;padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ o.bg }};box-shadow:{{ o.sh }};color:{{ o.fg }};font:500 13px var(--font);cursor:pointer;white-space:nowrap;transition:background var(--dur)">{{ o.label }}</button></sc-for></div>
+            <label style="display:flex;align-items:center;gap:8px;flex:1 1 180px;height:var(--btn-h);padding:0 12px;border-radius:var(--r-field);background:var(--field-background);box-shadow:var(--field-shadow);color:var(--muted)"><iconify-icon icon="gravity-ui:magnifier" width="16" height="16"></iconify-icon><input value="{{ logQ }}" onChange="{{ onLogQ }}" placeholder="Поиск в логе" style="flex:1;min-width:0;border:0;background:transparent;color:var(--field-foreground);font:400 var(--fs) var(--font);outline:none"></label>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px"><button type="button" role="switch" aria-checked="{{ follow }}" aria-label="Следить за новыми" onClick="{{ flipFollow }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ followTrack }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ followKnob }};transition:transform var(--dur) var(--ease)"></span></button><span style="white-space:nowrap">Следить</span></div>
+            <button type="button" onClick="{{ copyLog }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h-sm);padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 13px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="{{ cpLogIcon }}" width="14" height="14" style="color:{{ cpLogC }}"></iconify-icon>{{ cpLogLabel }}</button>
+          </div>
+          <div role="log" aria-live="polite" style="max-height:{{ logH }};overflow:auto;padding:8px 0;border-radius:var(--r-field);background:var(--tile-bg);font:12.5px/20px var(--mono)">
+            <sc-for list="{{ logLines }}" as="l" hint-placeholder-count="12"><div style="display:grid;grid-template-columns:72px 52px minmax(0,1fr);gap:10px;padding:1px 14px;background:{{ l.bg }}"><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ l.t }}</span><span style="color:{{ l.c }};font-weight:600">{{ l.lv }}</span><span style="overflow-wrap:anywhere">{{ l.m }}</span></div></sc-for>
+            <sc-if value="{{ logEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:24px;text-align:center;color:var(--muted);font-family:var(--font)">Нет строк по этому фильтру</div></sc-if>
+          </div>
+          <div style="font-size:12px;color:var(--muted)">{{ logFoot }}</div>
+        </section>
+      </sc-if>
+
+      <sc-if value="{{ isAgents }}" hint-placeholder-val="{{ false }}">
+        <section style="background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);border-radius:var(--r-card);padding:var(--card-p);display:grid;gap:16px;min-width:0">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="max-width:560px"><h2 style="margin:0;font:600 16px/22px var(--font)">Агенты</h2><div style="color:var(--muted);font-size:13px;text-wrap:pretty">ИИ-ассистенты с доступом к серверу по протоколу MCP. Каждый получает свой адрес и права.</div></div><button type="button" onClick="{{ newAgent }}" style="display:inline-flex;align-items:center;gap:6px;height:var(--btn-h);padding:0 16px 0 12px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 var(--fs) var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:plus" width="16" height="16"></iconify-icon>Подключить агента</button></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-field);background:var(--tile-bg)"><span style="width:10px;height:10px;border-radius:50%;background:{{ mcpDot }}"></span><span style="flex:1;display:grid;gap:2px"><span style="font:500 14px var(--font)">Служба goamnezia-mcp-http</span><span style="font-size:12px;color:var(--muted)">{{ mcpDesc }}</span></span><button type="button" role="switch" aria-checked="{{ mcpOn }}" aria-label="Служба MCP" onClick="{{ flipMcp }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ mcpTrack }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ mcpKnob }};transition:transform var(--dur) var(--ease)"></span></button></div>
+          <sc-if value="{{ agentSecret }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;gap:8px;padding:12px;border-radius:var(--r-field);background:var(--warning-soft);animation:hero-pop .2s var(--ease)">
+              <div style="display:flex;justify-content:space-between;gap:8px;font:500 12px var(--font);color:var(--warning-soft-foreground)"><span>Новый агент · адрес показывается один раз</span><button type="button" onClick="{{ hideSecret }}" style="border:0;background:none;color:inherit;font:500 12px var(--font);cursor:pointer">Скрыть</button></div>
+              <code style="display:block;padding:10px;border-radius:var(--r-sm);background:var(--overlay);font:12px/18px var(--mono);overflow-wrap:anywhere;user-select:all">https://vpn.example.ru/a-3kV9qT7m/mcp?t=Zx81pQm4LrT6wB2n</code>
+              <span style="font-size:12px;color:var(--warning-soft-foreground)">Вставьте адрес в настройки агента. Потеряли — отзовите и подключите заново.</span>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:10px">
+            <sc-for list="{{ agents }}" as="a" hint-placeholder-count="3">
+              <div style="display:grid;gap:10px;padding:14px;border-radius:var(--r-field);background:var(--tile-bg);opacity:{{ a.op }};transition:opacity var(--dur)">
+                <div style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;flex:none;border-radius:var(--r-field);background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:code" width="17" height="17"></iconify-icon></span><span style="flex:1;min-width:0;display:grid"><span style="font:500 var(--fs)/20px var(--font)">{{ a.n }}</span><span style="font-size:12px;color:var(--muted)">{{ a.seen }}</span></span><button type="button" role="switch" aria-checked="{{ a.on }}" aria-label="Включить агента" onClick="{{ a.flip }}" style="position:relative;flex:none;width:40px;height:24px;border:0;border-radius:999px;background:{{ a.track }};cursor:pointer;transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ a.knob }};transition:transform var(--dur) var(--ease)"></span></button></div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ a.scopes }}" as="s" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font:500 12px/18px var(--font);white-space:nowrap;background:{{ s.bg }};color:{{ s.fg }}">{{ s.t }}</span></sc-for></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted)"><span>{{ a.calls }}</span><button type="button" onClick="{{ a.revoke }}" style="height:28px;padding:0 10px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--danger-soft-foreground);font:500 12px var(--font);cursor:pointer" style-hover="background:var(--danger-soft)">Отозвать</button></div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-if>
+     </div>
+    </main>
+
+    <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+      <nav style="display:grid;grid-template-columns:repeat(4,1fr);padding:6px 8px 14px;background:var(--background);border-top:1px solid var(--separator)">
+        <sc-for list="{{ tabs }}" as="n" hint-placeholder-count="4">
+          <button type="button" onClick="{{ n.go }}" style="display:grid;justify-items:center;gap:3px;min-height:52px;padding:6px 0;border:0;background:none;color:{{ n.tabFg }};font:500 11px var(--font);cursor:pointer"><span style="display:grid;place-items:center;width:52px;height:28px;border-radius:999px;background:{{ n.tabBg }};transition:background var(--dur)"><iconify-icon icon="{{ n.icon }}" width="20" height="20"></iconify-icon></span>{{ n.short }}</button>
+        </sc-for>
+      </nav>
+    </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ moreOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMore }}" style="position:absolute;inset:0;z-index:18;background:var(--backdrop);animation:hero-fade .15s"></div>
+    <div role="dialog" aria-label="Другие разделы" style="position:absolute;z-index:19;left:8px;right:8px;bottom:84px;display:grid;gap:2px;padding:8px;border-radius:var(--r-card);background:var(--overlay);box-shadow:var(--overlay-shadow);animation:hero-in-up .2s var(--ease)">
+      <sc-for list="{{ moreItems }}" as="n" hint-placeholder-count="5"><button type="button" onClick="{{ n.go }}" style="display:flex;align-items:center;gap:12px;height:48px;padding:0 12px;border:0;border-radius:var(--r-field);background:{{ n.bg }};color:var(--foreground);font:500 15px var(--font);text-align:left;cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="{{ n.icon }}" width="20" height="20"></iconify-icon><span style="flex:1">{{ n.label }}</span><iconify-icon icon="gravity-ui:chevron-right" width="14" height="14" style="color:var(--muted)"></iconify-icon></button></sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDrawer }}" style="position:absolute;inset:0;z-index:20;background:var(--backdrop);animation:hero-fade .2s"></div>
+    <aside role="dialog" aria-modal="true" aria-label="Пользователь {{ sel.n }}" style="position:absolute;z-index:21;inset:{{ sheetInset }};width:{{ sheetW }};display:flex;flex-direction:column;background:var(--overlay);box-shadow:var(--overlay-shadow);border-radius:{{ sheetR }};overflow:hidden;animation:{{ sheetAnim }}">
+      <div style="display:flex;align-items:center;gap:12px;padding:18px 18px 12px">
+        <span style="position:relative;width:44px;height:44px;flex:none;border-radius:50%;background:{{ sel.avBg }};color:{{ sel.avFg }};display:grid;place-items:center;font:600 15px var(--font)">{{ sel.ini }}</span>
+        <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font:600 19px/24px var(--font);letter-spacing:-.01em">{{ sel.n }}</h2><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ sel.sBg }};color:{{ sel.sFg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ sel.sDot }}"></span>{{ sel.sLabel }}</span></div><div style="font-size:13px;color:var(--muted)">{{ sel.sub }} · создан {{ sel.created }}</div></div>
+        <button type="button" onClick="{{ closeDrawer }}" aria-label="Закрыть" style="width:36px;height:36px;flex:none;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--foreground);cursor:pointer" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:xmark" width="16" height="16"></iconify-icon></button>
+      </div>
+      <div style="flex:1;min-height:0;overflow:auto;padding:4px 18px 18px;display:grid;gap:16px;align-content:start">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:14px;border-radius:var(--r-field);background:var(--tile-bg)">
+          <div style="position:relative;width:60px;height:60px;border-radius:50%;background:conic-gradient({{ sel.barC }} {{ sel.deg }}deg, var(--default) 0)"><div style="position:absolute;inset:6px;border-radius:50%;background:var(--tile-bg);display:grid;place-items:center;font:600 13px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap">{{ sel.pctT }}</div></div>
+          <div style="display:grid;gap:2px;font-size:13px;min-width:0"><span style="font:500 var(--fs) var(--font)">{{ sel.usedT }} {{ sel.limT }}</span><span style="color:var(--muted)">Доступ {{ sel.exp }}</span><span style="color:var(--muted)">Рукопожатие {{ sel.hs }}</span></div>
+        </div>
+
+        <div style="position:relative;display:grid;grid-template-columns:repeat({{ ptabN }},minmax(0,1fr));padding:4px;border-radius:var(--r-btn);background:var(--default)">
+          <span style="position:absolute;top:4px;bottom:4px;left:4px;width:{{ ptabW }};border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ ptabTx }};transition:transform var(--dur) var(--ease)"></span>
+          <sc-for list="{{ ptabs }}" as="t" hint-placeholder-count="2"><button type="button" onClick="{{ t.pick }}" style="position:relative;height:32px;border:0;background:transparent;color:{{ t.fg }};font:500 13px var(--font);cursor:pointer">AmneziaWG {{ t.v }}</button></sc-for>
+        </div>
+
+        <label style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Адрес сервера в ключе</span>
+          <select value="{{ addr }}" onChange="{{ onAddr }}" style="height:var(--btn-h);padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:var(--field-shadow);font:400 var(--fs) var(--font);width:100%">
+            <option value="vpn.example.ru">vpn.example.ru — домен</option><option value="203.0.113.10">203.0.113.10</option><option value="203.0.113.24">203.0.113.24</option><option value="198.51.100.7">198.51.100.7 — замолчал</option>
+          </select>
+          <span style="font-size:12px;line-height:16px;color:{{ addrC }}">{{ addrHint }}</span>
+        </label>
+
+        <div style="display:grid;gap:12px;justify-items:center;padding:14px;border-radius:var(--r-field);background:#fff;color:#18181b;box-shadow:var(--field-shadow)">
+          <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:3px;border-radius:var(--r-btn);background:#f1f1f3">
+            <span style="position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/2);border-radius:var(--r-btn);background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.1);transform:{{ qrTx }};transition:transform var(--dur) var(--ease)"></span>
+            <button type="button" onClick="{{ qrConf }}" style="position:relative;height:30px;border:0;background:transparent;color:#18181b;font:500 12.5px var(--font);cursor:pointer">.conf · AmneziaWG</button>
+            <button type="button" onClick="{{ qrVpn }}" style="position:relative;height:30px;border:0;background:transparent;color:#18181b;font:500 12.5px var(--font);cursor:pointer">vpn:// · AmneziaVPN</button>
+          </div>
+          <div style="width:min(220px,100%);aspect-ratio:1">{{ qrImg }}</div>
+          <div style="display:flex;align-items:center;gap:10px;font:500 13px var(--font)">
+            <button type="button" onClick="{{ qrPrev }}" aria-label="Предыдущая часть" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:999px;background:#f1f1f3;color:#18181b;cursor:pointer;opacity:{{ qrNavOp }}"><iconify-icon icon="gravity-ui:chevron-left" width="14" height="14"></iconify-icon></button>
+            <span style="min-width:96px;text-align:center;font-variant-numeric:tabular-nums">{{ qrPartLabel }}</span>
+            <button type="button" onClick="{{ qrNext }}" aria-label="Следующая часть" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:999px;background:#f1f1f3;color:#18181b;cursor:pointer;opacity:{{ qrNavOp }}"><iconify-icon icon="gravity-ui:chevron-right" width="14" height="14"></iconify-icon></button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button type="button" onClick="{{ dlConf }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="16" height="16"></iconify-icon>Скачать .conf</button>
+          <button type="button" onClick="{{ copyKey }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default-hover)" style-active="transform:scale(.97)"><iconify-icon icon="{{ cpKeyIcon }}" width="16" height="16" style="color:{{ cpKeyC }}"></iconify-icon>{{ cpKeyLabel }}</button>
+          <button type="button" onClick="{{ makeShare }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:link" width="16" height="16"></iconify-icon>Временная ссылка</button>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:arrow-up-right-from-square" width="16" height="16"></iconify-icon>Страница</button>
+        </div>
+        <sc-if value="{{ shareShown }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:8px;padding:12px;border-radius:var(--r-field);background:var(--warning-soft);animation:hero-pop .2s var(--ease)">
+            <div style="display:flex;justify-content:space-between;gap:8px;font:500 12px var(--font);color:var(--warning-soft-foreground)"><span>Показывается один раз</span><span style="font-variant-numeric:tabular-nums">осталось {{ shareLeft }}</span></div>
+            <code style="display:block;padding:10px;border-radius:var(--r-sm);background:var(--overlay);font:12px/18px var(--mono);overflow-wrap:anywhere;user-select:all">https://vpn.example.ru/s/Q7mX2p9KfL4vRt8wZ3nB/{{ sel.n }}.conf</code>
+            <span style="font-size:12px;color:var(--warning-soft-foreground)">Кто знает адрес, скачает ключ без пароля. Отправьте его только этому человеку.</span>
+          </div>
+        </sc-if>
+        <div style="font-size:12px;color:var(--muted)">{{ minApp }}</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Лимит, ГБ</span><div style="display:grid;grid-template-columns:36px 1fr 36px;align-items:center;height:var(--btn-h);padding:0 2px;border-radius:var(--r-field);background:var(--field-background);box-shadow:var(--field-shadow)"><button type="button" onClick="{{ limDown }}" aria-label="Меньше" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:var(--r-sm);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:minus" width="14" height="14"></iconify-icon></button><span style="text-align:center;font:500 var(--fs) var(--font);font-variant-numeric:tabular-nums">{{ limVal }}</span><button type="button" onClick="{{ limUp }}" aria-label="Больше" style="width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:var(--r-sm);background:transparent;color:var(--foreground);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:plus" width="14" height="14"></iconify-icon></button></div></div>
+          <div style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Доступ до</span><div style="display:flex;align-items:center;gap:8px;height:var(--btn-h);padding:0 12px;border-radius:var(--r-field);background:var(--field-background);box-shadow:var(--field-shadow);font-variant-numeric:tabular-nums"><span style="flex:1">01.11.2026</span><iconify-icon icon="gravity-ui:calendar" width="16" height="16" style="color:var(--muted)"></iconify-icon></div></div>
+        </div>
+        <div style="display:flex;gap:8px;padding-top:14px;border-top:1px solid var(--separator)">
+          <button type="button" onClick="{{ disableUser }}" style="flex:1;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default-hover)">Выключить</button>
+          <button type="button" onClick="{{ openConfirm }}" style="flex:1;height:var(--btn-h);border:0;border-radius:var(--r-btn);background:var(--danger-soft);color:var(--danger-soft-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--danger-soft-hover)">Удалить</button>
+        </div>
+      </div>
+    </aside>
+  </sc-if>
+
+  <sc-if value="{{ apOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAp }}" style="position:absolute;inset:0;z-index:24;background:{{ apBackdrop }};animation:hero-fade .2s"></div>
+    <aside role="dialog" aria-modal="true" aria-label="Внешний вид" style="position:absolute;z-index:25;inset:{{ sheetInset }};width:{{ apW }};display:flex;flex-direction:column;background:var(--overlay);box-shadow:var(--overlay-shadow);border-radius:{{ sheetR }};overflow:hidden;animation:{{ sheetAnim }}">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:18px 18px 10px">
+        <div style="flex:1"><h2 style="margin:0;font:600 18px/24px var(--font)">Внешний вид</h2><div style="font-size:13px;color:var(--muted)">Меняется сразу и сохраняется в этом браузере</div></div>
+        <button type="button" onClick="{{ closeAp }}" aria-label="Закрыть" style="width:36px;height:36px;flex:none;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--foreground);cursor:pointer"><iconify-icon icon="gravity-ui:xmark" width="16" height="16"></iconify-icon></button>
+      </div>
+      <div style="flex:1;min-height:0;overflow:auto;padding:6px 18px 18px;display:grid;gap:22px;align-content:start">
+        <div style="display:grid;gap:10px"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:500 13px var(--font);color:var(--muted);white-space:nowrap">Готовые темы</span><button type="button" onClick="{{ randomAp }}" title="Случайная тема" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px 0 10px;border:0;border-radius:var(--r-btn);background:var(--accent-soft);color:var(--accent-soft-foreground);font:500 13px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--accent-soft-hover)" style-active="transform:scale(.96)"><span style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:1px;width:20px;height:20px;padding:3px;border-radius:5px;background:var(--accent);transform:{{ diceRot }};transition:transform .55s cubic-bezier(.3,1.4,.5,1);flex:none"><sc-for list="{{ pips }}" as="pp" hint-placeholder-count="9"><span style="width:4px;height:4px;place-self:center;border-radius:50%;background:var(--accent-foreground);opacity:{{ pp.op }};transition:opacity .2s"></span></sc-for></span>Случайная</button></div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <sc-for list="{{ presetList }}" as="pr" hint-placeholder-count="6">
+              <button type="button" onClick="{{ pr.pick }}" aria-pressed="{{ pr.on }}" style="display:grid;gap:6px;padding:4px 4px 8px;border:0;border-radius:calc(var(--r-field) + 2px);background:transparent;box-shadow:{{ pr.ring }};color:var(--foreground);cursor:pointer;font:inherit;transition:box-shadow var(--dur)">
+                <span style="display:grid;grid-template-columns:14px 1fr;gap:5px;height:58px;padding:6px;border-radius:{{ pr.r }};background:{{ pr.bg }}"><span style="display:grid;gap:3px;align-content:start"><span style="height:5px;border-radius:3px;background:{{ pr.accent }}"></span><span style="height:5px;border-radius:3px;background:{{ pr.line }}"></span><span style="height:5px;border-radius:3px;background:{{ pr.line }}"></span></span><span style="display:grid;gap:4px;align-content:start;padding:6px;border-radius:{{ pr.r2 }};background:{{ pr.surface }};box-shadow:{{ pr.sh }};border:1px solid {{ pr.bd }}"><span style="height:5px;width:70%;border-radius:3px;background:{{ pr.line }}"></span><span style="justify-self:start;height:10px;width:26px;border-radius:{{ pr.rb }};background:{{ pr.accent }}"></span></span></span>
+                <span style="font:500 12px var(--font)">{{ pr.name }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:10px"><span style="font:500 13px var(--font);color:var(--muted)">Акцент</span>
+          <div role="radiogroup" style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ swatches }}" as="s" hint-placeholder-count="8">
+              <button type="button" role="radio" aria-checked="{{ s.on }}" aria-label="{{ s.name }}" title="{{ s.name }}" onClick="{{ s.pick }}" style="width:32px;height:32px;padding:0;border:0;border-radius:50%;background:{{ s.c }};box-shadow:{{ s.ring }};cursor:pointer;display:grid;place-items:center;color:{{ s.fg }};transition:box-shadow var(--dur),transform var(--dur)" style-active="transform:scale(.92)"><sc-if value="{{ s.on }}" hint-placeholder-val="{{ false }}"><iconify-icon icon="gravity-ui:check" width="16" height="16"></iconify-icon></sc-if></button>
+            </sc-for>
+          </div>
+          <div style="display:grid;gap:6px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Свой оттенок</span><span style="font-variant-numeric:tabular-nums">{{ ap.hue }}°</span></div>
+            <div style="position:relative;height:24px;display:flex;align-items:center">
+              <div style="position:absolute;left:0;right:0;height:12px;border-radius:999px;background:linear-gradient(90deg,oklch(.63 .17 0),oklch(.63 .17 60),oklch(.63 .17 120),oklch(.63 .17 180),oklch(.63 .17 240),oklch(.63 .17 300),oklch(.63 .17 360))"></div>
+              <div style="position:absolute;left:calc({{ huePct }}% - 11px);width:22px;height:22px;border-radius:50%;background:{{ hueColor }};box-shadow:0 0 0 3px #fff,0 1px 6px rgba(0,0,0,.3);pointer-events:none"></div>
+              <input type="range" min="0" max="360" step="1" value="{{ ap.hue }}" onChange="{{ onHue }}" aria-label="Свой оттенок" style="position:absolute;inset:0;width:100%;margin:0;opacity:0;cursor:pointer">
+            </div>
+          </div>
+        </div>
+
+        <sc-for list="{{ apSegs }}" as="g" hint-placeholder-count="5">
+          <div style="display:grid;gap:8px"><div style="display:flex;justify-content:space-between;gap:8px"><span style="font:500 13px var(--font);color:var(--muted)">{{ g.title }}</span><span style="font-size:12px;color:var(--muted)">{{ g.hint }}</span></div>
+            <div style="position:relative;display:grid;grid-template-columns:{{ g.cols }};padding:4px;border-radius:var(--r-btn);background:var(--default)">
+              <span style="position:absolute;top:4px;bottom:4px;left:4px;width:{{ g.w }};border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ g.tx }};transition:transform var(--dur) var(--ease)"></span>
+              <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="3"><button type="button" onClick="{{ i.pick }}" aria-pressed="{{ i.on }}" style="position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 4px;border:0;background:transparent;color:{{ i.fg }};font:500 13px var(--font);cursor:pointer;min-width:0;white-space:nowrap"><sc-if value="{{ i.hasIcon }}" hint-placeholder-val="{{ false }}"><iconify-icon icon="{{ i.icon }}" width="15" height="15"></iconify-icon></sc-if>{{ i.label }}</button></sc-for>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="display:grid;gap:10px"><span style="font:500 13px var(--font);color:var(--muted)">Подробность</span>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+            <sc-for list="{{ densityList }}" as="d" hint-placeholder-count="3">
+              <button type="button" onClick="{{ d.pick }}" aria-pressed="{{ d.on }}" style="display:grid;gap:6px;padding:10px;border:0;border-radius:var(--r-field);background:var(--tile-bg);box-shadow:{{ d.ring }};color:var(--foreground);text-align:left;cursor:pointer;font:inherit;transition:box-shadow var(--dur)">
+                <span style="display:grid;grid-template-columns:repeat(4,1fr);gap:{{ d.g }};height:34px;align-content:start"><sc-for list="{{ d.cells }}" as="c" hint-placeholder-count="4"><span style="grid-column:{{ c.col }};height:{{ c.h2 }};border-radius:3px;background:{{ c.bg }}"></span></sc-for></span>
+                <span style="font:500 13px var(--font)">{{ d.name }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <span style="font-size:12px;line-height:16px;color:var(--muted)">{{ densityDesc }}</span>
+        </div>
+
+        <div style="display:grid;gap:8px"><div style="display:flex;justify-content:space-between"><span style="font:500 13px var(--font);color:var(--muted)">Скругление</span><span style="font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums">{{ radiusLabel }}</span></div>
+          <div style="position:relative;height:24px;display:flex;align-items:center">
+            <div style="position:absolute;left:0;right:0;height:6px;border-radius:999px;background:var(--default)"></div>
+            <div style="position:absolute;left:0;width:{{ radPct }}%;height:6px;border-radius:999px;background:var(--accent)"></div>
+            <div style="position:absolute;left:calc({{ radPct }}% - 10px);width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.05);pointer-events:none"></div>
+            <input type="range" min="0" max="16" step="2" value="{{ ap.radius }}" onChange="{{ onRadius }}" aria-label="Скругление" style="position:absolute;inset:0;width:100%;margin:0;opacity:0;cursor:pointer">
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)"><span>Острые</span><span>Мягкие</span></div>
+        </div>
+
+        <div style="display:grid">
+          <sc-for list="{{ apSwitches }}" as="s" hint-placeholder-count="2">
+            <button type="button" role="switch" aria-checked="{{ s.on }}" onClick="{{ s.flip }}" style="display:flex;align-items:center;gap:14px;padding:10px 0;border:0;border-top:1px solid var(--separator);background:none;color:var(--foreground);text-align:left;font:inherit;cursor:pointer">
+              <span style="flex:1;display:grid;gap:2px"><span style="font:500 14px/20px var(--font)">{{ s.title }}</span><span style="font-size:12px;line-height:16px;color:var(--muted)">{{ s.desc }}</span></span>
+              <span style="position:relative;flex:none;width:40px;height:24px;border-radius:999px;background:{{ s.track }};transition:background var(--dur)"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:{{ s.knob }};transition:transform var(--dur) var(--ease)"></span></span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ cssShown }}" hint-placeholder-val="{{ false }}">
+          <pre style="margin:0;padding:12px;border-radius:var(--r-field);background:var(--tile-bg);font:12px/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;animation:hero-fade .2s">{{ cssExport }}</pre>
+        </sc-if>
+      </div>
+      <div style="display:flex;gap:8px;padding:12px 18px 16px;border-top:1px solid var(--separator)">
+        <button type="button" onClick="{{ resetAp }}" style="height:var(--btn-h);padding:0 14px;border:0;border-radius:var(--r-btn);background:transparent;color:var(--foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default)">Сбросить</button>
+        <button type="button" onClick="{{ toggleCss }}" style="height:var(--btn-h);padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--default-hover)">{{ cssLabel }}</button>
+        <button type="button" onClick="{{ closeAp }}" style="margin-left:auto;height:var(--btn-h);padding:0 18px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 var(--fs) var(--font);cursor:pointer" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)">Готово</button>
+      </div>
+    </aside>
+  </sc-if>
+
+  <sc-if value="{{ cmdOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCmd }}" style="position:absolute;inset:0;z-index:28;background:var(--backdrop);animation:hero-fade .15s"></div>
+    <div role="dialog" aria-modal="true" aria-label="Поиск" style="position:absolute;z-index:29;left:50%;top:{{ cmdTop }};width:min(560px,calc(100% - 24px));transform:translateX(-50%);background:var(--overlay);box-shadow:var(--overlay-shadow);border-radius:var(--r-card);overflow:hidden;animation:hero-pop .18s var(--ease)">
+      <label style="display:flex;align-items:center;gap:10px;height:54px;padding:0 16px;border-bottom:1px solid var(--separator);color:var(--muted)"><iconify-icon icon="gravity-ui:magnifier" width="18" height="18"></iconify-icon><input value="{{ cq }}" onChange="{{ onCq }}" onKeyDown="{{ onCqKey }}" autofocus="" placeholder="Человек, раздел или действие" style="flex:1;min-width:0;border:0;background:transparent;color:var(--foreground);font:400 16px var(--font);outline:none"><kbd style="height:22px;padding:0 6px;border-radius:6px;background:var(--default);font:500 11px/22px var(--font)">Esc</kbd></label>
+      <div style="max-height:360px;overflow:auto;padding:6px">
+        <sc-for list="{{ cmdRows }}" as="r" hint-placeholder-count="8">
+          <sc-if value="{{ r.head }}" hint-placeholder-val="{{ false }}"><div style="padding:10px 10px 4px;font:500 12px var(--font);color:var(--muted)">{{ r.label }}</div></sc-if>
+          <sc-if value="{{ r.item }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ r.go }}" style="display:flex;align-items:center;gap:10px;width:100%;height:42px;padding:0 10px;border:0;border-radius:var(--r-field);background:{{ r.bg }};color:var(--foreground);font:400 14px var(--font);text-align:left;cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="{{ r.icon }}" width="17" height="17" style="color:var(--muted)"></iconify-icon><span style="flex:1">{{ r.label }}</span><span style="font-size:12px;color:var(--muted)">{{ r.hint }}</span><sc-if value="{{ r.first }}" hint-placeholder-val="{{ false }}"><kbd style="height:20px;padding:0 6px;border-radius:5px;background:var(--default);font:500 11px/20px var(--font);color:var(--muted)">↵</kbd></sc-if></button></sc-if>
+        </sc-for>
+        <sc-if value="{{ cmdEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:24px;text-align:center;color:var(--muted);font-size:14px">Ничего не нашлось по запросу «{{ cq }}»</div></sc-if>
+      </div>
+      <div style="display:flex;gap:14px;padding:10px 16px;border-top:1px solid var(--separator);font-size:12px;color:var(--muted)"><span>↵ открыть</span><span>Esc закрыть</span><span style="margin-left:auto">⌘K в любом месте</span></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:30;background:var(--backdrop);display:grid;place-items:center;padding:16px;animation:hero-fade .15s">
+      <div role="alertdialog" aria-modal="true" style="width:min(420px,100%);display:grid;gap:14px;padding:22px;border-radius:var(--r-card);background:var(--overlay);box-shadow:var(--overlay-shadow);animation:hero-pop .18s var(--ease)">
+        <span style="width:44px;height:44px;border-radius:50%;background:var(--danger-soft);color:var(--danger-soft-foreground);display:grid;place-items:center"><iconify-icon icon="{{ confirmIcon }}" width="20" height="20"></iconify-icon></span>
+        <div style="display:grid;gap:6px"><h2 style="margin:0;font:600 18px/24px var(--font)">{{ confirmTitle }}</h2><p style="margin:0;color:var(--muted);font-size:14px;line-height:20px;text-wrap:pretty">{{ confirmBody }}</p></div>
+        <label style="display:grid;gap:6px"><span style="font:500 13px var(--font)">Для подтверждения наберите <b style="font-family:var(--mono);font-weight:600">{{ confirmWord }}</b></span><input value="{{ confirmText }}" onChange="{{ onConfirm }}" autocomplete="off" spellcheck="false" style="height:44px;padding:0 12px;border:0;border-radius:var(--r-field);background:var(--field-background);color:var(--field-foreground);box-shadow:{{ confirmSh }};font:500 16px var(--mono);width:100%" style-focus="box-shadow:0 0 0 2px var(--focus)"></label>
+        <div style="display:flex;justify-content:flex-end;gap:8px">
+          <button type="button" onClick="{{ closeConfirm }}" style="height:var(--btn-h);padding:0 16px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 var(--fs) var(--font);cursor:pointer">Отмена</button>
+          <button type="button" onClick="{{ doDelete }}" disabled="{{ confirmDis }}" style="height:var(--btn-h);padding:0 16px;border:0;border-radius:var(--r-btn);background:var(--danger);color:var(--danger-foreground);font:500 var(--fs) var(--font);cursor:{{ confirmCur }};opacity:{{ confirmOp }};transition:opacity var(--dur)" style-active="transform:scale(.97)">{{ confirmAction }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toastOn }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:absolute;z-index:40;right:16px;left:{{ toastLeft }};bottom:{{ toastBottom }};max-width:380px;margin-left:auto;display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--r-field);background:var(--overlay);box-shadow:var(--overlay-shadow);animation:hero-in-up .22s var(--ease)">
+      <span style="width:22px;height:22px;flex:none;border-radius:50%;background:{{ toastBg }};color:{{ toastFg }};display:grid;place-items:center"><iconify-icon icon="{{ toastIcon }}" width="14" height="14"></iconify-icon></span>
+      <div style="flex:1;display:grid;gap:1px"><b style="font:500 14px/20px var(--font)">{{ toastTitle }}</b><span style="font-size:13px;line-height:18px;color:var(--muted)">{{ toastDesc }}</span></div>
+      <button type="button" onClick="{{ closeToast }}" aria-label="Закрыть" style="width:24px;height:24px;display:grid;place-items:center;border:0;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer" style-hover="background:var(--default)"><iconify-icon icon="gravity-ui:xmark" width="13" height="13"></iconify-icon></button>
+    </div>
+  </sc-if>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:920},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;system&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;phone&quot;],&quot;default&quot;:&quot;desktop&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;overview&quot;,&quot;users&quot;,&quot;user&quot;,&quot;confirm&quot;,&quot;profiles&quot;,&quot;traffic&quot;,&quot;backups&quot;,&quot;logs&quot;,&quot;agents&quot;,&quot;settings&quot;,&quot;appearance&quot;,&quot;cmd&quot;,&quot;login&quot;],&quot;default&quot;:&quot;overview&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;min&quot;,&quot;balanced&quot;,&quot;detailed&quot;],&quot;default&quot;:&quot;balanced&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ga&quot;,&quot;hero&quot;,&quot;lavender&quot;,&quot;mint&quot;,&quot;graphite&quot;,&quot;paper&quot;],&quot;default&quot;:&quot;ga&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;nav&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;icons&quot;,&quot;top&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;persist&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;otpError&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;shareShown&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { dice: 5, roll: 0, ap: null, screen: 'overview', drawer: null, confirm: null, confirmText: '', apOpen: false, cmd: false, cq: '', toast: null, filter: 0, q: '', ptab: 0, qr: 'conf', part: 1, addr: 'vpn.example.ru', mode: 1, dns: 0, sw: [true, true, false], otp: '', otpState: null, loginTab: 0, power: [true, true, false], acc: { 0: false, 1: false, 2: false }, copied: null, share: false, shareT: 521, t: 222, tk: 1, css: false, lim: 50, spin: false, restarting: false };
+  KEY = 'goamnezia-appearance-v1';
+  defaults() { return { theme: 'light', accent: 'ga', hue: 200, tint: 'neutral', density: 'detailed', radius: 8, btn: 'pill', cards: 'shadow', nav: 'full', fs: 'm', vibrant: false, motion: true }; }
+  presets() {
+    return {
+      ga: { name: 'goAmnezia', accent: 'ga', tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow' },
+      hero: { name: 'HeroUI', accent: 'blue', tint: 'neutral', radius: 8, btn: 'pill', cards: 'border' },
+      lavender: { name: 'Лаванда', accent: 'lavender', tint: 'cool', radius: 10, btn: 'pill', cards: 'shadow' },
+      mint: { name: 'Мята', accent: 'mint', tint: 'neutral', radius: 12, btn: 'round', cards: 'flat' },
+      graphite: { name: 'Графит', accent: 'graphite', tint: 'neutral', radius: 4, btn: 'round', cards: 'border' },
+      paper: { name: 'Бумага', accent: 'coral', tint: 'warm', radius: 6, btn: 'round', cards: 'flat' }
+    };
+  }
+  accents(th, hue) {
+    const W = 'oklch(0.9911 0 0)', E = 'oklch(0.2103 0.0059 285.89)';
+    return {
+      ga: ['oklch(0.6 0.13 222)', W, 'goAmnezia'], blue: ['oklch(0.6204 0.195 253.83)', W, 'Синий HeroUI'], sky: ['oklch(0.72 0.13 228)', E, 'Небо'],
+      lavender: ['oklch(0.6 0.19 293)', W, 'Лаванда'], mint: ['oklch(0.74 0.15 163)', E, 'Мята'], coral: ['oklch(0.64 0.19 33)', W, 'Коралл'],
+      graphite: th === 'dark' ? ['oklch(0.95 0 0)', E, 'Графит'] : ['oklch(0.24 0.006 286)', W, 'Графит'],
+      custom: [`oklch(0.63 0.17 ${hue})`, W, 'Свой']
+    };
+  }
+  buildAp() {
+    const p = this.props, P = this.presets();
+    let ap = { ...this.defaults() };
+    if (p.persist !== false) { try { const s = JSON.parse(localStorage.getItem(this.KEY) || 'null'); if (s) ap = { ...ap, ...s }; } catch (e) {} }
+    if (p.preset && P[p.preset]) { const { name, ...r } = P[p.preset]; ap = { ...ap, ...r }; }
+    ['theme', 'density', 'nav'].forEach(k => { if (p[k]) ap[k] = p[k]; });
+    return ap;
+  }
+  screenState(sc) {
+    const m = { user: { screen: 'users', drawer: 1 }, confirm: { screen: 'users', drawer: 1, confirm: 'user' }, appearance: { screen: 'overview', apOpen: true }, cmd: { screen: 'overview', cmd: true, cq: '' } };
+    return m[sc] || { screen: sc || 'overview' };
+  }
+  componentDidMount() {
+    const p = this.props;
+    this.setState({ ap: this.buildAp(), ...this.screenState(p.screen), apOpen: p.screen === 'appearance' || !!p.appearanceOpen, share: p.screen === 'user' && p.shareShown === true, otp: p.otpError ? '481903' : '', otpState: p.otpError ? 'err' : null }, () => this.tick());
+    this.iv = setInterval(() => this.setState(s => ({ t: s.t + 1, shareT: Math.max(0, s.shareT - 1) })), 1000);
+    this.kd = e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); this.setState(s => ({ cmd: !s.cmd, cq: '' })); }
+      else if (e.key === 'Escape') this.setState(s => s.confirm ? { confirm: null } : s.cmd ? { cmd: false } : s.apOpen ? { apOpen: false } : s.drawer !== null ? { drawer: null } : {});
+    };
+    window.addEventListener('keydown', this.kd);
+  }
+  componentDidUpdate(pp) {
+    const p = this.props, ch = {};
+    ['theme', 'density', 'nav'].forEach(k => { if (p[k] && p[k] !== pp[k]) ch[k] = p[k]; });
+    if (p.preset && p.preset !== pp.preset) { const { name, ...r } = this.presets()[p.preset] || {}; Object.assign(ch, r); }
+    if (Object.keys(ch).length) this.setState(s => ({ ap: { ...s.ap, ...ch } }));
+    if (p.screen !== pp.screen) this.setState({ drawer: null, confirm: null, apOpen: false, cmd: false, ...this.screenState(p.screen), ...(p.screen === 'appearance' ? { apOpen: true } : {}) });
+  }
+  componentWillUnmount() { clearInterval(this.iv); clearTimeout(this.tt); clearTimeout(this.ct); clearTimeout(this.tf); clearInterval(this.ti); window.removeEventListener('keydown', this.kd); }
+  tick() {
+    clearInterval(this.ti);
+    if (this.state.ap && !this.state.ap.motion) { this.setState({ tk: 1 }); return; }
+    let k = 0; this.setState({ tk: 0 });
+    this.ti = setInterval(() => { k += 1 / 18; if (k >= 1) { k = 1; clearInterval(this.ti); } this.setState({ tk: k }); }, 45);
+  }
+  setAp(patch) {
+    this.setState(s => { const ap = { ...s.ap, ...patch }; if (this.props.persist !== false) { try { localStorage.setItem(this.KEY, JSON.stringify(ap)); } catch (e) {} } return { ap }; });
+  }
+  randomAp() {
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+    const AC = this.accents('light', 0);
+    const accKeys = ['ga', 'blue', 'sky', 'lavender', 'mint', 'coral', 'graphite', 'custom', 'custom', 'custom'];
+    const cur = this.state.ap || {};
+    let accent = pick(accKeys); if (accent === cur.accent && accent !== 'custom') accent = 'custom';
+    const r = { accent, hue: Math.floor(Math.random() * 360), tint: pick(['neutral', 'warm', 'cool']), cards: pick(['shadow', 'border', 'flat']), btn: pick(['pill', 'round']), radius: pick([0, 2, 4, 6, 8, 10, 12, 14, 16]), nav: pick(['full', 'icons', 'top']), density: pick(['min', 'balanced', 'detailed']) };
+    this.setAp(r);
+    this.setState(s => ({ dice: 1 + Math.floor(Math.random() * 6), roll: s.roll + 1 }));
+    if (this.state.screen === 'overview') this.tick();
+    const N = { tint: { neutral: 'нейтральный фон', warm: 'тёплый фон', cool: 'холодный фон' }, cards: { shadow: 'карточки с тенью', border: 'карточки с рамкой', flat: 'плоские карточки' }, density: { min: 'минимализм', balanced: 'баланс', detailed: 'детально' } };
+    const accName = accent === 'custom' ? 'оттенок ' + r.hue + '°' : AC[accent][2];
+    this.toast('Случайная тема применена', [accName, N.tint[r.tint], N.cards[r.cards], N.density[r.density]].join(' · '), 'accent');
+  }
+  extraVals(st, { tone, fmt, users, isPhone, isDetail }) {
+    const segO = (opts, cur, key) => opts.map((label, i) => { const on = cur === i; return { label, on, pick: () => this.setState({ [key]: i }), bg: on ? 'var(--segment)' : 'transparent', sh: on ? 'var(--segment-shadow)' : 'none', fg: on ? 'var(--foreground)' : 'var(--muted)' }; });
+    const range = st.range ?? 2, N = [24, 7, 30][range];
+    const seed = i => (Math.sin(i * 12.9898 + range * 7.1) * 43758.5453) % 1;
+    const raw = Array.from({ length: N }, (_, i) => { const base = range === 0 ? (i >= 19 || i < 1 ? 0.9 : i >= 8 ? 0.45 : 0.12) : 0.55 + (i % 7 >= 5 ? 0.25 : 0); return Math.max(0.06, base + Math.abs(seed(i)) * 0.35); });
+    const mx = Math.max(...raw), ease = st.tk ?? 1;
+    const unit = [0.35, 5.2, 6.1][range];
+    const trBars = raw.map((v, i) => { const d = v / mx; return { down: Math.round(d * 86 * ease), up: Math.round(d * 8 * ease), t: (range === 0 ? i + ':00' : 'день ' + (i + 1)) + ' · ' + fmt(v * unit) + ' ГБ' }; });
+    const sum = raw.reduce((a, b) => a + b, 0) * unit;
+    const trTotals = [['Скачано', fmt(sum * 0.94) + ' ГБ', 'var(--accent)'], ['Отдано', fmt(sum * 0.06) + ' ГБ', 'color-mix(in oklab,var(--accent) 40%,var(--default))'], ['В среднем', fmt(sum / N) + (range === 0 ? ' ГБ/ч' : ' ГБ/день'), 'var(--muted)']].map(([l, v, c]) => ({ l, v, c }));
+    const trAxis = range === 0 ? ['00:00', '06:00', '12:00', '18:00', '23:00'] : range === 1 ? ['19.09', '21.09', '23.09', '25.09'] : ['27.08', '04.09', '12.09', '20.09', '25.09'];
+    const gb = u => parseFloat(u.usedT.replace(',', '.'));
+    const topSrc = users.slice().sort((a, b) => gb(b) - gb(a)).slice(0, 5), topMax = gb(topSrc[0]);
+    const trTop = topSrc.map(u => ({ n: u.n, ini: u.ini, avBg: u.avBg, avFg: u.avFg, v: u.usedT, pct: Math.round(gb(u) / topMax * 100) }));
+    const trProf = [['3.1', 58, '105,8 ГБ', 'var(--accent)'], ['2.0', 27, '49,2 ГБ', 'color-mix(in oklab,var(--accent) 55%,var(--default))'], ['1.5', 15, '27,4 ГБ', 'color-mix(in oklab,var(--accent) 25%,var(--default))']].map(([v, pct, val, c]) => ({ v, pct, val, c }));
+    const bkList = [...(st.bkNew || []), ['25.09.2026 03:00', 'авто', '24,1 МБ · 14 пользователей · 3 профиля'], ['24.09.2026 03:00', 'авто', '24,0 МБ · 14 пользователей · 3 профиля'], ['23.09.2026 18:42', 'вручную', '23,8 МБ · перед обновлением ядра 2.0'], ['23.09.2026 03:00', 'авто', '23,8 МБ · 13 пользователей · 3 профиля'], ['22.09.2026 03:00', 'авто', '23,7 МБ · 13 пользователей · 3 профиля']];
+    const backups = bkList.map(([date, kind, meta, fresh]) => ({ date, kind, meta, anim: fresh ? 'hero-pop .25s var(--ease)' : 'none', kBg: kind === 'вручную' ? 'var(--accent-soft)' : 'var(--default)', kFg: kind === 'вручную' ? 'var(--accent-soft-foreground)' : 'var(--muted)', tileBg: fresh ? 'var(--success-soft)' : 'var(--default)', tileFg: fresh ? 'var(--success-soft-foreground)' : 'var(--muted)', dl: () => this.toast('Бэкап скачивается', 'goamnezia-' + date.slice(0, 10) + '.tar.gz'), restore: () => this.setState({ confirm: 'restore', confirmText: '', restoreDate: date }) }));
+    const bkAuto = st.bkAuto !== false;
+    const svcs = ['amnezia-awg1', 'amnezia-awg2', 'amnezia-awg3', 'goamnezia-bot', 'goamnezia-admin', 'nginx'];
+    const logSvc = st.logSvc || 'amnezia-awg1';
+    const LG = { 'amnezia-awg1': [['11:52:04', 'ERR', 'bind: address already in use (udp 0.0.0.0:37004)'], ['11:52:04', 'ERR', 'Failed to start interface awg0'], ['11:52:03', 'WARN', 'Port 37004 held by another process: pid 2841'], ['11:52:03', 'INFO', 'Starting AmneziaWG 1.5.3'], ['11:51:58', 'INFO', 'Container restart requested by goamnezia-admin'], ['11:40:12', 'INFO', 'Peer 10.8.1.4 handshake completed'], ['11:38:47', 'INFO', 'Peer 10.8.1.9 removed (disabled)'], ['11:20:30', 'WARN', 'Handshake for peer 10.8.1.9 did not complete after 5 seconds'], ['10:02:11', 'INFO', 'Peer 10.8.1.4 handshake completed']], 'goamnezia-bot': [['12:04:10', 'INFO', 'callback users:mama from admin'], ['12:03:55', 'INFO', 'command /start from admin'], ['11:52:05', 'WARN', 'notify: AmneziaWG 1.5 stopped, sent to 1 admin'], ['10:12:00', 'INFO', 'limit reached for ivan, access suspended'], ['03:00:02', 'INFO', 'daily backup done, 24.1 MB']] };
+    const lines = LG[logSvc] || [['12:04:31', 'INFO', 'GET /api/overview 200 12ms'], ['12:04:21', 'INFO', 'GET /api/overview 200 11ms'], ['12:03:02', 'WARN', 'slow request /api/traffic 820ms'], ['12:00:00', 'INFO', 'session renewed for owner']];
+    const lvl = st.logLvl ?? 0, lq = (st.logQ || '').toLowerCase();
+    const lc = { ERR: 'var(--danger)', WARN: 'var(--warning-soft-foreground)', INFO: 'var(--muted)' };
+    const logLines = lines.filter(([, lv]) => lvl === 0 || (lvl === 1 && lv === 'ERR') || (lvl === 2 && lv !== 'INFO')).filter(([, , m]) => !lq || m.toLowerCase().includes(lq)).map(([t, lv, m]) => ({ t, lv, m, c: lc[lv], bg: lv === 'ERR' ? 'var(--danger-soft)' : 'transparent' }));
+    const follow = st.follow !== false, mcpOn = st.mcpOn !== false;
+    const revoked = st.revoked || [];
+    const AG = [['Claude Desktop', 'последний запрос 4 мин назад', [['чтение', 'default'], ['пользователи', 'accent'], ['ключи', 'accent']], '312 запросов за неделю'], ['Cursor · ноутбук', 'последний запрос 2 дн назад', [['чтение', 'default']], '41 запрос за неделю'], ...(st.agentAdded ? [['Новый агент', 'ещё не подключался', [['чтение', 'default']], 'нет запросов']] : [])];
+    const agents = AG.map(([n, seen, scopes, calls], i) => { const on = !(st.agOff || []).includes(i) && mcpOn; return { i, n, seen, calls, on, op: on ? 1 : .6, scopes: scopes.map(([t, k]) => ({ t, bg: k === 'accent' ? 'var(--accent-soft)' : 'var(--default)', fg: k === 'accent' ? 'var(--accent-soft-foreground)' : 'var(--muted)' })), track: on ? 'var(--accent)' : 'var(--default-hover)', knob: on ? 'translateX(16px)' : 'none', flip: () => this.setState(s => { const o = s.agOff || []; return { agOff: o.includes(i) ? o.filter(x => x !== i) : [...o, i] }; }), revoke: () => this.setState({ confirm: 'agent', confirmText: '', agentName: n, agentIdx: i }) }; }).filter(a => !revoked.includes(a.i));
+    const cp = st.copied === 'log';
+    return {
+      rangeOpts: segO(['24 часа', '7 дней', '30 дней'], range, 'range'), trBars, trTotals, trAxis, trTop, trProf, trGap: N > 24 ? '3px' : N > 7 ? '4px' : '10px',
+      backups, makeBackup: () => { if (st.bkBusy) return; this.setState({ bkBusy: true }); setTimeout(() => { this.setState(s => ({ bkBusy: false, bkNew: [['25.09.2026 12:05', 'вручную', '24,1 МБ · 14 пользователей · 3 профиля', true], ...(s.bkNew || []).map(x => [x[0], x[1], x[2]])] })); this.toast('Бэкап создан', '24,1 МБ · хранится на сервере'); }, 1400); },
+      bkLabel: st.bkBusy ? 'Создаём…' : 'Создать бэкап', bkIcon: st.bkBusy ? 'gravity-ui:arrow-rotate-right' : 'gravity-ui:plus', bkAnim: st.bkBusy ? 'hero-spin .9s linear infinite' : 'none',
+      bkAuto, flipBkAuto: () => this.setState({ bkAuto: !bkAuto }), bkTrack: bkAuto ? 'var(--accent)' : 'var(--default-hover)', bkKnob: bkAuto ? 'translateX(16px)' : 'none',
+      bkUsed: (168 + (st.bkNew || []).length * 24) + ' МБ', bkPct: Math.round((168 + (st.bkNew || []).length * 24) / 2048 * 100),
+      logSvcs: svcs, logSvc, onLogSvc: e => this.setState({ logSvc: e.target.value }), logLvls: segO(['Все', 'Ошибки', 'Важное'], lvl, 'logLvl'), logQ: st.logQ || '', onLogQ: e => this.setState({ logQ: e.target.value }),
+      follow, flipFollow: () => this.setState({ follow: !follow }), followTrack: follow ? 'var(--accent)' : 'var(--default-hover)', followKnob: follow ? 'translateX(16px)' : 'none',
+      logLines, logEmpty: logLines.length === 0, logH: isPhone ? '360px' : isDetail ? '460px' : '400px', logFoot: follow ? 'Новые строки появляются сверху · journalctl -u ' + logSvc : 'Пауза: новые строки не добавляются',
+      copyLog: () => this.copy('log'), cpLogIcon: cp ? 'gravity-ui:check' : 'gravity-ui:copy', cpLogC: cp ? 'var(--success)' : 'currentColor', cpLogLabel: cp ? 'Скопировано' : 'Скопировать',
+      mcpOn, flipMcp: () => this.setState({ mcpOn: !mcpOn }), mcpTrack: mcpOn ? 'var(--accent)' : 'var(--default-hover)', mcpKnob: mcpOn ? 'translateX(16px)' : 'none', mcpDot: mcpOn ? 'var(--success)' : 'var(--muted)', mcpDesc: mcpOn ? 'Работает · принимает запросы на vpn.example.ru/a-…/mcp' : 'Выключена · агенты не могут подключиться',
+      agents, agentSecret: !!st.agentAdded && !st.secretHidden, newAgent: () => this.setState({ agentAdded: true, secretHidden: false }), hideSecret: () => this.setState({ secretHidden: true })
+    };
+  }
+  toast(title, desc, kind) { clearTimeout(this.tt); this.setState({ toast: { title, desc, kind: kind || 'success' } }); this.tt = setTimeout(() => this.setState({ toast: null }), 3200); }
+  copy(key) { clearTimeout(this.ct); this.setState({ copied: key }); this.ct = setTimeout(() => this.setState({ copied: null }), 1600); }
+  qrSrc(seed) {
+    this._qr = this._qr || {};
+    if (this._qr[seed]) return this._qr[seed];
+    let s = seed * 9301 + 49297; const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+    const n = 29; let r = '';
+    const inF = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!inF(x, y) && rnd() > .52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+    const f = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 33 33" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><g fill="#18181b">${r}${f(0, 0)}${f(n - 7, 0)}${f(0, n - 7)}</g></svg>`;
+    return (this._qr[seed] = 'data:image/svg+xml,' + encodeURIComponent(svg));
+  }
+  renderVals() {
+    const st = this.state, p = this.props, ap = st.ap || this.buildAp();
+    const device = p.device === 'phone' ? 'phone' : 'desktop', isPhone = device === 'phone', isDesk = !isPhone;
+    const tgp = p.tg ? (p.tgColors || (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.themeParams) || null) : null;
+    const useTg = !!(tgp && tgp.bg_color && (ap.theme === 'telegram' || (p.theme === 'telegram' && !st.ap)));
+    const lumHex = x => { const c = (x || '#fff').replace('#', ''); const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), b = parseInt(c.slice(4, 6), 16); return (0.299 * r + 0.587 * g + 0.114 * b) / 255; };
+    let th = useTg ? (lumHex(tgp.bg_color) < 0.5 ? 'dark' : 'light') : ap.theme;
+    if (th === 'telegram') th = 'light';
+    if (th === 'system') th = (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    const dark = th === 'dark';
+    const AC = this.accents(th, ap.hue); let [accent, accentFg] = AC[ap.accent] || AC.ga;
+    if (useTg && ap.tgAccent !== false) { accent = tgp.button_color || accent; accentFg = tgp.button_text_color || accentFg; }
+    const screen = st.screen;
+    const D = ap.density, isMin = D === 'min', isDetail = D === 'detailed';
+    const fmt = v => v.toFixed(1).replace('.', ',');
+    const ease = 1 - Math.pow(1 - st.tk, 3);
+    const mmss = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
+    const tone = k => k === 'default' ? { bg: 'var(--default)', fg: 'var(--muted)', dot: 'var(--muted)' } : { bg: `var(--${k}-soft)`, fg: `var(--${k}-soft-foreground)`, dot: `var(--${k})` };
+    const go = s => () => { this.setState({ screen: s, drawer: null, cmd: false, more: false }); if (s === 'overview') this.tick(); };
+    const titles = { overview: 'Обзор', users: 'Пользователи', profiles: 'Протоколы', traffic: 'Трафик', backups: 'Бэкапы', logs: 'Логи', agents: 'Агенты', settings: 'Настройки', login: 'Вход' };
+    const navDef = [['overview', 'gravity-ui:house', 'Обзор', '', ''], ['users', 'gravity-ui:persons', 'Люди', '14', ''], ['profiles', 'gravity-ui:shield-check', 'Протоколы', '1', 'warning'], ['traffic', 'gravity-ui:chart-column', 'Трафик', '', ''], ['backups', 'gravity-ui:database', 'Бэкапы', '', ''], ['logs', 'gravity-ui:file-text', 'Логи', '', ''], ['agents', 'gravity-ui:code', 'Агенты', '', ''], ['settings', 'gravity-ui:gear', 'Настройки', '', '']];
+    const navs = navDef.map(([id, icon, short, badge, bk]) => {
+      const a = id === screen;
+      return { label: titles[id], short, icon, go: go(id), cur: a ? 'page' : 'false', bg: a ? 'var(--card-bg)' : 'transparent', sh: a ? 'var(--card-sh)' : 'none', fg: a ? 'var(--foreground)' : 'var(--muted)', fw: a ? 500 : 400,
+        hasBadge: !!badge, badge, badgeBg: bk ? 'var(--warning-soft)' : 'var(--default)', badgeFg: bk ? 'var(--warning-soft-foreground)' : 'var(--muted)', dot: bk ? 'var(--warning)' : 'var(--muted)',
+        segBg: a ? 'var(--segment)' : 'transparent', segSh: a ? 'var(--segment-shadow)' : 'none', tabFg: a ? 'var(--foreground)' : 'var(--muted)', tabBg: a ? 'var(--accent-soft)' : 'transparent' };
+    });
+    const hueOf = n => { let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+    const av = n => { const h = hueOf(n); return dark ? { avBg: `oklch(0.32 0.06 ${h})`, avFg: `oklch(0.86 0.08 ${h})` } : { avBg: `oklch(0.92 0.05 ${h})`, avFg: `oklch(0.42 0.1 ${h})` }; };
+    const U = [
+      ['admin', 'владелец · 10.8.3.2', 'online', ['3.1', '2.0'], 41.2, 0, 'Бессрочно', '1 мин назад', '203.0.113.10', '02.03.2026', [3, 5, 4, 7, 6, 8, 5]],
+      ['mama', '10.8.2.5', 'online', ['2.0', '3.1'], 12.3, 50, 'до 01.11.2026', '3 мин назад', '203.0.113.24', '12.08.2026', [2, 3, 2, 4, 3, 5, 4]],
+      ['sergey', '10.8.3.7', 'offline', ['3.1', '1.5'], 8.1, 30, 'до 15.10.2026', '2 ч назад', '203.0.113.10', '20.07.2026', [4, 2, 3, 1, 2, 1, 0]],
+      ['katya', '10.8.3.12', 'online', ['3.1'], 5.6, 40, 'до 31.12.2026', '40 с назад', '203.0.113.10', '01.09.2026', [1, 2, 2, 3, 2, 4, 5]],
+      ['dacha-router', 'роутер · 10.8.1.4', 'online', ['1.5'], 64.0, 0, 'Бессрочно', '2 мин назад', '198.51.100.8', '15.05.2026', [6, 6, 7, 5, 8, 7, 6]],
+      ['tv-living', 'телевизор · 10.8.1.9', 'disabled', ['1.5'], 96.4, 0, 'Бессрочно', '5 дн назад', '—', '10.04.2026', [0, 0, 0, 0, 0, 0, 0]],
+      ['olga', '10.8.3.9', 'expired', ['3.1'], 3.0, 20, 'истёк 20.09.2026', '6 дн назад', '203.0.113.24', '01.06.2026', [1, 0, 0, 0, 0, 0, 0]],
+      ['ivan', '10.8.2.11', 'limit', ['2.0'], 20.0, 20, 'до 30.10.2026', '1 дн назад', '203.0.113.10', '03.07.2026', [5, 6, 4, 7, 3, 0, 0]]
+    ];
+    const SM = { online: ['success', 'На связи'], offline: ['default', 'Не на связи'], disabled: ['default', 'Выключен'], expired: ['warning', 'Срок истёк'], limit: ['danger', 'Лимит исчерпан'] };
+    const users = U.map(([n, sub, s, pr, used, lim, exp, hs, ep, created, spark], i) => {
+      const [k, sLabel] = SM[s], t = tone(k), pct = lim ? Math.min(100, Math.round(used / lim * 100)) : 0, mx = Math.max(1, ...spark);
+      return { n, sub, s, ini: n.slice(0, 2).toUpperCase(), ...av(n), isOn: s === 'online', op: s === 'disabled' ? .55 : 1, sLabel, sBg: t.bg, sFg: t.fg, sDot: t.dot, chips: pr, pr,
+        usedT: fmt(used) + ' ГБ', limT: lim ? `из ${lim}` : 'без лимита', hasLim: !!lim, pct, barC: pct >= 100 ? 'var(--danger)' : pct >= 80 ? 'var(--warning)' : 'var(--accent)',
+        exp, expC: s === 'expired' ? 'var(--warning-soft-foreground)' : 'var(--foreground)', hs, ep, created, spark: spark.map(v => Math.round(v / mx * 100)),
+        deg: Math.round((lim ? pct : 100) * 3.6), pctT: lim ? pct + '%' : '∞', open: () => this.setState({ drawer: i, ptab: 0, part: 1, share: false, qr: 'conf', lim: lim || 0 }) };
+    });
+    const fDef = [['Все', () => true], ['На связи', u => u.s === 'online'], ['Без доступа', u => ['disabled', 'expired', 'limit'].includes(u.s)]];
+    const filters = fDef.map(([label, fn], i) => { const a = st.filter === i; return { label, n: i === 0 ? 14 : users.filter(fn).length, pick: () => this.setState({ filter: i }), bg: a ? 'var(--segment)' : 'transparent', sh: a ? 'var(--segment-shadow)' : 'none', fg: a ? 'var(--foreground)' : 'var(--muted)', cBg: a ? 'var(--default)' : 'transparent' }; });
+    const q = st.q.trim().toLowerCase();
+    const usersShown = users.filter(fDef[st.filter][1]).filter(u => !q || u.n.includes(q) || u.sub.includes(q) || u.ep.includes(q));
+    const ucols = isMin ? 'minmax(200px,2fr) 150px minmax(160px,1.3fr) 24px' : isDetail ? 'minmax(170px,1.6fr) 90px 128px minmax(120px,1fr) 118px 108px 100px 64px 20px' : 'minmax(190px,2fr) 110px 136px minmax(150px,1.2fr) 130px 24px';
+    const uMinW = isMin ? '560px' : isDetail ? '1080px' : '820px';
+    const sel = users[st.drawer ?? 1] || users[1];
+    const selProfs = sel.pr, ptab = Math.min(st.ptab, selProfs.length - 1), prof = selProfs[ptab];
+    const addrHints = { 'vpn.example.ru': ['Ключ на домен сработает через любой живой адрес сервера.', 'var(--muted)'], '203.0.113.10': ['Разовый ключ на этот адрес. Закрепление в карточке не меняется.', 'var(--muted)'], '203.0.113.24': ['Разовый ключ на этот адрес. Закрепление в карточке не меняется.', 'var(--muted)'], '198.51.100.7': ['Адрес замолчал 40 минут назад: ключ на него может не подключиться.', 'var(--danger-soft-foreground)'] };
+    const minApps = { '3.1': 'Нужна AmneziaVPN 5.0.1+ или AmneziaWG 1.1+', '2.0': 'Нужна AmneziaVPN 4.8.12+ или AmneziaWG 1.0+', '1.5': 'Подойдёт любое приложение AmneziaWG и роутеры Keenetic' };
+    const parts = st.qr === 'vpn' ? 3 : 1;
+
+    const E = [['203.0.113.10', true, 'принимает', 'success', '4,1 МБ', '38,2 МБ', '1,2 ГБ'], ['203.0.113.24', true, 'принимает', 'success', '1,3 МБ', '12,9 МБ', '644 МБ'], ['198.51.100.7', false, 'замолчал', 'danger', '0 Б', '0 Б', '312 МБ'], ['198.51.100.8', true, 'тихо', 'default', '0 Б', '1,1 КБ', '8,4 МБ']];
+    const edges = E.map(([ip, a, verdict, k, m15, h1, d1]) => ({ ip, noA: !a, verdict, ...tone(k), m15, h1, d1 }));
+    const ecols = isDetail ? 'minmax(130px,1.4fr) 110px 70px 70px 70px' : 'minmax(130px,1.4fr) 110px 80px 80px';
+    const PR = [
+      { v: '3.1', meta: 'UDP 48213 · 9 человек', state: 'работает', k: 'success', container: 'amnezia-awg3 · образ 5.0.1', kv: [['Порт', 'UDP 48213'], ['Подсеть', '10.8.3.0/24'], ['MTU', '1280'], ['Людей', '9']], params: [['Jc', '4', 'клиент'], ['Jmin', '40', 'клиент'], ['S1', '72', 'сервер'], ['H1', '1325467829-1325467900', 'сервер'], ['I1', '<b 0x1603010200010001fc0303>', 'клиент']] },
+      { v: '2.0', meta: 'UDP 51820 · обновляется', state: 'обновляется', k: 'accent', container: 'amnezia-awg2 · образ 4.8.11', updating: true, kv: [['Порт', 'UDP 51820'], ['Подсеть', '10.8.2.0/24'], ['MTU', '1376'], ['Людей', '6']], params: [['Jc', '5', 'клиент'], ['Jmin', '50', 'клиент'], ['S1', '44', 'сервер'], ['S2', '112', 'сервер'], ['H1', '2084112277', 'сервер']] },
+      { v: '1.5', meta: 'UDP 37004 · 3 человека', state: 'остановлен', k: 'warning', container: 'amnezia-awg1 · образ 1.5.3', stopped: true, kv: [['Порт', 'UDP 37004'], ['Подсеть', '10.8.1.0/24'], ['MTU', '1280'], ['Людей', '3']], params: [['Jc', '3', 'клиент'], ['Jmin', '30', 'клиент'], ['S1', '15', 'сервер'], ['H1', '1', 'сервер']] }
+    ];
+    const mkProf = (x, i) => {
+      const on = st.power[i], t = tone(x.k), stopped = x.stopped && !on;
+      return { ...x, ...t, stopped, state: x.stopped ? (on ? 'работает' : 'остановлен') : x.state, bg: x.stopped && on ? tone('success').bg : t.bg, fg: x.stopped && on ? tone('success').fg : t.fg, dot: x.stopped && on ? 'var(--success)' : t.dot,
+        on, track: on ? 'var(--accent)' : 'var(--default-hover)', knob: on ? 'translateX(16px)' : 'none',
+        flip: () => { this.setState(s => { const power = [...s.power]; power[i] = !power[i]; return { power }; }); this.toast(on ? `AmneziaWG ${x.v} выключен` : `AmneziaWG ${x.v} запускается`, on ? 'Ключи профиля перестали работать' : 'Обычно до 30 секунд'); },
+        tileBg: on ? 'var(--accent-soft)' : 'var(--default)', tileFg: on ? 'var(--accent-soft-foreground)' : 'var(--muted)',
+        kv: x.kv.map(([k, v]) => ({ k, v })), params: x.params.map(([k, v, s]) => ({ k, v, s, sc: s === 'сервер' ? 'var(--warning-soft-foreground)' : 'var(--muted)' })),
+        acc: !!st.acc[i], accRot: st.acc[i] ? 'rotate(180deg)' : 'none', toggleAcc: () => this.setState(s => ({ acc: { ...s.acc, [i]: !s.acc[i] } })),
+        pBg: stopped ? 'var(--accent)' : 'var(--default)', pFg: stopped ? 'var(--accent-foreground)' : 'var(--default-foreground)',
+        primaryGo: () => { if (x.stopped) this.setState(s => { const power = [...s.power]; power[i] = true; return { power }; }); this.toast(`AmneziaWG ${x.v} перезапущен`, 'Контейнер отвечает, ключи работают'); } };
+    };
+    const profCards = PR.map(mkProf);
+    const profChips = profCards.map(x => ({ v: x.v, bg: x.bg, fg: x.fg, dot: x.dot }));
+    const bars = [38, 44, 31, 52, 61, 48, 57, 66, 43, 59, 71, 64, 78, 70].map((v, i) => ({ h: Math.round(v * ease), c: i === 13 ? 'var(--accent)' : 'color-mix(in oklab,var(--accent) 35%,var(--default))', t: `${v / 10} ГБ` }));
+    const days = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+    const heat = days.map((d, di) => ({ d, c: Array.from({ length: 24 }, (_, h) => { const base = (h >= 19 && h <= 23 ? 70 : h >= 8 && h <= 18 ? 38 : h < 2 ? 30 : 8) + (di >= 5 ? 12 : 0); const v = Math.max(4, Math.min(100, base + Math.round(Math.sin(di * 7 + h * 1.7) * 14))); return { p: v, t: `${d} ${h}:00` }; }) }));
+    const events = [['12:04', 'gravity-ui:circle-check', 'var(--success)', 'mama подключилась через AmneziaWG 3.1'], ['11:52', 'gravity-ui:triangle-exclamation', 'var(--warning)', 'AmneziaWG 1.5 остановлен: контейнер не отвечает'], ['11:40', 'gravity-ui:arrow-rotate-right', 'var(--accent)', 'Началось обновление ядра AmneziaWG 2.0'], ['10:12', 'gravity-ui:circle-exclamation', 'var(--danger)', 'ivan: лимит 20 ГБ исчерпан, доступ приостановлен'], ['03:00', 'gravity-ui:database', 'var(--muted)', 'Бэкап создан · 24 МБ']].map(([t, icon, c, m]) => ({ t, icon, c, m }));
+    const services = [['бот', 'var(--success)'], ['панель', 'var(--success)'], ['nginx', 'var(--success)'], ['Docker', 'var(--success)'], ['сертификат до 12.12', 'var(--success)'], ['MCP', 'var(--muted)']].map(([n, dot]) => ({ n, dot }));
+    const avatars = users.filter(u => u.isOn).slice(0, 4).map(u => ({ n: u.n, i: u.ini, i1: u.n[0].toUpperCase(), bg: u.avBg, fg: u.avFg }));
+
+    const P = this.presets();
+    const tintBg = { light: { neutral: ['oklch(0.97 0 0)', '#fff', 'oklch(0.9 0.004 286)'], warm: ['oklch(0.966 0.008 80)', '#fff', 'oklch(0.9 0.012 80)'], cool: ['oklch(0.966 0.007 255)', '#fff', 'oklch(0.9 0.011 255)'] }, dark: { neutral: ['oklch(0.12 0.005 286)', 'oklch(0.21 0.006 286)', 'oklch(0.3 0.006 286)'], warm: ['oklch(0.135 0.006 70)', 'oklch(0.212 0.008 70)', 'oklch(0.3 0.009 70)'], cool: ['oklch(0.13 0.012 255)', 'oklch(0.205 0.015 255)', 'oklch(0.3 0.016 255)'] } }[th];
+    const presetList = Object.entries(P).map(([k, x]) => {
+      const on = ap.accent === x.accent && ap.tint === x.tint && ap.radius === x.radius && ap.btn === x.btn && ap.cards === x.cards;
+      const [bg, surface, bd] = tintBg[x.tint];
+      const surf = x.cards === 'flat' ? (dark ? 'oklch(0.26 0.005 286)' : 'oklch(0.945 0.002 286)') : surface;
+      return { name: x.name, on, bg, surface: surf, bd: x.cards === 'border' ? bd : 'transparent', sh: x.cards === 'shadow' && !dark ? '0 1px 3px rgba(0,0,0,.1)' : 'none', accent: AC[x.accent][0], line: dark ? 'oklch(0.38 0.006 286)' : 'oklch(0.88 0.004 286)', r: (x.radius * 1.2) + 'px', r2: (x.radius) + 'px', rb: x.btn === 'pill' ? '999px' : (x.radius * .8) + 'px', ring: on ? '0 0 0 2px var(--accent)' : '0 0 0 1px var(--border)', pick: () => { const { name, ...r } = x; this.setAp(r); } };
+    });
+    const swatches = ['ga', 'blue', 'sky', 'lavender', 'mint', 'coral', 'graphite', 'custom'].map(k => { const on = ap.accent === k; return { name: AC[k][2], c: AC[k][0], fg: AC[k][1], on, ring: on ? '0 0 0 2px var(--overlay), 0 0 0 4px ' + AC[k][0] : '0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent)', pick: () => this.setAp({ accent: k }) }; });
+    const seg = (title, hint, key, opts) => { const idx = Math.max(0, opts.findIndex(o => o[0] === ap[key])), n = opts.length; return { title, hint, cols: `repeat(${n},minmax(0,1fr))`, w: `calc((100% - 8px)/${n})`, tx: `translateX(${idx * 100}%)`, items: opts.map(([v, label, icon]) => ({ label, icon, hasIcon: !!icon, on: ap[key] === v, fg: ap[key] === v ? 'var(--foreground)' : 'var(--muted)', pick: () => { this.setAp({ [key]: v }); } })) }; };
+    const apSegs = [
+      seg('Тема', '', 'theme', [...(p.tg ? [['telegram', 'Telegram', 'gravity-ui:paper-plane']] : []), ['light', 'Светлая', 'gravity-ui:sun'], ['dark', 'Тёмная', 'gravity-ui:moon'], ['system', 'Система', 'gravity-ui:display']]),
+      seg('Оттенок фона', '', 'tint', [['neutral', 'Нейтральный'], ['warm', 'Тёплый'], ['cool', 'Холодный']]),
+      seg('Карточки', '', 'cards', [['shadow', 'Тень'], ['border', 'Рамка'], ['flat', 'Плоские']]),
+      seg('Кнопки', '', 'btn', [['pill', 'Капсулы'], ['round', 'Скруглённые']]),
+      ...(isDesk ? [seg('Меню', '', 'nav', [['full', 'Полное'], ['icons', 'Иконки'], ['top', 'Сверху']])] : []),
+      seg('Размер текста', '', 'fs', [['s', 'Мельче'], ['m', 'Обычный'], ['l', 'Крупнее']])
+    ];
+    const cellsFor = { min: [['span 2', '44px', '34px'], ['span 2', '44px', '34px']], balanced: [['span 1', '16px', '12px'], ['span 1', '16px', '12px'], ['span 1', '16px', '12px'], ['span 1', '16px', '12px'], ['span 2', '24px', '18px'], ['span 2', '24px', '18px']], detailed: [['span 1', '10px', '7px'], ['span 1', '10px', '7px'], ['span 1', '10px', '7px'], ['span 1', '10px', '7px'], ['span 2', '14px', '10px'], ['span 2', '14px', '10px'], ['span 1', '12px', '9px'], ['span 1', '12px', '9px'], ['span 1', '12px', '9px'], ['span 1', '12px', '9px']] };
+    const dDesc = { min: 'Только главное: люди, трафик, профили. Больше воздуха, меньше колонок.', balanced: 'Главное и контекст: адреса сервера, сроки, нагрузка.', detailed: 'Всё сразу: графики, активность по часам, события, рукопожатия и адреса у каждого.' };
+    const densityList = [['min', 'Минимализм'], ['balanced', 'Баланс'], ['detailed', 'Детально']].map(([k, name]) => { const on = D === k; return { name, desc: dDesc[k], on, g: k === 'min' ? '6px' : k === 'balanced' ? '4px' : '3px', ring: on ? '0 0 0 2px var(--accent)' : 'none', cells: cellsFor[k].map(([col, h, h2], j) => ({ col, h, h2, bg: on && j === 0 ? 'var(--accent)' : 'var(--default-hover)' })), pick: () => { this.setAp({ density: k }); if (screen === 'overview') this.tick(); } }; });
+    const apSwitches = [
+      { title: 'Яркие статусы', desc: 'Насыщеннее цвет в плашках. Контраст чуть ниже.', on: ap.vibrant, flip: () => this.setAp({ vibrant: !ap.vibrant }) },
+      { title: 'Анимации', desc: 'Счётчики, переходы и шторки. Выключите на слабом устройстве.', on: ap.motion, flip: () => this.setAp({ motion: !ap.motion }) }
+    ].map(s => ({ ...s, track: s.on ? 'var(--accent)' : 'var(--default-hover)', knob: s.on ? 'translateX(16px)' : 'none' }));
+    const cssExport = `/* goAmnezia Pro · тема панели */\n[data-hero] {\n  --accent: ${accent};\n  --accent-foreground: ${accentFg};\n  --radius: ${ap.radius}px;\n}\n<html data-theme="${ap.theme}" data-tint="${ap.tint}"\n      data-density="${D}" data-cards="${ap.cards}"\n      data-btn="${ap.btn}" data-fs="${ap.fs}">`;
+
+    const modesDef = [['Только VPN', 'Профили на своих UDP-портах, домен не нужен'], ['VPN и сайт', 'Домен, сертификат и сайт-прикрытие на 443/TCP'], ['Сайт и VPN на 443', 'Один профиль на UDP/443 рядом с сайтом, для строгих сетей']];
+    const modes = modesDef.map(([title, desc], i) => { const on = st.mode === i; return { title, desc, on, pick: () => this.setState({ mode: i }), bg: on ? 'var(--accent-soft)' : 'var(--surface-secondary)', ring: on ? '0 0 0 1.5px var(--accent) inset' : 'none', bw: on ? '6px' : '2px', bc: on ? 'var(--accent)' : 'var(--border-tertiary, var(--muted))' }; });
+    const dnsDef = [['Cloudflare', '1.1.1.1 · 1.0.0.1'], ['Google', '8.8.8.8 · 8.8.4.4'], ['AdGuard', '94.140.14.14 · 94.140.15.15'], ['Свой', '']];
+    const ipOk = v => /^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$/.test(v.trim());
+    const d1 = st.dns1 ?? '', d2 = st.dns2 ?? '', d1Bad = !!d1 && !ipOk(d1), d2Bad = !!d2 && !ipOk(d2);
+    const dnsHint = d1Bad || d2Bad ? 'Адрес вида 9.9.9.9: четыре числа от 0 до 255 через точку.' : !d1 ? 'Основной обязателен. Запасной можно оставить пустым.' : d2 ? 'Оба адреса попадут в новые ключи.' : 'В ключи попадёт один адрес. Запасной поможет, если основной не ответит.';
+    const dnsOpts = dnsDef.map(([label], i) => ({ label, fg: st.dns === i ? 'var(--foreground)' : 'var(--muted)', pick: () => this.setState({ dns: i }) }));
+    const swDef = [['Панель на домене', 'Открывается по секретному пути, вход кодом из бота'], ['Код из бота при входе', 'Второй шаг после пароля или подписи Telegram'], ['Туннель без кода', 'Только для 127.0.0.1 через SSH-туннель']];
+    const switches = swDef.map(([title, desc], i) => { const on = st.sw[i]; return { title, desc, on, track: on ? 'var(--accent)' : 'var(--default-hover)', knob: on ? 'translateX(16px)' : 'none', flip: () => this.setState(s => { const sw = [...s.sw]; sw[i] = !sw[i]; return { sw }; }) }; });
+
+    const cq = st.cq.trim().toLowerCase();
+    const openUser = i => () => this.setState({ cmd: false, screen: 'users', drawer: i, ptab: 0, part: 1, share: false });
+    const cmdAll = [
+      ...users.map((u, i) => ({ g: 'Пользователи', icon: 'gravity-ui:person', label: u.n, hint: u.sLabel.toLowerCase(), go: openUser(i) })),
+      { g: 'Действия', icon: 'gravity-ui:plus', label: 'Добавить пользователя', hint: '', go: () => { this.setState({ cmd: false }); this.toast('Пользователь guest-1 добавлен', 'Ключ AmneziaWG 3.1 готов'); } },
+      { g: 'Действия', icon: 'gravity-ui:arrow-rotate-right', label: 'Перезапустить AmneziaWG 1.5', hint: '', go: () => { this.setState(s => { const power = [...s.power]; power[2] = true; return { cmd: false, power }; }); this.toast('AmneziaWG 1.5 перезапущен', 'Контейнер отвечает'); } },
+      { g: 'Действия', icon: 'gravity-ui:palette', label: 'Внешний вид панели', hint: '', go: () => this.setState({ cmd: false, apOpen: true }) },
+      { g: 'Действия', icon: dark ? 'gravity-ui:sun' : 'gravity-ui:moon', label: dark ? 'Светлая тема' : 'Тёмная тема', hint: '', go: () => { this.setState({ cmd: false }); this.setAp({ theme: dark ? 'light' : 'dark' }); } },
+      ...navDef.map(([id, icon]) => ({ g: 'Разделы', icon, label: titles[id], hint: '', go: go(id) }))
+    ];
+    const cmdF = cmdAll.filter(x => !cq || x.label.toLowerCase().includes(cq) || x.g.toLowerCase().includes(cq));
+    const cmdRows = []; let lastG = null;
+    cmdF.forEach((x, i) => { if (x.g !== lastG) { cmdRows.push({ head: true, item: false, label: x.g }); lastG = x.g; } cmdRows.push({ ...x, head: false, item: true, first: i === 0, bg: i === 0 ? 'var(--default)' : 'transparent' }); });
+
+    const CF = { profile: ['awg1', 'Удалить профиль AmneziaWG 1.5?', 'Контейнер и параметры удалятся. Ключи 3 человек перестанут работать, их придётся выдать заново.', 'Удалить', 'Профиль AmneziaWG 1.5 удалён'], restore: ['восстановить', 'Восстановить бэкап от ' + (st.restoreDate || '25.09.2026 03:00') + '?', 'Текущие пользователи, ключи и настройки заменятся копией из бэкапа. Перед этим мы сохраним текущее состояние отдельным бэкапом.', 'Восстановить', 'Бэкап восстановлен'], agent: ['отозвать', 'Отозвать доступ агента ' + (st.agentName || '') + '?', 'Адрес перестанет работать сразу. Чтобы вернуть доступ, подключите агента заново.', 'Отозвать', 'Доступ агента отозван'], user: [sel.n, 'Удалить пользователя ' + sel.n + '?', 'Ключи во всех профилях перестанут работать сразу. Вернуть можно только из бэкапа от 25.09.2026 03:00.', 'Удалить', sel.n + ' удалён'] };
+    const cf = CF[st.confirm] || CF.user;
+    const confirmWord = cf[0];
+    const cOk = st.confirmText.trim() === confirmWord;
+    const otpSlots = Array.from({ length: 6 }, (_, i) => ({ ch: st.otp[i] || '', caret: i === st.otp.length && st.otp.length < 6, sh: st.otpState === 'err' ? '0 0 0 2px var(--danger)' : i === st.otp.length ? '0 0 0 2px var(--focus)' : 'var(--field-shadow)' }));
+    const tk = st.toast, tkK = tk ? tk.kind : 'success';
+    const sideShown = isDesk && ap.nav !== 'top';
+    return {
+      ap, th, device, isPhone, isDesk, notTg: !p.tg, tgc: useTg ? 'on' : 'off', tgBg: useTg ? tgp.bg_color : 'transparent', tgBg2: useTg ? (tgp.secondary_bg_color || tgp.bg_color) : 'transparent', tgText: useTg ? tgp.text_color : 'inherit', tgHint: useTg ? tgp.hint_color : 'inherit', accent, accentFg, radiusPx: ap.radius + 'px', vib: ap.vibrant ? 'true' : 'false', motionAttr: ap.motion ? 'on' : 'off',
+      isLogin: screen === 'login', isShell: screen !== 'login',
+      sideFull: isDesk && ap.nav === 'full', sideIcons: isDesk && ap.nav === 'icons', navTop: ap.nav === 'top', notNavTop: ap.nav !== 'top',
+      mainGutter: sideShown ? '10px 10px 10px 0' : '0', mainGutterL: sideShown ? '0' : '0', frameR: sideShown ? 'var(--r-card)' : '0', frameBg: sideShown ? 'var(--background-secondary)' : 'transparent',
+      mainPadB: isPhone ? '20px' : '40px',
+      isMin, notMin: !isMin, isDetail, isBal: D === 'balanced',
+      pageTitle: titles[screen] || 'Обзор', h1fs: isMin ? '30px' : '24px', navs,
+      isOverview: screen === 'overview', isUsers: screen === 'users', isProfiles: screen === 'profiles', isSettings: screen === 'settings', isTraffic: screen === 'traffic', isBackups: screen === 'backups', isLogs: screen === 'logs', isAgents: screen === 'agents',
+      tabs: [...navs.slice(0, 3), (() => { const inMore = !['overview', 'users', 'profiles'].includes(screen) || st.more; return { short: 'Ещё', icon: 'gravity-ui:ellipsis', go: () => this.setState({ more: !st.more }), tabFg: inMore ? 'var(--foreground)' : 'var(--muted)', tabBg: inMore ? 'var(--accent-soft)' : 'transparent' }; })()],
+      moreOpen: st.more && isPhone, closeMore: () => this.setState({ more: false }), moreItems: navs.slice(3),
+      ...this.extraVals(st, { tone, fmt, users, isPhone, isDetail, isMin, ease }),
+      openCmd: () => this.setState({ cmd: true, cq: '' }), closeCmd: () => this.setState({ cmd: false }), cmdOpen: st.cmd, cq: st.cq, onCq: e => this.setState({ cq: e.target.value }),
+      onCqKey: e => { if (e.key === 'Enter' && cmdF[0]) cmdF[0].go(); }, cmdRows, cmdEmpty: cmdF.length === 0, cmdTop: isPhone ? '12px' : '12%',
+      openAp: () => this.setState({ apOpen: true }), closeAp: () => this.setState({ apOpen: false, css: false }), apOpen: st.apOpen, apBackdrop: isPhone ? 'var(--backdrop)' : 'transparent',
+      toggleTheme: () => this.setAp({ theme: dark ? 'light' : 'dark' }), themeIcon: dark ? 'gravity-ui:sun' : 'gravity-ui:moon', themeLabel: dark ? 'Светлая тема' : 'Тёмная тема',
+      refresh: () => { this.setState({ spin: true }); setTimeout(() => this.setState({ spin: false }), 700); this.tick(); }, spinAnim: st.spin ? 'hero-spin .7s linear' : 'none',
+      restart15: () => { if (st.restarting) return; this.setState({ restarting: true }); setTimeout(() => { this.setState(s => { const power = [...s.power]; power[2] = true; return { restarting: false, power }; }); this.toast('AmneziaWG 1.5 перезапущен', 'Контейнер отвечает, 3 человека снова могут подключиться'); }, 1400); },
+      restartLabel: st.restarting ? 'Перезапускаем…' : 'Перезапустить', restartAnim: st.restarting ? 'hero-spin .9s linear infinite' : 'none',
+      goLogs: () => this.toast('Логи amnezia-awg1', 'Последняя ошибка: bind: address already in use', 'warning'), goProfiles: go('profiles'),
+      kpiMin: isMin ? '260px' : '220px', kpiFs: isMin ? '44px' : isDetail ? '30px' : '36px', colMin: isMin ? '100%' : '440px',
+      kUsers: Math.round(14 * ease), kOnline: 4, kTraffic: fmt(182.4 * ease), kCpu: Math.round(12 * ease), cpuDeg: Math.round(43 * ease), avatars, bars, profChips,
+      edges, ecols, eMinW: isDetail ? '480px' : '420px', profRows: profCards, heat, events, services,
+      filters, q: st.q, onQ: e => this.setState({ q: e.target.value }), usersShown, shownN: usersShown.length, ucols, uMinW,
+      addUser: () => this.toast('Пользователь guest-1 добавлен', 'Ключ AmneziaWG 3.1 готов, откройте его в списке'),
+      profCards, clock: mmss(st.t), openConfirmProfile: () => this.setState({ confirm: 'profile', confirmText: '' }),
+      presetList, densityList, densityDesc: dDesc[D], swatches, apSegs, apSwitches, huePct: Math.round(ap.hue / 360 * 100), hueColor: `oklch(0.63 0.17 ${ap.hue})`, onHue: e => this.setAp({ hue: +e.target.value, accent: 'custom' }),
+      radPct: Math.round(ap.radius / 16 * 100), radiusLabel: ap.radius === 0 ? 'без скругления' : ap.radius + ' px', onRadius: e => this.setAp({ radius: +e.target.value }),
+      resetAp: () => { this.setAp({ ...this.defaults(), theme: ap.theme }); }, cssShown: st.css, toggleCss: () => this.setState({ css: !st.css }), cssLabel: st.css ? 'Скрыть CSS' : 'Экспорт CSS', cssExport,
+      randomAp: () => this.randomAp(), diceRot: `rotate(${st.roll * 360 + (st.roll % 2 ? 18 : -12)}deg)`, pips: [0,1,2,3,4,5,6,7,8].map(i => ({ op: ({1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]})[st.dice].includes(i) ? 1 : 0 })),
+      modes, dnsOpts, dnsTx: `translateX(${st.dns * 100}%)`, dnsVal: dnsDef[st.dns][1], switches, dnsIsCustom: st.dns === 3, dnsIsPreset: st.dns !== 3,
+      dns1: d1, dns2: d2, onDns1: e => this.setState({ dns1: e.target.value }), onDns2: e => this.setState({ dns2: e.target.value }),
+      dns1Bad: d1Bad, dns2Bad: d2Bad, dns1Sh: d1Bad ? '0 0 0 2px var(--danger)' : 'var(--field-shadow)', dns2Sh: d2Bad ? '0 0 0 2px var(--danger)' : 'var(--field-shadow)',
+      dnsHint, dnsHintC: d1Bad || d2Bad ? 'var(--danger-soft-foreground)' : 'var(--muted)',
+      copyPanel: () => this.copy('panel'), cpPanelIcon: st.copied === 'panel' ? 'gravity-ui:check' : 'gravity-ui:copy', cpPanelC: st.copied === 'panel' ? 'var(--success)' : 'currentColor', cpPanelLabel: st.copied === 'panel' ? 'Скопировано' : 'Скопировать',
+      drawerOpen: st.drawer !== null, closeDrawer: () => this.setState({ drawer: null }), sel,
+      sheetInset: isPhone ? '44px 0 0 0' : '10px 10px 10px auto', sheetW: isPhone ? 'auto' : 'min(440px, calc(100% - 20px))', apW: isPhone ? 'auto' : 'min(400px, calc(100% - 20px))', sheetR: isPhone ? 'var(--r-card) var(--r-card) 0 0' : 'var(--r-card)', sheetAnim: isPhone ? 'hero-in-up .26s var(--ease)' : 'hero-in-right .26s var(--ease)',
+      ptabs: selProfs.map((v, i) => ({ v, fg: i === ptab ? 'var(--foreground)' : 'var(--muted)', pick: () => this.setState({ ptab: i, part: 1 }) })), ptabN: selProfs.length, ptabW: `calc((100% - 8px)/${selProfs.length})`, ptabTx: `translateX(${ptab * 100}%)`,
+      addr: st.addr, onAddr: e => this.setState({ addr: e.target.value }), addrHint: addrHints[st.addr][0], addrC: addrHints[st.addr][1],
+      qrTx: st.qr === 'vpn' ? 'translateX(100%)' : 'none', qrConf: () => this.setState({ qr: 'conf', part: 1 }), qrVpn: () => this.setState({ qr: 'vpn', part: 1 }),
+      qrImg: React.createElement('img', { src: this.qrSrc(((st.drawer ?? 1) + 1) * 100 + ptab * 10 + (st.qr === 'vpn' ? st.part : 0)), alt: 'QR-код ключа', style: { width: '100%', height: '100%', display: 'block', imageRendering: 'pixelated' } }), qrSrcRaw: this.qrSrc(((st.drawer ?? 1) + 1) * 100 + ptab * 10 + (st.qr === 'vpn' ? st.part : 0)), qrPartLabel: parts > 1 ? `часть ${st.part} из ${parts}` : 'один код', qrNavOp: parts > 1 ? 1 : .35,
+      qrPrev: () => this.setState(s => ({ part: Math.max(1, s.part - 1) })), qrNext: () => this.setState(s => ({ part: Math.min(s.qr === 'vpn' ? 3 : 1, s.part + 1) })),
+      dlConf: () => this.toast(`${sel.n}-awg${prof.replace('.', '')}.conf скачан`, 'Откройте файл в AmneziaWG на устройстве'),
+      copyKey: () => this.copy('key'), cpKeyIcon: st.copied === 'key' ? 'gravity-ui:check' : 'gravity-ui:copy', cpKeyC: st.copied === 'key' ? 'var(--success)' : 'currentColor', cpKeyLabel: st.copied === 'key' ? 'Скопировано' : 'vpn://',
+      makeShare: () => this.setState({ share: true, shareT: 600 }), shareShown: st.share, shareLeft: mmss(st.shareT), minApp: minApps[prof],
+      limVal: st.lim ? st.lim + ' ГБ' : 'без лимита', limDown: () => this.setState(s => ({ lim: Math.max(0, s.lim - 10) })), limUp: () => this.setState(s => ({ lim: s.lim + 10 })),
+      disableUser: () => this.toast(`${sel.n} выключен`, 'Ключи перестали работать. Включить можно здесь же', 'warning'),
+      openConfirm: () => this.setState({ confirm: 'user', confirmText: '' }), confirmOpen: !!st.confirm,
+      confirmTitle: cf[1], confirmAction: cf[3], confirmIcon: st.confirm === 'restore' ? 'gravity-ui:arrow-rotate-left' : st.confirm === 'agent' ? 'gravity-ui:lock' : 'gravity-ui:trash-bin',
+      confirmBody: cf[2],
+      confirmWord, confirmText: st.confirmText, onConfirm: e => this.setState({ confirmText: e.target.value }), confirmDis: !cOk, confirmOp: cOk ? 1 : .45, confirmCur: cOk ? 'pointer' : 'not-allowed', confirmSh: cOk ? '0 0 0 2px var(--success)' : 'var(--field-shadow)',
+      closeConfirm: () => this.setState({ confirm: null, confirmText: '' }),
+      doDelete: () => { if (!cOk) return; const w = st.confirm; this.setState({ confirm: null, confirmText: '', drawer: w === 'user' ? null : st.drawer }); if (w === 'agent') this.setState(s => ({ revoked: [...(s.revoked || []), s.agentIdx] })); this.toast(cf[4], w === 'restore' ? 'Панель перезагрузит данные через несколько секунд' : w === 'agent' ? 'Адрес больше не принимает запросы' : 'Бэкап перед удалением сохранён', w === 'restore' ? 'success' : 'danger'); },
+      toastOn: !!tk, toastTitle: tk ? tk.title : '', toastDesc: tk ? tk.desc : '', closeToast: () => this.setState({ toast: null }),
+      toastBg: `var(--${tkK}-soft)`, toastFg: `var(--${tkK}-soft-foreground)`, toastIcon: tkK === 'accent' ? 'gravity-ui:palette' : tkK === 'success' ? 'gravity-ui:check' : tkK === 'danger' ? 'gravity-ui:trash-bin' : 'gravity-ui:circle-info',
+      toastBottom: isPhone ? '84px' : '20px', toastLeft: isPhone ? '16px' : 'auto',
+      loginTx: st.loginTab ? 'translateX(100%)' : 'none', lcFg: st.loginTab ? 'var(--muted)' : 'var(--foreground)', lpFg: st.loginTab ? 'var(--foreground)' : 'var(--muted)',
+      loginCode: () => this.setState({ loginTab: 0 }), loginPwd: () => this.setState({ loginTab: 1 }), isLoginCode: !st.loginTab, isLoginPwd: !!st.loginTab,
+      otp: st.otp, otpSlots, onOtp: e => this.setState({ otp: e.target.value.replace(/\D/g, '').slice(0, 6), otpState: null }),
+      onOtpKey: e => { if (e.key === 'Enter') this.setState(s => ({ otpState: s.otp === '482913' ? 'ok' : 'err' })); },
+      submitOtp: () => this.setState(s => ({ otpState: s.otp === '482913' ? 'ok' : 'err' })), otpErr: st.otpState === 'err', otpOk: st.otpState === 'ok'
+    };
+  }
+}
+</script>
+</body>
+</html>

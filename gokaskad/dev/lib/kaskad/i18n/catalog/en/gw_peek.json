@@ -1,0 +1,6 @@
+{
+ "gw_peek.bad_format": "nft -j: unexpected format (no nftables list)",
+ "gw_peek.no_nft": "the nft command wasn’t found",
+ "gw_peek.not_json": "nft -j didn’t return JSON: {err}",
+ "gw_peek.read_failed": "couldn’t read the ip kaskad table ({what}): {detail}"
+}

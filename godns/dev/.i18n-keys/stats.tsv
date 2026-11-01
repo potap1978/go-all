@@ -1,0 +1,42 @@
+# ── счётчик запросов: панель ────────────────────────────────────────
+stats_dash_label	Запросы	Queries
+stats_dash_hour	За час	Last hour
+stats_dash_waiting	срезы копятся — числа появятся через минуту-две	collecting slices — numbers appear in a minute or two
+stats_dash_peak	пик %s/мин	peak %s/min
+stats_w_1m	1м	1m
+stats_w_15m	15м	15m
+stats_w_1h	1ч	1h
+stats_w_1d	1д	1d
+stats_w_7d	7д	7d
+# ── подробный экран ─────────────────────────────────────────────────
+stats_screen_title	Статистика запросов	Query statistics
+stats_no_data_yet	Срезов ещё нет: файл статистики пока не создан.	No slices yet: the statistics file has not been created.
+stats_first_slice_hint	Первый срез — точка отсчёта: числа появятся со второго, через минуту.	The first slice is a baseline: numbers appear a minute later.
+stats_read_failed	Не удалось прочитать файл статистики.	Could not read the statistics file.
+stats_col_window	Окно	Window
+stats_col_queries	Запросов	Queries
+stats_col_rate	В секунду	Per second
+stats_col_cache	Из кэша	Cached
+stats_col_servfail	SERVFAIL	SERVFAIL
+stats_scr_1m	1 минута	1 minute
+stats_scr_15m	15 минут	15 minutes
+stats_scr_1h	1 час	1 hour
+stats_scr_1d	1 день	1 day
+stats_scr_7d	7 дней	7 days
+stats_day_spark	Сутки, шаг 30 минут	Last 24 hours, 30-minute steps
+stats_day_peak	пик %s запросов в минуту	peak: %s queries per minute
+stats_last_slice	Последний срез: %s с назад.	Last slice: %s s ago.
+stats_file_info	Файл: %s (%s строк, %s КБ) — размер фиксированный.	File: %s (%s lines, %s KB) — the size is fixed.
+stats_legend_approx	≈ — окно неполное: внутри разрыв или данных меньше глубины окна.	≈ — incomplete window: a gap inside, or less data than its depth.
+# ── сбор и таймер ───────────────────────────────────────────────────
+stats_write_failed	Не удалось записать срез в %s.	Could not write the slice to %s.
+stats_timer_off	Сборщик срезов не работает (%s).	The slice collector is not running (%s).
+stats_install_ask	Установить минутный таймер сбора?	Install the per-minute collection timer?
+stats_install_no_systemd	systemd не найден — таймер сбора поставить не на что.	systemd not found — nowhere to install the collection timer.
+stats_install_write_fail	Не удалось записать %s.	Could not write %s.
+stats_install_timer_fail	Не удалось включить таймер %s.	Could not enable the %s timer.
+stats_install_ok	Сбор статистики: %s, раз в минуту → %s	Statistics collection: %s, every minute → %s
+stats_deploy_failed	Счётчик запросов не установился — панель будет без статистики.	The query counter did not install — the panel will show no statistics.
+stats_remove_done	Снято: %s	Removed: %s
+stats_remove_file_ask	Удалить накопленную статистику запросов?	Delete the collected query statistics?
+stats_remove_file_kept	Статистика оставлена: %s	Statistics kept: %s

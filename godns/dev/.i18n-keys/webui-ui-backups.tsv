@@ -1,0 +1,82 @@
+# Веб-панель: разделы «Копии» (ui_bk_*) и «Служба» (ui_svc_*).
+# Формат: ключ TAB русский TAB английский. Собирает tools/build-lang.py в
+# godns-web/static/lang/{ru,en}.json — руками json не править.
+#
+# ui_bk_word_* — слова подтверждения разрушительных действий: сервер
+# (CONFIRM_WORDS в godns-web/server.py) принимает ровно ВОССТАНОВИТЬ/RESTORE
+# и ПРИБРАТЬ/PRUNE, другие значения не пройдут.
+# Колонки таблицы копий фиксированной ширины — английские подписи не длиннее
+# русских (ver. вместо version — сознательно).
+
+# ── Копии: раздел и создание ──────────────────────────────────────────────
+ui_bk_title	Копии	Backups
+ui_bk_note_count	{0} шт.	{0} total
+ui_bk_create_title	Создать копию	Create a backup
+ui_bk_label_field	метка (необязательно)	label (optional)
+ui_bk_btn_create	СОЗДАТЬ ▶	CREATE ▶
+ui_bk_create_hint	в копию идут конфиг и состояние; сертификаты — нет (они чужие)	config and state go into the backup; certificates do not (they are not ours)
+
+# ── Копии: таблица ────────────────────────────────────────────────────────
+ui_bk_list_title	Копии на сервере	Backups on the server
+ui_bk_col_file	файл	file
+ui_bk_col_version	версия	ver.
+ui_bk_col_created	создана	created
+ui_bk_col_size	размер	size
+ui_bk_badge_encrypted	шифр.	enc.
+ui_bk_enc_ssh_only	только из SSH-меню	from the SSH menu only
+ui_bk_btn_restore	восстановить	restore
+ui_bk_empty	копий пока нет — первая появится после «Создать» или по расписанию	no backups yet — the first one appears after “Create” or on schedule
+ui_bk_dir	каталог: {0}	directory: {0}
+
+# ── Копии: восстановление (разрушительное, слово подтверждения) ──────────
+ui_bk_word_restore	ВОССТАНОВИТЬ	RESTORE
+ui_bk_restore_hint	Текущие настройки будут заменены настройками из копии, служба перезапущена. Исполняемое из архива не восстанавливается — конфиг службы пересобирается заново.	Current settings will be replaced with the ones from the backup, and the service will be restarted. Nothing executable is restored from the archive — the service config is rebuilt from scratch.
+ui_bk_restore_q	Восстановить «{0}»? Текущие настройки будут заменены, служба перезапущена. Исполняемое из архива не восстанавливается.	Restore “{0}”? Current settings will be replaced and the service restarted. Nothing executable is restored from the archive.
+ui_bk_pick_first	сначала выберите копию	select a backup first
+ui_bk_restoring	восстанавливаю {0}…	restoring {0}…
+ui_bk_restored	копия восстановлена	backup restored
+
+# ── Копии: уборка и расписание ───────────────────────────────────────────
+ui_bk_sched_section	Уборка и расписание	Cleanup and schedule
+ui_bk_sched_label	расписание:	schedule:
+ui_bk_sched_daily	ежедневно	daily
+ui_bk_sched_weekly	еженедельно	weekly
+ui_bk_sched_monthly	ежемесячно	monthly
+ui_bk_sched_off	выкл	off
+ui_bk_sched_set	расписание: {0}	schedule: {0}
+ui_bk_word_prune	ПРИБРАТЬ	PRUNE
+ui_bk_btn_prune	прибрать старые	prune old ones
+ui_bk_btn_prune_go	прибрать	prune
+ui_bk_prune_note	останутся {0} свежих; удалённое не вернуть	{0} newest are kept; deleted ones cannot be brought back
+ui_bk_prune_hint	Старые копии сверх лимита будут удалены безвозвратно.	Old backups over the limit will be deleted permanently.
+ui_bk_pruned	прибрано	pruned
+
+# ── Копии: ход выполнения ────────────────────────────────────────────────
+ui_bk_creating	создаю копию…	creating a backup…
+ui_bk_created	копия создана	backup created
+ui_bk_done	готово	done
+ui_bk_error	ошибка: {0}	error: {0}
+
+# ── Служба: состояние ────────────────────────────────────────────────────
+ui_svc_title	Служба	Service
+ui_svc_state_title	Состояние	Status
+ui_svc_row_service	служба	service
+ui_svc_row_engine	движок	engine
+ui_svc_row_since	работает с	up since
+ui_svc_row_listen	слушает	listens on
+ui_svc_row_attn	внимание	attention
+ui_svc_drift	есть непринятые изменения — нажмите «применить»	there are unapplied changes — press “apply”
+ui_svc_btn_restart	ПРИМЕНИТЬ И ПЕРЕЗАПУСТИТЬ ▶	APPLY AND RESTART ▶
+ui_svc_btn_reload_certs	перечитать сертификат	reload certificate
+ui_svc_btn_config	показать конфиг	show config
+ui_svc_restart_hint	перезапуск пересобирает конфиг из config.json и применяет его; ключ консоли в показе конфига скрыт	restart rebuilds the config from config.json and applies it; the console key is hidden in the config view
+
+# ── Служба: журнал и ход выполнения ──────────────────────────────────────
+ui_svc_logs_title	Журнал службы	Service log
+ui_svc_btn_logs_last	последние {0} строк	last {0} lines
+ui_svc_btn_logs_n	{0} строк	{0} lines
+ui_svc_logs_hint	поштучных запросов в журнале нет — это устройство dnsdist, не поломка	individual queries are not in the log — that is how dnsdist works, not a fault
+ui_svc_applying	применяю…	applying…
+ui_svc_done	готово	done
+ui_svc_applied	конфигурация применена	configuration applied
+ui_svc_cert_reloaded	сертификат перечитан	certificate reloaded

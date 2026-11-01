@@ -1,0 +1,15 @@
+# Kaskad SSH menu texts: area gwtrace — menu 17 “Gateway” → 9 “Where will traffic go?” (the answer — steps from the
+# core, kaskadctl gw trace). English. Same keys and printf placeholders as gwtrace.ru.sh.
+M_en_GWT_TITLE='Gateway: where will traffic go?'
+M_en_GWT_INTRO='Shows the traffic path to a domain or IP: blocked, direct from the server’s address, or via which exit. Nothing is changed.'
+M_en_GWT_NO_DEVICES='No devices yet — checking a new device with default settings.'
+M_en_GWT_ASK_DEVICE='Device (1–%s; Enter — new with defaults; 0 — back): '
+M_en_GWT_NEW_DEVICE='new device with default settings'
+M_en_GWT_BAD_DEVICE='No such item: a number from the list, Enter — new with defaults, 0 — back.'
+M_en_GWT_MULTI='The device has several protocols — traffic goes through one of them (xray handles SOCKS5 and VLESS, the kernel the rest):'
+M_en_GWT_ASK_INBOUND='Which protocol (1–%s; Enter — the first): '
+M_en_GWT_BAD_INBOUND='A number from the list, or Enter — the first protocol.'
+M_en_GWT_NAME_VIA='%s via %s'
+M_en_GWT_WHO='Whose traffic: %s. Domain or IP — for example youtube.com, ya.ru, 8.8.8.8.'
+M_en_GWT_ASK='Domain or IP (0 — back): '
+M_en_GWT_WHO_MORE='Whose traffic: %s. Another domain or IP — or Enter to go back.'

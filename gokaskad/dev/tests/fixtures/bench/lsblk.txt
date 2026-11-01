@@ -1,0 +1,4 @@
+vda     1 21474836480 disk
+sr0     1     1073741312 rom
+loop0   0    67108864 loop
+nvme0n1 0 107374182400 disk

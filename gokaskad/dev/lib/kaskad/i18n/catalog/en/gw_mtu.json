@@ -1,0 +1,23 @@
+{
+ "gw_mtu.detail.low": "S4 = {s4}, the server MTU is now {server} — mobile networks stay fast, but HTTP/3 through this protocol will fall back to TCP. The full fix is new settings with S4 ≤ {s4_max}.",
+ "gw_mtu.detail.narrow": "The network interface (NIC) MTU is {nic}, but a packet of a client with MTU {client} and S4 = {s4} needs {need} (client MTU + {overhead} + S4). Issue new settings with MTU {new_client} or keep it as is.",
+ "gw_mtu.log.leg": "MTU of leg {iface}: {was} → {now}",
+ "gw_mtu.log.server": "Server MTU of inbound {kind}: {was} → {now} (NIC {nic}, budget {budget}, S4 = {s4})",
+ "gw_mtu.low": "{title}: S4 = {s4} — to keep mobile networks fast, the server lowered the MTU to {server}; HTTP/3 through this protocol will fall back to TCP. The full fix is new settings with S4 ≤ {s4_max}.",
+ "gw_mtu.narrow": "{title}: the server’s network interface MTU ({nic}) is lower than clients with MTU {client} and S4 = {s4} need (a packet needs {need}: client MTU + {overhead} + S4). Issue new settings with MTU {new_client} (the devices will be listed) or keep it as is.",
+ "gw_mtu.st.choice": "new settings: kaskadctl gw mtu {cmd} {kind} · keep as is: kaskadctl gw mtu keep {kind}",
+ "gw_mtu.st.head": "MTU: NIC {nic}{dev}, budget {budget}",
+ "gw_mtu.st.inbound": "inbound {kind}: server {server}, client {client}",
+ "gw_mtu.st.kept_narrow": "network interface MTU too low: kept as is (clients with MTU {client} won’t fit)",
+ "gw_mtu.st.kept_s4": "S4 = {s4}: kept as is (server {server}, HTTP/3 through the inbound goes over TCP)",
+ "gw_mtu.st.leg": "leg {iface}: {mtu}",
+ "gw_mtu.st.low": "server MTU below 1232: HTTP/3 through this inbound will fall back to TCP",
+ "gw_mtu.st.nic_now": "the network interface MTU is now {nic} — applied on kaskadctl gw apply",
+ "gw_mtu.st.restart_many": "last restart of the inbounds: {text}",
+ "gw_mtu.st.restart_one": "last restart of the inbound: {text}",
+ "gw_mtu.st.waiting": "waiting for new settings: {names}",
+ "gw_mtu.manual.kinds": "Manual MTU is for WireGuard and AmneziaWG only; {title} has none.",
+ "gw_mtu.manual.range": "{title}: MTU must be a whole number from {min} to {limit}.",
+ "gw_mtu.manual.over": "{title}: MTU {limit} at most — otherwise the outer packet exceeds {budget}, and mobile networks and PPPoE slow down on such packets. The server would not go above {server} anyway.",
+ "gw_mtu.manual.closed": "{title}: manual MTU can’t be changed now — with a network interface MTU of {nic} and S4 = {s4} a packet with MTU {min} is already over {budget} outside. MTU now: {cur}."
+}

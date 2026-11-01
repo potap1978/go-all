@@ -1,0 +1,22 @@
+{
+ "gw_ifwatch.by_kaskad": "Kaskad — reason “{why}”, by: {by}",
+ "gw_ifwatch.by_unknown": "not recorded",
+ "gw_ifwatch.core.kernel": "kernel module",
+ "gw_ifwatch.core.userspace": "userspace",
+ "gw_ifwatch.engine": "; AmneziaWG engine: {core}",
+ "gw_ifwatch.gone": "{head}: interface missing {when} (was ifindex {was}); service {unit}; by: {who}{tail}",
+ "gw_ifwatch.head": "GW inbound {kind} ({iface})",
+ "gw_ifwatch.none": "none",
+ "gw_ifwatch.recreated": "{head}: interface recreated {when} (ifindex {was} → {now}) — {clients} clients reconnect on their own in 15–25 s; by: {who}{tail}",
+ "gw_ifwatch.reset": "{head}: client sessions reset without recreating the interface {when} ({n} of {total}: counters dropped to zero) — they reconnect on their own in 15–25 s; by: {who}{tail}",
+ "gw_ifwatch.start_at": "at {t} s",
+ "gw_ifwatch.started_times": "{head}: since boot, service {unit} started {times} ({starts}) — each restart costs {clients} clients up to 15–25 s; by: {who}{tail}",
+ "gw_ifwatch.times": "{n} time|{n} times",
+ "gw_ifwatch.when": "{up} s after boot",
+ "gw_ifwatch.when_unknown": "boot time unknown",
+ "gw_ifwatch.who_bypassed": "the service did not restart — the interface was recreated around it (an ip link command not run by Kaskad, or the amneziawg module was unloaded)",
+ "gw_ifwatch.who_not_kaskad": "Kaskad did not restart it — systemd or a systemctl command not run by Kaskad (journalctl -b -u {unit})",
+ "gw_ifwatch.who_not_removed": "Kaskad did not remove it",
+ "gw_ifwatch.who_not_set": "Kaskad did not change the settings — an awg/wg set or setconf command not run by Kaskad",
+ "gw_ifwatch.who_restarted": "service {unit} started again ({starts}), Kaskad did not restart it — systemd or a systemctl command not run by Kaskad (journalctl -b -u {unit})"
+}

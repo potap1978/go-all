@@ -1,0 +1,74 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libaio1 libboost-iostreams1.74.0 libboost-thread1.74.0 libdaxctl1 libfmt9
+  libgfapi0 libgfrpc0 libgfxdr0 libglusterfs0 libibverbs1 libluajit2-5.1-2
+  libluajit2-5.1-common libmariadb3 libnbd0 libndctl6 libnl-3-200
+  libnl-route-3-200 libpmem1 libpmemblk1 libpq5 librados2 librbd1 librdmacm1
+  mariadb-common mysql-common
+Suggested packages:
+  fio-examples gnuplot gfio
+Recommended packages:
+  ibverbs-providers
+The following NEW packages will be installed:
+  fio libaio1 libboost-iostreams1.74.0 libboost-thread1.74.0 libdaxctl1
+  libfmt9 libgfapi0 libgfrpc0 libgfxdr0 libglusterfs0 libibverbs1
+  libluajit2-5.1-2 libluajit2-5.1-common libmariadb3 libnbd0 libndctl6
+  libnl-3-200 libnl-route-3-200 libpmem1 libpmemblk1 libpq5 librados2 librbd1
+  librdmacm1 mariadb-common mysql-common sysbench
+0 upgraded, 27 newly installed, 0 to remove and 114 not upgraded.
+Inst libaio1 (0.3.113-4 Debian:12.15/oldstable [amd64])
+Inst libgfxdr0 (10.3-5 Debian:12.15/oldstable [amd64])
+Inst libglusterfs0 (10.3-5 Debian:12.15/oldstable [amd64])
+Inst libgfrpc0 (10.3-5 Debian:12.15/oldstable [amd64])
+Inst libgfapi0 (10.3-5 Debian:12.15/oldstable [amd64])
+Inst libnl-3-200 (3.7.0-0.2+b1 Debian:12.15/oldstable [amd64])
+Inst libnl-route-3-200 (3.7.0-0.2+b1 Debian:12.15/oldstable [amd64])
+Inst libibverbs1 (44.0-2 Debian:12.15/oldstable [amd64])
+Inst libnbd0 (1.14.2-1 Debian:12.15/oldstable [amd64])
+Inst libdaxctl1 (76.1-1 Debian:12.15/oldstable [amd64])
+Inst libndctl6 (76.1-1 Debian:12.15/oldstable [amd64])
+Inst libpmem1 (1.12.1-2 Debian:12.15/oldstable [amd64])
+Inst libpmemblk1 (1.12.1-2 Debian:12.15/oldstable [amd64])
+Inst libboost-iostreams1.74.0 (1.74.0+ds1-21 Debian:12.15/oldstable [amd64])
+Inst libboost-thread1.74.0 (1.74.0+ds1-21 Debian:12.15/oldstable [amd64])
+Inst libfmt9 (9.1.0+ds1-2 Debian:12.15/oldstable [amd64])
+Inst librdmacm1 (44.0-2 Debian:12.15/oldstable [amd64])
+Inst librados2 (16.2.15+ds-0+deb12u2 Debian:12.15/oldstable, Debian-Security:12/oldstable-security [amd64])
+Inst librbd1 (16.2.15+ds-0+deb12u2 Debian:12.15/oldstable, Debian-Security:12/oldstable-security [amd64])
+Inst fio (3.33-3 Debian:12.15/oldstable [amd64])
+Inst libluajit2-5.1-common (2.1-20230119-1 Debian:12.15/oldstable [all])
+Inst libluajit2-5.1-2 (2.1-20230119-1 Debian:12.15/oldstable [amd64])
+Inst mysql-common (5.8+1.1.0 Debian:12.15/oldstable [all])
+Inst mariadb-common (1:10.11.19-0+deb12u1 Debian-Security:12/oldstable-security [all])
+Inst libmariadb3 (1:10.11.19-0+deb12u1 Debian-Security:12/oldstable-security [amd64])
+Inst libpq5 (15.19-0+deb12u1 Debian-Security:12/oldstable-security [amd64])
+Inst sysbench (1.0.20+ds-5 Debian:12.15/oldstable [amd64])
+Conf libaio1 (0.3.113-4 Debian:12.15/oldstable [amd64])
+Conf libgfxdr0 (10.3-5 Debian:12.15/oldstable [amd64])
+Conf libglusterfs0 (10.3-5 Debian:12.15/oldstable [amd64])
+Conf libgfrpc0 (10.3-5 Debian:12.15/oldstable [amd64])
+Conf libgfapi0 (10.3-5 Debian:12.15/oldstable [amd64])
+Conf libnl-3-200 (3.7.0-0.2+b1 Debian:12.15/oldstable [amd64])
+Conf libnl-route-3-200 (3.7.0-0.2+b1 Debian:12.15/oldstable [amd64])
+Conf libibverbs1 (44.0-2 Debian:12.15/oldstable [amd64])
+Conf libnbd0 (1.14.2-1 Debian:12.15/oldstable [amd64])
+Conf libdaxctl1 (76.1-1 Debian:12.15/oldstable [amd64])
+Conf libndctl6 (76.1-1 Debian:12.15/oldstable [amd64])
+Conf libpmem1 (1.12.1-2 Debian:12.15/oldstable [amd64])
+Conf libpmemblk1 (1.12.1-2 Debian:12.15/oldstable [amd64])
+Conf libboost-iostreams1.74.0 (1.74.0+ds1-21 Debian:12.15/oldstable [amd64])
+Conf libboost-thread1.74.0 (1.74.0+ds1-21 Debian:12.15/oldstable [amd64])
+Conf libfmt9 (9.1.0+ds1-2 Debian:12.15/oldstable [amd64])
+Conf librdmacm1 (44.0-2 Debian:12.15/oldstable [amd64])
+Conf librados2 (16.2.15+ds-0+deb12u2 Debian:12.15/oldstable, Debian-Security:12/oldstable-security [amd64])
+Conf librbd1 (16.2.15+ds-0+deb12u2 Debian:12.15/oldstable, Debian-Security:12/oldstable-security [amd64])
+Conf fio (3.33-3 Debian:12.15/oldstable [amd64])
+Conf libluajit2-5.1-common (2.1-20230119-1 Debian:12.15/oldstable [all])
+Conf libluajit2-5.1-2 (2.1-20230119-1 Debian:12.15/oldstable [amd64])
+Conf mysql-common (5.8+1.1.0 Debian:12.15/oldstable [all])
+Conf mariadb-common (1:10.11.19-0+deb12u1 Debian-Security:12/oldstable-security [all])
+Conf libmariadb3 (1:10.11.19-0+deb12u1 Debian-Security:12/oldstable-security [amd64])
+Conf libpq5 (15.19-0+deb12u1 Debian-Security:12/oldstable-security [amd64])
+Conf sysbench (1.0.20+ds-5 Debian:12.15/oldstable [amd64])

@@ -1,0 +1,19 @@
+[Unit]
+Description=Kaskad 3 gateway: AmneziaWG inbound awg2 (kgw-awg2, kernel module)
+After=network-online.target kaskad-net.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/kaskad/gw/awg2/env
+ExecStartPre=-/usr/sbin/ip link delete dev kgw-awg2
+ExecStart=/usr/sbin/ip link add dev kgw-awg2 type amneziawg
+ExecStart=/etc/kaskad/egress/awg/awg setconf kgw-awg2 /etc/kaskad/gw/awg2/kgw-awg2.conf
+ExecStart=/usr/sbin/ip address replace ${ADDR} dev kgw-awg2
+ExecStart=/usr/sbin/ip link set dev kgw-awg2 mtu ${MTU} up
+ExecReload=/etc/kaskad/egress/awg/awg syncconf kgw-awg2 /etc/kaskad/gw/awg2/kgw-awg2.sync.conf
+ExecStopPost=-/usr/sbin/ip link delete dev kgw-awg2
+
+[Install]
+WantedBy=multi-user.target

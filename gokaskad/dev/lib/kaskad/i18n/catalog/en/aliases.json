@@ -1,0 +1,4 @@
+{
+ "aliases.bad_ip": "Wrong server address: {ip}. An IPv4 address is needed, for example 203.0.113.5.",
+ "aliases.rename_dup": "The name “{name}” is already used by the server {ids}. Save anyway?"
+}

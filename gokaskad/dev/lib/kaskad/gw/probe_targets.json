@@ -1,0 +1,13 @@
+{
+ "version": 2,
+ "checked": "2026-10-14",
+ "about": "The targets of the probes of the exits by checks.targets of their group (SPEC-stage1-exits §5.1, §4.6; SPEC-groups §6.1): tcp — the probe «alive» (a connection through the mark of the exit, the targets one after another, any one answers; for a Russian AmneziaWG exit the time of the connection is its response), http — the response probe of AmneziaWG (GET, the time to the first line of the answer; null — none: a Russian exit never sends HTTP to Yandex in its frequent probes, finding Б3), direct — the probe of the node's own network without a mark when every exit of a side is silent (§4.6), dns + dns_name — the probe of a Russian xray exit through its probe-<id>: a DNS query «A dns_name» over TCP (SPEC-groups §6.1). checked — the day the stand checked them (T0, С0.14: TCP 443 of 77.88.8.8 and 77.88.8.1 from a node in Moscow and from abroad).",
+ "abroad": {"tcp": [["1.1.1.1", 443], ["8.8.8.8", 443], ["9.9.9.9", 443]],
+            "http": "http://cp.cloudflare.com/generate_204",
+            "direct": [["1.1.1.1", 443]],
+            "dns": [["1.1.1.1", 53], ["8.8.8.8", 53]], "dns_name": "cp.cloudflare.com"},
+ "ru": {"tcp": [["77.88.8.8", 443], ["77.88.8.1", 443]],
+        "http": null,
+        "direct": [["77.88.8.8", 443]],
+        "dns": [["77.88.8.8", 53], ["77.88.8.1", 53]], "dns_name": "ya.ru"}
+}

@@ -1,0 +1,139 @@
+# goDNS Pro — резервные копии и обновление. ключ<TAB>русский<TAB>english
+bk_m_create	Создать копию	Create a backup
+bk_m_list	Список копий	List backups
+bk_m_restore	Восстановить из копии	Restore from a backup
+bk_m_prune	Удалить старые	Delete the old ones
+bk_m_schedule	Расписание	Schedule
+bk_create_title	Создание резервной копии	Creating a backup
+bk_create_note	В архив идут настройки: домен, порты, апстримы, СЕКРЕТНЫЙ путь DoH	The archive holds settings: domain, ports, upstreams, the SECRET DoH path
+bk_collecting	Собираю состояние…	Collecting the state…
+bk_nothing_to_save	Сохранять нечего: настроек goDNS Pro на диске нет.	Nothing to save: there is no goDNS Pro state on disk.
+bk_unchanged_skip	С прошлой копии ничего не изменилось — новая не нужна.	Nothing changed since the last backup — a new one is not needed.
+bk_dir_failed	Не удалось создать каталог копий: %s	Could not create the backup directory: %s
+bk_tmp_failed	Не удалось создать временный каталог.	Could not create a temporary directory.
+bk_manifest_failed	Не удалось записать манифест архива.	Could not write the archive manifest.
+bk_archive_failed	Не удалось создать архив.	Could not create the archive.
+bk_archive_empty	Архив получился пустым — скорее всего, кончилось место на диске.	The archive came out empty — most likely the disk is full.
+bk_archive_truncated	Контрольная сумма архива не совпала — вероятно, кончилось место.	The archive checksum did not match — the disk is probably full.
+bk_encrypted	Архив зашифрован (AES-256-CBC, PBKDF2).	The archive is encrypted (AES-256-CBC, PBKDF2).
+bk_encrypt_failed	Не удалось зашифровать архив.	Could not encrypt the archive.
+bk_created	Копия создана: %s (%s)	Backup created: %s (%s)
+bk_encrypt_ask	Зашифровать архив паролем? Нужно, только если увозите его.	Encrypt the archive with a password? Only if it leaves the server.
+bk_enter_pass	Пароль	Password
+bk_repeat_pass	Повторите пароль	Repeat the password
+bk_pass_mismatch	Пароли не совпали.	The passwords do not match.
+bk_pass_short	Пароль короче восьми символов.	The password is shorter than eight characters.
+bk_pass_lost_warn	Пароль нигде не хранится. Забыли — архив не открыть.	The password is stored nowhere. Lose it and the archive is lost.
+bk_label_ask	Метка для архива (Enter — без метки):	Label for the archive (Enter for none):
+bk_list_title	Резервные копии	Backups
+bk_list_dir	Каталог	Directory
+bk_none	Копий нет (%s).	There are no backups (%s).
+bk_keep_note	Хранится последних копий: %s. Остальные удаляет уборка.	The last %s backups are kept. The rest are removed by the cleanup.
+bk_pruned_one	удалено: %s	removed: %s
+bk_pruned	Удалено старых копий: %s (оставлено %s).	Removed %s old backup(s), kept %s.
+bk_prune_nothing	Копий %s, хранить надо %s — удалять нечего.	%s backup(s), %s to keep — nothing to remove.
+bk_pick_ask	Номер копии или путь к файлу (0 — назад):	Backup number, or a path to a file (0 to go back):
+bk_not_in_list	Такой копии в списке нет.	There is no such backup in the list.
+bk_not_found	Файл копии не найден: %s	Backup file not found: %s
+bk_need_write	Нет прав на запись в %s — запустите от root.	No write permission on %s — run as root.
+bk_sha_ok	Контрольная сумма архива сошлась.	The archive checksum matches.
+bk_sha_mismatch	Контрольная сумма архива не сошлась — файл повреждён или подменён.	The archive checksum does not match — the file is damaged or was replaced.
+bk_sha_detail	ожидалось %s, получено %s	expected %s, got %s
+bk_bad_pass	Неверный пароль или повреждённый архив.	Wrong password, or a damaged archive.
+bk_extract_failed	Архив не распаковался.	The archive could not be extracted.
+bk_no_config_inside	В архиве нет config.json — это не копия goDNS Pro.	The archive has no config.json — it is not a goDNS Pro backup.
+bk_config_unreadable	config.json внутри архива не читается как JSON.	The config.json inside the archive is not readable as JSON.
+bk_restore_title	Восстановление из копии	Restoring from a backup
+bk_f_file	Файл	File
+bk_f_version	Версия	Version
+bk_f_date	Дата	Date
+bk_f_host	Сервер	Host
+bk_f_domain	Домен	Domain
+bk_f_ports	Порты	Ports
+bk_certs_untouched	Сертификаты не трогаются: они принадлежат goVLESS или goTelegram.	Certificates are not touched: they belong to goVLESS or goTelegram.
+bk_newer_warn	Архив от версии %s, установлена %s — это откат назад.	Archive is from version %s, %s is installed — this is a rollback.
+bk_newer_hint	Миграции конфига идут только вперёд: незнакомые ключи останутся в файле.	Config migrations only move forward: unknown keys stay in the file.
+bk_restore_ask	Восстановить? Текущие настройки будут перезаписаны.	Restore? The current settings will be overwritten.
+bk_safety_made	Копия текущего состояния на всякий случай: %s	A copy of the current state, just in case: %s
+bk_safety_failed	Не удалось снять копию текущего состояния.	Could not take a copy of the current state.
+bk_safety_continue	Продолжить восстановление без страховочной копии?	Continue restoring without a safety copy?
+bk_safety_hint	Вернуть как было: восстановите %s	To get back: restore %s
+bk_write_failed	Не удалось записать %s	Could not write %s
+bk_restored_config	Настройки восстановлены.	The settings are restored.
+bk_restored_lang	язык интерфейса восстановлен	the interface language is restored
+bk_restored_etc	каталог состояния восстановлен	the state directory is restored
+bk_engine_conf_kept	конфиг движка из архива положен рядом для сверки: %s	the engine config from the archive was placed alongside for comparison: %s
+bk_migrate_failed	Конфиг восстановлен, но миграция схемы не прошла.	The config is restored, but the schema migration failed.
+bk_cert_missing_now	Сертификата по пути из архива на этом сервере нет: %s	There is no certificate at the path from the archive on this server: %s
+bk_cert_missing_hint	Так бывает, когда архив приехал с другой машины.	This happens when the archive came from another machine.
+bk_restore_partial	Настройки восстановлены, служба не перезапускалась.	The settings are restored; the service was not restarted.
+bk_restore_done_noapply	Настройки восстановлены. Примените их: «Настройки goDNS Pro» → «Перезапустить».	The settings are restored. Apply them: “goDNS Pro settings” → “Restart”.
+bk_restore_done	Восстановлено и применено — служба работает.	Restored and applied — the service is running.
+bk_restore_doh	Адрес для клиентов: %s	Client address: %s
+bk_restore_apply_failed	Настройки восстановлены, но служба не поднялась.	The settings are restored, but the service did not start.
+bk_sched_title	Расписание копий	Backup schedule
+bk_sched_current	Сейчас	Currently
+bk_sched_daily	Каждый день	Daily
+bk_sched_weekly	Раз в неделю	Weekly
+bk_sched_monthly	Раз в месяц	Monthly
+bk_sched_off	Выключить расписание	Turn the schedule off
+bk_sched_val_off	выключено	off
+bk_sched_none	Таймер не заведён — копии по расписанию не снимаются.	No timer is set up — no scheduled backups are taken.
+bk_sched_on	Расписание включено: %s (%s).	Schedule enabled: %s (%s).
+bk_sched_bad	Неизвестная периодичность: %s	Unknown frequency: %s
+bk_sched_no_systemd	systemd не найден — расписание завести нечем.	systemd was not found — there is nothing to schedule with.
+bk_sched_write_failed	Не удалось записать юниты расписания.	Could not write the schedule units.
+bk_sched_enable_failed	Не удалось включить таймер расписания.	Could not enable the schedule timer.
+upd_title	Обновление goDNS Pro	goDNS Pro update
+upd_fresh	Первая установка — переносить нечего.	First install — there is nothing to carry over.
+upd_same	Та же версия (%s) — это переустановка, а не обновление.	Same version (%s) — this is a reinstall, not an update.
+upd_detected	Обновление: %s → %s	Update: %s → %s
+upd_downgrade	Установлена %s, ставится %s — это откат назад.	Version %s is installed, %s is going in — this is a rollback.
+upd_backup_failed	Не удалось снять копию перед обновлением.	Could not take a backup before the update.
+upd_backup_ok	Копия перед обновлением: %s	Pre-update backup: %s
+upd_backup_reused	Копия перед обновлением уже снята: %s	The pre-update backup already exists: %s
+upd_aborted	Обновление остановлено: настройки не тронуты.	The update is stopped: the settings are untouched.
+upd_migrate_failed	Миграция настроек не прошла.	The settings migration failed.
+upd_migrate_hint	Настройки можно вернуть из копии: %s	The settings can be restored from the backup: %s
+upd_moved_key	ключ %s перенесён в %s	the %s key was moved to %s
+upd_schema_done	Схема настроек обновлена: %s → %s	Settings schema updated: %s → %s
+upd_schema_future	Схема настроек %s новее этой версии (%s) — файл не тронут.	Settings schema %s is newer than this version (%s) — file untouched.
+upd_schema_step_failed	Не прошла ступень миграции %s → %s	Migration step %s → %s failed
+upd_fingerprint_refreshed	отпечаток применённой конфигурации пере-подтверждён	the applied-configuration fingerprint was re-stamped
+upd_preserved_restored	Порты и секретный путь изменились при миграции — вернул прежние.	Migration changed the ports and the secret path — restored them.
+upd_done	Обновлено с %s до %s. Настройки сохранены.	Updated from %s to %s. The settings are preserved.
+upd_kept_domain	Домен	Domain
+upd_kept_ports	Порты	Ports
+upd_kept_path	Секретный путь	Secret path
+upd_kept_url	Адрес DoH	DoH address
+upd_clients_note	Клиентам ничего перенастраивать не надо: адрес, порты и путь прежние.	Clients need no changes: the address, ports and path are the same.
+upd_service_down	После обновления служба не работает.	The service is not running after the update.
+upd_no_rollback	Копии перед обновлением нет — откатывать не из чего.	There is no pre-update backup — there is nothing to roll back from.
+upd_rollback_intro	Можно вернуть настройки, которые были в версии %s.	The settings from version %s can be restored.
+upd_rollback_what	Копия: %s	Backup: %s
+upd_rollback_code	Копия возвращает НАСТРОЙКИ, а не саму программу.	The backup restores the SETTINGS, not the program itself.
+upd_rollback_ask	Вернуть прежние настройки?	Restore the previous settings?
+upd_rollback_declined	Настройки оставлены как есть.	The settings are left as they are.
+upd_rollback_done	Прежние настройки возвращены.	The previous settings are restored.
+upd_rollback_failed	Вернуть прежние настройки не удалось.	Restoring the previous settings failed.
+upd_changes_title	Что нового	What is new
+upd_changes_none	Со времени вашей версии заметных изменений не было.	Nothing notable has changed since your version.
+upd_ch_010_backup	Резервные копии: создание, список, восстановление, уборка.	Backups: create, list, restore and prune.
+upd_ch_010_update	Обновление поверх сохраняет домен, порты и секретный путь DoH.	Updating in place keeps the domain, ports and the secret DoH path.
+upd_ch_050_stats	Счётчик запросов в меню: окна 1м–7д, спарклайн, минутные срезы.	Query counter in the menu: 1m–7d windows, sparkline, minute slices.
+upd_ch_101_ratelimit	Лимит запросов на клиента считается поштучно: превышение больше не выключает адрес на минуту. Роутер, который приносит DNS всей квартиры, больше не «терял интернет».	The per-client query limit now drops only the excess: exceeding it no longer switches an address off for a minute. A router carrying a whole household's DNS no longer «loses the internet».
+upd_ch_101_brand	Продукт называется goDNS Pro — имя обновилось на всех экранах. Команда godns и пути прежние.	The product is now called goDNS Pro — the name is updated on every screen. The godns command and the paths are unchanged.
+upd_ch_101_main	Обновления приходят из ветки main; ветку по-прежнему выбирает GODNS_REF.	Updates now come from the main branch; GODNS_REF still selects the branch.
+bk_kept_after_uninstall	Копии остаются в %s — их goDNS Pro при удалении не трогает.	The backups stay in %s — goDNS Pro does not touch them when removing itself.
+bk_pre_uninstall_failed	Копию перед удалением снять НЕ удалось — отката не будет.	The pre-removal backup could NOT be taken — there will be no way back.
+bk_create_note_2	и ключ консоли dnsdist. Сертификаты не копируются — они чужие.	and the dnsdist console key. Certificates are not copied — not ours.
+bk_cert_missing_hint_2	Выберите сертификат заново: «Настройки DNS» → «Пересканировать и выбрать».	Pick the certificate again: “DNS settings” → “Rescan and choose”.
+upd_rollback_code_2	Чтобы вернуть код версии %s, переустановите goDNS Pro с GODNS_REF на тег.	To get version %s back, reinstall goDNS Pro with GODNS_REF set to that tag.
+bk_restore_webui_absent	Копия помнит веб-панель, но на этой машине она не установлена — поставьте её заново: «Удалённое управление» → «Веб-панель».	The backup remembers the web panel, but it is not installed on this machine — reinstall it: “Remote control” → “Web panel”.
+bk_restore_bot_absent	Копия помнит Telegram-бота, но на этой машине он не установлен — поставьте его заново: «Удалённое управление» → «Telegram-бот».	The backup remembers the Telegram bot, but it is not installed on this machine — reinstall it: “Remote control” → “Telegram bot”.
+bk_prune_will_remove	Будет удалено копий: %s (останутся %s самых свежих)	Backups to delete: %s (the %s newest are kept)
+bk_prune_confirm	Удалить перечисленные копии навсегда?	Delete the listed backups permanently?
+upd_reapply	Конфигурация движка перерисовывается новой версией…	Re-rendering the engine configuration with the new version…
+upd_reapply_ok	Конфигурация применена новой версией	Configuration applied by the new version
+upd_reapply_failed	Применить конфигурацию новой версией не удалось — служба продолжает работать на прежнем конфиге (см. ошибку выше).	Could not apply the configuration with the new version — the service keeps running on the previous config (see the error above).
+upd_reapply_same	Конфигурация движка не изменилась — служба не перезапускалась	Engine configuration unchanged — the service was not restarted

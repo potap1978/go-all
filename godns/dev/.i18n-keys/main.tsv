@@ -1,0 +1,284 @@
+banner_subtitle	шифрованный DNS на сертификате goVLESS / goTelegram	encrypted DNS on the goVLESS / goTelegram certificate
+exit	Выход	Exit
+back	« Назад	« Back
+bye	До встречи.	Bye.
+menu_again_hint	Открыть меню снова:	To open the menu again:
+wiz_menu_label	Меню goDNS Pro:	The goDNS Pro menu:
+wiz_menu_note	Эта команда открывает меню в любой момент.	This command opens the menu at any time.
+invalid_choice	Неверный выбор.	Invalid choice.
+press_enter_return	Enter — назад в меню…	Press Enter to return to the menu…
+startup_os_ok	Система: %s	System: %s
+startup_os_newer	Система %s новее протестированных 22.04 / 24.04 / 26.04.	System %s is newer than the tested 22.04 / 24.04 / 26.04.
+startup_os_newer_ask	Продолжить всё равно?	Continue anyway?
+startup_os_refused	goDNS Pro ставится на Ubuntu 22.04, 24.04, 26.04 и новее.	goDNS Pro installs on Ubuntu 22.04, 24.04, 26.04 and newer.
+startup_cancelled	Отменено.	Cancelled.
+state_running	работает	running
+state_stopped	остановлен	stopped
+state_not_installed	не установлен	not installed
+dash_service	Служба	Service
+dash_domain	Домен	Domain
+dash_none	не задан	not set
+dash_cert_days	осталось дней: %s	%s days left
+dash_cert	Сертификат	Certificate
+dash_cert_until	до %s  ·  осталось %s дн.	until %s  ·  %s days left
+dash_cert_soon2	до %s  ·  осталось %s дн. — продление не сработало?	until %s  ·  %s days left — did renewal fail?
+dash_cert_gone	ИСТЁК %s — клиенты не подключаются	EXPIRED %s — clients cannot connect
+dash_reg_paid	оплачен до %s	paid until %s
+dash_reg_soon	⚠ оплачен до %s — осталось %s дн.	⚠ paid until %s — %s days left
+dash_reg_gone	⚠ РЕГИСТРАЦИЯ ИСТЕКЛА %s	⚠ REGISTRATION EXPIRED %s
+dash_reg_unknown	срок регистрации неизвестен	registration term unknown
+dash_doh	DoH	DoH
+dash_dot	DoT	DoT
+dash_policy	Политика	Policy
+dash_upstreams	Апстримы	Upstreams
+menu_wizard	Быстрая установка (мастер)	Quick install (wizard)
+menu_remote	Удалённое управление	Remote control
+menu_remote_bot	Telegram-бот	Telegram bot
+menu_remote_web	Веб-панель	Web panel
+menu_about	О программе	About
+wiz_title	Установка goDNS Pro	goDNS Pro installation
+wiz_intro	Пять шагов: сертификат → апстримы → политика → порты → развёртывание.	Five steps: certificate → upstreams → policy → ports → deploy.
+wiz_aborted	Мастер прерван.	Wizard aborted.
+wiz_cert_title	Шаг 1 из 5 — сертификат	Step 1 of 5 — certificate
+wiz_cert_title_solo	Сертификат	Certificate
+wiz_ups_title	Шаг 2 из 5 — апстримы	Step 2 of 5 — upstreams
+wiz_ups_title_solo	Апстримы	Upstreams
+wiz_policy_title	Шаг 3 из 5 — политика выбора апстрима	Step 3 of 5 — upstream selection policy
+wiz_policy_title_solo	Политика выбора апстрима	Upstream selection policy
+wiz_ports_title	Шаг 4 из 5 — порты и секретный путь	Step 4 of 5 — ports and secret path
+wiz_ports_title_solo	Порты и секретный путь	Ports and secret path
+wiz_deploy_title	Шаг 5 из 5 — развёртывание	Step 5 of 5 — deploy
+wiz_summary_title	Что будет сделано	What will be done
+wiz_confirm	Всё верно, разворачиваем?	Looks right — deploy?
+certs_scanning	Ищу сертификаты по известным путям…	Scanning the known certificate paths…
+certs_none_found	Готового сертификата не нашлось.	No usable certificate was found.
+certs_none_hint	goVLESS Lite сертификата не выпускает, goTelegram Lite не ставит certbot.	goVLESS Lite issues no certificate; goTelegram Lite installs no certbot.
+certs_offer_issue	Выпустить свой сертификат Let's Encrypt?	Issue your own Let's Encrypt certificate?
+certs_issue_new	Выпустить новый сертификат	Issue a new certificate
+certs_pick	Номер:	Number:
+certs_chosen	Взят сертификат %s (%s).	Using the certificate for %s (%s).
+certs_unusable_pick	Этот сертификат помечен как непригодный.	This certificate is marked unusable.
+certs_unusable_force	Всё равно использовать?	Use it anyway?
+cert_rescan	Пересканировать и выбрать	Rescan and choose
+cert_show	Текущий сертификат	Current certificate
+cert_renew_hook	Переустановить хук продления	Reinstall the renewal hook
+cert_none_configured	Сертификат ещё не выбран.	No certificate has been chosen yet.
+cert_file	Файл	File
+cert_until	Годен до	Valid until
+cert_days	Осталось дней	Days left
+cert_san	Имена (SAN)	Names (SAN)
+cert_hook_ok	Хук продления установлен.	Renewal hook installed.
+prov_menu_title	Выбор апстримов	Upstream selection
+prov_region_guess	Регион сервера определён как «%s» — по нему выбраны рекомендованные.	Server region looks like "%s" — the recommended set is chosen for it.
+prov_measure_ask	Замерить задержку до резолверов?	Measure latency to the resolvers?
+prov_measuring	Меряю реальный DoT/DoH — это не ping…	Measuring real DoT/DoH — this is not ping…
+prov_measure_failed	Замер не удался — показываю список без цифр.	Measurement failed — showing the list without numbers.
+prov_none_selected	Не выбран ни один апстрим.	No upstream was selected.
+prov_selected	Выбрано: %s	Selected: %s
+policy_fastest	Кто быстрее	Fastest wins
+policy_fastest_hint	К самому быстрому из живых. Лучший отклик, нагрузка неравномерна.	To the fastest live upstream. Best latency, but uneven load.
+policy_roundrobin	По кругу	Round-robin
+policy_roundrobin_hint	По кругу, каждый запрос — следующему. Никто не видит всю картину.	Round the list, one query each. No resolver sees the whole picture.
+ports_ask_doh	Порт для DoH	Port for DoH
+ports_ask_dot	Порт для DoT	Port for DoT
+ports_ask_path	Секретный путь DoH [%s]:	Secret DoH path [%s]:
+ports_invalid	Порт должен быть числом от 1 до 65535.	The port must be a number between 1 and 65535.
+ports_busy	Порт %s занят: %s	Port %s is busy: %s
+ports_unknown_owner	процесс неизвестен	unknown process
+ports_use_anyway	Всё равно занять этот порт?	Take this port anyway?
+ports_same	DoH и DoT не могут быть на одном порту.	DoH and DoT cannot share a port.
+ports_443_note	На :443 у goVLESS Pro — xray, у goTelegram Pro — telemt или nginx. Берём свой порт.	On :443 goVLESS Pro runs xray, goTelegram Pro runs telemt or nginx. Taking our own port.
+ports_path_bad	В пути можно: латиница, цифры, дефис, подчёркивание, слэш.	The path allows latin letters, digits, hyphen, underscore, slash.
+ports_path_short	Слишком короткий путь: он и есть единственная защита резолвера. Нужно не меньше %s символов — оставляю предложенный.	Path too short: it is the resolver's only protection. At least %s characters are required — keeping the suggested one.
+ports_path_long	Слишком длинный путь (больше %s символов) — оставляю предложенный.	Path too long (over %s characters) — keeping the suggested one.
+ports_set	DoH :%s, DoT :%s, путь /%s	DoH :%s, DoT :%s, path /%s
+ports_change	Изменить порты	Change the ports
+ports_newpath	Сменить секретный путь	Rotate the secret path
+ports_newpath_ok	Новый путь: /%s	New path: /%s
+ports_newpath_word	СМЕНИТЬ	ROTATE
+ports_newpath_warn	Новый путь отвалит ВСЕХ клиентов разом: старый адрес начнёт отдавать 404. Для подтверждения введите	A new path disconnects ALL clients at once: the old address starts returning 404. To confirm, type
+deploy_cert_access_failed	Служба не смогла прочитать приватный ключ.	The service could not read the private key.
+deploy_hook_failed	Хук продления не установлен — перечитывать вручную.	The renewal hook was not installed — reload it by hand.
+deploy_ok	goDNS Pro развёрнут и работает.	goDNS Pro is deployed and running.
+deploy_failed	Служба не поднялась.	The service did not start.
+fw_opened	Порт %s открыт в ufw.	Port %s opened in ufw.
+fw_manual_nft	Найден nftables без ufw — откройте порт %s вручную.	nftables without ufw detected — open port %s manually.
+fw_nft_accept	Найден nftables, но входящее ничего не блокирует — открывать порты не нужно.	nftables found, but nothing is blocking inbound — no ports need opening.
+fw_none	Локального межсетевого экрана нет. Проверьте фильтры у провайдера.	No host firewall found. Check your cloud provider's filters.
+plan_domain	Домен	Domain
+plan_cert	Сертификат	Certificate
+plan_doh	DoH	DoH
+plan_dot	DoT	DoT
+plan_policy	Политика	Policy
+plan_upstreams	Апстримы	Upstreams
+plan_encrypted_only	Наверх — только DoT/DoH. Открытого :53 в схеме нет нигде.	Upstream is DoT/DoH only. There is no plaintext :53 anywhere in this design.
+reconf_applied	Изменения применены, служба перечитала конфигурацию.	Changes applied; the service reloaded its configuration.
+ups_reselect	Пересобрать список апстримов	Re-select the upstreams
+ups_policy	Сменить политику	Change the policy
+ups_measure	Замерить задержку	Measure latency
+test_quick	Быстрая проверка	Quick check
+test_full	Полная проверка	Full check
+test_leak	Проверка на утечку открытого DNS	Plaintext DNS leak audit
+svc_status	Состояние	Status
+svc_restart	Перезапустить	Restart
+svc_reload_certs	Перечитать сертификат	Reload the certificate
+svc_showconf	Показать конфигурацию	Show the configuration
+svc_uninstall	Удалить goDNS Pro	Remove goDNS Pro
+uninstall_title	Удаление goDNS Pro	Removing goDNS Pro
+uninstall_warn	Будут удалены служба, её конфигурация и хук продления.	The service, its configuration and the renewal hook will be removed.
+uninstall_keeps_cert	Сертификат НЕ трогаем: он принадлежит goVLESS или goTelegram.	The certificate is NOT touched: it belongs to goVLESS or goTelegram.
+uninstall_type	Для подтверждения введите	To confirm, type
+uninstall_done	goDNS Pro удалён.	goDNS Pro removed.
+uninstall_config_kept	Настройки оставлены в %s — удалите вручную, если нужно.	Settings left in %s — delete them by hand if you want.
+submenu_about_title	О программе	About
+about_engine	Движок	Engine
+about_os	Система	System
+about_caps	Возможности движка	Engine capabilities
+prov_none_usable	Ни один выбранный резолвер не удалось превратить в апстрим.	None of the selected resolvers could be turned into an upstream.
+prov_skipped	Пропущены (нет адреса в каталоге): %s	Skipped (no address in the catalogue): %s
+dash_need_domain	сначала выберите сертификат	choose a certificate first
+prov_group_unfiltered	── БЕЗ ФИЛЬТРАЦИИ ─────────────────────────────────────	── NO FILTERING ───────────────────────────────────────
+prov_group_filtered	── С ФИЛЬТРАЦИЕЙ (реклама / вредоносное ПО) ───────────	── FILTERING (ads / malware) ──────────────────────────
+prov_chosen_count	выбрано: %s	selected: %s
+prov_help	Номера через пробел — отметить · Enter дальше · a все · n снять · d рекоменд. · + свой	Numbers separated by spaces — toggle · Enter to continue · a all · n none · d recommended · + own
+choose	Выбор	Choice
+prov_legend_warn	⚠ — энтузиастский проект без гарантий или без политики логирования.	⚠ — volunteer-run, no guarantees, or no published logging policy.
+prov_help_keys	↑↓ ходить · ПРОБЕЛ отметить · i подробности · + свой · Enter далее · a/n/d	↑↓ move · SPACE toggle · i details · + own · Enter next · a/n/d
+confirm_unclear	Не понял ответ. Введите y (да) или n (нет).	I did not understand. Please answer y (yes) or n (no).
+confirm_giving_up	Три раза не понял ответ — считаю это отказом.	Three unclear answers — treating that as no.
+reconf_not_installed	Служба ещё не развёрнута — настройка применится при установке.	The service is not deployed — the setting applies on install.
+reconf_nothing_changed	Ничего не изменилось — службу не трогаем.	Nothing changed — the service is left alone.
+reconf_apply_failed	Применить настройку не удалось.	Applying the setting failed.
+reconf_saved_not_applied	Настройка СОХРАНЕНА, но НЕ ПРИМЕНЕНА: служба работает по старым.	The setting is SAVED but NOT APPLIED: the service runs the old values.
+wait_apt_lock	ждём, пока система доустановит свои обновления	waiting for the system to finish its own updates
+deploy_cert_access_unproven	Права выданы, но проверить их нечем: нет runuser.	Permissions were granted but cannot be proven: no runuser.
+ports_newpath_rolled_back	Путь возвращён прежний — клиентам ничего менять не нужно.	The previous path is restored — clients need no changes.
+ports_path_gen_failed	Не удалось сгенерировать новый путь — прежний оставлен без изменений.	Could not generate a new path — the previous one is left unchanged.
+cfg_write_failed	Не удалось записать настройки — изменение не применено.	Could not write the settings — the change has not been applied.
+wiz_config_restored	Настройки возвращены к тому, что было до мастера.	Settings restored to what they were before the wizard.
+dash_drift	есть непринятые изменения — «Настройки goDNS Pro» → «Перезапустить»	unapplied changes pending — “goDNS Pro settings” → “Restart”
+uninstall_word	УДАЛИТЬ	DELETE
+test_external	Проверить доступность снаружи	Check reachability from outside
+menu_language	Язык / Language	Language / Язык
+wait_please	— ждите, идёт установка	— please wait, installing
+uninstall_will_remove	Будет удалено:	Will be removed:
+uninstall_will_remove_svc	служба dnsdist, её конфигурация, drop-in и файлы репозитория PowerDNS	the dnsdist service, its config, drop-in and PowerDNS repo files
+uninstall_will_remove_bot	Telegram-бот: служба, демон и системный пользователь %s	Telegram bot: service, daemon and the system user %s
+uninstall_will_remove_web	веб-панель: служба и её каталог (адрес панели перестанет открываться)	web panel: service and its directory (the panel address stops working)
+uninstall_backup_ask	Сохранить копию настроек перед удалением?	Save a copy of the settings before removing?
+uninstall_bye	goDNS Pro удалён. Команда godns исчезнет через секунду.	goDNS Pro removed. The godns command will disappear in a second.
+uninstall_cron_removed	снята крон-строка продления сертификата	the certificate renewal cron line was removed
+uninstall_group_ask	Вернуть каталогам Let's Encrypt прежние права (0700 root)?	Restore the original permissions (0700 root) on the Let's Encrypt directories?
+uninstall_group_restored	права на каталоги Let's Encrypt возвращены	permissions on the Let's Encrypt directories restored
+uninstall_group_kept	в группе ssl-cert есть другие участники (%s) — права оставлены как есть	the ssl-cert group has other members (%s) — permissions left as they are
+fw_closed	порт %s закрыт в ufw	port %s closed in ufw
+ports_443_free	Порт 443 свободен — беру его: тут DoH не отличить от HTTPS.	Port 443 is free — taking it: there DoH looks like plain HTTPS.
+ports_443_future	Если позже поставить goVLESS Pro, он снимет с 443 всех, кроме xray.	Installing goVLESS Pro later evicts everything but xray from 443.
+ports_443_neighbour	Порт 443 сейчас свободен, но на этой машине стоит %s — он займёт его.	Port 443 is free right now, but %s is installed on this machine and will take it.
+ports_443_neighbour_why	Беру свой порт: иначе сосед не поднимется, либо резолвер отвалится у всех клиентов разом.	Taking our own port: otherwise the neighbour will fail to start, or the resolver drops for every client at once.
+ports_dot_ask	Включить DoT?	Enable DoT?
+ports_dot_why	У DoT нет секретного пути — включённый, он открыт любому, кто знает ваш домен.	DoT has no secret path — once enabled it is open to anyone who knows your domain.
+ports_dot_android	Нужен только для Android: «Частный DNS» умеет лишь DoT. Всем остальным хватает DoH.	Needed only for Android: Private DNS speaks DoT only. Everything else does fine with DoH.
+ports_dot_off	DoT выключен. Включить можно позже: «Настройки DNS» → «DoT: включить или выключить».	DoT is off. You can enable it later: “DNS settings” → “DoT: on or off”.
+dash_dot_off	ОТКЛЮЧЁН	DISABLED
+ports_dot_toggle	DoT: включить или выключить	DoT: turn on or off
+state_on	включён	on
+ports_dot_now_on	DoT сейчас включён на порту %s и доступен из интернета.	DoT is currently on at port %s and reachable from the internet.
+ports_dot_disable_ask	Выключить DoT?	Turn DoT off?
+ports_dot_enable_ask	Включить DoT?	Turn DoT on?
+ports_dot_android_lost	Android теперь без системного «Частного DNS» — только через приложение с DoH.	Android now has no system Private DNS — only an app with DoH support.
+ports_dot_on	DoT включён на порту %s.	DoT enabled on port %s.
+ports_dot_nonstd	Порт %s не 853: Android ходит только на 853 и порт задать не даёт — для него такой DoT бесполезен.	Port %s is not 853: Android only ever uses 853 and offers no port field, so this DoT is useless for it.
+wait_cloud_init	Сервер ещё доводит первую загрузку	The server is still finishing its first boot
+deps_updating	Обновление списка пакетов	Updating the package list
+deps_installing	Установка пакетов: %s	Installing packages: %s
+deps_install_failed	Не удалось установить пакеты: %s. Проверьте apt и доступ в интернет.	Could not install packages: %s. Check apt and internet access.
+apt_busy_who	Система занята установкой обновлений (%s), уже %s мин.	The system is busy installing updates (%s), for %s min now.
+apt_busy_why	На свежем сервере это полное обновление системы — до часа. Ставить что-либо параллельно нельзя: apt не пустит.	On a fresh server this is a full system upgrade — up to an hour. Nothing else can be installed meanwhile: apt will not allow it.
+apt_busy_wait_ask	Подождать, пока закончит?	Wait for it to finish?
+apt_busy_waiting	жду %s мин	waiting %s min
+apt_busy_free	Система освободилась, продолжаю.	The system is free, continuing.
+apt_busy_declined	Хорошо. Запустите godns снова, когда обновления закончатся.	All right. Run godns again once the updates are done.
+confirm_layout	Похоже, включена русская раскладка: клавиша Y даёт «н», а N даёт «т». Переключите раскладку или напишите словом: да / нет.	Looks like a Cyrillic keyboard layout: the Y key types "н" and N types "т". Switch the layout or answer in words: да / нет.
+os_read_failed	Не удалось прочитать %s	Could not read %s
+os_derivative	Это «%s» — производная Ubuntu, а не Ubuntu.	This is “%s” — an Ubuntu derivative, not Ubuntu.
+os_derivative_base	основа: codename='%s' release='%s'	base: codename='%s' release='%s'
+os_debian_like	Debian-производная (ID=%s). Нужна Ubuntu LTS.	Debian derivative (ID=%s). Ubuntu LTS is required.
+os_unsupported	Неподдерживаемый дистрибутив: ID=%s	Unsupported distribution: ID=%s
+os_no_version	Ubuntu без VERSION_ID в %s	Ubuntu without VERSION_ID in %s
+os_bad_version	Некорректный VERSION_ID='%s'	Malformed VERSION_ID='%s'
+os_too_old	Ubuntu %s слишком старая. Нужна 22.04 LTS или новее.	Ubuntu %s is too old. 22.04 LTS or newer is required.
+os_interim	Ubuntu %s — промежуточный выпуск, поддержка 9 месяцев.	Ubuntu %s is an interim release, supported for 9 months.
+os_newer	Ubuntu %s новее протестированных 22.04/24.04/26.04.	Ubuntu %s is newer than the tested 22.04/24.04/26.04.
+cli_help_menu	интерактивное меню	interactive menu
+cli_help_version	версия и выход	print the version and exit
+cli_help_help	эта справка	this help
+upd_service_down_retry	Служба не работает — пробую применить конфигурацию новой версией: в ней могли быть исправления ровно этого.	The service is down — trying to apply the configuration with the new version: it may carry the very fix for this.
+upd_service_down_fixed	Служба поднялась: обновление её и починило.	The service is up: the update itself fixed it.
+menu_connect	Как подключиться	How to connect
+menu_observe	Наблюдение и отладка	Monitoring and troubleshooting
+menu_dns	Настройки DNS	DNS settings
+menu_godns	Настройки goDNS Pro	goDNS Pro settings
+menu_wizard_hint	мастер запустится сам — пять шагов до рабочего резолвера	the wizard walks you through five steps to a working resolver
+obs_grp_checks	Проверки	Checks
+obs_grp_live	Живое наблюдение	Live monitoring
+obs_grp_logs	Журналы	Logs
+dns_grp_upstreams	Апстримы	Upstreams
+dns_grp_ports	Порты и доступ	Ports and access
+dns_grp_cert	Сертификат	Certificate
+gd_grp_service	Служба	Service
+gd_grp_backup	Резервные копии	Backups
+gd_grp_program	Программа	Program
+ports_nonstd_warn	DoH на порту %s — не 443. Часть устройств так подключить не получится:	DoH is on port %s, not 443. Some devices will not be able to connect:
+ports_nonstd_apple	• iPhone, iPad и Mac: системный профиль Apple игнорирует порт и всегда идёт на 443 — профиль установится, но работать не будет. Останется только DoT (нужен включённый, на 853).	• iPhone, iPad and Mac: the Apple system profile ignores the port and always uses 443 — the profile installs but will not work. Only DoT remains (must be enabled, on 853).
+ports_nonstd_routers	• Часть прошивок роутеров (Keenetic и другие) ходит по DoH только на 443.	• Some router firmwares (Keenetic and others) speak DoH only on 443.
+ports_nonstd_nets	• Гостевые и корпоративные сети часто выпускают наружу только 80 и 443.	• Guest and corporate networks often allow only 80 and 443 outbound.
+ports_nonstd_why_busy	Порт 443 сейчас занят: %s. Освободите его — и DoH станет доступен всем.	Port 443 is currently taken by %s. Free it and DoH becomes available to everyone.
+ports_nonstd_hint_free	Порт 443 свободен — если он вам не нужен под другое, возьмите его.	Port 443 is free — unless you need it for something else, take it.
+ups_custom_add	Добавить свой апстрим	Add an own upstream
+ups_custom_remove	Удалить свой апстрим	Remove an own upstream
+ups_custom_count	своих: %s	own: %s
+ups_custom_add_title	Свой апстрим	Own upstream
+ups_custom_intro	Свой резолвер — DoT, DoH или обычный DNS. Проверка сертификата у DoT/DoH всегда включена: самоподписанный не заведётся.	Your own resolver — DoT, DoH or plain DNS. Certificate validation for DoT/DoH is always on: a self-signed one will not work.
+ups_custom_proto_ask	Протокол:	Protocol:
+ups_custom_proto_dot	DoT — DNS поверх TLS, порт 853	DoT — DNS over TLS, port 853
+ups_custom_proto_doh	DoH — DNS поверх HTTPS, порт 443	DoH — DNS over HTTPS, port 443
+ups_custom_proto_plain	обычный DNS — открытый текст, порт 53	plain DNS — cleartext, port 53
+ups_custom_addr_dot	Хост или IP резолвера	Resolver host or IP
+ups_custom_addr_doh	Адрес DoH: https://хост[:порт]/путь (или просто хост)	DoH address: https://host[:port]/path (or just a host)
+ups_custom_addr_plain	IP или хост резолвера	Resolver IP or host
+ups_custom_port_ask	Порт	Port
+ups_custom_bad_url	Адрес не разобрался. Ожидаю https://хост[:порт]/путь или имя хоста.	Could not parse the address. Expected https://host[:port]/path or a host name.
+ups_custom_resolving	Разрешаю имя %s…	Resolving %s…
+ups_custom_resolved	%s → %s	%s → %s
+ups_custom_resolve_failed	Имя %s не разрешилось. Задайте IP-адрес напрямую.	The name %s did not resolve. Enter the IP address directly.
+ups_custom_plain_private	Адрес приватный — запросы к нему остаются внутри вашей сети.	The address is private — queries to it stay inside your network.
+ups_custom_plain_public	Открытый DNS к публичному адресу: запросы ваших клиентов уйдут в интернет НЕЗАШИФРОВАННЫМИ. Провайдер и любой на пути их прочитает.	Plain DNS to a public address: your clients’ queries will leave for the internet UNENCRYPTED. The ISP and anyone on the path can read them.
+ups_custom_plain_confirm	Всё равно добавить открытый апстрим?	Add the plaintext upstream anyway?
+ups_custom_probing	Пробую апстрим…	Probing the upstream…
+ups_custom_probe_result	Ответ: %s	Answer: %s
+ups_custom_probe_failed	Апстрим не ответил: %s	The upstream did not answer: %s
+ups_custom_probe_failed_ask	Добавить всё равно? В работе он будет помечен как недоступный.	Add it anyway? In service it will be marked as down.
+ups_custom_name_ask	Имя для списка	Display name
+ups_custom_added	Добавлен: %s	Added: %s
+ups_custom_enable_ask	Включить его в рабочий набор прямо сейчас?	Put it into the active set right now?
+ups_custom_enable_hint	Не включён. Включить можно позже: «Пересобрать набор апстримов».	Not enabled. You can enable it later: “Rebuild the upstream set”.
+ups_custom_none	Своих апстримов нет.	There are no own upstreams.
+ups_custom_remove_title	Удалить свой апстрим	Remove an own upstream
+ups_custom_remove_ask	Удалить %s?	Remove %s?
+ups_custom_removed	Удалён: %s	Removed: %s
+ups_custom_last_one	Это единственный апстрим в рабочем наборе — сначала выберите другой.	This is the only upstream in the active set — pick another one first.
+ups_custom_which	Номер	Number
+dns_grp_limit	Защита	Protection
+rl_menu	Лимит запросов на клиента	Per-client query limit
+rl_state_on	%s/с	%s/s
+rl_state_off	выкл	off
+rl_title	Лимит запросов на клиента	Per-client query limit
+rl_hint_1	Считается по адресу клиента: роутер (OpenWrt с Forkop/Podkop, Keenetic) приносит DNS всей квартиры одним адресом.	Counted per client address: a router (OpenWrt with Forkop/Podkop, Keenetic) brings a whole household's DNS as one address.
+rl_hint_2	Сверх лимита лишнее отбрасывается только в ту секунду (DoH получает 403 на этот запрос, DoT-соединение закрывается и клиент открывает новое); бана нет. Адреса самого сервера и loopback не считаются.	Above the limit only the excess is dropped, and only in that second (DoH gets 403 for that query, a DoT connection is closed and the client reopens it); there is no ban. The server's own addresses and loopback are exempt.
+rl_hint_3	0 — без лимита. Умолчание — 200 запросов в секунду.	0 — no limit. The default is 200 queries per second.
+rl_prompt	Запросов в секунду с одного адреса:	Queries per second per address:
+rl_invalid	Нужно целое число от 0 до 100000	Enter a whole number from 0 to 100000
+rl_unchanged	Без изменений	Unchanged
+rl_set	Лимит: %s запросов в секунду на адрес	Limit: %s queries per second per address
+rl_set_off	Лимит выключен	Limit disabled

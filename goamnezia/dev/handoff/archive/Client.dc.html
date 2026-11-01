@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2563eb"/><text x="50" y="62" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="#fff" text-anchor="middle">GA</text></svg></template>
+<x-dc>
+<helmet><link rel="stylesheet" href="../heroui-tokens.css"><script src="../ga-icons.js"></script><style>a{color:inherit}a:hover{opacity:.8}</style></helmet>
+<div data-hero="" data-theme="{{ th }}" data-tint="{{ ap.tint }}" data-density="balanced" data-btn="{{ ap.btn }}" data-cards="{{ ap.cards }}" data-fs="{{ ap.fs }}" data-motion="{{ motionAttr }}" data-device="{{ devAttr }}" style="--accent:{{ accent }};--accent-foreground:{{ accentFg }};--radius:{{ radiusPx }};min-height:100%;background:var(--background);color:var(--foreground);font:400 var(--fs)/1.5 var(--font);-webkit-font-smoothing:antialiased;container-type:inline-size">
+
+<sc-if value="{{ isTv }}" hint-placeholder-val="{{ false }}">
+  <div data-tv="" style="min-height:720px;padding:48px 64px;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;align-items:start">
+    <div style="display:grid;gap:28px;min-width:0">
+      <div><div style="font:500 20px var(--font);color:var(--muted)">{{ i.k0 }}</div><h1 style="margin:6px 0 0;font:600 46px/52px var(--font);letter-spacing:-.02em">{{ i.k1 }}</h1></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:18px 24px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);font-size:26px"><span style="width:16px;height:16px;border-radius:50%;background:var(--success)"></span><span style="flex:1">{{ i.k2 }}</span><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ i.k3 }}</span></div>
+      <div style="display:grid;gap:12px">
+        <sc-for list="{{ tvItems }}" as="b" hint-placeholder-count="4">
+          <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;font:500 22px var(--font);color:var(--muted)">{{ b.label }}</div></sc-if>
+          <sc-if value="{{ b.btn }}" hint-placeholder-val="{{ true }}"><button type="button" onFocus="{{ b.focus }}" onClick="{{ b.focus }}" style="display:flex;align-items:center;gap:18px;min-height:76px;padding:0 28px;border:0;border-radius:var(--r-card);background:{{ b.bg }};color:{{ b.fg }};font:500 28px/34px var(--font);text-align:left;cursor:pointer;outline:{{ b.ol }};outline-offset:4px;transition:background var(--dur)"><iconify-icon icon="{{ b.icon }}" width="30" height="30"></iconify-icon><span style="flex:1">{{ b.label }}</span><span style="font:400 22px var(--font);opacity:.75">{{ b.meta }}</span></button></sc-if>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:grid;gap:16px;padding:26px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="font:600 26px/32px var(--font)">{{ i.k4 }}</div>
+      <div style="font:20px/28px var(--font);color:var(--muted)">{{ i.k5 }}</div>
+      <div style="padding:14px;border-radius:var(--r-field);background:#fff">{{ qrTv }}</div>
+      <div style="font:18px/24px var(--font);color:var(--muted)">{{ i.k6 }}</div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ notTv }}" hint-placeholder-val="{{ true }}">
+ <div style="max-width:{{ maxW }};margin:0 auto;padding:{{ pad }};display:grid;gap:{{ gap }}">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div style="min-width:0"><div style="font:500 13px var(--font);color:var(--muted)">{{ kicker }}</div><h1 style="margin:2px 0 0;font:600 {{ h1 }} var(--font);letter-spacing:-.02em">{{ title }}</h1></div>
+    <div style="position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:var(--r-btn);background:var(--default)">
+      <span style="position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/2);border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ langTx }};transition:transform var(--dur) var(--ease)"></span>
+      <button type="button" onClick="{{ setRu }}" style="position:relative;height:36px;min-width:52px;border:0;background:transparent;color:{{ ruFg }};font:500 13px var(--font);cursor:pointer">RU</button>
+      <button type="button" onClick="{{ setEn }}" style="position:relative;height:36px;min-width:52px;border:0;background:transparent;color:{{ enFg }};font:500 13px var(--font);cursor:pointer">EN</button>
+    </div>
+  </header>
+
+  <sc-if value="{{ isConnect }}" hint-placeholder-val="{{ true }}">
+    <section style="display:grid;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="width:36px;height:36px;flex:none;border-radius:50%;background:var(--success-soft);color:var(--success-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:circle-check" width="18" height="18"></iconify-icon></span>
+        <div style="flex:1;min-width:0"><div style="font:600 16px/20px var(--font)">{{ i.k2 }}</div><div style="font-size:13px;color:var(--muted)">{{ i.k7 }}</div></div>
+        <span style="font:600 15px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap">12,3 <span style="color:var(--muted);font-weight:400">{{ i.k8 }}</span></span>
+      </div>
+      <div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:25%;height:100%;border-radius:999px;background:var(--accent)"></div></div>
+    </section>
+
+    <section style="display:grid;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;flex:none;border-radius:50%;background:var(--foreground);color:var(--background);display:grid;place-items:center;font:600 13px var(--font)">1</span><h2 style="margin:0;font:600 18px/24px var(--font)">{{ i.k9 }}</h2></div>
+      <div role="radiogroup" style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ devices }}" as="d" hint-placeholder-count="7">
+          <button type="button" role="radio" aria-checked="{{ d.on }}" onClick="{{ d.pick }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px 0 12px;border:0;border-radius:var(--r-btn);background:{{ d.bg }};color:{{ d.fg }};font:500 14px var(--font);cursor:pointer;white-space:nowrap;transition:background var(--dur)" style-active="transform:scale(.97)"><iconify-icon icon="{{ d.icon }}" width="16" height="16"></iconify-icon>{{ d.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;gap:8px">
+        <sc-for list="{{ apps }}" as="a" hint-placeholder-count="3">
+          <div style="display:grid;gap:12px;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:{{ a.sh }};transition:box-shadow var(--dur)">
+            <button type="button" role="radio" aria-checked="{{ a.on }}" onClick="{{ a.pick }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);gap:4px 12px;padding:0;border:0;background:none;color:var(--foreground);text-align:left;font:inherit;cursor:pointer">
+              <span style="width:20px;height:20px;margin-top:2px;border-radius:50%;box-shadow:inset 0 0 0 {{ a.bw }} {{ a.bc }};transition:box-shadow var(--dur) var(--ease)"></span>
+              <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font:600 16px/22px var(--font)">{{ a.name }}</b><span style="padding:1px 8px;border-radius:999px;background:{{ a.tagBg }};color:{{ a.tagFg }};font:500 12px/18px var(--font);white-space:nowrap">{{ a.tag }}</span></span>
+              <span></span>
+              <span style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ a.lines }}" as="l" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:var(--r-sm);background:{{ l.bg }};color:{{ l.fg }};font:500 12px/18px var(--mono)"><iconify-icon icon="{{ l.icon }}" width="11" height="11"></iconify-icon>{{ l.t }}</span></sc-for></span>
+            </button>
+            <sc-if value="{{ a.on }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:8px;padding-left:32px;animation:hero-fade .2s">
+                <sc-if value="{{ a.hasNote }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;padding:10px 12px;border-radius:var(--r-field);background:var(--warning-soft);color:var(--warning-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:circle-info" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ a.note }}</span></div></sc-if>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <sc-for list="{{ a.links }}" as="k" hint-placeholder-count="2"><button type="button" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 14px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:arrow-up-right-from-square" width="14" height="14"></iconify-icon>{{ k }}</button></sc-for>
+                </div>
+                <sc-if value="{{ a.hasMirror }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:var(--r-field);background:var(--tile-bg)"><span style="flex:1 1 180px;font-size:13px;line-height:18px"><b style="font-weight:500">{{ i.k10 }}</b><br><span style="color:var(--muted)">{{ a.mirror }}</span></span><button type="button" onClick="{{ dlMirror }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--foreground);color:var(--background);font:500 14px var(--font);cursor:pointer;white-space:nowrap" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="15" height="15"></iconify-icon>{{ i.k11 }}</button></div></sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:grid;gap:14px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;flex:none;border-radius:50%;background:var(--foreground);color:var(--background);display:grid;place-items:center;font:600 13px var(--font)">2</span><h2 style="margin:0;font:600 18px/24px var(--font)">{{ i.k12 }} {{ appName }}</h2></div>
+      <sc-for list="{{ keys }}" as="k" hint-placeholder-count="2">
+        <div style="display:grid;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <span style="width:40px;height:40px;flex:none;border-radius:var(--r-field);background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:key" width="19" height="19"></iconify-icon></span>
+            <div style="flex:1;min-width:0"><b style="font:600 16px/22px var(--font)">{{ i.k13 }} {{ k.v }}</b><div style="font-size:13px;color:var(--muted)">{{ k.min }}</div></div>
+            <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ k.bg }};color:{{ k.fg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ k.dot }}"></span>{{ k.seen }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+            <sc-for list="{{ k.btns }}" as="b" hint-placeholder-count="4">
+              <button type="button" onClick="{{ b.go }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 12px;border:0;border-radius:var(--r-btn);background:{{ b.bg }};color:{{ b.fg }};font:500 14px/18px var(--font);cursor:pointer;grid-column:{{ b.span }};transition:background var(--dur)" style-active="transform:scale(.97)"><iconify-icon icon="{{ b.icon }}" width="16" height="16" style="flex:none;color:{{ b.ic }}"></iconify-icon>{{ b.label }}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ k.qrOn }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;justify-items:center;gap:8px;padding:14px;border-radius:var(--r-field);background:#fff;color:#18181b;animation:hero-pop .2s var(--ease)">
+              <div style="width:min(230px,100%);aspect-ratio:1">{{ k.qr }}</div>
+              <span style="font:500 13px var(--font);text-align:center">{{ k.qrLabel }}</span>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isSuspended }}" hint-placeholder-val="{{ false }}">
+    <section style="display:grid;gap:18px;padding:{{ susPad }};border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <span style="width:52px;height:52px;border-radius:50%;background:{{ sus.bg }};color:{{ sus.fg }};display:grid;place-items:center"><iconify-icon icon="{{ sus.icon }}" width="24" height="24"></iconify-icon></span>
+      <div style="display:grid;gap:6px"><span style="font:500 13px var(--font);color:{{ sus.fg }}">{{ i.k14 }}</span><h2 style="margin:0;font:600 24px/30px var(--font);letter-spacing:-.02em;text-wrap:balance">{{ sus.title }}</h2><p style="margin:0;color:var(--muted);text-wrap:pretty">{{ sus.what }}</p></div>
+      <sc-if value="{{ sus.hasMeter }}" hint-placeholder-val="{{ false }}"><div style="display:grid;gap:6px"><div style="display:flex;justify-content:space-between;font-size:13px;font-variant-numeric:tabular-nums"><span>{{ i.k15 }}</span><span style="color:var(--muted)">{{ i.k16 }}</span></div><div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:100%;height:100%;border-radius:999px;background:var(--danger)"></div></div></div></sc-if>
+      <div style="display:grid;gap:10px;padding:14px 16px;border-radius:var(--r-field);background:var(--tile-bg)">
+        <b style="font:600 14px var(--font)">{{ i.k17 }}</b>
+        <sc-for list="{{ sus.todo }}" as="t" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:14px;line-height:20px"><span style="width:22px;height:22px;border-radius:50%;background:var(--default);display:grid;place-items:center;font:600 12px var(--font)">{{ t.n }}</span><span>{{ t.t }}</span></div></sc-for>
+      </div>
+      <div style="display:flex;gap:10px;font-size:13px;line-height:18px;color:var(--muted)"><iconify-icon icon="gravity-ui:circle-info" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ i.k18 }}</span></div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isShare }}" hint-placeholder-val="{{ false }}">
+    <section style="display:grid;gap:18px;padding:{{ susPad }};border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="width:52px;height:52px;flex:none;border-radius:var(--r-field);background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:file-text" width="24" height="24"></iconify-icon></span>
+        <div style="flex:1;min-width:0"><div style="font:600 17px/22px var(--mono);overflow-wrap:anywhere">mama-awg20.conf</div><div style="font-size:13px;color:var(--muted)">{{ i.k19 }}</div></div>
+        <div style="position:relative;width:60px;height:60px;flex:none;border-radius:50%;background:conic-gradient({{ ringC }} {{ ringDeg }}deg, var(--default) 0)" title="Осталось {{ left }}"><div style="position:absolute;inset:5px;border-radius:50%;background:var(--card-bg);display:grid;place-items:center;font:600 13px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap">{{ left }}</div></div>
+      </div>
+      <sc-if value="{{ downloaded }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:10px;padding:12px;border-radius:var(--r-field);background:var(--success-soft);color:var(--success-soft-foreground);font-size:14px;line-height:20px;animation:hero-pop .2s var(--ease)"><iconify-icon icon="gravity-ui:circle-check" width="18" height="18" style="flex:none;margin-top:1px"></iconify-icon><span><b style="font-weight:600">{{ i.k20 }}</b> {{ i.k21 }}</span></div>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px">
+        <button type="button" onClick="{{ download }}" disabled="{{ downloaded }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 15px var(--font);cursor:pointer;opacity:{{ dlOp }}" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="18" height="18"></iconify-icon>{{ dlLabel }}</button>
+        <button type="button" onClick="{{ toggleQr }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 15px var(--font);cursor:pointer" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:qr-code" width="18" height="18"></iconify-icon>{{ qrLabel }}</button>
+      </div>
+      <sc-if value="{{ shareQr }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;justify-items:center;gap:8px;padding:14px;border-radius:var(--r-field);background:#fff;color:#18181b;animation:hero-pop .2s var(--ease)"><div style="width:min(230px,100%);aspect-ratio:1">{{ qrShare }}</div><span style="font:500 13px var(--font)">{{ i.k22 }}</span></div>
+      </sc-if>
+      <div style="display:grid;gap:0">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:26px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--separator);font-size:14px;line-height:20px"><span style="width:26px;height:26px;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};display:grid;place-items:center;font:600 12px var(--font)">{{ s.n }}</span><span><b style="font-weight:500">{{ s.t }}</b><span style="display:block;color:var(--muted);font-size:13px">{{ s.d }}</span></span></div></sc-for>
+      </div>
+    </section>
+    <div style="display:flex;gap:10px;padding:12px 14px;border-radius:var(--r-field);background:var(--warning-soft);color:var(--warning-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:triangle-exclamation" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ i.k23 }}</span></div>
+  </sc-if>
+
+  <sc-if value="{{ isShareDead }}" hint-placeholder-val="{{ false }}">
+    <section style="display:grid;gap:16px;justify-items:center;text-align:center;padding:40px 24px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <span style="width:56px;height:56px;border-radius:50%;background:var(--default);color:var(--muted);display:grid;place-items:center"><iconify-icon icon="{{ dead.icon }}" width="26" height="26"></iconify-icon></span>
+      <div style="display:grid;gap:6px;max-width:380px"><h2 style="margin:0;font:600 22px/28px var(--font);letter-spacing:-.01em">{{ dead.title }}</h2><p style="margin:0;color:var(--muted);text-wrap:pretty">{{ dead.what }}</p></div>
+      <div style="display:grid;gap:8px;width:100%;max-width:380px;padding:14px 16px;border-radius:var(--r-field);background:var(--tile-bg);text-align:left"><b style="font:600 14px var(--font)">{{ i.k17 }}</b><span style="font-size:14px;line-height:20px">{{ i.k24 }}</span></div>
+    </section>
+  </sc-if>
+
+  <footer style="display:grid;gap:4px;padding-top:14px;border-top:1px solid var(--separator);font-size:13px;line-height:18px;color:var(--muted)">
+    <span>{{ foot1 }}</span><span>{{ foot2 }}</span>
+  </footer>
+ </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:1300},&quot;page&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;connect&quot;,&quot;suspended&quot;,&quot;share&quot;,&quot;share-dead&quot;],&quot;default&quot;:&quot;connect&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;reason&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;traffic&quot;,&quot;expired&quot;,&quot;admin&quot;,&quot;used&quot;],&quot;default&quot;:&quot;traffic&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;phone&quot;,&quot;desktop&quot;,&quot;tv&quot;],&quot;default&quot;:&quot;phone&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;system&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ga&quot;,&quot;hero&quot;,&quot;lavender&quot;,&quot;mint&quot;,&quot;graphite&quot;,&quot;paper&quot;],&quot;default&quot;:&quot;ga&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;persist&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { ap: null, dev: null, app: 0, qr: null, copied: null, tvf: 0, lang: 'ru', left: 581, downloaded: false, shareQr: false };
+  KEY = 'goamnezia-appearance-v1';
+  EN_DICT = {"QR-код":"QR code","iPhone и iPad":"iPhone & iPad","Роутер":"Router","официальное":"official","В российском App Store скрыто: нужен Apple ID другой страны. Иначе выберите DefaultVPN.":"Hidden in the Russian App Store: you need an Apple ID from another country. Otherwise pick DefaultVPN.","официальный форк":"official fork","AmneziaVPN 5.0.1.5 · APK · 78,4 МБ":"AmneziaVPN 5.0.1.5 · APK · 78.4 MB","стороннее":"third-party","APK ставится через файловый менеджер или adb.":"Install the APK with a file manager or adb.","AmneziaVPN 5.0.1 · EXE · 73,6 МБ":"AmneziaVPN 5.0.1 · EXE · 73.6 MB","AmneziaWG 1.1.4 · MSI · 12,1 МБ":"AmneziaWG 1.1.4 · MSI · 12.1 MB","Для терминала: импортируйте .conf командой awg-quick up.":"For the terminal: import the .conf with awg-quick up.","встроено в прошивку":"built into firmware","Инструкция":"Guide","Нужна прошивка 4.2 или новее. Подходит только профиль 1.5.":"Needs firmware 4.2 or later. Only profile 1.5 works.","пакет amneziawg":"amneziawg package","Нужна AmneziaVPN 5.0.1+ или AmneziaWG 1.1+":"Needs AmneziaVPN 5.0.1+ or AmneziaWG 1.1+","Нужна AmneziaVPN 4.8.12+ или AmneziaWG 1.0+":"Needs AmneziaVPN 4.8.12+ or AmneziaWG 1.0+","Подойдёт любая версия AmneziaWG":"Any AmneziaWG version works","подключался 3 мин назад":"connected 3 min ago","ещё не подключался":"not connected yet","Открыть в приложении":"Open in app","Скопировано":"Copied","Скопировать vpn://":"Copy vpn://","Скачать .conf":"Download .conf","vpn:// · часть 1 из 3, листайте в приложении":"vpn:// · part 1 of 3, swipe in the app",".conf · отсканируйте в приложении":".conf · scan it in the app","Трафик на этот месяц закончился":"This month’s traffic is used up","Использованы все 50 ГБ. Счётчик обнулится 01.10.2026.":"All 50 GB are used. The counter resets on 01.10.2026.","Подождите до 01.10.2026, доступ включится сам.":"Wait until 01.10.2026, access will turn back on by itself.","Нужно раньше? Попросите того, кто дал ссылку, увеличить лимит.":"Need it sooner? Ask whoever sent you the link to raise the limit.","Срок доступа закончился 20.09.2026":"Access expired on 20.09.2026","Ключи перестали работать в конце этого дня.":"Your keys stopped working at the end of that day.","Попросите того, кто дал ссылку, продлить доступ.":"Ask whoever sent you the link to extend access.","После продления ничего переустанавливать не нужно.":"You won’t need to reinstall anything after it’s extended.","Доступ выключен администратором":"Access turned off by the administrator","Администратор сервера выключил ваши ключи 24.09.2026.":"The server administrator turned off your keys on 24.09.2026.","Уточните у того, кто дал ссылку, когда доступ включат снова.":"Ask whoever sent you the link when access will be back.","Ссылка больше не работает":"This link no longer works","Её срок закончился в 12:08. Временные ссылки живут 10 минут.":"It expired at 12:08. Temporary links last 10 minutes.","Файл по этой ссылке уже скачали":"The file from this link was already downloaded","Ссылка работает один раз. Если это были не вы, сообщите тому, кто её прислал.":"The link works once. If it wasn’t you, tell whoever sent it.","Скачайте файл":"Download the file","Кнопкой выше или отсканируйте QR с другого устройства":"Use the button above or scan the QR from another device","Откройте AmneziaWG":"Open AmneziaWG","Нажмите «+» или «Добавить туннель» → «Импорт из файла»":"Tap “+” or “Add tunnel” → “Import from file”","Включите туннель":"Turn the tunnel on","Проверьте, что статус стал «Подключено»":"Check that the status says “Connected”","Установите приложение":"Install the app","AmneziaVPN из Google Play":"AmneziaVPN from Google Play","Скачать с этого сервера":"Download from this server","78,4 МБ":"78.4 MB","Добавьте ключ":"Add the key","Открыть ключ в AmneziaVPN":"Open the key in AmneziaVPN","профиль 3.1":"profile 3.1","Показать QR ключа":"Show key QR","для второго устройства":"for another device","Временная ссылка":"Temporary link","Личная страница":"Personal page","Файл ключа для mama":"Key file for mama","Доступ для mama":"Access for mama","Скачано":"Downloaded","Скачать файл":"Download file","Скрыть QR":"Hide QR","Показать QR":"Show QR","Ссылку выдал администратор сервера vpn.example.ru.":"This link was issued by the administrator of vpn.example.ru.","Эта страница работает до 24.10.2026. Потом попросите новую ссылку у того, кто её прислал.":"This page works until 24.10.2026. After that, ask whoever sent it for a new link.","После скачивания или через 10 минут ссылка закроется.":"The link closes after the download or in 10 minutes.","Не пересылайте ссылку: по ней можно получить ваши ключи.":"Don’t forward this link: anyone with it can get your keys.","Доступ для mama · телевизор":"Access for mama · TV","Подключите телевизор":"Connect your TV","Доступ работает":"Access is working","12,3 из 50 ГБ · до 01.11":"12.3 of 50 GB · until 01.11","Удобнее с телефона":"Easier from a phone","Отсканируйте код, и эта страница откроется на телефоне.":"Scan the code to open this page on your phone.","▲ ▼ на пульте — выбор, ОК — нажать":"▲ ▼ on the remote to move, OK to press","Доступ до 01.11.2026 · осталось 37 дней":"Access until 01.11.2026 · 37 days left","из 50 ГБ":"of 50 GB","Устройство и приложение":"Device and app","Копия на этом сервере":"Copy on this server","Скачать":"Download","Ключ для":"Key for","Профиль":"Profile","Доступ приостановлен":"Access suspended","50 из 50 ГБ":"50 of 50 GB","обнулится 01.10.2026":"resets on 01.10.2026","Что сделать":"What to do","Ключи скрыты, пока доступ приостановлен. Приложение удалять не нужно: после продления всё заработает само.":"Keys are hidden while access is suspended. Don’t delete the app: everything will work again once access is restored.","Ключ AmneziaWG 2.0 · 412 байт":"AmneziaWG 2.0 key · 412 bytes","Файл скачан.":"File downloaded.","Ссылка закрылась. Теперь импортируйте его в приложение.":"The link has closed. Now import it into the app.","Отсканируйте в AmneziaWG: «Добавить туннель» → «Из QR-кода»":"Scan in AmneziaWG: “Add tunnel” → “From QR code”","Ссылка открывается без пароля и работает один раз. Не пересылайте её: кто скачает файл, тот получит ваш ключ.":"The link opens without a password and works once. Don’t forward it: whoever downloads the file gets your key.","Попросите у того, кто прислал ссылку, новую. Она будет работать 10 минут.":"Ask whoever sent the link for a new one. It will work for 10 minutes."};
+  I_KEYS = {"k0":"Доступ для mama · телевизор","k1":"Подключите телевизор","k2":"Доступ работает","k3":"12,3 из 50 ГБ · до 01.11","k4":"Удобнее с телефона","k5":"Отсканируйте код, и эта страница откроется на телефоне.","k6":"▲ ▼ на пульте — выбор, ОК — нажать","k7":"Доступ до 01.11.2026 · осталось 37 дней","k8":"из 50 ГБ","k9":"Устройство и приложение","k10":"Копия на этом сервере","k11":"Скачать","k12":"Ключ для","k13":"Профиль","k14":"Доступ приостановлен","k15":"50 из 50 ГБ","k16":"обнулится 01.10.2026","k17":"Что сделать","k18":"Ключи скрыты, пока доступ приостановлен. Приложение удалять не нужно: после продления всё заработает само.","k19":"Ключ AmneziaWG 2.0 · 412 байт","k20":"Файл скачан.","k21":"Ссылка закрылась. Теперь импортируйте его в приложение.","k22":"Отсканируйте в AmneziaWG: «Добавить туннель» → «Из QR-кода»","k23":"Ссылка открывается без пароля и работает один раз. Не пересылайте её: кто скачает файл, тот получит ваш ключ.","k24":"Попросите у того, кто прислал ссылку, новую. Она будет работать 10 минут."};
+  tr(v, en) { if (!en) return v; if (typeof v === 'string') return this.EN_DICT[v] ?? v; if (Array.isArray(v)) return v.map(x => this.tr(x, en)); if (v && typeof v === 'object' && !v.$typeof && Object.getPrototypeOf(v) === Object.prototype) { const o = {}; for (const k in v) o[k] = this.tr(v[k], en); return o; } return v; }
+  presets() { return { ga: { accent: 'ga', tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow' }, hero: { accent: 'blue', tint: 'neutral', radius: 8, btn: 'pill', cards: 'border' }, lavender: { accent: 'lavender', tint: 'cool', radius: 10, btn: 'pill', cards: 'shadow' }, mint: { accent: 'mint', tint: 'neutral', radius: 12, btn: 'round', cards: 'flat' }, graphite: { accent: 'graphite', tint: 'neutral', radius: 4, btn: 'round', cards: 'border' }, paper: { accent: 'coral', tint: 'warm', radius: 6, btn: 'round', cards: 'flat' } }; }
+  accents(th, hue) {
+    const W = 'oklch(0.9911 0 0)', E = 'oklch(0.2103 0.0059 285.89)';
+    return { ga: ['oklch(0.6 0.13 222)', W], blue: ['oklch(0.6204 0.195 253.83)', W], sky: ['oklch(0.72 0.13 228)', E], lavender: ['oklch(0.6 0.19 293)', W], mint: ['oklch(0.74 0.15 163)', E], coral: ['oklch(0.64 0.19 33)', W], graphite: th === 'dark' ? ['oklch(0.95 0 0)', E] : ['oklch(0.24 0.006 286)', W], custom: [`oklch(0.63 0.17 ${hue})`, W] };
+  }
+  buildAp() {
+    const p = this.props;
+    let ap = { theme: 'light', accent: 'ga', hue: 200, tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow', fs: 'm', motion: true };
+    if (p.persist !== false) { try { const s = JSON.parse(localStorage.getItem(this.KEY) || 'null'); if (s) ap = { ...ap, ...s }; } catch (e) {} }
+    if (p.preset && this.presets()[p.preset]) ap = { ...ap, ...this.presets()[p.preset] };
+    if (p.theme) ap.theme = p.theme;
+    return ap;
+  }
+  componentDidMount() { this.setState({ ap: this.buildAp() }); this.iv = setInterval(() => this.setState(s => ({ left: Math.max(0, s.left - 1) })), 1000); }
+  componentDidUpdate(pp) { if (pp.theme !== this.props.theme || pp.preset !== this.props.preset) this.setState({ ap: this.buildAp() }); }
+  componentWillUnmount() { clearInterval(this.iv); clearTimeout(this.ct); }
+  copy(k) { clearTimeout(this.ct); this.setState({ copied: k }); this.ct = setTimeout(() => this.setState({ copied: null }), 1600); }
+  qr(seed, size) {
+    this._q = this._q || {};
+    if (!this._q[seed]) {
+      let s = seed * 9301 + 49297; const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+      const n = 29; let r = ''; const inF = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+      for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!inF(x, y) && rnd() > .52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+      const f = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+      this._q[seed] = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 33 33" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><g fill="#18181b">${r}${f(0, 0)}${f(n - 7, 0)}${f(0, n - 7)}</g></svg>`);
+    }
+    return React.createElement('img', { src: this._q[seed], alt: 'QR-код', style: { width: '100%', height: '100%', display: 'block', imageRendering: 'pixelated' } });
+  }
+  renderVals() {
+    const st = this.state, p = this.props, ap = st.ap || this.buildAp();
+    let th = ap.theme; if (th === 'system') th = (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    const [accent, accentFg] = (this.accents(th, ap.hue)[ap.accent] || this.accents(th, 0).ga);
+    const device = p.device || 'phone', isTv = device === 'tv', isDesk = device === 'desktop';
+    const page = p.page || 'connect';
+    const en = st.lang === 'en';
+    const DEV = [['ios', 'iPhone и iPad', 'gravity-ui:smartphone'], ['android', 'Android', 'gravity-ui:smartphone'], ['tv', 'Android TV', 'gravity-ui:display'], ['windows', 'Windows', 'gravity-ui:display'], ['macos', 'macOS', 'gravity-ui:display'], ['linux', 'Linux', 'gravity-ui:terminal'], ['router', 'Роутер', 'gravity-ui:server']];
+    const dev = st.dev || (isDesk ? 'windows' : 'ios');
+    const A = {
+      ios: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['App Store'], 'В российском App Store скрыто: нужен Apple ID другой страны. Иначе выберите DefaultVPN.', '', true], ['DefaultVPN', 'официальный форк', 1, ['1.5', '2.0', '3.1'], ['App Store'], '', '', true], ['AmneziaWG', 'официальное', 1, ['1.5', '2.0'], ['App Store'], '', '', false]],
+      android: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['Google Play', 'GitHub'], '', 'AmneziaVPN 5.0.1.5 · APK · 78,4 МБ', true], ['AmneziaWG', 'официальное', 1, ['1.5', '2.0'], ['Google Play'], '', '', false], ['WG Tunnel', 'стороннее', 0, ['1.5', '2.0'], ['Google Play', 'F-Droid'], '', '', false]],
+      tv: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['Google Play'], 'APK ставится через файловый менеджер или adb.', 'AmneziaVPN 5.0.1.5 · APK · 78,4 МБ', true]],
+      windows: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['GitHub'], '', 'AmneziaVPN 5.0.1 · EXE · 73,6 МБ', true], ['AmneziaWG', 'официальное', 1, ['1.5', '2.0'], ['GitHub'], '', 'AmneziaWG 1.1.4 · MSI · 12,1 МБ', false]],
+      macos: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['GitHub', 'App Store'], '', '', true], ['AmneziaWG', 'официальное', 1, ['1.5', '2.0'], ['App Store'], '', '', false]],
+      linux: [['AmneziaVPN', 'официальное', 1, ['1.5', '2.0', '3.1'], ['GitHub'], '', '', true], ['amneziawg-tools', 'официальное', 1, ['1.5', '2.0', '3.1'], ['GitHub'], 'Для терминала: импортируйте .conf командой awg-quick up.', '', false]],
+      router: [['Keenetic', 'встроено в прошивку', 0, ['1.5'], ['Инструкция'], 'Нужна прошивка 4.2 или новее. Подходит только профиль 1.5.', '', false], ['OpenWrt', 'пакет amneziawg', 0, ['1.5', '2.0'], ['Инструкция'], '', '', false]]
+    }[dev];
+    const ai = Math.min(st.app, A.length - 1);
+    const apps = A.map(([name, tag, off, lines, links, note, mirror], i) => {
+      const on = i === ai;
+      return { name, tag, on, pick: () => this.setState({ app: i, qr: null }), tagBg: off ? 'var(--success-soft)' : 'var(--default)', tagFg: off ? 'var(--success-soft-foreground)' : 'var(--muted)',
+        lines: ['1.5', '2.0', '3.1'].map(t => { const y = lines.includes(t); return { t, icon: y ? 'gravity-ui:check' : 'gravity-ui:minus', bg: y ? 'var(--default)' : 'transparent', fg: y ? 'var(--foreground)' : 'var(--muted)' }; }),
+        links, note, hasNote: !!note, mirror, hasMirror: !!mirror, sh: on ? '0 0 0 2px var(--accent)' : 'var(--card-sh)', bw: on ? '6px' : '2px', bc: on ? 'var(--accent)' : 'var(--muted)' };
+    });
+    const cur = A[ai], vpnApp = cur[7];
+    const minV = { '3.1': 'Нужна AmneziaVPN 5.0.1+ или AmneziaWG 1.1+', '2.0': 'Нужна AmneziaVPN 4.8.12+ или AmneziaWG 1.0+', '1.5': 'Подойдёт любая версия AmneziaWG' };
+    const mine = [['3.1', 'подключался 3 мин назад', 'success'], ['2.0', 'ещё не подключался', 'default'], ['1.5', 'ещё не подключался', 'default']].filter(([v]) => cur[3].includes(v)).slice(0, 2);
+    const tone = k => k === 'default' ? ['var(--default)', 'var(--muted)', 'var(--muted)'] : [`var(--${k}-soft)`, `var(--${k}-soft-foreground)`, `var(--${k})`];
+    const keys = mine.map(([v, seen, k], ki) => {
+      const P = ['var(--accent)', 'var(--accent-foreground)'], S = ['var(--default)', 'var(--default-foreground)'];
+      const set = key => () => this.setState(s => ({ qr: s.qr === key ? null : key }));
+      const cp = 'k' + v, copied = st.copied === cp;
+      const b = vpnApp
+        ? [['Открыть в приложении', 'gravity-ui:arrow-up-right-from-square', P, () => {}, '1 / -1'], [copied ? 'Скопировано' : 'Скопировать vpn://', copied ? 'gravity-ui:check' : 'gravity-ui:copy', S, () => this.copy(cp), 'auto'], ['QR vpn://', 'gravity-ui:qr-code', S, set(v + 'vpn'), 'auto'], ['Скачать .conf', 'gravity-ui:arrow-down-to-line', S, () => {}, 'auto'], ['QR .conf', 'gravity-ui:qr-code', S, set(v + 'conf'), 'auto']]
+        : [['Скачать .conf', 'gravity-ui:arrow-down-to-line', P, () => {}, 'auto'], ['QR .conf', 'gravity-ui:qr-code', S, set(v + 'conf'), 'auto']];
+      const qk = st.qr && st.qr.startsWith(v) ? st.qr : null, t = tone(k);
+      return { v, seen, bg: t[0], fg: t[1], dot: t[2], min: minV[v], btns: b.map(([label, icon, [bg, fg], go, span]) => ({ label, icon, bg, fg, go, span, ic: label === 'Скопировано' ? 'var(--success)' : 'currentColor' })),
+        qrOn: !!qk, qr: this.qr(ki * 7 + (qk && qk.endsWith('vpn') ? 3 : 1)), qrLabel: qk && qk.endsWith('vpn') ? 'vpn:// · часть 1 из 3, листайте в приложении' : '.conf · отсканируйте в приложении' };
+    });
+    const reason = ['traffic', 'expired', 'admin'].includes(p.reason) ? p.reason : 'traffic';
+    const S = {
+      traffic: { title: 'Трафик на этот месяц закончился', what: 'Использованы все 50 ГБ. Счётчик обнулится 01.10.2026.', todo: ['Подождите до 01.10.2026, доступ включится сам.', 'Нужно раньше? Попросите того, кто дал ссылку, увеличить лимит.'], k: 'danger', icon: 'gravity-ui:arrow-up-arrow-down', hasMeter: true },
+      expired: { title: 'Срок доступа закончился 20.09.2026', what: 'Ключи перестали работать в конце этого дня.', todo: ['Попросите того, кто дал ссылку, продлить доступ.', 'После продления ничего переустанавливать не нужно.'], k: 'warning', icon: 'gravity-ui:clock' },
+      admin: { title: 'Доступ выключен администратором', what: 'Администратор сервера выключил ваши ключи 24.09.2026.', todo: ['Уточните у того, кто дал ссылку, когда доступ включат снова.'], k: 'default', icon: 'gravity-ui:lock' }
+    }[reason];
+    const sT = tone(S.k);
+    const deadK = p.reason === 'used' ? 'used' : 'expired';
+    const dead = { expired: { icon: 'gravity-ui:clock', title: 'Ссылка больше не работает', what: 'Её срок закончился в 12:08. Временные ссылки живут 10 минут.' }, used: { icon: 'gravity-ui:circle-check', title: 'Файл по этой ссылке уже скачали', what: 'Ссылка работает один раз. Если это были не вы, сообщите тому, кто её прислал.' } }[deadK];
+    const left = st.left, mm = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
+    const steps = [['Скачайте файл', 'Кнопкой выше или отсканируйте QR с другого устройства'], ['Откройте AmneziaWG', 'Нажмите «+» или «Добавить туннель» → «Импорт из файла»'], ['Включите туннель', 'Проверьте, что статус стал «Подключено»']].map(([t, d], i) => ({ n: i + 1, t, d, bg: st.downloaded && i === 0 ? 'var(--success)' : 'var(--default)', fg: st.downloaded && i === 0 ? 'var(--success-foreground)' : 'var(--foreground)' }));
+    const tvDef = [[1, 'Установите приложение'], [0, 'AmneziaVPN из Google Play', 'официальное', 'gravity-ui:arrow-up-right-from-square'], [0, 'Скачать с этого сервера', '78,4 МБ', 'gravity-ui:arrow-down-to-line'], [1, 'Добавьте ключ'], [0, 'Открыть ключ в AmneziaVPN', 'профиль 3.1', 'gravity-ui:key'], [0, 'Показать QR ключа', 'для второго устройства', 'gravity-ui:qr-code']];
+    let bi = 0;
+    const tvItems = tvDef.map(([h, label, meta, icon]) => { if (h) return { head: true, btn: false, label }; const i = bi++; const f = st.tvf === i; return { head: false, btn: true, label, meta, icon, focus: () => this.setState({ tvf: i }), bg: f ? 'var(--foreground)' : 'var(--card-bg)', fg: f ? 'var(--background)' : 'var(--foreground)', ol: f ? '4px solid var(--accent)' : '0 solid transparent' }; });
+    const isShareLike = page === 'share' || page === 'share-dead';
+    const i = {}; for (const k in this.I_KEYS) i[k] = this.I_KEYS[k];
+    return this.tr({
+      i, ap, th, accent, accentFg, radiusPx: ap.radius + 'px', motionAttr: ap.motion ? 'on' : 'off', devAttr: isDesk ? 'desktop' : 'phone',
+      isTv: isTv && page === 'connect', notTv: !(isTv && page === 'connect'),
+      maxW: isShareLike ? '560px' : '860px', pad: isDesk ? '48px 32px 40px' : '20px 16px 28px', gap: isDesk ? '24px' : '18px', h1: isDesk ? '34px/40px' : '27px/32px', susPad: isDesk ? '28px' : '20px',
+      kicker: isShareLike ? 'Временная ссылка' : 'Личная страница', title: isShareLike ? 'Файл ключа для mama' : 'Доступ для mama',
+      langTx: en ? 'translateX(100%)' : 'none', ruFg: en ? 'var(--muted)' : 'var(--foreground)', enFg: en ? 'var(--foreground)' : 'var(--muted)', setRu: () => this.setState({ lang: 'ru' }), setEn: () => this.setState({ lang: 'en' }),
+      isConnect: page === 'connect', isSuspended: page === 'suspended', isShare: page === 'share', isShareDead: page === 'share-dead',
+      devices: DEV.map(([id, label, icon]) => ({ label, icon, on: id === dev, pick: () => this.setState({ dev: id, app: 0, qr: null }), bg: id === dev ? 'var(--foreground)' : 'var(--default)', fg: id === dev ? 'var(--background)' : 'var(--default-foreground)' })),
+      apps, appName: cur[0], keys, dlMirror: () => {},
+      sus: { ...S, bg: sT[0], fg: sT[1], hasMeter: !!S.hasMeter, todo: S.todo.map((t, i) => ({ n: i + 1, t })) },
+      dead, left: st.downloaded ? '—' : mm, ringDeg: Math.round(left / 600 * 360), ringC: left < 120 ? 'var(--warning)' : 'var(--accent)',
+      downloaded: st.downloaded, download: () => this.setState({ downloaded: true }), dlOp: st.downloaded ? .5 : 1, dlLabel: st.downloaded ? 'Скачано' : 'Скачать файл',
+      shareQr: st.shareQr, toggleQr: () => this.setState({ shareQr: !st.shareQr }), qrLabel: st.shareQr ? 'Скрыть QR' : 'Показать QR', qrShare: this.qr(77), steps,
+      tvItems, qrTv: this.qr(42),
+      foot1: isShareLike ? 'Ссылку выдал администратор сервера vpn.example.ru.' : 'Эта страница работает до 24.10.2026. Потом попросите новую ссылку у того, кто её прислал.',
+      foot2: isShareLike ? 'После скачивания или через 10 минут ссылка закроется.' : 'Не пересылайте ссылку: по ней можно получить ваши ключи.'
+    }, en);
+  }
+}
+</script>
+</body>
+</html>

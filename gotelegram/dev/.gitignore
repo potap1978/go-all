@@ -1,0 +1,71 @@
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+id_rsa*
+known_hosts
+
+# Python/runtime cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# Node/runtime cache
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs, temporary files, generated backups
+*.log
+*.tmp
+*.bak
+*.old
+*~
+backup/
+backups/
+dumps/
+*.tar
+*.tar.gz
+*.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# goTelegram local/generated state
+gotelegram_state/
+user_stats_history.csv
+disabled_users.json
+backup_schedule.json
+
+# тестовые артефакты сессий — НИКОГДА не коммитить (содержат креды серверов)
+get.py
+put.py
+ssh.py
+harness.sh
+webtest.sh
+venvtest.sh
+_opt_*
+*.b64
+
+# мои рабочие клоны веток — не часть продукта
+gt
+gtmain
+
+# Локальные артефакты прошлых сессий, вне проекта
+_archive_*/
+
+# служебный файл среды Claude Cowork — не часть продукта
+AGENTS.md

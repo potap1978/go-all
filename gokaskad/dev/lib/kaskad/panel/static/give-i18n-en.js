@@ -1,0 +1,196 @@
+/* Kaskad 3 — the «Issue settings» window and the person's page (give.js): English texts (3.3.2, design
+   k3/design/issue-qr/export-2026-10-11/HANDOFF-give-settings.md §5). The same keys as give-i18n-ru.js. Placeholders — {name}.
+   The panel and the wizard load it over the Russian file; the person's page loads only this one. */
+window.KASKAD_GIVE_I18N_EN = {
+  title: 'Issue settings',
+  platform: 'Platform',
+  protocol: 'Protocol',
+  router: 'Router',
+  routerOf: 'Router · {b}',
+  routerList: 'Router brand',
+  close: 'Close',
+  plat: {
+    ios: 'iPhone & iPad', android: 'Android', androidtv: 'Android TV', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+    keenetic: 'Keenetic', mikrotik: 'MikroTik', openwrt: 'OpenWrt', tplink: 'TP-Link', huawei: 'Huawei', xiaomi: 'Xiaomi',
+    asus: 'ASUS', other: 'Other'
+  },
+  platList: { keenetic: 'Keenetic / Netcraze' },
+
+  s1: 'Install the app',
+  s1sub: 'Pick an app — it sets the key format.',
+  s1builtin: 'No app needed',
+  recommended: 'recommended',
+  fmtLink: 'link',
+  fmtFile: 'file',
+  fmtFields: 'details to enter',
+  fmtSub: 'subscription link',
+  qrInstall: 'QR · install',
+  fakesAll: 'The stores have fakes with similar names — install the apps only via the links here',
+  camera: 'Point the camera to open {store}: {app}',
+  closeQr: 'Close QR',
+  noteAria: 'Note: {app}',
+  noteAriaStep: 'Note for this step',
+
+  s2: 'Add the key',
+  s2for: 'For {app} — {fmt}',
+  shows: 'Shows up as “{name}”',
+  cover: 'Install the app first',
+  showKey: 'Show key',
+  part: 'Part {i} of {n}',
+  copyKey: 'Copy key',
+  copied: 'Copied',
+  copy: 'Copy',
+  download: 'Download {ext}',
+  showText: 'Show text',
+  hideText: 'Hide text',
+  openIn: 'Open in {store}',
+  openSite: 'Open website',
+  qrOther: 'QR for another device',
+  qrFail: 'The QR code didn’t work out — copy the key or download the file.',
+  denseT: 'The QR code is too large for this app',
+  denseFile: 'A phone camera won’t read such a dense code from a screen, and {app} can’t read a key in parts. Download the file and send it to your phone (AirDrop, a messenger), then open it in {app}.',
+  denseFilePhone: 'A QR for another device would be too dense here, and {app} can’t read a key in parts. Download the file and open it in {app}.',
+  denseTScreen: 'The QR code is too dense for this screen',
+  denseFilePhoneShare: 'A QR for another device would be too dense here, and {app} can’t read a key in parts. Download the file and open it in {app} — or “Share the file” → {app}.',
+  denseText: 'A phone camera won’t read such a dense code from a screen. Copy the key and paste it in {app}; if {app} is on your phone, send the key to yourself (a messenger, notes) and paste it there.',
+  denseTextPhone: 'A QR for another device would be too dense here. Copy the key and send it to that device, then paste it in {app}.',
+  densePageAdmin: 'Or let the user open their page on the phone — with the camera on this code: there the file downloads with one tap.',
+  densePage: 'Or open this page on the phone — point the camera at the code: there the file downloads with one tap.',
+  denseFileAdmin: 'A phone camera won’t read such a dense code from a screen, and {app} can’t read a key in parts. Download the file and send it to the user (a messenger, email) — they open it in {app}.',
+  denseFilePhoneAdmin: 'A QR for another device would be too dense here, and {app} can’t read a key in parts. Download the file and send it to the user — they open it in {app}.',
+  denseFilePhoneShareAdmin: 'A QR for another device would be too dense here, and {app} can’t read a key in parts. Download the file or “Share the file” — send it to the user, they open it in {app}.',
+  denseTextAdmin: 'A phone camera won’t read such a dense code from a screen. Copy the key and send it to the user — they paste it in {app}.',
+  denseTextNarrow: 'In a window this narrow the code would be too small for a camera. Widen the window, or copy the key and paste it in {app}; if {app} is on your phone, send the key to yourself (a messenger, notes) and paste it there.',
+  denseTextNarrowAdmin: 'In a window this narrow the code would be too small for a camera. Widen the window, or copy the key and send it to the user — they paste it in {app}.',
+  denseFileNarrow: 'In a window this narrow the code would be too small for a camera, and {app} can’t read a key in parts. Widen the window, or download the file and send it to your phone (AirDrop, a messenger), then open it in {app}.',
+  denseFileNarrowAdmin: 'In a window this narrow the code would be too small for a camera, and {app} can’t read a key in parts. Widen the window, or download the file and send it to the user (a messenger, email) — they open it in {app}.',
+  qrWhole: 'Show the whole QR',
+  denseWarnPhone: 'The QR code is dense — better “Copy key”, or open this on a computer.',
+  denseWarnPhoneFile: 'The QR code is dense — better “{dl}”, or open this on a computer.',
+  denseShow: 'Show the QR anyway',
+  denseWarn: 'The QR code is very dense — the camera may not read it. If it doesn’t work, take the key with the buttons below.',
+  shareFile: 'Share the file',
+  theApp: 'the app',
+  keyQr: 'QR code of the key',
+  s2plain: 'Settings',
+
+  s3: 'Turn on the VPN',
+  inApp: 'in {app}:',
+  s3plain: 'Add the key in the app and turn the connection on.',
+
+  footAdmin: 'This is a key — show it only to the user. The panel doesn’t store it.',
+  footPerson: 'This link is personal — don’t share it.',
+  pTitle: 'Connection settings',
+  pDevs: 'Devices',
+
+  prep: 'Prepare the router',
+  more: 'Learn more',
+  add: 'Add the settings',
+  check: 'Check',
+  term: 'Terminal {os}',
+  vlessLink: 'vless:// link',
+  fileSub: 'for the router web interface',
+
+  workT: '{os} has no built-in {proto}.',
+  workHow: 'There is a workaround —',
+  ourGuide: 'our guide',
+  guide: 'guide',
+  chipWork: 'Not built in — a workaround',
+  chipNone: '{os} doesn’t support {proto}',
+  noneRouter: '{os} doesn’t support {proto}.',
+  noneDevice: 'No {proto} app for {os}.',
+  fits: 'These will work:',
+  also: 'Other protocols for this system:',
+  nothing: 'We have no suitable protocol for {os}.',
+  altReady: 'Enabled on the server and the device',
+  altDevice: 'Enabled on the server, not given to this device',
+  altServer: 'Not enabled on the server',
+  pick: 'Select',
+  addDev: 'Add to device',
+  enableSrv: 'Enable on server',
+  pReady: 'Ready to connect',
+  pDevice: 'Enabled on the server, but not for this device',
+  pServer: 'Not enabled on the server',
+  ask: 'Ask your admin to enable {proto}',
+  askAdd: 'Ask your admin to add {proto} to this device',
+  askDev: 'Add {proto} to the device in “Users & devices”',
+  askSrv: 'Enable {proto} in “Protocols”',
+  needs: 'Needs: {min}',
+
+  path: {
+    defaultvpn: '+ › Paste from clipboard › Continue',
+    amneziavpn: '+ › Paste from clipboard › Continue',
+    'amneziavpn-site': '+ › Paste from clipboard › Continue',
+    amneziawg: '+ › Create from QR code › Save',
+    wireguard: '+ › Create from QR code › Save',
+    wgtunnel: '+ › Create from QR code',
+    v2raytun: '+ › Import from clipboard',
+    v2rayng: '+ › Import from clipboard',
+    hiddify: 'New profile › Add from clipboard',
+    v2rayn: 'Servers › Import from clipboard',
+    streisand: '+ › Add from clipboard',
+    'openvpn-connect': 'Import Profile › File'
+  },
+  pathFile: {
+    amneziawg: '+ › Import from file or archive',
+    wireguard: '+ › Import from file or archive'
+  },
+
+  rt: {
+    any: {
+      prep: 'You need access to the router web interface.',
+      add_file: 'Upload the file in the router web interface.',
+      add_cmd: 'Paste the commands into the router terminal.',
+      add_fields: 'Enter these details in the router web interface, VPN section.',
+      add_link: 'Paste the link into the VLESS client settings on the router.',
+      check: '',
+      checkTail: 'the connection is on and websites open'
+    },
+    keenetic: {
+      prep_awg: 'Turn on the “WireGuard VPN” component in General settings › Change component set.',
+      prep_wg: 'Turn on the “WireGuard VPN” component in General settings › Change component set.',
+      prep_ppp: 'You need access to the router web interface: KeeneticOS has the VPN client built in.',
+      check: 'Internet › Other connections',
+      checkTail: 'the connection shows “Connected”'
+    },
+    mikrotik: {
+      prep: 'Needs RouterOS 7 or later.',
+      prep_work: 'Run the container using our guide.',
+      add_cmd: 'Paste the commands into New Terminal in WinBox or over SSH.',
+      add_work_file: 'Settings file for the container: put it in the container folder on the USB drive.',
+      add_work_link: 'Paste the link into the VLESS client settings inside the container.',
+      check: 'WinBox › WireGuard › Peers',
+      checkTail: 'Last Handshake of the peer keeps updating',
+      check_work: 'WinBox › Container',
+      checkTail_work: 'the container status is running'
+    },
+    openwrt: {
+      prep_awg: 'Install the awg-openwrt packages in System › Software.',
+      prep_wg: 'Install the wireguard-tools and luci-proto-wireguard packages in System › Software.',
+      check: 'Network › Interfaces',
+      checkTail: 'RX and TX of the interface keep growing'
+    },
+    tplink: {
+      prep: 'Needs firmware with a WireGuard client — not every model has it.',
+      add_file: 'Upload the file in VPN Client › Add.',
+      check: 'VPN Client',
+      checkTail: 'status is “Connected”'
+    },
+    huawei: {
+      add_fields: 'Enter these details in the router web interface, VPN section.',
+      check: 'Advanced › VPN',
+      checkTail: 'the connection shows “Connected”'
+    },
+    xiaomi: {
+      add_fields: 'Enter these details in Advanced › VPN.',
+      check: 'Advanced › VPN',
+      checkTail: 'the connection shows “Connected”'
+    },
+    asus: {
+      prep: 'Needs Asuswrt 388 firmware or later.',
+      add_file: 'Upload the file in VPN › VPN Fusion › Add profile.',
+      check: 'VPN › VPN Fusion',
+      checkTail: 'the profile shows “Connected”'
+    }
+  }
+};

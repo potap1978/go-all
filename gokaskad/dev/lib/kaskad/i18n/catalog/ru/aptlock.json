@@ -1,0 +1,12 @@
+{
+ "aptlock.busy.anon": "apt занят{lim} — система ставит обновления. Повторите позже.",
+ "aptlock.busy.who": "apt занят{lim}: блокировку держит {who} — система ставит обновления. Повторите, когда закончит.",
+ "aptlock.busy_line": "Kaskad уже ставит пакеты (другое окно или бот) — жду…",
+ "aptlock.install_busy": "Kaskad ставит пакеты в другом окне или из бота дольше {minutes} минут — повторите позже.",
+ "aptlock.lim.sec": " дольше {sec} с",
+ "aptlock.lim.ten_min": " дольше 10 минут",
+ "aptlock.log.gave_up": "APT: не дождался — блокировку держит {who}",
+ "aptlock.log.unknown": "неизвестный процесс",
+ "aptlock.log.waited": "APT: ждал {sec} с, пока система ставила обновления ({who})",
+ "aptlock.wait_line": "Система ставит обновления (apt занят) — жду до 10 минут…"
+}

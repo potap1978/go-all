@@ -1,0 +1,13 @@
+{
+ "gw_addr.err.base_format": "the gateway’s address base must be a network like 10.77.0.0/16, not {value}",
+ "gw_addr.err.base_private": "the gateway network must be a /16 within 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16, not {net}",
+ "gw_addr.err.base_rfc1918": "the gateway network must be a /16 within 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16, not {net}",
+ "gw_addr.err.no_free": "No free network for the gateway: {why}",
+ "gw_addr.err.no_subnet": "inbound {kind} has no subnet of its own",
+ "gw_addr.err.pool_full": "subnet {net} is out of addresses ({count} devices)",
+ "gw_addr.err.unknown_pool": "unknown address pool {pool}",
+ "gw_addr.why.address": "address {cidr} on {dev}",
+ "gw_addr.why.route": "route {net}",
+ "gw_addr.why.route_dev": "route {net} via {dev}",
+ "gw_addr.why.taken": "{net} is taken: {why}"
+}

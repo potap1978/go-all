@@ -1,0 +1,1 @@
+-A FORWARD -m connmark --mark 0x4b000000/0xff000000 -m comment --comment "kaskad:compat" -j ACCEPT

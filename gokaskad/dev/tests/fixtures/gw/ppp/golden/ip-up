@@ -1,0 +1,14 @@
+#!/bin/sh
+# Kaskad 3 gateway: accel-ppp ip-up -> kaskadctl gw hook <kind> up <login> <ip>. Session accounting
+# only: in the background, never waits, never fails. Arguments: <ifname> none 0 <local-ip> <peer-ip>
+# <calling-sid>; PEERNAME=<login>; accel-ppp passes no PATH.
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
+case "$1" in
+    kgw-l2tp*) kind=l2tp ;;
+    kgw-pptp*) kind=pptp ;;
+    kgw-sstp*) kind=sstp ;;
+    *) exit 0 ;;
+esac
+/opt/kaskad/bin/kaskadctl gw hook "$kind" up "$PEERNAME" "$5" </dev/null >/dev/null 2>&1 &
+exit 0

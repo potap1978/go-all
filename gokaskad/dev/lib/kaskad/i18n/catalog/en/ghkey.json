@@ -1,0 +1,7 @@
+{
+ "ghkey.bad_format": "This doesn’t look like a GitHub key (personal access token): it starts with ghp_ or github_pat_ and contains only Latin letters, digits and “_”.",
+ "ghkey.http": "GitHub returned {code} — check the key again later.",
+ "ghkey.net": "No connection to GitHub (raw.githubusercontent.com): the key wasn’t checked.",
+ "ghkey.no_repo": "With this key GitHub doesn’t serve the core files of the repository {repo} (response 404): the key is wrong or has no access to this repository.",
+ "ghkey.refused": "GitHub didn’t accept the key (response {code}): it’s wrong, revoked or expired."
+}

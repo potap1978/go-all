@@ -1,0 +1,17 @@
+{
+ "bot_proxy.group": "through the exits of the group «{group}»",
+ "bot_proxy.fallback": "directly: the exits of the group «{group}» do not answer, the bot checks them every 5 minutes",
+ "bot_proxy.direct_chosen": "directly — chosen in the panel",
+ "bot_proxy.direct_no_keys": "directly: the group «{group}» has no enabled keys",
+ "bot_proxy.direct_no_pool": "directly: there are no exits",
+ "bot_proxy.none_group": "no connection to Telegram (through the exits of the group «{group}» and directly)",
+ "bot_proxy.none_direct": "no direct connection to Telegram",
+ "bot_proxy.off": "the bot is not set up",
+ "bot_proxy.line": "The bot reaches Telegram: {state}",
+ "bot_proxy.log_fallback": "The Telegram API proxy does not answer — the bot goes to Telegram directly for now",
+ "bot_proxy.log_back": "The Telegram API proxy answers again — the bot goes through the exits",
+ "bot_proxy.cli_help": "how the bot reaches Telegram: through the exits of a group, directly, or no connection",
+ "bot_proxy.bad_group": "Choose a group of exits or «Directly».",
+ "bot_proxy.direct_pending": "«Directly» is chosen — the bot switches within a minute",
+ "bot_proxy.direct_not_built": "directly: the bot’s proxy of the keys of the group «{group}» is not built — the reason is in the SSH menu «Telegram API proxy»"
+}

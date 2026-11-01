@@ -1,0 +1,18 @@
+{
+ "gw_in_ipsec.legacy_ca": "the IKEv2 CA is of the old kind — not limited to the server’s address (trusting it covers any site): replace it with kaskadctl gw pki rotate ikev2, then reissue the IKEv2 settings to devices",
+ "gw_in_ipsec.err.certs_on_apply": "IKEv2: certificates are created only by kaskadctl gw apply.",
+ "gw_in_ipsec.made.ca_moved": "IKEv2 CA for {host} (the server’s address changed — reissue the IKEv2 settings to devices)",
+ "gw_in_ipsec.made.ca": "IKEv2 CA for {host}",
+ "gw_in_ipsec.made.server_cert": "IKEv2 server certificate for {host}",
+ "gw_in_ipsec.err.certs_need_system": "IKEv2: certificates are created only with system access (kaskadctl).",
+ "gw_in_ipsec.log.rotate": "IKEv2 CA replaced by the owner’s command",
+ "gw_in_ipsec.made.psk": "L2TP/IPsec pre-shared key",
+ "gw_in_ipsec.err.no_psk": "L2TP/IPsec: no pre-shared key, run kaskadctl gw apply first.",
+ "gw_in_ipsec.err.no_certs": "IKEv2: no certificates, run kaskadctl gw apply first.",
+ "gw_in_ipsec.err.no_ipsec": "This server’s kernel has no IPsec (missing modules: {modules}) — L2TP/IPsec and IKEv2 won’t work here. Kaskad doesn’t change the kernel itself.",
+ "gw_in_ipsec.err.busy": "{units} is already running on the server — the IPsec ports (UDP 500 and 4500) are in use. Turn it off (systemctl disable --now {args}) and try again.",
+ "gw_in_ipsec.log.installed": "strongSwan installed (service {unit})",
+ "gw_in_ipsec.log.removed": "Kaskad’s strongSwan turned off, its settings removed (packages kept)",
+ "gw_in_ipsec.err.load": "strongSwan rejected the settings ({conf}): {error}",
+ "gw_in_ipsec.log.applied": "strongSwan: {action}; connections: {kinds}; files: {files}{cut}{created}"
+}

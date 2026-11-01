@@ -1,0 +1,533 @@
+"""The history of exits for charts and the card of an exit — /var/lib/kaskad/metrics.db (docs/k3/SPEC-stage1-exits.md
+§3.5, §3.6, §7.3, §7.9).
+
+* sqlite3 of the standard library; WAL, ``synchronous=NORMAL``, ``busy_timeout=2000``.
+* One writer — the collector (``open_writer``: an exclusive flock on ``metrics.db.lock``, a second writer gets None).
+  The unit of probes writes its file (probe-results.json), the panel only reads (``history``, ``transitions``, ``feed``:
+  ``file:…?mode=ro``, its own connection per request).
+* No module sqlite3 or the base does not open -> charts off (``"charts": false``), everything else works.
+* ``m1`` once in 60 s in one transaction; thinning m1 → m10 → h1 and the cleaning — once an hour (``maintain``).
+  Kept: m1 48 h, m10 14 days, h1 90 days, speed/svc/geo 90 days, traffic 400 days, events 90 days. Above
+  ``metrics_max_mb`` (64 by default) h1 and events are cut from the oldest end, the bigger first, never shorter than
+  7 days (h1) and 30 days (events) — still above it: a warning in the journal; then VACUUM once a day, a line in the
+  journal.
+* ``rx``/``tx`` of a point are deltas by the rule of deltas (``delta``): the collector passes them in.
+"""
+
+import fcntl
+import json
+import os
+import time
+
+try:
+    import sqlite3
+except ImportError:                                # a Python built without it: charts off, the rest works
+    sqlite3 = None
+
+from .. import paths, tz, util
+
+SCHEMA = 1
+DAY = 86400
+KEEP = {"m1": 2 * DAY, "m10": 14 * DAY, "h1": 90 * DAY, "speed": 90 * DAY, "svc": 90 * DAY, "geo": 90 * DAY,
+        "traffic": 400 * DAY, "events": 90 * DAY}
+STEP = {"m1": 60, "m10": 600, "h1": 3600}
+RANGES = {"1d": (DAY, "m1"), "7d": (7 * DAY, "m10"), "90d": (90 * DAY, "h1")}
+MAX_POINTS = 1440
+MAX_MB = 64
+MAINT_S = 3600
+VACUUM_S = DAY
+CAP_FLOOR = {"h1": 7 * DAY, "events": 30 * DAY}   # the cap never cuts these tables shorter
+_CAP_SIZE = {                                      # bytes a table holds, roughly: the bigger is cut first
+    "h1": "SELECT SUM(LENGTH(exit) + 64 + IFNULL(LENGTH(state), 0)) FROM h1",
+    "events": "SELECT SUM(LENGTH(IFNULL(args, '')) + LENGTH(IFNULL(key, '')) + IFNULL(LENGTH(exit), 0) + 24) "
+              "FROM events"}
+COLS = ("rtt_med", "rtt_p90", "loss", "jitter", "ok", "n", "rx", "tx", "devices", "state")
+STATES = ("unknown", "ok", "degraded", "standby", "off")      # a coarser point shows the worst state of its minutes
+_SEV = "CASE state WHEN 'off' THEN 4 WHEN 'standby' THEN 3 WHEN 'degraded' THEN 2 WHEN 'ok' THEN 1 ELSE 0 END"
+
+_DDL = ["CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT)"] + [
+    "CREATE TABLE IF NOT EXISTS %s (exit TEXT, ts INTEGER, rtt_med REAL, rtt_p90 REAL, loss REAL, jitter REAL, "
+    "ok INTEGER, n INTEGER, rx INTEGER, tx INTEGER, devices INTEGER, state TEXT, PRIMARY KEY (exit, ts)) WITHOUT ROWID"
+    % t for t in ("m1", "m10", "h1")] + [
+    "CREATE TABLE IF NOT EXISTS speed (exit TEXT, ts INTEGER, mbps REAL, ttfb_ms REAL, tls_ms REAL, bytes INTEGER, "
+    "host TEXT, ok INTEGER, why TEXT, PRIMARY KEY (exit, ts)) WITHOUT ROWID",
+    "CREATE TABLE IF NOT EXISTS svc (exit TEXT, svc TEXT, ts INTEGER, ok INTEGER, code INTEGER, ms REAL, "
+    "PRIMARY KEY (exit, svc, ts)) WITHOUT ROWID",
+    "CREATE TABLE IF NOT EXISTS geo (exit TEXT, ts INTEGER, ip TEXT, loc TEXT, PRIMARY KEY (exit, ts)) WITHOUT ROWID",
+    "CREATE TABLE IF NOT EXISTS traffic (exit TEXT, day TEXT, rx INTEGER, tx INTEGER, probe INTEGER, "
+    "PRIMARY KEY (exit, day)) WITHOUT ROWID",
+    "CREATE TABLE IF NOT EXISTS events (ts INTEGER, key TEXT, exit TEXT, args TEXT)",
+    "CREATE INDEX IF NOT EXISTS events_ts ON events(ts)"]
+
+
+def delta(cur, last):
+    """The rule of deltas (§3.5): ``cur − last`` when the counter grew, else ``cur`` (xray restarted, kawgN made anew,
+    a reboot) — for the points of the history and the quota counters of traffic.json alike."""
+    cur, last = int(cur or 0), int(last or 0)
+    return cur - last if cur >= last else cur
+
+
+def available():
+    """The module sqlite3 is there."""
+    return sqlite3 is not None
+
+
+def _mono():
+    return time.monotonic()
+
+
+def lock_path():
+    return paths.metrics_db() + ".lock"
+
+
+def _num(v, kind=float):
+    if v is None or isinstance(v, bool):
+        return None
+    try:
+        v = kind(v)
+    except (TypeError, ValueError):
+        return None
+    return None if v != v else v
+
+
+class Writer(object):
+    """The connection of the collector. Every method swallows its errors — sqlite or bad values (a line in the
+    journal, False): the history must never stop a tick."""
+
+    def __init__(self, conn, lock_fd, path):
+        self.conn = conn
+        self.path = path
+        self._lock_fd = lock_fd
+        self._maint = None                         # monotonic time of the last maintain
+        self._said = set()
+
+    # -- plumbing --
+    def close(self):
+        try:
+            self.conn.close()
+        finally:
+            if self._lock_fd is not None:
+                try:
+                    os.close(self._lock_fd)
+                except OSError:
+                    pass
+                self._lock_fd = None
+
+    def _err(self, where, e):
+        if where not in self._said:                # one line per kind of failure, not one per tick
+            self._said.add(where)
+            util.log_action("GW metrics.db: %s failed: %s" % (where, e))
+        return False
+
+    def _tx(self, where, fn):
+        try:
+            with self.conn:
+                fn(self.conn)
+            return True
+        except Exception as e:                    # sqlite3.Error, a bad ts or args (TypeError, ValueError, ...)
+            return self._err(where, e)
+
+    def meta(self, k, default=None):
+        try:
+            row = self.conn.execute("SELECT v FROM meta WHERE k = ?", (k,)).fetchone()
+        except sqlite3.Error:
+            return default
+        return row[0] if row else default
+
+    def _set_meta(self, c, k, v):
+        c.execute("INSERT OR REPLACE INTO meta (k, v) VALUES (?, ?)", (k, str(v)))
+
+    # -- writes --
+    def write_minute(self, ts, rows):
+        """One point of every exit: ``rows`` — {exit id: {rtt_med, rtt_p90, loss, jitter, ok, n, rx, tx, devices,
+        state}} (missing fields — NULL); ``ts`` is floored to the minute. One transaction."""
+        def go(c):
+            t = int(ts) // 60 * 60
+            data = []
+            for eid, r in sorted((rows or {}).items()):
+                r = r or {}
+                st = r.get("state") if r.get("state") in STATES else None
+                data.append((eid, t, _num(r.get("rtt_med")), _num(r.get("rtt_p90")), _num(r.get("loss")),
+                             _num(r.get("jitter")), _num(r.get("ok"), int), _num(r.get("n"), int),
+                             _num(r.get("rx"), int), _num(r.get("tx"), int), _num(r.get("devices"), int), st))
+            c.executemany("INSERT OR REPLACE INTO m1 VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", data)
+        return self._tx("m1", go)
+
+    def add_speed(self, eid, ts, mbps=None, ttfb_ms=None, tls_ms=None, nbytes=None, host=None, ok=True, why=None):
+        return self._tx("speed", lambda c: c.execute(
+            "INSERT OR REPLACE INTO speed VALUES (?,?,?,?,?,?,?,?,?)",
+            (eid, int(ts), _num(mbps), _num(ttfb_ms), _num(tls_ms), _num(nbytes, int), host, 1 if ok else 0, why)))
+
+    def add_svc(self, eid, svc, ts, ok, code=None, ms=None):
+        return self._tx("svc", lambda c: c.execute(
+            "INSERT OR REPLACE INTO svc VALUES (?,?,?,?,?,?)",
+            (eid, svc, int(ts), 1 if ok else 0, _num(code, int), _num(ms))))
+
+    def add_geo(self, eid, ts, ip, loc):
+        return self._tx("geo", lambda c: c.execute("INSERT OR REPLACE INTO geo VALUES (?,?,?,?)",
+                                                   (eid, int(ts), ip, loc)))
+
+    def add_traffic(self, eid, day, rx=0, tx=0, probe=0):
+        """Add the bytes of a point to the day of the exit (``day`` — 'YYYY-MM-DD' by the zone of the node)."""
+        def go(c):
+            v = (int(rx or 0), int(tx or 0), int(probe or 0), eid, day)
+            c.execute("UPDATE traffic SET rx = rx + ?, tx = tx + ?, probe = probe + ? WHERE exit = ? AND day = ?", v)
+            c.execute("INSERT OR IGNORE INTO traffic VALUES (?,?,?,?,?)", (eid, day) + v[:3])
+        return self._tx("traffic", go)
+
+    def add_event(self, ts, key, eid=None, args=None):
+        """A published event (after the antispam) or a transition (``key = "transition"``, before it; §3.6)."""
+        return self._tx("events", lambda c: c.execute("INSERT INTO events VALUES (?,?,?,?)", (
+            int(ts), key, eid, json.dumps(args or {}, ensure_ascii=False, sort_keys=True))))
+
+    def add_transition(self, ts, eid, frm, to, why=None, args=None):
+        """Every change of the state of an exit, before the antispam (the card of the exit, §7.3)."""
+        a = dict(args or {})
+        a.update({"from": frm, "to": to, "why": why})
+        return self.add_event(ts, "transition", eid, a)
+
+    # -- thinning, cleaning, the size --
+    def maybe_maintain(self, now=None, max_mb=MAX_MB):
+        """``maintain`` at most once an hour (by the monotonic clock)."""
+        mono = _mono()
+        if self._maint is not None and mono - self._maint < MAINT_S:
+            return False
+        self._maint = mono
+        try:
+            return self.maintain(now, max_mb)
+        except Exception as e:                    # a bad now / max_mb: the tick goes on
+            return self._err("maintain", e)
+
+    def maintain(self, now=None, max_mb=MAX_MB):
+        """Thin m1 → m10 → h1 (finished buckets only, again and again harmless), drop what is older than kept, keep
+        the base under ``max_mb``."""
+        now = int(time.time() if now is None else now)
+
+        def go(c):
+            for src, dst, back in (("m1", "m10", KEEP["m1"]), ("m10", "h1", KEEP["m10"])):
+                step = STEP[dst]
+                end = now // step * step                       # the bucket of now is not finished
+                done = _num(self.meta("thin_" + dst), int)
+                start = done if done is not None and end - back <= done <= end else end - back
+                self._thin(c, src, dst, step, start, end)
+                self._set_meta(c, "thin_" + dst, end)
+            for t in ("m1", "m10", "h1", "speed", "svc", "geo", "events"):
+                c.execute("DELETE FROM %s WHERE ts < ?" % t, (now - KEEP[t],))
+            c.execute("DELETE FROM traffic WHERE day < ?", (time.strftime("%Y-%m-%d",
+                                                                         time.gmtime(now - KEEP["traffic"])),))
+        ok = self._tx("maintain", go)
+        if ok:
+            self._cap(now, max_mb)
+            try:
+                self.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+            except sqlite3.Error:
+                pass
+        return ok
+
+    @staticmethod
+    def _thin(c, src, dst, step, start, end):
+        if end <= start:
+            return
+        c.execute(
+            "INSERT OR REPLACE INTO {dst} "
+            "SELECT exit, ts / {step} * {step}, AVG(rtt_med), AVG(rtt_p90), "
+            "CASE WHEN SUM(n) > 0 THEN SUM(loss * n) / SUM(CASE WHEN loss IS NOT NULL THEN n END) ELSE AVG(loss) END, "
+            "AVG(jitter), SUM(ok), SUM(n), SUM(rx), SUM(tx), MAX(devices), "
+            "CASE MAX({sev}) WHEN 4 THEN 'off' WHEN 3 THEN 'standby' WHEN 2 THEN 'degraded' WHEN 1 THEN 'ok' "
+            "ELSE CASE WHEN COUNT(state) > 0 THEN 'unknown' END END "
+            "FROM {src} WHERE ts >= ? AND ts < ? GROUP BY exit, ts / {step}".format(
+                dst=dst, src=src, step=step, sev=_SEV), (start // step * step, end))
+
+    def used_bytes(self):
+        """Bytes the base holds (pages in use) — the file stays big until VACUUM."""
+        try:
+            ps = self.conn.execute("PRAGMA page_size").fetchone()[0]
+            pc = self.conn.execute("PRAGMA page_count").fetchone()[0]
+            fl = self.conn.execute("PRAGMA freelist_count").fetchone()[0]
+            return (pc - fl) * ps
+        except sqlite3.Error:
+            return 0
+
+    def _size(self, t):
+        try:
+            return self.conn.execute(_CAP_SIZE[t]).fetchone()[0] or 0
+        except sqlite3.Error:
+            return 0
+
+    def _cap(self, now, max_mb):
+        """Above ``max_mb``: cut the oldest tenth of the bigger of h1 / events at a time, not past its floor
+        (``CAP_FLOOR``); still above — a warning (the limit is too small for the history kept), the floors stay."""
+        cap = float(max_mb or MAX_MB) * 1024 * 1024
+        if self.used_bytes() <= cap:
+            self._said.discard("cap_small")            # back under it: a new excess is told again (REV-s1-t3b Н-б)
+            return False
+        cut = 0
+        for _i in range(40):
+            if self.used_bytes() <= cap * 0.9:
+                break
+            moved = False
+            for t in sorted(CAP_FLOOR, key=lambda t: -self._size(t)):
+                floor = now - CAP_FLOOR[t]
+                try:
+                    with self.conn:
+                        lo, hi = self.conn.execute("SELECT MIN(ts), MAX(ts) FROM %s" % t).fetchone()
+                        if lo is None or lo >= floor:
+                            continue                   # nothing older than its floor
+                        edge = min(lo + max(1, (hi - lo) // 10), floor)
+                        cut += self.conn.execute("DELETE FROM %s WHERE ts < ?" % t, (edge,)).rowcount
+                        moved = True
+                except sqlite3.Error as e:
+                    return self._err("cap", e)
+                break                                  # one table a round: the bigger that can give
+            if not moved:
+                break
+        last = _num(self.meta("vacuum_at"), int)
+        if last is None or last > now or now - last >= VACUUM_S:
+            try:
+                with self.conn:
+                    self._set_meta(self.conn, "vacuum_at", now)
+                self.conn.execute("VACUUM")
+            except sqlite3.Error as e:
+                return self._err("vacuum", e)
+        still = self.used_bytes() > cap
+        # at the floors only the hour that crossed them goes: the line once with the warning, not every hour (REV П2)
+        if cut and not (still and "cap_small" in self._said):
+            util.log_action("GW metrics.db: over %s MB, %d old rows of h1/events dropped" % (max_mb or MAX_MB, cut))
+        if still and "cap_small" not in self._said:
+            self._said.add("cap_small")
+            util.log_action("GW metrics.db: still over %s MB — the limit is too small for the history kept "
+                            "(h1 7 days, events 30 days at least); raise metrics_max_mb" % (max_mb or MAX_MB))
+        return True
+
+
+def _connect(path, ro=False):
+    if ro:
+        conn = sqlite3.connect("file:%s?mode=ro" % path, uri=True, timeout=2.0)
+    else:
+        conn = sqlite3.connect(path, timeout=2.0)
+    conn.execute("PRAGMA busy_timeout=2000")
+    return conn
+
+
+def open_writer(path=None):
+    """The writer of the collector -> Writer | None (no sqlite3, the base will not open, another writer holds it)."""
+    if sqlite3 is None:
+        return None
+    path = path or paths.metrics_db()
+    try:
+        if not os.path.isdir(os.path.dirname(path)):   # a missing one 0700; /var/lib/kaskad keeps its mode
+            util.ensure_dir(os.path.dirname(path), 0o700)
+        fd = os.open(path + ".lock", os.O_RDWR | os.O_CREAT, 0o600)
+    except OSError as e:
+        util.log_action("GW metrics.db: does not open, charts off: %s" % e)
+        return None
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        os.close(fd)
+        return None                                # the one writer is somebody else
+    conn = None
+    try:
+        conn = _connect(path)
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA synchronous=NORMAL")
+        with conn:
+            for q in _DDL:
+                conn.execute(q)
+            conn.execute("INSERT OR IGNORE INTO meta VALUES ('schema', ?)", (str(SCHEMA),))
+            conn.execute("INSERT OR IGNORE INTO meta VALUES ('created', ?)", (str(int(time.time())),))
+            conn.execute("INSERT OR REPLACE INTO meta VALUES ('tz', ?)", (tz.name(),))
+        try:
+            os.chmod(path, 0o600)
+        except OSError:
+            pass
+        return Writer(conn, fd, path)
+    except sqlite3.Error as e:
+        util.log_action("GW metrics.db: does not open, charts off: %s" % e)
+        if conn is not None:
+            try:
+                conn.close()
+            except sqlite3.Error:
+                pass
+        os.close(fd)
+        return None
+
+
+def _reader():
+    """A read-only connection for one request of the panel; None — no sqlite3 or no base."""
+    if sqlite3 is None:
+        return None
+    path = paths.metrics_db()
+    if not os.path.exists(path):
+        return None
+    try:
+        return _connect(path, ro=True)
+    except sqlite3.Error:
+        return None
+
+
+def history(eid, rng="1d", now=None):
+    """``GET /api/gw/exits/<id>/history`` (§7.9): {charts, step, cols, points: [[ts, …]], states: [[from, to, state]]},
+    at most 1440 points; the table by the range (1d — m1, 7d — m10, 90d — h1 in buckets of 2 h); ``mbps`` — the
+    speed tests of a bucket (null when none)."""
+    span, table = RANGES.get(rng, RANGES["1d"])
+    step = STEP[table]
+    while span // step > MAX_POINTS:
+        step *= 2
+    cols = ["rtt_med", "rtt_p90", "loss", "jitter", "rx", "tx", "devices", "mbps"]
+    out = {"charts": False, "step": step, "cols": cols, "points": [], "states": []}
+    conn = _reader()
+    if conn is None:
+        return out
+    now = int(time.time() if now is None else now)
+    lo = now - span
+    try:
+        rows = conn.execute(
+            "SELECT ts / {s} * {s} AS b, AVG(rtt_med), AVG(rtt_p90), AVG(loss), AVG(jitter), SUM(rx), SUM(tx), "
+            "MAX(devices), MAX({sev}) FROM {t} WHERE exit = ? AND ts >= ? AND ts <= ? GROUP BY b ORDER BY b".format(
+                s=step, t=table, sev=_SEV), (eid, lo, now)).fetchall()
+        speed = dict(conn.execute(
+            "SELECT ts / {s} * {s} AS b, AVG(mbps) FROM speed WHERE exit = ? AND ok = 1 AND ts >= ? AND ts <= ? "
+            "GROUP BY b".format(s=step), (eid, lo, now)).fetchall())
+    except sqlite3.Error:
+        conn.close()
+        return out
+    finally:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+    out["charts"] = True
+    names = ("unknown", "ok", "degraded", "standby", "off")
+    have = set()
+    for r in rows:
+        b = r[0]
+        have.add(b)
+        out["points"].append([b] + [_round(v) for v in r[1:8]] + [_round(speed.get(b))])
+        st = names[r[8]] if r[8] is not None else None
+        if st is None:
+            continue
+        if out["states"] and out["states"][-1][2] == st and out["states"][-1][1] == b:
+            out["states"][-1][1] = b + step
+        else:
+            out["states"].append([b, b + step, st])
+    for b in sorted(set(speed) - have):            # a speed test in a bucket without a point
+        out["points"].append([b, None, None, None, None, None, None, None, _round(speed[b])])
+    out["points"].sort(key=lambda p: p[0])
+    out["points"] = out["points"][-MAX_POINTS:]
+    return out
+
+
+def _round(v):
+    return round(v, 3) if isinstance(v, float) else v
+
+
+def transitions(eid, days=7, limit=100, before=None, now=None):
+    """``GET /api/gw/exits/<id>/transitions`` (§7.9): {db, items: [{ts, from, to, why, args}], next}, the newest first;
+    ``next`` — the ``before`` of the next page (exclusive), None at the end. The cursor is a second: a second is never
+    split between pages — when one second fills the whole page, the page takes all of it (beyond ``limit``)."""
+    days = min(max(int(days or 7), 1), 90)
+    limit = min(max(int(limit or 100), 1), 500)
+    out = {"db": False, "items": [], "next": None}
+    conn = _reader()
+    if conn is None:
+        return out
+    now = int(time.time() if now is None else now)
+    top = int(before) if before is not None else now + 1
+    try:
+        rows = conn.execute("SELECT ts, args FROM events WHERE key = 'transition' AND exit = ? AND ts >= ? AND ts < ? "
+                            "ORDER BY ts DESC, rowid DESC LIMIT ?", (eid, now - days * DAY, top, limit + 1)).fetchall()
+    except sqlite3.Error:
+        return out
+    finally:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+    out["db"] = True
+    more = len(rows) > limit
+    if more:
+        edge = rows[limit][0]                      # the first row of the next page
+        cut = [r for r in rows[:limit] if r[0] != edge]
+        if rows[limit - 1][0] != edge:
+            rows, out["next"] = rows[:limit], rows[limit - 1][0]
+        elif cut:                                  # a second split by the page: all of it goes to the next one
+            rows, out["next"] = cut, edge + 1
+        else:                                      # one second fills the page: take it whole
+            rows = _second(eid, edge)
+            if rows is None:
+                return {"db": False, "items": [], "next": None}
+            out["next"] = edge if _older(eid, now - days * DAY, edge) else None
+    for ts, text in rows:
+        try:
+            a = json.loads(text or "{}")
+        except ValueError:
+            a = {}
+        a = a if isinstance(a, dict) else {}
+        out["items"].append({"ts": ts, "from": a.pop("from", None), "to": a.pop("to", None),
+                             "why": a.pop("why", None), "args": a})
+    return out
+
+
+def _second(eid, ts):
+    """All transitions of ``eid`` in second ``ts``, the newest first; None — the base did not answer."""
+    conn = _reader()
+    if conn is None:
+        return None
+    try:
+        return conn.execute("SELECT ts, args FROM events WHERE key = 'transition' AND exit = ? AND ts = ? "
+                            "ORDER BY rowid DESC", (eid, ts)).fetchall()
+    except sqlite3.Error:
+        return None
+    finally:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+
+
+def _older(eid, lo, ts):
+    conn = _reader()
+    if conn is None:
+        return False
+    try:
+        return conn.execute("SELECT 1 FROM events WHERE key = 'transition' AND exit = ? AND ts >= ? AND ts < ? "
+                            "LIMIT 1", (eid, lo, ts)).fetchone() is not None
+    except sqlite3.Error:
+        return False
+    finally:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+
+
+def feed(since=0, limit=500):
+    """Published events (not transitions) newer than ``since`` — the feed of the panel after a reboot (§3.6):
+    [{ts, key, exit, args}], the oldest first; None — no base. ``limit`` 1–500."""
+    try:
+        limit = min(max(int(limit), 1), 500)
+    except (TypeError, ValueError):
+        limit = 500
+    conn = _reader()
+    if conn is None:
+        return None
+    try:
+        rows = conn.execute("SELECT ts, key, exit, args FROM (SELECT rowid AS r, * FROM events WHERE key != "
+                            "'transition' AND ts > ? ORDER BY ts DESC, r DESC LIMIT ?) ORDER BY ts, r",
+                            (int(since or 0), int(limit))).fetchall()
+    except sqlite3.Error:
+        return None
+    finally:
+        try:
+            conn.close()
+        except sqlite3.Error:
+            pass
+    out = []
+    for ts, key, eid, text in rows:
+        try:
+            a = json.loads(text or "{}")
+        except ValueError:
+            a = {}
+        out.append({"ts": ts, "key": key, "exit": eid, "args": a if isinstance(a, dict) else {}})
+    return out

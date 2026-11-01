@@ -1,0 +1,20 @@
+[Interface]
+PrivateKey = aMRhTbGKUjYtDWXIGrCA4Bm2zg+ID3N499ffs1E9Slk=
+Address = 10.8.1.0/24
+ListenPort = 38123
+Jc = 4
+Jmin = 10
+Jmax = 50
+S1 = 12
+S2 = 12
+S3 = 12
+S4 = 12
+H1 = 1000000-1004000
+H2 = 2000000-2004000
+H3 = 3000000-3004000
+H4 = 4000000-4004000
+
+[Peer]
+PublicKey = Bt4NqRCez66BVG3VM1ORTcuZaRO2nsWQvByCD2BvhXw=
+PresharedKey = JMLv2bOqAsC++shg7Le48JxWI2HgrdwZfRNLMVbUG7c=
+AllowedIPs = 10.8.1.1/32

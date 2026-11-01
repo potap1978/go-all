@@ -1,0 +1,7 @@
+-P INPUT ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -j INPUT_direct
+-A INPUT -j INPUT_ZONES
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A INPUT -j REJECT --reject-with icmp-host-prohibited

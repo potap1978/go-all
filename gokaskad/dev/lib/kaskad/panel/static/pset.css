@@ -1,0 +1,286 @@
+/* Kaskad 3.3.7.15 · «Настройки протокола», безопасное применение с откатом, «Сеть шлюза» — №13 r2 Claude Design
+   (kaskad-proto-settings/export-2026-10-31-r2: css/proto-settings-r2.css, часть 1 «Компоненты» — дословно; часть 2 «Стенд»
+   в панель не идёт). Подключается после grid.css, перед stream.css (index.html). Только токены tokens.css: неизвестный
+   макету --danger-foreground заменён существующим --accent-foreground (текст на заливке полоски MTU, как у «нормы»).
+   CSP style-src 'self': доли и позиции (сегменты MTU, полоса ожидания, отметки сети шлюза) app.js ставит через CSSOM
+   (el.style.setProperty). Ниже части 1 — своё панели: кнопка в тосте, раскладка подвала окна на телефоне. */
+/* ═══ 1. Компоненты ═══════════════════════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Окно «Настройки протокола»: слева блоки «Порт · MTU · TLS», справа «Что изменится». Раскладка — по ширине тела
+   окна (container query): ≥ 988 — «Порт» и «MTU» рядом; 760–987 — блоки друг под другом, «Что изменится» справа;
+   < 760 — одна колонка, «Что изменится» под блоками ── */
+.gx-dlg--pset { --dlg-w: 1200px; }
+.gx-dlg--pset .gx-dlg__body { padding-top: 0; container: pset / inline-size; }
+.gx-pset { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 0 28px; align-items: start; min-width: 0; }
+.gx-pset__main { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; align-items: start; min-width: 0; }
+.gx-pset__main > .gx-pblk { grid-column: 1 / -1; }
+.gx-pset__main > .gx-pblk--half { grid-column: auto; border-top: 0; padding-top: 6px; }
+@container pset (max-width: 987px) {
+  .gx-pset__main { grid-template-columns: minmax(0, 1fr); }
+  .gx-pset__main > .gx-pblk--half + .gx-pblk--half { border-top: 1px solid var(--separator); padding-top: 16px; }
+}
+@container pset (max-width: 759px) {
+  .gx-pset { grid-template-columns: minmax(0, 1fr); }
+  .gx-chg { position: static; }
+  .gx-pblk__grps { --grps: 1; }
+}
+.gx-pblk__grps { display: grid; grid-template-columns: repeat(var(--grps, 1), minmax(0, 1fr)); gap: 14px 24px; min-width: 0; }
+.gx-pblk__grps:has(> .gx-pblk__grp + .gx-pblk__grp) { --grps: 2; }
+.gx-pset__foot { align-items: center; }
+.gx-pset__fh { margin-right: auto; }
+
+/* блок окна: заголовок с текущим значением → графика → поле → одна строка пояснения */
+.gx-pblk { display: grid; gap: 10px; min-width: 0; padding: 16px 0; border-top: 1px solid var(--separator); }
+.gx-pblk:first-child { border-top: 0; padding-top: 6px; }
+.gx-pblk__h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; min-width: 0; }
+.gx-pblk__t { margin: 0; font: 600 var(--fs-lg)/1.25rem var(--font-head); }
+.gx-pblk__now { font: 500 .8125rem/1.25rem var(--mono); color: var(--text-2); }
+.gx-pblk__grp { display: grid; gap: 8px; min-width: 0; }
+.gx-pblk__cap { font: 600 .8125rem/1.125rem var(--font); color: var(--text-2); }
+.gx-pblk__d { margin: 0; font-size: var(--fs-sm); line-height: 1.1875rem; color: var(--text-2); text-wrap: pretty; }
+
+/* порт — графика «устройства → порт → сервер»; при смене — прежний (зачёркнут) и новый (акцент) */
+.gx-pflow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-width: 0; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.gx-pflow__n { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.gx-pflow__n > .gi { color: var(--text-3); }
+.gx-pflow__l { position: relative; display: flex; justify-content: center; align-items: center; gap: 6px; min-width: 0; }
+.gx-pflow__l::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; border-radius: 1px; background: var(--text-3); }
+.gx-pflow__p { position: relative; padding: 2px 8px; border-radius: var(--r-pill); background: var(--surface); box-shadow: inset 0 0 0 1px var(--border); font: 500 .78125rem/1rem var(--mono); color: var(--foreground); white-space: nowrap; }
+.gx-pflow__p--old { color: var(--text-3); text-decoration: line-through; }
+.gx-pflow__p--new { background: color-mix(in oklab, var(--accent) 16%, var(--surface)); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent-text); font-weight: 600; }
+.gx-pflow__a { position: relative; display: grid; place-items: center; padding: 0 2px; background: var(--surface); color: var(--text-2); }
+@container pset (max-width: 759px) {
+  .gx-pflow { grid-template-columns: auto auto; justify-content: space-between; row-gap: 6px; }
+  .gx-pflow__l { grid-column: 1 / -1; grid-row: 2; }
+}
+.kb2-pp__r .gx-chip--tiny { align-self: center; }
+.kb2-pp__r > .ga-btn--icon { color: var(--text-2); }
+
+/* ── MTU: полоска пакета. Шкала 1200 … MTU сетевой карты сервера (мок 1500); клиент + 80 заголовков + S4 (AWG 2.0);
+   за 1400 — «нельзя»; предел клиента — пунктир. Подпись «+80» — у правого края сегмента: пунктир предела всегда левее ── */
+.gx-mtu { display: grid; gap: 4px; min-width: 0; }
+.gx-mtu__top, .gx-mtu__ax { position: relative; height: 16px; font: 500 .75rem/1rem var(--font); color: var(--text-2); }
+.gx-mtu__ax { font-family: var(--mono); color: var(--text-3); }
+.gx-mtu__top > span, .gx-mtu__ax > span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.gx-mtu__top > .is-start, .gx-mtu__ax > .is-start { transform: none; }
+.gx-mtu__top > .is-end, .gx-mtu__ax > .is-end { transform: translateX(-100%); }
+.gx-mtu__top > .is-lim { color: var(--accent-text); font-weight: 600; transform: translateX(-100%); padding-right: 4px; }
+.gx-mtu__top > .is-bud { transform: none; padding-left: 4px; }
+.gx-mtu__bar { position: relative; height: 30px; border-radius: var(--r-tag); background: var(--surface-3); }
+.gx-mtu__over { position: absolute; top: 0; bottom: 0; right: 0; border-radius: 0 var(--r-tag) var(--r-tag) 0; background: var(--danger-soft); }
+.gx-mtu__seg { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; font: 600 .75rem/1 var(--mono); white-space: nowrap; }
+.gx-mtu__seg--c { border-radius: var(--r-tag) 0 0 var(--r-tag); background: var(--accent); color: var(--accent-foreground); }
+.gx-mtu__seg--h { justify-content: flex-end; padding-right: 6px; background: color-mix(in oklab, var(--accent) 42%, var(--surface-3)); color: var(--foreground); }
+.gx-mtu__seg--s4 { background: color-mix(in oklab, var(--accent) 20%, var(--surface-3)); color: var(--foreground); box-shadow: inset 1px 0 0 var(--surface); }
+.gx-mtu.is-bad .gx-mtu__seg--c { background: var(--danger); color: var(--accent-foreground); }
+.gx-mtu.is-off { opacity: var(--disabled-opacity, .5); }
+.gx-mtu__mk { position: absolute; top: -4px; bottom: -4px; width: 0; margin-left: -1px; border-left: 2px solid var(--foreground); }
+.gx-mtu__mk--lim { border-left: 2px dashed var(--accent-text); }
+
+/* поле блока: поле и проверка в один ряд, ниже — диапазон */
+.gx-pfield { display: grid; gap: 6px; min-width: 0; }
+.gx-pfield__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+.gx-input.gx-pfield__in { width: 104px; flex: none; }
+.gx-pchk { display: inline-flex; align-items: flex-start; gap: 6px; min-width: 0; flex: 1 1 200px; font-size: .8125rem; line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.gx-pchk > .gi { margin-top: 1px; }
+.gx-pchk--ok { color: var(--success-text); }
+.gx-pchk--bad { color: var(--danger-text); }
+.gx-pchk--block { flex-basis: 100%; }
+.gx-pchk--warn { color: var(--warning-text); }
+
+/* ── TLS: полоска версий «1.2 · 1.3» — разрешённые залиты акцентом, закрытые — зачёркнуты; при смене — прежнее пунктиром ── */
+.gx-tlsv { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-width: 0; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.gx-tlsv__c { display: grid; grid-auto-flow: column; gap: 4px; }
+.gx-tlsv__v { width: 64px; height: 30px; display: grid; place-items: center; border-radius: var(--r-tag); background: var(--surface-3); color: var(--text-3); font: 600 .8125rem/1 var(--mono); text-decoration: line-through; }
+.gx-tlsv__v.is-on { background: var(--accent); color: var(--accent-foreground); text-decoration: none; }
+.gx-tlsv__v.is-was { background: transparent; color: var(--text-2); outline: 1.5px dashed var(--text-3); outline-offset: -1.5px; }
+.gx-radio--sm { gap: 6px; }
+.gx-radio--sm > .gx-radio__i { padding: 10px 14px; }
+.gx-radio__t > .gx-chip--tiny { font-weight: 500; }
+
+/* ── «Что изменится» — текст сервера (план без изменений); липкое справа, на узком — под блоками ── */
+.gx-chg { position: sticky; top: 0; display: grid; gap: 12px; min-width: 0; margin-top: 6px; padding: 16px; border-radius: var(--r-tile); background: var(--tile-bg); }
+.gx-chg__h { display: flex; align-items: center; gap: 8px; font: 600 var(--fs-lg)/1.25rem var(--font-head); }
+.gx-chg__empty { margin: 0; font-size: var(--fs-sm); line-height: 1.1875rem; color: var(--text-2); text-wrap: pretty; }
+.gx-chg .gx-vdevs { background: var(--surface); }
+.gx-impact__i--hard .gx-impact__m { color: var(--warning-text); }
+.gx-impact__i--soft { color: var(--text-2); }
+.gx-impact__i--soft .gx-impact__m { color: var(--text-3); }
+.gx-impact__i--admin { color: var(--warning-text); font-weight: 500; }
+.gx-impact__i--admin .gx-impact__m { color: var(--warning-text); }
+.gx-impact__i--bad { color: var(--danger-text); font-weight: 500; }
+.gx-impact__i--bad .gx-impact__m { color: var(--danger-text); }
+.gx-vdevs--soft { color: var(--text-2); }
+.gx-vdevs--soft > b { font-weight: 500; color: var(--text-2); }
+
+/* ── Последнее применение и «Вернуть прежние» — в окне (над блоками) и в раскрытой строке протокола; --closed — Е1 ── */
+.gx-plast { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-width: 0; padding: 8px 8px 8px 12px; border-radius: var(--r-field); background: var(--tile-bg); font-size: var(--fs-sm); line-height: 1.1875rem; color: var(--text-2); }
+.gx-plast > .gi { color: var(--text-3); }
+.gx-plast__t { flex: 1 1 260px; min-width: 0; text-wrap: pretty; }
+.gx-plast__t > b { font-weight: 500; color: var(--foreground); }
+.gx-plast--closed { background: var(--warning-soft); }
+.gx-plast--closed > .gi { color: var(--warning-text); }
+.gx-plast--closed .gx-plast__t { color: var(--foreground); }
+.gx-plast__err { flex-basis: 100%; display: flex; gap: 6px; align-items: flex-start; color: var(--danger-text); }
+.gx-dlg--pset .gx-plast { margin: 2px 0 6px; }
+
+/* ── Ошибка у «Применить» (Е5, Е10) — строкой над подвалом, справа от неё — действие ── */
+.gx-pset__err { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; width: 100%; padding-bottom: 4px; color: var(--danger-text); font-size: var(--fs-sm); line-height: 1.1875rem; text-wrap: pretty; }
+.gx-pset__err > span { flex: 1 1 260px; min-width: 0; display: flex; gap: 6px; align-items: flex-start; }
+
+/* ── Подтверждение: «вы подключены через …» — плашка, «Скачать мои новые настройки», «Применить без этого» ── */
+.gx-mine { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-width: 0; }
+.gx-mine > .gx-hint { flex: 1 1 160px; }
+.gx-mine.is-done > .gx-hint { color: var(--success-text); }
+.gx-al .gx-check__i { padding: 2px 0 0; }
+.gx-check__i .gx-box { display: grid; place-items: center; border-radius: 6px; color: var(--accent-foreground); }
+.gx-check__i[aria-checked="false"] .gx-box > .gi { display: none; }
+.gx-mine__pick { display: grid; gap: 6px; min-width: 0; }
+.gx-dlg__foot > .gx-hint { margin-right: auto; align-self: center; }
+
+/* ── Полоса ожидания (одна на сервер, над содержимым всех страниц): остаток времени — графикой первой ── */
+.gx-pend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-width: 0; margin: 0 var(--page-p) var(--sp-3); padding: 8px 8px 8px 14px; border-radius: var(--r-tile); background: var(--warning-soft); color: var(--foreground); font-size: var(--fs-sm); line-height: 1.25rem; }
+.gx-pend__bar { position: relative; width: 72px; height: 6px; flex: none; border-radius: 3px; background: color-mix(in oklab, var(--warning) 28%, transparent); overflow: hidden; }
+.gx-pend__bar > i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--warning); }
+.gx-pend > .gi { color: var(--warning-text); }
+.gx-pend__t { flex: 0 1 auto; min-width: 0; text-wrap: pretty; }
+.gx-pend__t > b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.gx-pend__acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.gx-pend--gone { background: var(--surface-2); }
+.gx-pend--gone > .gi { color: var(--text-2); }
+[data-device="phone"] .gx-pend { margin: 0 var(--page-p) var(--sp-2); }
+[data-device="phone"] .gx-pend__acts { flex-basis: 100%; }
+[data-device="phone"] .gx-pend__acts > .ga-btn { flex: 1 1 0; }
+
+/* ── Пометка «ждёт новых настроек»: жёсткая — заливка и ключ; мягкая — пунктир без заливки. Формой, не только цветом ── */
+.gx-chip.gx-wait { gap: 4px; padding: 0 8px 0 6px; }
+.gx-chip.gx-wait::before { display: none; }
+.gx-wait--hard { background: var(--warning-soft); color: var(--warning-text); }
+.gx-wait--soft { background: transparent; color: var(--text-2); outline: 1px dashed var(--text-3); outline-offset: -1px; }
+.gx-wait--soft > .gi { color: var(--text-3); }
+/* строка устройства — вторым рядом: слова пометки и причина */
+.gx-waitl { display: inline-flex; align-items: center; gap: 5px; min-width: 0; font-size: .75rem; line-height: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-waitl--hard { color: var(--warning-text); }
+.gx-waitl--soft { color: var(--text-2); }
+/* телефон: у пользователя — только значок ключа (жёсткая — заливка, мягкая — пунктир), полный текст — aria-label */
+.gx-waiti { width: 22px; height: 22px; flex: none; display: grid; place-items: center; border-radius: 50%; }
+.gx-waiti--hard { background: var(--warning-soft); color: var(--warning-text); }
+.gx-waiti--soft { color: var(--text-2); outline: 1px dashed var(--text-3); outline-offset: -1px; }
+/* строка протокола: под состоянием — «N устройства ждут новых настроек» */
+.kb2-wait { display: inline-flex; align-items: center; gap: 5px; min-width: 0; font-size: .75rem; line-height: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb2-wait--hard { color: var(--warning-text); }
+.kb2-wait--soft { color: var(--text-2); }
+/* раскрытая строка: «Порт 51821/udp · MTU 1320» — для чтения, менять — «Настройки» */
+.kb2-cfg { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); }
+.kb2-cfg > span { white-space: nowrap; }
+.kb2-cfg b { font: 500 .8125rem/1.25rem var(--mono); color: var(--foreground); }
+
+/* ── Сеть шлюза /16: полоса «10 · 172 · 192» (графика первой), выбор сети, второе число ── */
+.gx-gwr { display: grid; gap: 6px; min-width: 0; }
+.gx-gwr__bar { display: grid; grid-template-columns: 3fr 2fr 1.4fr; gap: 4px; }
+.gx-gwr__s { position: relative; height: 34px; padding: 0 10px; display: flex; align-items: center; justify-content: flex-end; border-radius: var(--r-tag); background: var(--surface-3); color: var(--text-2); font: 600 .78125rem/1 var(--mono); overflow: hidden; }
+.gx-gwr__s.is-sel { background: var(--accent-soft); color: var(--accent-text); box-shadow: inset 0 0 0 1.5px var(--accent-text); }
+.gx-gwr__s.is-home { background: color-mix(in oklab, var(--warning) 18%, var(--surface-3)); color: var(--warning-text); }
+.gx-gwr__s.is-home.is-sel { box-shadow: inset 0 0 0 1.5px var(--warning-text); }
+.gx-gwr__mk { position: absolute; top: 6px; bottom: 6px; width: 4px; margin-left: -2px; border-radius: 2px; }
+.gx-gwr__mk--now { background: transparent; outline: 1.5px dashed var(--accent-text); }
+.gx-gwr__mk--busy { background: var(--text-3); }
+.gx-gwr__mk--new { background: var(--accent); }
+.gx-gwr__mk--home { background: var(--warning); }
+.gx-gwr__lg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.gx-gwr__lg > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.gx-gwr__lg i { width: 4px; height: 12px; border-radius: 2px; }
+.gx-gwr__lg i.is-now { outline: 1.5px dashed var(--accent-text); }
+.gx-gwr__lg i.is-busy { background: var(--text-3); }
+.gx-gwr__lg i.is-new { background: var(--accent); }
+.gx-gwr__lg i.is-home { background: var(--warning); }
+.gx-gwr__oct { display: inline-flex; align-items: center; gap: 2px; font: 500 var(--fs)/1 var(--mono); }
+.gx-gwr__oct > input { width: 52px; height: 30px; padding: 0; border: 0; border-radius: var(--r-tag); background: var(--surface); box-shadow: var(--field-shadow); color: var(--foreground); font: 600 var(--fs)/1 var(--mono); text-align: center; }
+.gx-gwr__oct > input[aria-invalid="true"] { box-shadow: inset 0 0 0 1.5px var(--danger); }
+.gx-radio__t > .gx-mono { font: 500 var(--fs)/1.25rem var(--mono); }
+.gx-wheel__opt[aria-disabled="true"] { color: var(--text-3); text-decoration: line-through; cursor: default; }
+.gx-wheel--2 { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto; padding-right: 12px; }
+.gx-wheel__sfx { position: relative; font: 600 1.125rem/1 var(--mono); color: var(--text-2); }
+
+/* ═══ Своё панели (не нарисовано в r2 — на общих компонентах 3.3.7.14) ═══════════════════════════════════════════════ */
+/* кнопка действия в тосте (Е3 «Открыть настройки протокола»): строкой под текстом */
+.gx-toast__act { display: flex; margin-top: 6px; }
+/* окно на телефоне (390, «Ширина → сетка»): лист во весь экран, подвал — столбиком во всю ширину: ошибка, главная кнопка
+   сверху, остальные, «Отмена», подсказка внизу (кадр Н15). Сильнее общего правила листа mobile.css (средние кнопки
+   там — order: -1, и «Отмена» вставала первой) */
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot { flex-direction: column; flex-wrap: nowrap; align-items: stretch; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot > .ga-btn { flex: none; width: 100%; order: 2; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot > .ga-btn--primary { order: 1; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot > .gx-pset__cancel { order: 3; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot > .gx-pset__fh { order: 4; margin-right: 0; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg.gx-dlg--pset .gx-dlg__foot.gx-pset__foot > .gx-pset__err { order: 0; }
+/* ожидание держит место над содержимым раздела: пусто — узла нет (phantom) */
+.gx-pendhost:empty { display: none; }
+/* полоса ожидания стоит в .gx-main (у него свои поля страницы): по краям содержимого, как в Н8 */
+.gx-pendhost > .gx-pend, [data-device="phone"] .gx-pendhost > .gx-pend { margin-left: 0; margin-right: 0; }
+/* тело «Что изменится» (пусто / загрузка / список) и «Скачать мои новые настройки» с выбором устройства */
+.gx-chg__b { display: grid; gap: 12px; min-width: 0; }
+.gx-mine__w { display: grid; gap: 8px; min-width: 0; }
+/* «Сеть шлюза»: место плашки «вы подключены через сеть шлюза» — во всю ширину колонки блоков (кадр Ш3); пусто — узла нет */
+.gx-pset__main > .gx-pset__wide { grid-column: 1 / -1; min-width: 0; }
+.gx-pset__wide:empty { display: none; }
+/* метка «ждёт настроек» у имени пользователя (П1): при нехватке места сжимается первой — слово с многоточием, до значка
+   ключа; имя пользователя остаётся (было «Ма…» на 1440 «Средне» рядом с меткой состояния) */
+.gx-wait__t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-xt__nl > .gx-chip.gx-wait { flex: 0 100 auto; min-width: 26px; overflow: hidden; }
+/* точка метки у имени (people.css, «Средне» и сжатая таблица) — не у «ждёт настроек»: её знак — ключ */
+.gx-xt--k1 .gx-xt__nl > .gx-chip.gx-wait::before, .gx-xt--k1.is-cc-tight .gx-xt__nl > .gx-chip.gx-wait::before { display: none; }
+/* строка устройства в «Пользователях» (П1): «не подключится — выдайте заново · …» — третьей строкой под платформой во всю
+   ширину имени (иначе сетка имени ставила её справа от имени и сжимала платформу); в «Строке» — как платформа, не видна */
+.gx-xt--k1 .gx-xt__x--sub .gx-xt__nb > .gx-waitl { grid-column: 1 / -1; grid-row: 3; }
+.kk-dn--row .gx-xt--k1 .gx-xt__x--sub .gx-xt__nb > .gx-waitl { display: none; }
+
+/* ═══ 3.3.7.15 Д1 — доводка по сверке с Claude Design (stand/logs/D-3315-view-n13.md) ═══════════════════════════════ */
+/* Н1: стрелка между портами — на своей подложке (кружок на линии), без тесноты */
+.gx-pflow__l > .gx-pflow__a { width: 22px; height: 22px; padding: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--border); }
+/* Н1, Н3, Н14: метка «сейчас» у «Прежнего» и у версии TLS — на подложке в любой строке и теме (на фоне строки surface-2
+   метка того же цвета пропадала) */
+.gx-dlg--pset .kb2-pp__r .gx-chip--tag, .gx-dlg--pset .gx-radio__i .gx-chip--tag { background: var(--surface-3); color: var(--text-2); }
+/* Н3, Н14: полоска версий TLS и радио под ней — с зазором 10 */
+.gx-tlsb { display: grid; gap: 10px; min-width: 0; }
+/* Е11: свой 443 перед сайтом — «занят сайтом — VLESS встанет перед ним» предупреждением, не «свободен» */
+.kb2-pp__s.is-warn { color: var(--warning-text); }
+.kb2-pp__s.is-warn > .gi { display: inline-flex; margin-right: 4px; vertical-align: -2px; }    /* Е11 r2: треугольник */
+/* Н10: подтверждение на телефоне (подвал column-reverse у окна цены) — «Сначала скачайте…» над кнопками, читается до
+   действия */
+[data-device="phone"] .gx-dlg--price .gx-dlg__foot > .gx-pset__need { order: 1; }
+/* Н8: «1 устройство — желательно выдать заново» в колонке имени строки «Протоколов» — переносом, не обрезкой */
+.kb2-wait { align-items: flex-start; white-space: normal; overflow: visible; text-overflow: clip; text-wrap: pretty; }
+.kb2-wait > .gi { flex: none; margin-top: 2px; }
+/* П1: у имени есть «ждёт настроек» (kk-pp-wait) — колонка имени шире, но не за счёт столбцов: до 19,5rem («Крупно» —
+   21rem), пока линия активности не уже 96 px (предел свёртки --cc-min для такой таблицы — 96 вместо 120: на 1440 «Маршрут»
+   не сворачивается, как в макете, где линия ≈ 115); не шире прежнего — 15,5rem / 16,875rem. 100cqw — ширина таблицы,
+   постоянные колонки: «Средне» 32 + 4,5rem + 6,5rem + 7,625rem + 92 + зазоры 60 + поля 20; «Крупно» 40 + 4,5rem + 6,5rem +
+   5,25rem + 104 + 60 + 20. Число устройств у имени с пометкой не показано (оно же — в «В сети»). «Строка» — как была */
+.kk-dn--md .gx-xt--k1.kk-pp-wait, .kk-dn--lg .gx-xt--k1.kk-pp-wait { --cc-min: 96; }
+.kk-dn--md .gx-xt--k1.kk-pp-wait > * { --pnw: clamp(15.5rem, 100cqw - 18.625rem - 300px, 19.5rem); }
+.kk-dn--lg .gx-xt--k1.kk-pp-wait > * { --pnw: clamp(16.875rem, 100cqw - 16.25rem - 320px, 21rem); }
+.gx-xt--k1.kk-pp-wait .gx-xt__nl:has(> .gx-wait) > .kk-ucp { display: none; }
+/* подпись «Активность · сутки» не влезает в колонку (линия у́же, предел 96) — короче, как в «Строке» («За сутки»), без
+   обрезки; влезает — целиком (П1 r2). Решает psWaitFit по ширине подписи (is-short), а не порог ширины таблицы */
+.kk-dn--md .gx-xt--k1.kk-pp-wait .gx-xt__hc.is-short:not(.is-cc) > .gx-xt__hl.kk-nrow,
+.kk-dn--lg .gx-xt--k1.kk-pp-wait .gx-xt__hc.is-short:not(.is-cc) > .gx-xt__hl.kk-nrow { display: none; }
+.kk-dn--md .gx-xt--k1.kk-pp-wait .gx-xt__hc.is-short:not(.is-cc) > .gx-xt__hl.kk-nmd,
+.kk-dn--lg .gx-xt--k1.kk-pp-wait .gx-xt__hc.is-short:not(.is-cc) > .gx-xt__hl.kk-nlg { display: block; }
+/* телефон (П2 r2): у пользователя с ключом число устройств не показано (оно же — «N из M» строкой ниже, как в таблице) —
+   слово маршрута целиком, ключ в круге */
+.kk-prow__t:has(> .gx-waiti) > .kk-ucp { display: none; }
+/* …и слова пометки целиком или только ключ в круге (psWaitFit: не влезли — is-icon), без «жд…»; полный текст — в подсказке */
+.gx-chip.gx-wait.is-icon { flex: none; width: 22px; min-width: 22px; padding: 0; justify-content: center; border-radius: 50%; }
+.gx-chip.gx-wait.is-icon > .gx-wait__t { display: none; }
+/* Ш4: подпись сегмента полосы сети шлюза — полная; полоса уже 520 (телефон) — доли поровну и короче («10/8 · 172.16/12 ·
+   192.168/16»), ничего не срезается краем; на крайний случай — многоточие (полное — в подсказке сегмента) */
+.gx-gwr { container: gwr / inline-size; }
+.gx-gwr__t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-gwr__t--s { display: none; }
+@container gwr (max-width: 520px) {
+  .gx-gwr__bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gx-gwr__bar > .gx-gwr__s { padding: 0 8px; }
+  .gx-gwr__s > .gx-gwr__t { display: none; }
+  .gx-gwr__s > .gx-gwr__t--s { display: block; }
+}

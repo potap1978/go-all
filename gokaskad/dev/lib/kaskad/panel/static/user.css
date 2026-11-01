@@ -1,0 +1,355 @@
+/* Kaskad 3 — страница человека (/p/<ссылка>). Свой файл стилей: от панели не зависит (страница публичная и
+   минимальная — без запросов шрифтов). Токены — дизайн-системы серии go (lib/kaskad/panel/static/tokens.css,
+   docs/k3/DESIGN-SYSTEM.md; основа — HeroUI v3 default theme, github.com/heroui-inc/heroui, Apache-2.0), значения
+   пересчитаны из oklch в sRGB, чтобы страница выглядела так же на старых телефонах; акцент — «Каскад» (oklch .54 .13
+   222). Тема — тёмная по умолчанию (решение владельца 3.3.2, не по системе), светлая — кнопкой в шапке. Ни внешних
+   шрифтов, ни картинок: шрифты панели (Onest, Rubik, JetBrains Mono) — если они есть в системе, иначе системные;
+   рисунки — из CSS и SVG. Телефон — от 360 px, цели касания не ниже 44 px, поля шрифта не меньше 16 px. */
+
+/* ── 1. Токены ───────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+  --background: #080b10;          /* oklch(.15 .012 255) — палитра панели v2 (3.3.2) */
+  --foreground: #f3f5f8;          /* oklch(.97 .004 255) */
+  --surface: #13181e;             /* oklch(.205 .015 255) */
+  --surface-2: #1c2128;           /* oklch(.245 .015 255) */
+  --surface-3: #262c33;           /* oklch(.29 .015 255) */
+  --surface-3-hover: #30363d;
+  --text-2: #aeb5be;              /* oklch(.77 .015 255) */
+  --text-3: #868d95;              /* oklch(.64 .015 255) */
+  --border: #2b3138;              /* oklch(.31 .016 255) */
+  --separator: #22272e;           /* oklch(.27 .015 255) */
+  --field-background: #0e1217;    /* oklch(.18 .013 255) */
+  --accent: #007da4;
+  --accent-hover: #0090b7;
+  --accent-foreground: #ffffff;
+  --accent-text: #15b6df;         /* oklch(.72 .13 222): на тёмной поверхности 7 : 1 */
+  --accent-soft: rgba(0, 125, 164, .17);
+  --success: #58cd78;             /* oklch(.76 .16 150) */
+  --success-soft: rgba(39, 199, 98, .14);
+  --success-text: #6ed889;        /* oklch(.8 .15 150) */
+  --warning: #f9bb51;             /* oklch(.83 .14 78) */
+  --warning-soft: rgba(248, 183, 79, .14);
+  --warning-text: #f7c97b;        /* oklch(.86 .11 80) */
+  --danger-soft: rgba(230, 67, 67, .18);
+  --danger-text: #f98f87;         /* oklch(.76 .13 25) */
+  --surface-shadow: none;
+  /* 3.3.2, «Выдать настройки» (give.css, HANDOFF-give-settings §4) */
+  --surface-raised: #20262d;      /* oklch(.265 .015 255) */
+  --popover-shadow: 0 14px 36px rgba(0, 0, 0, .5);
+  --warning-icon: var(--warning);
+
+  --font: "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Rubik", var(--font);
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --r-card: 20px;
+  --r-tile: 16px;
+  --r-field: 12px;
+  --r-btn: 9999px;
+  --gap: 16px;
+  --brand-grad: linear-gradient(135deg, #2dd4bf, #2563eb);
+  --dur: 160ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* Светлая — по выбору человека: кнопка в шапке, на это посещение (страница ничего не оставляет в браузере). */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #f5f5f5;            /* oklch(.9702 0 0) */
+  --foreground: #18181b;            /* oklch(.21 .006 286) */
+  --surface: #ffffff;
+  --surface-2: #f0f0f1;             /* oklch(.955 .0015 286) */
+  --surface-3: #e6e6e8;             /* oklch(.925 .003 286) */
+  --surface-3-hover: #dcdcdf;
+  --text-2: #575760;                /* oklch(.46 .014 286) */
+  --text-3: #6a6a71;                /* 3.3.3: 4,7 : 1 на surface-2 (было #74747b — 4,07) */
+  --border: #dedee0;                /* oklch(.9 .004 286) */
+  --separator: #e7e7ea;             /* oklch(.93 .004 286) */
+  --accent: #006e91;                /* 3.3.3: белый текст 5,8 : 1 (было #007da4 — 4,7, подпись кнопки с прозрачностью — 3,84) */
+  --accent-hover: #007da4;
+  --accent-foreground: #ffffff;
+  --accent-text: #006e91;           /* ссылки и акцент в тексте; номер шага на accent-soft — 4,8 : 1 */
+  --accent-soft: rgba(0, 110, 145, .13);
+  --success-soft: rgba(55, 187, 98, .15);
+  --success-text: #03642b;          /* oklch(.44 .12 150) */
+  --warning-soft: rgba(249, 183, 63, .22);
+  --warning-text: #894c06;          /* oklch(.48 .11 60) */
+  --danger-soft: rgba(249, 65, 64, .12);
+  --danger-text: #b71920;           /* oklch(.5 .19 26) */
+  --surface-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 0 1px rgba(0, 0, 0, .08);
+  --field-background: #ffffff;
+  --success: #05893e;               /* oklch(.55 .15 150) */
+  --warning: #ae6700;               /* oklch(.58 .13 65) */
+  --surface-raised: #ffffff;
+  --popover-shadow: 0 12px 32px rgba(20, 30, 60, .16);
+  --warning-icon: #f5a420;          /* oklch(.78 .16 72) */
+  --warning-icon-stroke: var(--warning-text);
+}
+
+/* ── 2. Основа ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; background: var(--background); color: var(--foreground);
+  font: 400 16px/1.5 var(--font); -webkit-font-smoothing: antialiased; overflow-wrap: anywhere;
+}
+[hidden] { display: none !important; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+h1, h2, h3, h4, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+b, strong { font-weight: 600; }
+
+.up-page {
+  max-width: 42rem; margin: 0 auto;
+  padding: 16px max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding-top: max(16px, env(safe-area-inset-top));
+}
+@media (min-width: 640px) { .up-page { padding-top: 40px; padding-bottom: 56px; } }
+
+/* ── 3. Шапка ────────────────────────────────────────────────────────────── */
+.up-header { display: flex; align-items: center; gap: 14px; margin: 4px 2px 20px; }
+.up-mark {
+  flex: none; width: 44px; height: 44px; border-radius: 14px; background: var(--brand-grad);
+  display: flex; align-items: center; justify-content: center; color: #fff;
+}
+.up-mark::after { content: "K"; font: 700 22px/1 var(--font-head); }
+.up-heading { min-width: 0; flex: 1; }
+/* Тема: тёмная по умолчанию, кнопка — светлая (и обратно); круглая, 44 px */
+.up-theme {
+  flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--text-2);
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.up-theme:hover { background: var(--surface-3); color: var(--foreground); }
+.up-theme svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.up-title { font: 600 24px/1.25 var(--font-head); }
+.up-who { color: var(--text-2); font-size: 15px; }
+.up-who b { color: var(--foreground); }
+.up-header .up-heading { flex: 1; }
+/* язык посетителя (3.3.2): RU · EN справа в шапке */
+.up-lang { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--surface-2); flex: none; align-self: flex-start; }
+.up-lang__b { display: inline-grid; place-items: center; min-width: 38px; height: 28px; padding: 0 8px; border-radius: 999px; color: var(--text-2); font: 600 12px/1 var(--font); letter-spacing: .04em; text-decoration: none; }
+.up-lang__b:hover { color: var(--foreground); }
+.up-lang__b[aria-current="true"] { background: var(--surface); color: var(--foreground); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); pointer-events: none; }
+
+/* ── 4. Карточки ─────────────────────────────────────────────────────────── */
+.up-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card);
+  box-shadow: var(--surface-shadow); padding: 20px;
+}
+.up-card + .up-card, .up-out > * + * { margin-top: var(--gap); }
+.up-gate { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.up-lead { font-size: 16px; }
+.up-secret {
+  font-size: 14px; color: var(--foreground); background: var(--warning-soft);
+  border-radius: var(--r-tile); padding: 12px 14px; width: 100%;
+}
+.up-hint { font-size: 14px; color: var(--text-2); width: 100%; }
+.up-status { font-size: 14px; color: var(--text-2); width: 100%; }
+.up-status:empty { margin-top: -12px; }                    /* no empty line in the card until there is a message */
+.up-status[data-kind="error"] { color: var(--danger-text); }
+.up-note { font-size: 15px; color: var(--text-2); margin-top: var(--gap); }
+.up-out { outline: none; }
+
+/* ── 5. Кнопки ───────────────────────────────────────────────────────────── */
+.up-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border: 0; border-radius: var(--r-btn); background: var(--surface-3); color: var(--foreground);
+  font: 500 15px/1.2 var(--font); text-decoration: none; text-align: center; cursor: pointer;
+  transition: transform var(--dur) var(--ease), background var(--dur); max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.up-btn:hover { background: var(--surface-3-hover); }
+.up-btn:active { transform: scale(.97); }
+.up-btn[disabled], .up-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; transform: none; }
+.up-btn--primary { background: var(--accent); color: var(--accent-foreground); font-weight: 600; }
+.up-btn--primary:hover { background: var(--accent-hover); }
+.up-btn--ghost { background: transparent; color: var(--foreground); }
+.up-btn--ghost:hover { background: var(--surface-2); }
+.up-btn--lg { min-height: 52px; padding: 0 28px; font-size: 17px; width: 100%; }
+@media (min-width: 480px) { .up-btn--lg { width: auto; } }
+.up-btn[data-done="1"] { background: var(--success-soft); color: var(--success-text); }
+.up-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; }
+.up-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* ── 6. Вкладки ОС ───────────────────────────────────────────────────────── */
+.up-tabs {
+  display: flex; gap: 6px; padding: 4px; background: var(--surface-2); border-radius: var(--r-btn);
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.up-tabs::-webkit-scrollbar { display: none; }
+.up-tab {
+  flex: none; min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--r-btn); background: transparent;
+  color: var(--text-2); font: 500 15px/1 var(--font); cursor: pointer; white-space: nowrap;
+}
+.up-tab:hover { color: var(--foreground); }
+.up-tab[aria-selected="true"] { background: var(--surface-3); color: var(--foreground); box-shadow: var(--surface-shadow); }
+:root[data-theme="light"] .up-tab[aria-selected="true"] { background: var(--surface); }
+
+/* ── 7. Устройство ───────────────────────────────────────────────────────── */
+.up-dev-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 4px; }
+.up-dev-name { font: 600 18px/1.3 var(--font-head); min-width: 0; }
+.up-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--r-btn); font-size: 13px;
+  font-weight: 500; background: var(--surface-2); color: var(--text-2); white-space: nowrap;
+}
+.up-badge::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 50%; background: currentColor; }   /* статус — точка + слово */
+.up-badge--ok { background: var(--success-soft); color: var(--success-text); }
+.up-badge--off { background: var(--warning-soft); color: var(--warning-text); }
+.up-inbound { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--separator); }
+.up-inbound--first { border-top: 0; padding-top: 4px; margin-top: 8px; }
+.up-in-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-bottom: 12px; }
+.up-in-title { font: 600 16px/1.3 var(--font-head); }
+
+/* ── 8. Записи выдачи ────────────────────────────────────────────────────── */
+.up-item { margin-top: 14px; }
+.up-item:first-child { margin-top: 0; }
+.up-item-title { font: 500 15px/1.35 var(--font); margin-bottom: 8px; }
+.up-code {
+  display: block; width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-field);
+  background: var(--surface-2); color: var(--foreground); font: 400 13px/1.45 var(--mono);
+  word-break: break-all; overflow-wrap: anywhere;
+}
+.up-code--preview { margin-bottom: 8px; color: var(--text-2); }
+textarea.up-code { resize: vertical; min-height: 6.5em; font-size: 16px; }
+.up-fields { display: grid; gap: 8px; }
+.up-field {
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--r-field); background: var(--surface-2);
+}
+.up-field-label { grid-column: 1 / -1; font-size: 13px; color: var(--text-2); }
+.up-field-value { font: 400 15px/1.35 var(--mono); word-break: break-all; min-width: 0; }
+.up-field .up-btn { min-height: 44px; padding: 0 14px; }
+.up-guide { display: grid; gap: 8px; font-size: 15px; }
+.up-guide p { line-height: 1.5; }
+.up-notes { margin-top: 10px; display: grid; gap: 6px; font-size: 14px; color: var(--text-2); }
+.up-notes li { position: relative; padding-left: 16px; }
+.up-notes li::before { content: ""; position: absolute; left: 3px; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--text-2); }
+.up-error { font-size: 14px; color: var(--foreground); background: var(--danger-soft); border-radius: var(--r-tile); padding: 12px 14px; }
+.up-warn { font-size: 14px; color: var(--foreground); background: var(--warning-soft); border-radius: var(--r-tile); padding: 12px 14px; }
+/* «Как подключить» — шаги для новичка с сервера (issue_os.howto, словами этой страницы): номера в кружках */
+.up-steps { display: grid; gap: 8px; font-size: 15px; line-height: 1.5; counter-reset: up-step; }
+.up-steps li { position: relative; padding-left: 32px; counter-increment: up-step; }
+.up-steps li::before {
+  content: counter(up-step); position: absolute; left: 0; top: .05em; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font: 600 13px/1 var(--font); background: var(--accent-soft); color: var(--accent-text);
+}
+
+/* ── 9. Раскрывающиеся блоки и QR ────────────────────────────────────────── */
+.up-details { margin-top: 10px; }
+.up-details > summary {
+  display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 2px; cursor: pointer; list-style: none;
+  font: 500 15px/1.3 var(--font); color: var(--accent-text);
+}
+.up-details > summary::-webkit-details-marker { display: none; }
+.up-details > summary::before {
+  content: ""; flex: none; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform var(--dur) var(--ease); margin-right: 4px;
+}
+.up-details[open] > summary::before { transform: rotate(45deg); }
+.up-more { margin-top: 16px; padding-top: 4px; border-top: 1px solid var(--separator); }
+.up-more > .up-inbound--first { padding-top: 12px; }
+.up-qr { text-align: left; }
+.up-qr-svg { display: block; width: 100%; max-width: 22rem; height: auto; aspect-ratio: 1; margin: 8px auto 0; border-radius: 14px; }
+.up-qr-cap { margin-top: 6px; font-size: 13px; color: var(--text-2); text-align: center; }
+.up-qr-hint { font-size: 14px; color: var(--text-2); text-align: left; }
+/* QR из частей (qr-slides.js, 3.3.2 №10): одна рамка, части по очереди; подпись — приложение и формат */
+.kq { margin: 8px 0 0; display: grid; gap: 10px; justify-items: center; min-width: 0; }
+.kq__frame { display: grid; width: 100%; max-width: 360px; aspect-ratio: 1; }   /* все коды ключа — одной рамки (3.3.2) */
+.kq__part { grid-area: 1 / 1; display: grid; min-width: 0; }
+.kq__part[hidden] { display: none; }
+.kq__part > .up-qr-svg { margin: 0; max-width: none; width: 100%; height: 100%; }
+.kq__cap { display: grid; gap: 6px; justify-items: center; text-align: center; min-width: 0; max-width: 100%; }
+.kq__app { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+.kq__of { min-width: 96px; text-align: center; font-size: 14px; line-height: 20px; font-variant-numeric: tabular-nums; }
+.kq[data-n="1"] .kq__cap::after { content: ""; height: 20px; }   /* высота одна у кода с частями и без */
+.kq-apps { display: grid; gap: 12px; min-width: 0; }
+.kq-apps__seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: var(--surface-2); }
+.kq-apps__btn { min-width: 0; min-height: 44px; padding: 4px 10px; line-height: 1.2; border: 0; border-radius: 10px; background: transparent; color: var(--text-2); font: inherit; font-size: 14px; cursor: pointer; }
+.kq-apps__btn[aria-pressed="true"] { background: var(--surface); color: var(--foreground); box-shadow: var(--surface-shadow); }
+.kq-apps__btn:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.kq-apps__one { display: grid; gap: 8px; min-width: 0; }
+.kq-apps__one[hidden] { display: none; }
+.kq-apps__hint { margin: 0; font-size: 14px; color: var(--text-2); }
+.kq-apps__hint[hidden] { display: none; }
+
+/* Невидимое поле для запасного способа копирования (execCommand): не выпадает из потока страницы */
+.up-copybox { position: fixed; top: 0; left: 0; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; font-size: 16px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition-duration: 1ms !important; } }
+@media print { .up-page { display: none; } }
+
+/* №36 (3.3.2): без JavaScript — только язык сервера (html lang подставляет сервер); язык не подставлен — обе строки */
+html[lang="en"] noscript [lang="ru"], html[lang="ru"] noscript [lang="en"],
+html[lang="en"] noscript .kk-ns-sep, html[lang="ru"] noscript .kk-ns-sep { display: none; }
+
+/* «Установите приложение» (3.3.2): ссылки на магазины и их QR — меньше кодов ключа, одинаковые между собой */
+.up-store { margin-bottom: 10px; }
+.up-store-app { display: grid; gap: 10px; }
+.up-store-seg { display: flex; flex-wrap: wrap; justify-self: start; max-width: 100%; }   /* узкий экран — в несколько строк */
+.up-store-seg .kq-apps__btn { white-space: nowrap; }
+.up-store-links { display: flex; flex-wrap: wrap; gap: 14px; }
+.up-store-link { display: grid; gap: 6px; justify-items: center; width: 136px; text-align: center; }
+.up-store-qr { display: block; width: 120px; height: 120px; border-radius: 10px; }
+.up-store-note { font-size: 13px; color: var(--text-2); }
+.up-store-icon { width: 40px; height: 40px; border-radius: 10px; }
+.up-store-name { margin: 0; }
+/* плашки протоколов устройства — к своему блоку выдачи */
+.up-protos { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+.up-proto { min-height: 36px; padding: 4px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-2); color: var(--foreground); font: inherit; font-size: 14px; cursor: pointer; }
+.up-proto:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.up-inbound:focus { outline: none; }
+
+/* ── 3.3.2: новый вид страницы (дизайн k3/design/issue-qr, HANDOFF-give-settings §3 «Страница /p/») ─────────── */
+.up-page { max-width: 1136px; }
+.up-header { margin: 8px 0 20px; gap: 12px; }
+.up-brand { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.up-header .up-mark { width: 32px; height: 32px; border-radius: 9px; }
+.up-header .up-mark::after { font-size: 17px; }
+.up-brand__t { font: 600 15px/1.2 var(--font-head); }
+.up-lang { align-self: center; }
+.up-lang__b { min-width: 40px; height: 30px; }
+.up-theme { width: 36px; height: 36px; }
+.up-theme svg { width: 18px; height: 18px; }
+.up-card { padding: 24px 28px; border-radius: 24px; }
+.up-pcard { padding: 24px 28px 0; }
+.up-phead { display: flex; align-items: center; gap: 14px; width: 100%; }
+.up-ava { width: 44px; height: 44px; flex: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); display: inline-flex; align-items: center; justify-content: center; font: 600 16px/1 var(--font-head); }
+.up-ava:empty { display: none; }
+.up-phead__tx { flex: 1; min-width: 0; }
+.up-phead__t { font: 600 24px/1.25 var(--font-head); }
+.up-phead__n { color: var(--text-2); font-size: 14px; }
+.up-phead__n b { color: var(--text-2); font-weight: 400; }
+.up-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.up-btn--sm { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.up-label { margin: 20px 0 10px; color: var(--text-2); font-size: 14px; }
+.up-devs { display: grid; gap: 10px; }
+.up-dev { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--border); flex-wrap: wrap; }
+.up-dev.is-on { box-shadow: inset 0 0 0 1.5px var(--border); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.up-dev__ic { width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--surface-2); color: var(--text-2); display: inline-flex; align-items: center; justify-content: center; }
+.up-dev__tx { flex: 1 1 160px; min-width: 0; display: grid; }
+.up-dev__n { font-size: 15px; font-weight: 600; }
+.up-dev__p { color: var(--text-3); font-size: 13px; }
+.up-dev__protos { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.up-dev__off { color: var(--text-3); font-size: 13px; }
+.up-sep { margin: 20px 0 0; }
+.gs-sep.up-sep { margin: 14px 0 8px; }   /* 3.3.3: give.css (позже) обнулял отступ — «Открыть в App Store» был в 6 px от карточки роутера */
+.up-give { padding-bottom: 24px; }
+.up-empty { margin-top: 16px; color: var(--text-2); }
+.up-foot { display: flex; align-items: center; gap: 12px; margin: 0 -28px; padding: 16px 28px; border-top: 1px solid var(--separator); color: var(--text-2); font-size: 13.5px; }
+.up-foot svg { flex: none; }
+.up-out { outline: none; }
+.up-qr-svg { display: block; width: 100%; height: 100%; }
+@media (max-width: 767px) {
+  .up-page { padding-left: 0; padding-right: 0; }
+  .up-header { margin: 4px 16px 16px; }
+  .up-card { border-radius: 20px 20px 0 0; border-left: 0; border-right: 0; padding: 20px 16px 24px; }
+  .up-pcard { padding: 20px 16px 0; }
+  .up-foot { margin: 0 -16px; padding: 14px 16px 20px; }
+  .up-dev__protos { flex: 1 1 100%; justify-content: flex-start; padding-left: 52px; }
+  .up-dev .gs-chip { min-height: 44px; }
+  .up-phead { flex-wrap: wrap; }
+  .up-phead__t { font-size: 20px; overflow-wrap: normal; }
+  .up-phead .up-btn { flex: 1 1 100%; justify-content: flex-start; padding-left: 58px; }
+}

@@ -1,0 +1,21 @@
+NOTE: This is only a simulation!
+      apt-get needs root privileges for real execution.
+      Keep also in mind that locking is deactivated,
+      so don't depend on the relevance to the real current situation!
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libaio1 libluajit-5.1-2 libluajit-5.1-common libnuma1 libpmem1
+The following NEW packages will be installed:
+  fio libaio1 libluajit-5.1-2 libluajit-5.1-common libnuma1 libpmem1 sysbench
+0 upgraded, 7 newly installed, 0 to remove and 0 not upgraded.
+Inst libaio1 (0.3.113-4 Debian:12.7/stable [amd64])
+Inst libluajit-5.1-common (2.1.0~beta3+git20220320+dfsg-4.1 Debian:12.7/stable [all])
+Inst libluajit-5.1-2 (2.1.0~beta3+git20220320+dfsg-4.1 Debian:12.7/stable [amd64])
+Inst libnuma1 (2.0.16-1 Debian:12.7/stable [amd64])
+Inst libpmem1 (1.12.1-2 Debian:12.7/stable [amd64])
+Inst fio (3.33-3 Debian:12.7/stable [amd64])
+Inst sysbench (1.0.20+ds-5 Debian:12.7/stable [amd64])
+Conf libaio1 (0.3.113-4 Debian:12.7/stable [amd64])
+Conf sysbench (1.0.20+ds-5 Debian:12.7/stable [amd64])

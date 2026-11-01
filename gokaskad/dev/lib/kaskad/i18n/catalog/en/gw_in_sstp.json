@@ -1,0 +1,19 @@
+{
+ "gw_in_sstp.revocation_note": "The script turns off server certificate revocation checks for SSTP (NoCertRevocationCheck=1): the server’s self-signed certificate has no revocation list. Windows has no such setting per connection — it applies to all SSTP connections on this computer.",
+ "gw_in_sstp.domain_note": "The server certificate is Let’s Encrypt for {domain}: the client verifies it on its own, no fingerprint to compare. Use exactly this domain as the server address (it must match the name in the certificate).",
+ "gw_in_sstp.err.no_cert": "The SSTP certificate isn’t created yet: kaskadctl gw apply.",
+ "gw_in_sstp.label.fingerprint": "Certificate fingerprint (SHA-256)",
+ "gw_in_sstp.self_signed": "The server’s certificate is self-signed: compare the fingerprint on the first connection.",
+ "gw_in_sstp.rec.cert": "SSTP — server certificate",
+ "gw_in_sstp.cert_trust": "Add it to trusted certificates so the client verifies the server.",
+ "gw_in_sstp.port_hint": "If Windows doesn’t accept the address with port {port}, connect over IKEv2.",
+ "gw_in_sstp.ros_no_verify_le": "The script doesn’t verify the certificate (verify-server-certificate=no); the server has a Let’s Encrypt certificate — you can turn verification on if RouterOS trusts the built-in root certificates.",
+ "gw_in_sstp.ros_no_verify_self": "The script doesn’t verify the certificate (verify-server-certificate=no); to verify, import kaskad-sstp.crt into /certificate and set verify-server-certificate=yes.",
+ "gw_in_sstp.linux_pkg": "Package sstp-client. The login and password are only in {file} (mode 600): never on the command line or in the shell history.",
+ "gw_in_sstp.linux_route": "Add the route through the tunnel yourself (ip route) or use NetworkManager-sstp.",
+ "gw_in_sstp.rec.pppd": "SSTP — login and password for pppd",
+ "gw_in_sstp.pppd_note": "The file holds the password: install it with the command above (mode 600, owner root) and keep no copies.",
+ "gw_in_sstp.android_trust": "; trust the file kaskad-sstp.crt",
+ "gw_in_sstp.rec.android": "SSTP — Android app",
+ "gw_in_sstp.android": "Open SSTP Client (Google Play, F-Droid): server {host}, port {port}, login and password{trust}."
+}

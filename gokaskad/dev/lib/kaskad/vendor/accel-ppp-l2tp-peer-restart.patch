@@ -1,0 +1,150 @@
+Kaskad 3 (PPP-1): accel-ppp 1.14.0 takes a new SCCRQ from the address and port of an existing L2TP tunnel
+(archive https://github.com/accel-ppp/accel-ppp/archive/refs/tags/1.14.0.tar.gz,
+sha256 9386c0b34ae9dd35e61c254980fd9f4e64c510f38fc97fe939b51625418f89f7).
+
+Source: written for Kaskad, not upstream (no fix upstream on 2026-10-07; the same problem in xl2tpd:
+https://github.com/xelerance/xl2tpd/issues/291). License: GPL-2.0, the license of accel-ppp.
+
+Why: every L2TP tunnel of accel-ppp has its own UDP socket, bound to port 1701 and connected to the
+address and port of the peer, so the kernel gives that socket every packet from there and the listener
+none. A peer that starts a new control connection from the same address and port (Windows and routers
+always use UDP 1701: a reconnect after a hangup, a crash or a WAN drop) sends its SCCRQ (tunnel ID 0)
+into the old tunnel, which discards it ("discarding message with invalid tid 0") until it goes away:
+31 s after a StopCCN (FIN-WAIT, a full retransmission cycle), minutes after a peer that vanished (HELLO
+and LCP echo timeouts). Stand G2 (Debian 12, xl2tpd client): 3 of 6 quick reconnects, a redial 66 s
+after a hangup and 129 s after a crash of the client.
+
+What: with "peer-restart=1" in [l2tp] (absent or 0: the behaviour of upstream) an SCCRQ that reaches
+the socket of an established or closing tunnel deletes that tunnel at once (no StopCCN: the peer has
+forgotten it), closes its socket and is handled as by the listener. An SCCRQ with the Assigned Tunnel ID
+of the tunnel's own peer during our handshake, or right after it, is a retransmission: discarded as
+before.
+
+How Kaskad uses it: lib/kaskad/gw/inbounds/accel.py applies it with "patch -p1" to the unpacked sources
+before cmake (build.json and the install marker carry its sha256: an older build is built again) and
+writes "peer-restart=1" into [l2tp] of /etc/kaskad/gw/accel/accel-ppp.conf.
+
+--- a/accel-pppd/ctrl/l2tp/l2tp.c
++++ b/accel-pppd/ctrl/l2tp/l2tp.c
+@@ -88,6 +88,7 @@
+ static int conf_retransmit = DEFAULT_RETRANSMIT;
+ static int conf_hello_interval = 60;
+ static int conf_dir300_quirk = 0;
++static int conf_peer_restart = 0;
+ static const char *conf_host_name = "accel-ppp";
+ static const char *conf_secret = NULL;
+ static size_t conf_secret_len = 0;
+@@ -4400,7 +4401,90 @@
+ 
+ 	return res;
+ }
++
++static struct l2tp_serv_t udp_serv;
++
++/* An SCCRQ that came to the socket of this tunnel (peer-restart=1).
++ *
++ * The socket of a tunnel is connected to the address and port of its peer,
++ * so the kernel gives it every packet from there, the listener none. When
++ * the peer starts a new control connection from the same address and port
++ * (Windows and routers always use UDP 1701; a reconnect after a hangup, a
++ * crash or a WAN drop), its SCCRQ (tunnel ID 0) lands here and used to be
++ * discarded ("invalid tid 0") until this tunnel went away: a full
++ * retransmission cycle (31 s by default) after a StopCCN, minutes after a
++ * peer that vanished (HELLO and LCP echo timeouts).
++ *
++ * A peer never sends an SCCRQ on a control connection it has established:
++ * here it means a restart. This tunnel is deleted without a StopCCN (the
++ * peer has forgotten it; with a reused tunnel ID the StopCCN would hit the
++ * new connection), its socket is closed at once (else it would keep the
++ * packets of the new tunnel) and the SCCRQ is handled as by the listener.
++ * An SCCRQ with the Assigned Tunnel ID of this tunnel's peer during our
++ * handshake (WAIT_SCCCN), or right after it (nothing but the SCCCN received
++ * yet), is a retransmission of the SCCRQ that created this tunnel (our SCCRP
++ * was late or lost): it is discarded, as before.
++ *
++ * Returns 1 if the packet was taken (this tunnel is deleted), 0 otherwise.
++ */
++static int l2tp_tunnel_peer_restart(struct l2tp_conn_t *conn,
++				    const struct l2tp_packet_t *pack)
++{
++	const struct l2tp_attr_t *attr;
++	const struct l2tp_attr_t *assigned_tid = NULL;
++	struct in_pktinfo pkt_info;
+ 
++	if (list_empty(&pack->attrs))
++		return 0;
++
++	attr = list_first_entry(&pack->attrs, typeof(*attr), entry);
++	if (attr->attr->id != Message_Type ||
++	    attr->val.uint16 != Message_Type_Start_Ctrl_Conn_Request)
++		return 0;
++
++	list_for_each_entry(attr, &pack->attrs, entry) {
++		if (attr->attr->id == Assigned_Tunnel_ID) {
++			assigned_tid = attr;
++			break;
++		}
++	}
++	if (assigned_tid == NULL)
++		return 0;
++
++	switch (conn->state) {
++	case STATE_WAIT_SCCCN:
++		if (assigned_tid->val.uint16 == conn->peer_tid)
++			return 0;
++		break;
++	case STATE_ESTB:
++		if (assigned_tid->val.uint16 == conn->peer_tid && conn->Nr <= 2)
++			return 0;
++		break;
++	case STATE_FIN:
++	case STATE_FIN_WAIT:
++		break;
++	default:
++		return 0;
++	}
++
++	log_tunnel(log_info1, conn, "SCCRQ received from the peer of this"
++		   " tunnel (Assigned Tunnel ID %hu): peer restarted,"
++		   " deleting tunnel\n", assigned_tid->val.uint16);
++
++	memset(&pkt_info, 0, sizeof(pkt_info));
++	pkt_info.ipi_addr = conn->host_addr.sin_addr;
++
++	l2tp_tunnel_free(conn);
++	if (conn->hnd.fd >= 0) {
++		close(conn->hnd.fd);
++		conn->hnd.fd = -1;
++	}
++
++	l2tp_recv_SCCRQ(&udp_serv, pack, &pkt_info);
++
++	return 1;
++}
++
+ static int l2tp_conn_read(struct triton_md_handler_t *h)
+ {
+ 	struct l2tp_conn_t *conn = container_of(h, typeof(*conn), hnd);
+@@ -4447,6 +4531,12 @@
+ 				goto err_tunfree;
+ 			}
+ 			conn->port_set = 1;
++		}
++
++		if (pack->hdr.tid == 0 && conf_peer_restart &&
++		    l2tp_tunnel_peer_restart(conn, pack)) {
++			l2tp_packet_free(pack);
++			goto err;
+ 		}
+ 
+ 		if (ntohs(pack->hdr.tid) != conn->tid && (pack->hdr.tid || !conf_dir300_quirk)) {
+@@ -5036,6 +5126,9 @@
+ 	opt = conf_get_opt("l2tp", "dir300_quirk");
+ 	if (opt)
+ 		conf_dir300_quirk = atoi(opt);
++
++	opt = conf_get_opt("l2tp", "peer-restart");
++	conf_peer_restart = opt && atoi(opt) > 0;
+ 
+ 	conf_mppe = MPPE_UNSET;
+ 	opt = conf_get_opt("l2tp", "mppe");

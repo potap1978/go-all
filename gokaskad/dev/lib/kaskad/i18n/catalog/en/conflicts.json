@@ -1,0 +1,19 @@
+{
+ "conflicts.cause.docker_dnat": "a Docker container publishes it (→ {to})",
+ "conflicts.cause.docker_proxy": "a Docker container publishes it (docker-proxy)",
+ "conflicts.cause.foreign_dnat": "iptables has a foreign {target} on this port (→ {to})",
+ "conflicts.cause.gateway": "the gateway protocol {title} uses it",
+ "conflicts.cause.listener": "{procs} listens on it",
+ "conflicts.cause.site_cert": "Let’s Encrypt checks the domain {domain} through it",
+ "conflicts.cause.site_page": "the Kaskad site is served on it",
+ "conflicts.cause.ssh_listen": "the SSH server listens here ({procs})",
+ "conflicts.cause.ssh_session": "your current SSH connection goes through it",
+ "conflicts.effect.foreign_dnat": "the Kaskad forward would override it",
+ "conflicts.effect.gateway": "the forward would take its clients away",
+ "conflicts.effect.listener": "connections to it from outside would stop getting through",
+ "conflicts.effect.site_cert": "the domain certificate would stop renewing",
+ "conflicts.effect.site_page": "the site would stop opening",
+ "conflicts.effect.ssh": "the forward would cut off access to this server",
+ "conflicts.message": "Port {port}/{proto} is in use: {details}. To add it anyway — use --force.",
+ "conflicts.procs_unnamed": "a service without a process name (e.g. WireGuard in the kernel)"
+}

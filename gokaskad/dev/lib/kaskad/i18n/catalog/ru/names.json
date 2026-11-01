@@ -1,0 +1,19 @@
+{
+ "names.err.char": "{what}: недопустимый знак {char}. Нельзя использовать управляющие и невидимые знаки и вертикальную черту.",
+ "names.err.empty": "{what}: пусто. Нужно от 1 до {max} знаков.",
+ "names.err.invisible": "{what}: нет ни одного видимого знака.",
+ "names.err.long": "{what}: длиннее {max} знаков ({n}).",
+ "names.err.private": "{what}: знак {char} из области частного использования Юникода — на других устройствах он выглядит иначе или не виден. Уберите его.",
+ "names.err.type": "{what}: нужен текст.",
+ "names.err.unassigned": "{what}: знак {char} неизвестен этой системе (его нет в её версии Юникода). Уберите его или замените.",
+ "names.what.device": "Имя устройства",
+ "names.what.exit": "Подпись выхода",
+ "names.what.forward": "Имя проброса",
+ "names.what.group": "Имя группы",
+ "names.what.inbound": "Подпись протокола",
+ "names.what.level": "Имя уровня",
+ "names.what.name": "Имя",
+ "names.what.server": "Имя сервера",
+ "names.what.sub": "Подпись подписки",
+ "names.what.user": "Имя пользователя"
+}

@@ -1,0 +1,790 @@
+{
+ "marks": {
+  "10.77.1.10": 259,
+  "10.77.1.11": 259,
+  "10.77.1.12": 769,
+  "10.77.3.10": 259
+ },
+ "plan": {
+  "elems": {
+   "10.77.1.10": 259,
+   "10.77.1.11": 259,
+   "10.77.1.12": 769,
+   "10.77.3.10": 259
+  },
+  "rd": [],
+  "vless": [
+   [
+    769,
+    12401
+   ],
+   [
+    770,
+    12402
+   ]
+  ]
+ },
+ "ports": [
+  [
+   "tcp",
+   10852,
+   "метрики выходов"
+  ],
+  [
+   "tcp",
+   10853,
+   "DNS шлюза"
+  ],
+  [
+   "tcp",
+   12345,
+   "TPROXY пула"
+  ],
+  [
+   "tcp",
+   12401,
+   "выход VLESS e-c9be99c61e"
+  ],
+  [
+   "tcp",
+   12402,
+   "выход VLESS e-20da1c7744"
+  ],
+  [
+   "udp",
+   10853,
+   "DNS шлюза"
+  ],
+  [
+   "udp",
+   12345,
+   "TPROXY пула"
+  ],
+  [
+   "udp",
+   12401,
+   "выход VLESS e-c9be99c61e"
+  ],
+  [
+   "udp",
+   12402,
+   "выход VLESS e-20da1c7744"
+  ]
+ ],
+ "tags": [
+  "gx-e-c9be99c61e",
+  "gx-e-20da1c7744",
+  "gx-e-4e4aa1c7e5",
+  "gx-e-68d555642c"
+ ],
+ "xray": {
+  "dns": {
+   "disableFallbackIfMatch": true,
+   "queryStrategy": "UseIPv4",
+   "servers": [
+    {
+     "address": "localhost",
+     "domains": [
+      "full:cp.cloudflare.com"
+     ],
+     "skipFallback": true
+    },
+    "1.1.1.1",
+    "1.0.0.1"
+   ],
+   "tag": "gw-dns-int"
+  },
+  "inbounds": [
+   {
+    "listen": "127.0.0.1",
+    "port": 12345,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12401,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-e-c9be99c61e"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12402,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-e-20da1c7744"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10853,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "1.1.1.1",
+     "network": "tcp,udp",
+     "port": 53
+    },
+    "tag": "dns-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10852,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "127.0.0.1"
+    },
+    "tag": "metrics-in"
+   }
+  ],
+  "log": {
+   "access": "none",
+   "loglevel": "warning"
+  },
+  "metrics": {
+   "tag": "metrics"
+  },
+  "observatory": {
+   "enableConcurrency": true,
+   "probeInterval": "10s",
+   "probeURL": "http://cp.cloudflare.com/generate_204",
+   "subjectSelector": [
+    "gx-"
+   ]
+  },
+  "outbounds": [
+   {
+    "protocol": "vless",
+    "settings": {
+     "vnext": [
+      {
+       "address": "198.51.100.20",
+       "port": 443,
+       "users": [
+        {
+         "encryption": "none",
+         "flow": "xtls-rprx-vision",
+         "id": "11111111-2222-3333-4444-555555555555"
+        }
+       ]
+      }
+     ]
+    },
+    "streamSettings": {
+     "network": "tcp",
+     "realitySettings": {
+      "fingerprint": "chrome",
+      "publicKey": "8FXcm8haAt5zxGJFC6-71alFTj_LhAL5hbOx7QBE6lc",
+      "serverName": "www.microsoft.com",
+      "shortId": "80cd0a54",
+      "spiderX": "/"
+     },
+     "security": "reality",
+     "sockopt": {
+      "domainStrategy": "ForceIPv4",
+      "tcpKeepAliveIdle": 100,
+      "tcpKeepAliveInterval": 15,
+      "tcpMaxSeg": 1000,
+      "tcpNoDelay": true
+     },
+     "tcpSettings": {
+      "header": {
+       "type": "none"
+      }
+     }
+    },
+    "tag": "gx-e-c9be99c61e"
+   },
+   {
+    "protocol": "vless",
+    "settings": {
+     "vnext": [
+      {
+       "address": "198.51.100.21",
+       "port": 8443,
+       "users": [
+        {
+         "encryption": "none",
+         "id": "66666666-7777-8888-9999-000000000000"
+        }
+       ]
+      }
+     ]
+    },
+    "streamSettings": {
+     "network": "ws",
+     "security": "tls",
+     "sockopt": {
+      "domainStrategy": "ForceIPv4",
+      "tcpKeepAliveIdle": 100,
+      "tcpKeepAliveInterval": 15,
+      "tcpMaxSeg": 1000,
+      "tcpNoDelay": true
+     },
+     "tlsSettings": {
+      "fingerprint": "chrome",
+      "serverName": "example.org"
+     },
+     "wsSettings": {
+      "headers": {
+       "Host": "example.org"
+      },
+      "path": "/ws"
+     }
+    },
+    "tag": "gx-e-20da1c7744"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "mark": 259,
+      "tcpMaxSeg": 1160,
+      "tcpNoDelay": true
+     }
+    },
+    "tag": "gx-e-4e4aa1c7e5"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "tag": "direct"
+   },
+   {
+    "protocol": "blackhole",
+    "tag": "block"
+   }
+  ],
+  "policy": {
+   "levels": {
+    "0": {
+     "connIdle": 300,
+     "downlinkOnly": 5,
+     "handshake": 4,
+     "uplinkOnly": 2
+    }
+   }
+  },
+  "routing": {
+   "balancers": [
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-all"
+    },
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-e-c9be99c61e",
+      "gx-e-20da1c7744"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-vless"
+    }
+   ],
+   "domainStrategy": "IPOnDemand",
+   "rules": [
+    {
+     "inboundTag": [
+      "metrics-in"
+     ],
+     "outboundTag": "metrics",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "gw-dns-int"
+     ],
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "dns-in"
+     ],
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-in",
+      "tproxy-e-c9be99c61e",
+      "tproxy-e-20da1c7744"
+     ],
+     "ip": [
+      "0.0.0.0/8",
+      "10.0.0.0/8",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "169.254.0.0/16",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "224.0.0.0/3",
+      "::1/128",
+      "fc00::/7",
+      "fe80::/10",
+      "64:ff9b::/96",
+      "::/128"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "domain": [
+      "full:localhost"
+     ],
+     "inboundTag": [
+      "tproxy-in",
+      "tproxy-e-c9be99c61e",
+      "tproxy-e-20da1c7744"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-c9be99c61e"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-20da1c7744"
+     ],
+     "outboundTag": "gx-e-20da1c7744",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-vless",
+     "inboundTag": [
+      "tproxy-in"
+     ],
+     "type": "field"
+    }
+   ]
+  }
+ },
+ "xray_socks": {
+  "dns": {
+   "disableFallbackIfMatch": true,
+   "queryStrategy": "UseIPv4",
+   "servers": [
+    {
+     "address": "localhost",
+     "domains": [
+      "full:cp.cloudflare.com"
+     ],
+     "skipFallback": true
+    },
+    "1.1.1.1",
+    "1.0.0.1"
+   ],
+   "tag": "gw-dns-int"
+  },
+  "inbounds": [
+   {
+    "listen": "127.0.0.1",
+    "port": 12345,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12401,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-e-c9be99c61e"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12402,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-e-20da1c7744"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10853,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "1.1.1.1",
+     "network": "tcp,udp",
+     "port": 53
+    },
+    "tag": "dns-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10852,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "127.0.0.1"
+    },
+    "tag": "metrics-in"
+   },
+   {
+    "listen": "0.0.0.0",
+    "port": 1080,
+    "protocol": "socks",
+    "tag": "socks-in"
+   }
+  ],
+  "log": {
+   "access": "none",
+   "loglevel": "warning"
+  },
+  "metrics": {
+   "tag": "metrics"
+  },
+  "observatory": {
+   "enableConcurrency": true,
+   "probeInterval": "10s",
+   "probeURL": "http://cp.cloudflare.com/generate_204",
+   "subjectSelector": [
+    "gx-"
+   ]
+  },
+  "outbounds": [
+   {
+    "protocol": "vless",
+    "settings": {
+     "vnext": [
+      {
+       "address": "198.51.100.20",
+       "port": 443,
+       "users": [
+        {
+         "encryption": "none",
+         "flow": "xtls-rprx-vision",
+         "id": "11111111-2222-3333-4444-555555555555"
+        }
+       ]
+      }
+     ]
+    },
+    "streamSettings": {
+     "network": "tcp",
+     "realitySettings": {
+      "fingerprint": "chrome",
+      "publicKey": "8FXcm8haAt5zxGJFC6-71alFTj_LhAL5hbOx7QBE6lc",
+      "serverName": "www.microsoft.com",
+      "shortId": "80cd0a54",
+      "spiderX": "/"
+     },
+     "security": "reality",
+     "sockopt": {
+      "domainStrategy": "ForceIPv4",
+      "tcpKeepAliveIdle": 100,
+      "tcpKeepAliveInterval": 15,
+      "tcpMaxSeg": 1000,
+      "tcpNoDelay": true
+     },
+     "tcpSettings": {
+      "header": {
+       "type": "none"
+      }
+     }
+    },
+    "tag": "gx-e-c9be99c61e"
+   },
+   {
+    "protocol": "vless",
+    "settings": {
+     "vnext": [
+      {
+       "address": "198.51.100.21",
+       "port": 8443,
+       "users": [
+        {
+         "encryption": "none",
+         "id": "66666666-7777-8888-9999-000000000000"
+        }
+       ]
+      }
+     ]
+    },
+    "streamSettings": {
+     "network": "ws",
+     "security": "tls",
+     "sockopt": {
+      "domainStrategy": "ForceIPv4",
+      "tcpKeepAliveIdle": 100,
+      "tcpKeepAliveInterval": 15,
+      "tcpMaxSeg": 1000,
+      "tcpNoDelay": true
+     },
+     "tlsSettings": {
+      "fingerprint": "chrome",
+      "serverName": "example.org"
+     },
+     "wsSettings": {
+      "headers": {
+       "Host": "example.org"
+      },
+      "path": "/ws"
+     }
+    },
+    "tag": "gx-e-20da1c7744"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "mark": 259,
+      "tcpMaxSeg": 1160,
+      "tcpNoDelay": true
+     }
+    },
+    "tag": "gx-e-4e4aa1c7e5"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "tag": "direct"
+   },
+   {
+    "protocol": "blackhole",
+    "tag": "block"
+   }
+  ],
+  "policy": {
+   "levels": {
+    "0": {
+     "connIdle": 300,
+     "downlinkOnly": 5,
+     "handshake": 4,
+     "uplinkOnly": 2
+    }
+   }
+  },
+  "routing": {
+   "balancers": [
+    {
+     "fallbackTag": "direct",
+     "selector": [
+      "gx-e-c9be99c61e"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "b-e-c9be99c61e-direct"
+    },
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-all"
+    },
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-e-c9be99c61e",
+      "gx-e-20da1c7744"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-vless"
+    }
+   ],
+   "domainStrategy": "IPOnDemand",
+   "rules": [
+    {
+     "inboundTag": [
+      "metrics-in"
+     ],
+     "outboundTag": "metrics",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "gw-dns-int"
+     ],
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "dns-in"
+     ],
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-in",
+      "tproxy-e-c9be99c61e",
+      "tproxy-e-20da1c7744",
+      "socks-in"
+     ],
+     "ip": [
+      "0.0.0.0/8",
+      "10.0.0.0/8",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "169.254.0.0/16",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "224.0.0.0/3",
+      "::1/128",
+      "fc00::/7",
+      "fe80::/10",
+      "64:ff9b::/96",
+      "::/128"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "domain": [
+      "full:localhost"
+     ],
+     "inboundTag": [
+      "tproxy-in",
+      "tproxy-e-c9be99c61e",
+      "tproxy-e-20da1c7744",
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-c9be99c61e"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-20da1c7744"
+     ],
+     "outboundTag": "gx-e-20da1c7744",
+     "type": "field"
+    },
+    {
+     "balancerTag": "b-e-c9be99c61e-direct",
+     "inboundTag": [
+      "socks-in"
+     ],
+     "type": "field",
+     "user": [
+      "router-0002"
+     ]
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "socks-in"
+     ],
+     "type": "field",
+     "user": [
+      "telefon-0001"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "type": "field",
+     "user": [
+      "noutbuk-0003"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-vless",
+     "inboundTag": [
+      "tproxy-in"
+     ],
+     "type": "field"
+    }
+   ]
+  }
+ }
+}

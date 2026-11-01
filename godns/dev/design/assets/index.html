@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- viewport-fit=cover обязателен: без него нижнее меню на iPhone уезжает под
+     системную полосу, а в мини-аппе Telegram — под кнопку «закрыть» -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>панель</title>
+<meta name="theme-color" content="#080b0a">
+<!-- внутренние панели поисковикам не нужны -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!-- theme.css — только токены. ui.css — оболочка, компоненты, адаптив.
+     Порядок важен: ui.css читает переменные, объявленные в theme.css. -->
+<link rel="stylesheet" href="./theme.css">
+<link rel="stylesheet" href="./ui.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="dot">▸</span> назв<b>ание</b></div>
+    <nav id="nav"></nav>
+  </aside>
+  <div class="main">
+    <header>
+      <button id="burger" class="btn" type="button" aria-label="меню">☰</button>
+      <h1 id="head-title">панель</h1>
+      <span class="note" id="head-note"></span>
+      <span class="sp"></span>
+      <div id="period"></div>
+    </header>
+    <!-- полоса «данные могли устареть»: неудачный такт опроса не должен сносить
+         экран с живыми данными и уж тем более наполовину заполненную форму -->
+    <div id="stale" hidden></div>
+    <main id="view"><div class="loading">загружаю…</div></main>
+  </div>
+</div>
+<script type="module" src="./app.js"></script>
+<noscript><div class="err">Панели нужен JavaScript.</div></noscript>
+</body>
+</html>

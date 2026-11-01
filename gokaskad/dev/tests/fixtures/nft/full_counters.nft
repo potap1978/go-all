@@ -1,0 +1,42 @@
+table ip kaskad
+delete table ip kaskad
+table ip kaskad {
+	counter fwd_tcp_80 {
+		packets 0 bytes 0
+	}
+	counter fwd_tcp_443 {
+		packets 1200 bytes 987654
+	}
+	counter fwd_udp_443 {
+		packets 0 bytes 0
+	}
+	counter fwd_tcp_8443 {
+		packets 0 bytes 0
+	}
+	counter fwd_udp_51820 {
+		packets 7 bytes 1024
+	}
+	chain fwd_pre {
+		type nat hook prerouting priority -101; policy accept;
+		fib daddr type local iifname != "lo" jump fwd_dnat
+	}
+	chain fwd_dnat {
+		tcp dport 80 ct mark set ct mark or 0x4b000000 dnat to 192.0.2.10:8080 comment "kaskad:80:tcp"
+		tcp dport 443 ct mark set ct mark or 0x4b000000 dnat to 203.0.113.5:443 comment "kaskad:443:tcp"
+		udp dport 443 ct mark set ct mark or 0x4b000000 dnat to 203.0.113.6:443 comment "kaskad:443:udp"
+		tcp dport 8443 ct mark set ct mark or 0x4b000000 dnat to 198.51.100.7:443 comment "kaskad:8443:tcp"
+		udp dport 51820 ct mark set ct mark or 0x4b000000 dnat to 198.51.100.7:51820 comment "kaskad:51820:udp"
+	}
+	chain fwd_count {
+		type filter hook forward priority -5; policy accept;
+		meta l4proto tcp ct original proto-dst 80 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_80" return
+		meta l4proto tcp ct original proto-dst 443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_443" return
+		meta l4proto udp ct original proto-dst 443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_udp_443" return
+		meta l4proto tcp ct original proto-dst 8443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_8443" return
+		meta l4proto udp ct original proto-dst 51820 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_udp_51820" return
+	}
+	chain fwd_post {
+		type nat hook postrouting priority 101; policy accept;
+		ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade
+	}
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=Kaskad 3 gateway: AmneziaWG inbound awg2 (kgw-awg2)
+After=network-online.target kaskad-net.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/kaskad/gw/awg2/env
+Environment=LOG_LEVEL=error
+ExecStartPre=-/usr/sbin/ip link delete dev kgw-awg2
+ExecStart=/etc/kaskad/egress/awg/amneziawg-go -f kgw-awg2
+ExecStartPost=/bin/sh -c 'i=0; while [ ! -S /var/run/amneziawg/kgw-awg2.sock ]; do i=$$((i+1)); [ $$i -ge 50 ] && exit 1; sleep 0.1; done'
+ExecStartPost=/etc/kaskad/egress/awg/awg setconf kgw-awg2 /etc/kaskad/gw/awg2/kgw-awg2.conf
+ExecStartPost=/usr/sbin/ip address replace ${ADDR} dev kgw-awg2
+ExecStartPost=/usr/sbin/ip link set dev kgw-awg2 mtu ${MTU} up
+ExecReload=/etc/kaskad/egress/awg/awg syncconf kgw-awg2 /etc/kaskad/gw/awg2/kgw-awg2.conf
+ExecStopPost=-/usr/sbin/ip link delete dev kgw-awg2
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

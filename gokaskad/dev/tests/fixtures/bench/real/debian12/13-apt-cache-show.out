@@ -1,0 +1,739 @@
+Package: fio
+Version: 3.33-3
+Installed-Size: 2129
+Maintainer: Martin Steigerwald <martin.steigerwald@proact.de>
+Architecture: amd64
+Depends: libaio1 (>= 0.3.93), libc6 (>= 2.34), libgfapi0 (>= 10.3), libibverbs1 (>= 1.1.6), libnbd0 (>= 1.0.0), libnuma1 (>= 2.0.11), libpmem1 (>= 1.5), libpmemblk1 (>= 1.4), librados2 (>= 16.2.10+ds), librbd1 (>= 10.1.0), librdmacm1 (>= 1.0.15), zlib1g (>= 1:1.2.0), init-system-helpers (>= 1.51), python3
+Suggests: fio-examples, gnuplot, gfio
+Description-en: flexible I/O tester
+ fio is a tool that will spawn a number of threads or processes doing a
+ particular type of I/O action as specified by the user. fio takes a
+ number of global parameters, each inherited by the thread unless
+ otherwise parameters given to them overriding that setting is given.
+ The typical use of fio is to write a job file matching the I/O load
+ one wants to simulate.
+ .
+ This package contains the command line version of fio and all additional
+ command line tools. The package gfio contains the GTK+ based gui frontend
+ for fio. The package fio-examples contains the example job files.
+Description-md5: 22eed234cde2fab8cfa6a92ce3988dc2
+Homepage: https://github.com/axboe/fio
+Tag: admin::benchmarking, admin::filesystem, hardware::storage,
+ implemented-in::c, interface::commandline, role::program,
+ scope::utility, use::analysing, use::checking, use::measuring,
+ use::simulating
+Section: utils
+Priority: optional
+Filename: pool/main/f/fio/fio_3.33-3_amd64.deb
+Size: 537684
+MD5sum: 8c5549eb0d7e814e49740fb51f026d69
+SHA256: dc79dae895125512620fcd16465f1a19edec8f2d73736fe76a9fbf8195cfb745
+
+Package: libaio1
+Source: libaio
+Version: 0.3.113-4
+Installed-Size: 37
+Maintainer: Guillem Jover <guillem@debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.4)
+Description-en: Linux kernel AIO access library - shared library
+ This library enables userspace to use Linux kernel asynchronous I/O
+ system calls, important for the performance of databases and other
+ advanced applications.
+ .
+ This package contains the shared library.
+Description-md5: 32a717b5777305187d782317bb4d97ed
+Multi-Arch: same
+Homepage: https://pagure.io/libaio
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/liba/libaio/libaio1_0.3.113-4_amd64.deb
+Size: 13360
+MD5sum: d1fd6f0ef262b5efbfe060aba999e19c
+SHA256: d1476e4beab3d85f8a7d31de94c27472711ed3ef399ce70708e24b259426125b
+
+Package: libboost-iostreams1.74.0
+Source: boost1.74
+Version: 1.74.0+ds1-21
+Installed-Size: 2113
+Maintainer: Debian Boost Team <team+boost@tracker.debian.org>
+Architecture: amd64
+Depends: libbz2-1.0, libc6 (>= 2.34), libgcc-s1 (>= 3.0), liblzma5 (>= 5.2.2), libstdc++6 (>= 5.2), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.1.4)
+Description-en: Boost.Iostreams Library
+ This package forms part of the Boost C++ Libraries collection.
+ .
+ Boost.Iostreams are a collection of concepts and a set of templates
+ which turn models of these concepts into C++ standard library streams
+ and stream buffers.
+Description-md5: 3c388d3a296c3c5ceb93d6073902d96e
+Multi-Arch: same
+Homepage: http://www.boost.org/libs/iostreams/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/b/boost1.74/libboost-iostreams1.74.0_1.74.0+ds1-21_amd64.deb
+Size: 239848
+MD5sum: 5ff33dc5333de6f50508ca21330f958f
+SHA256: 231d7e7a14f0ea88942f926f13f1bb3f49404201dee2229cb16d664f96902d86
+
+Package: libboost-thread1.74.0
+Source: boost1.74
+Version: 1.74.0+ds1-21
+Installed-Size: 2157
+Maintainer: Debian Boost Team <team+boost@tracker.debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 5.2)
+Breaks: libboost-regex1.74.0-icu67
+Description-en: portable C++ multi-threading
+ This package forms part of the Boost C++ Libraries collection.
+ .
+ Toolkit for writing C++ programs that execute as multiple,
+ asynchronous, independent, threads-of-execution. Each thread has its
+ own machine state including program instruction counter and
+ registers.
+Description-md5: d19954bb99722597efd2b9b392158287
+Multi-Arch: same
+Homepage: http://www.boost.org/libs/thread/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/b/boost1.74/libboost-thread1.74.0_1.74.0+ds1-21_amd64.deb
+Size: 257020
+MD5sum: fa618682d6d4644af1bf4c25e8bc808e
+SHA256: 6fc1f2997cdb0ea76d786a10591ea00559ef663055675f574e406ff2b3bd8912
+
+Package: libdaxctl1
+Source: ndctl
+Version: 76.1-1
+Installed-Size: 68
+Maintainer: Adam Borowski <kilobyte@angband.pl>
+Architecture: amd64
+Depends: libc6 (>= 2.33), libkmod2 (>= 5~), libuuid1 (>= 2.16)
+Description-en: Utility library for managing the device DAX subsystem
+ "DAX" are file system extensions to bypass the page cache and block layer to
+ mmap persistent memory, from a PMEM block device, directly into a process
+ address space.
+ .
+ This package contains a utility library used by applications to manage the
+ device DAX subsystem in the Linux kernel.
+Description-md5: 44c269b2e614e26ce7422da331a94574
+Multi-Arch: same
+Homepage: https://github.com/pmem/ndctl
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/n/ndctl/libdaxctl1_76.1-1_amd64.deb
+Size: 21124
+MD5sum: dc14c5462a99d394f205aa80bbc79e53
+SHA256: af5f9ffe642ae25301eb88fdb2fa9e3c06dcfc5e131fbcee7575adf0adcc9abb
+
+Package: libfmt9
+Source: fmtlib
+Version: 9.1.0+ds1-2
+Installed-Size: 208
+Maintainer: Shengjing Zhu <zhsj@debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 11)
+Description-en: fast type-safe C++ formatting library -- library
+ This library provides fast, type-safe, small, C++11-aware replacement of
+ (s)printf and related machinery. In some cases it's noticeably faster
+ than boost::format, boost::lexical_cast and even sprintf itself.
+ .
+ This package contains the shared library.
+Description-md5: bf00d7b126b81746ed9bbb189e83fcc1
+Multi-Arch: same
+Homepage: https://fmt.dev/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/f/fmtlib/libfmt9_9.1.0+ds1-2_amd64.deb
+Size: 112952
+MD5sum: 154b4f34d64c0355cca58479df388813
+SHA256: c3d405b6eabb1a521b60a57509826707f0e6f92b41cdfaae06bf1d7c37da2166
+
+Package: libgfapi0
+Source: glusterfs
+Version: 10.3-5
+Installed-Size: 3234
+Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Architecture: amd64
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libacl1 (>= 2.2.23), libc6 (>= 2.14), libgfrpc0 (>= 10.3), libgfxdr0 (>= 10.3), libglusterfs0 (>= 10.3), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Description-en: GlusterFS gfapi shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfapi.
+Description-md5: edffee8ca1e4977be0a0d6b9f001a84c
+Multi-Arch: same
+Homepage: https://www.gluster.org/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/g/glusterfs/libgfapi0_10.3-5_amd64.deb
+Size: 3158392
+MD5sum: 5704685a8877e30243204491dd4c2d61
+SHA256: fa2695f5d3810c59236cc5c4aa8971009803101b9ac33876c05003dad941cee2
+
+Package: libgfrpc0
+Source: glusterfs
+Version: 10.3-5
+Installed-Size: 3271
+Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Architecture: amd64
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.34), libgfxdr0 (>= 10.3), libglusterfs0 (>= 10.3), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Description-en: GlusterFS libgfrpc shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfrpc.
+Description-md5: d47fa58e2d0da397c0a3c33911dff007
+Multi-Arch: same
+Homepage: https://www.gluster.org/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/g/glusterfs/libgfrpc0_10.3-5_amd64.deb
+Size: 3131368
+MD5sum: 9ff4cceef1d334fb718c5b147bbd744f
+SHA256: 91ee8563e38f22a6c4ad57d92971e9bf884d6f93602e6cc99c37ec6c3c41ca8c
+
+Package: libgfxdr0
+Source: glusterfs
+Version: 10.3-5
+Installed-Size: 3109
+Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Architecture: amd64
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.4), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Description-en: GlusterFS libgfxdr shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfxdr.
+Description-md5: 59ddba6c67b08fc59cb4cedf967b0942
+Multi-Arch: same
+Homepage: https://www.gluster.org/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/g/glusterfs/libgfxdr0_10.3-5_amd64.deb
+Size: 3105808
+MD5sum: 274e6159ecb52941eb09139ed701fae7
+SHA256: 39f9e78fe0e94bd127d45013b9bdf7df7af98b2a8b3581fd286f10d657184fff
+
+Package: libglusterfs0
+Source: glusterfs
+Version: 10.3-5
+Installed-Size: 3957
+Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Architecture: amd64
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.34), libssl3 (>= 3.0.0), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Description-en: GlusterFS shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libglusterfs.
+Description-md5: e193712a1326598b9106f58e985f3ef9
+Multi-Arch: same
+Homepage: https://www.gluster.org/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/g/glusterfs/libglusterfs0_10.3-5_amd64.deb
+Size: 3346816
+MD5sum: c50b6135dd4c2074c6da9d4df6d872a5
+SHA256: eca3e24b0e04e262a1240faca637ed642a7ebb952131dc5ef562739b451e2b2d
+
+Package: libibverbs1
+Source: rdma-core
+Version: 44.0-2
+Installed-Size: 189
+Maintainer: Benjamin Drung <bdrung@ubuntu.com>
+Architecture: amd64
+Depends: adduser, libc6 (>= 2.34), libnl-3-200 (>= 3.2.7), libnl-route-3-200 (>= 3.2.7)
+Recommends: ibverbs-providers
+Breaks: ibverbs-providers (<< 34~)
+Description-en: Library for direct userspace use of RDMA (InfiniBand/iWARP)
+ libibverbs is a library that allows userspace processes to use RDMA
+ "verbs" as described in the InfiniBand Architecture Specification and
+ the RDMA Protocol Verbs Specification.  iWARP ethernet NICs support
+ RDMA over hardware-offloaded TCP/IP, while InfiniBand is a
+ high-throughput, low-latency networking technology.  InfiniBand host
+ channel adapters (HCAs) and iWARP NICs commonly support direct
+ hardware access from userspace (kernel bypass), and libibverbs
+ supports this when available.
+ .
+ For this library to be useful, a device-specific plug-in module
+ should also be installed.
+ .
+ This package contains the shared library.
+Description-md5: 8cdb9c883867c94335417ed5085d7667
+Multi-Arch: same
+Homepage: https://github.com/linux-rdma/rdma-core
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/r/rdma-core/libibverbs1_44.0-2_amd64.deb
+Size: 60720
+MD5sum: e4cde2dc88513ea880331e9f800e4f88
+SHA256: 35054815259fee46173240254246d03b673a5cd5c528aaac96fd15ac428a8d59
+
+Package: libluajit2-5.1-2
+Source: luajit2
+Version: 2.1-20230119-1
+Installed-Size: 597
+Maintainer: Debian Lua Team <pkg-lua-devel@lists.alioth.debian.org>
+Architecture: amd64
+Replaces: libluajit-5.1-2
+Provides: libluajit-5.1.so.2
+Depends: libluajit2-5.1-common (= 2.1-20230119-1), libc6 (>= 2.34), libgcc-s1 (>= 3.3)
+Conflicts: libluajit-5.1-2
+Description-en: OpenResty-maintained branch of LuaJIT (shared objects)
+ LuaJIT implements the full set of language features defined by Lua 5.1. The
+ virtual machine (VM) is API- and ABI-compatible to the standard Lua interpreter
+ and can be deployed as a drop-in replacement.
+ .
+ This package contains an embeddable version of LuaJIT that can be used as a
+ replacement of the standard liblua-5.1 shared library.
+Description-md5: 76292c71f1b59553fdcdfd14152c1b74
+Multi-Arch: same
+Homepage: https://github.com/openresty/luajit2
+Section: interpreters
+Priority: optional
+Filename: pool/main/l/luajit2/libluajit2-5.1-2_2.1-20230119-1_amd64.deb
+Size: 257988
+MD5sum: c8e5df694885298f7b05f2e4708de1f5
+SHA256: 83f4cb79e75286a1100ed7fd0f849b5823c911067fc9d6a1e29dfbdc84353909
+
+Package: libluajit2-5.1-common
+Source: luajit2
+Version: 2.1-20230119-1
+Installed-Size: 218
+Maintainer: Debian Lua Team <pkg-lua-devel@lists.alioth.debian.org>
+Architecture: all
+Replaces: libluajit-5.1-common
+Conflicts: libluajit-5.1-common
+Description-en: OpenResty-maintained branch of LuaJIT (common files)
+ This package contains files needed by the LuaJIT interpreter/jitter as well
+ by its embeddable (i.e. library) version.
+Description-md5: 2362d9c573643015ba15824efa8a47da
+Multi-Arch: foreign
+Homepage: https://github.com/openresty/luajit2
+Section: interpreters
+Priority: optional
+Filename: pool/main/l/luajit2/libluajit2-5.1-common_2.1-20230119-1_all.deb
+Size: 46604
+MD5sum: 42a20648d53e33ef561689fd42cffa4e
+SHA256: bff99b1b6fe144bce4f3466a18a3984a2e66af7a7e249382aa6d38241af2e9fb
+
+Package: libmariadb3
+Source: mariadb
+Version: 1:10.11.19-0+deb12u1
+Installed-Size: 553
+Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Architecture: amd64
+Replaces: libmariadbclient18
+Depends: mariadb-common, libc6 (>= 2.34), libssl3 (>= 3.0.0), zlib1g (>= 1:1.1.4)
+Conflicts: mariadb-galera-server-10.0, mariadb-galera-server-5.5, mariadb-server-10.0, mariadb-server-5.1, mariadb-server-5.2, mariadb-server-5.3, mariadb-server-5.5
+Breaks: libmariadbclient18
+Description-en: MariaDB database client library
+ MariaDB is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MariaDB are speed, robustness and
+ ease of use.
+ .
+ This package includes the client library.
+Description-md5: c48685b906f3842ee48fd71db5681868
+Homepage: https://mariadb.org/
+Multi-Arch: same
+Section: libs
+Priority: optional
+Filename: pool/updates/main/m/mariadb/libmariadb3_10.11.19-0+deb12u1_amd64.deb
+Size: 179504
+SHA256: cfd599e218eb53c471014b40d180f2f7f9ca7debaacfbd271bc9e4f4cc6eec39
+
+Package: libnbd0
+Source: libnbd
+Version: 1.14.2-1
+Installed-Size: 241
+Maintainer: Hilko Bengen <bengen@debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgnutls30 (>= 3.7.5), libxml2 (>= 2.7.4)
+Description-en: Network Block Device client library -- shared library
+ NBD ?? Network Block Device ?? is a protocol for accessing Block
+ Devices (hard disks and disk-like things) over a Network.
+ .
+ This is the NBD client library in userspace, a simple library for
+ writing NBD clients.
+ .
+ The key features are:
+ .
+  * Synchronous and asynchronous APIs, both for ease of use and for
+    writing non-blocking, multithreaded clients.
+ .
+  * High performance.
+ .
+  * Minimal dependencies for the basic library.
+ .
+  * Well-documented, stable API.
+ .
+  * Bindings in several programming languages.
+ .
+ This package contains the shared library.
+Description-md5: da99f9821cdc8826ed7d870a6201d13b
+Homepage: https://github.com/libguestfs/libnbd
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/libn/libnbd/libnbd0_1.14.2-1_amd64.deb
+Size: 65988
+MD5sum: 5ebda47d1553d221ff5c6c03996ed66a
+SHA256: 775d8a88ac1d3daf9cea723fb0faca07e6167a4bcd606af37e73eb8ec5eba009
+
+Package: libndctl6
+Source: ndctl
+Version: 76.1-1
+Installed-Size: 214
+Maintainer: Adam Borowski <kilobyte@angband.pl>
+Architecture: amd64
+Depends: libc6 (>= 2.33), libdaxctl1 (>= 72), libkmod2 (>= 5~), libudev1 (>= 183), libuuid1 (>= 2.16)
+Description-en: Utility library for managing the libnvdimm subsystem
+ The nvdimm subsystem defines a kernel device model and control message
+ interface for platform NVDIMM resources like those defined by the ACPI 6+ NFIT
+ (NVDIMM Firmware Interface Table).
+ .
+ This package contains a utility library for managing the libnvdimm
+ (non-volatile memory device) sub-system in the Linux kernel.
+Description-md5: be101c95ae8ae0ae3c6321dc3c812536
+Multi-Arch: same
+Homepage: https://github.com/pmem/ndctl
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/n/ndctl/libndctl6_76.1-1_amd64.deb
+Size: 61728
+MD5sum: 0e368a7d7a9f5147bec67495ad6d4bcd
+SHA256: 3654dd3a0a05fdc28af8bcd307109ec41a9ea92218bf29816ff467a8c5e7d57f
+
+Package: libnl-3-200
+Source: libnl3 (3.7.0-0.2)
+Version: 3.7.0-0.2+b1
+Installed-Size: 182
+Maintainer: Heiko Stuebner <mmind@debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.34)
+Description-en: library for dealing with netlink sockets
+ This is a library for applications dealing with netlink sockets.
+ The library provides an interface for raw netlink messaging and various
+ netlink family specific interfaces.
+Description-md5: de8043b32007ad94dc3b94b81389b53d
+Multi-Arch: same
+Homepage: http://www.infradead.org/~tgr/libnl/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/libn/libnl3/libnl-3-200_3.7.0-0.2+b1_amd64.deb
+Size: 63124
+MD5sum: 928fc10e5466e01b0fd4cd34b38b4957
+SHA256: d1fc3e9eb8e79b4c96b0a64c3d8c9e068ae2f665cab71bd19f417ffd0453a890
+
+Package: libnl-route-3-200
+Source: libnl3 (3.7.0-0.2)
+Version: 3.7.0-0.2+b1
+Installed-Size: 644
+Maintainer: Heiko Stuebner <mmind@debian.org>
+Architecture: amd64
+Depends: libnl-3-200 (= 3.7.0-0.2+b1), libc6 (>= 2.34)
+Description-en: library for dealing with netlink sockets - route interface
+ This is a library for applications dealing with netlink sockets.
+ The library provides an interface for raw netlink messaging and various
+ netlink family specific interfaces.
+ .
+ API to the configuration interfaces of the NETLINK_ROUTE family.
+Description-md5: 00e1d8b59623c24502ade39580e576f8
+Multi-Arch: same
+Homepage: http://www.infradead.org/~tgr/libnl/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/libn/libnl3/libnl-route-3-200_3.7.0-0.2+b1_amd64.deb
+Size: 184596
+MD5sum: d2a7e5a1625d6ed3f05d21f29aa24135
+SHA256: 0fdcc425ae2982788c085c76a7cb0eda3e3db99d41bd1ce56082ee18e9f1e21f
+
+Package: libpmem1
+Source: pmdk
+Version: 1.12.1-2
+Installed-Size: 378
+Maintainer: Adam Borowski <kilobyte@angband.pl>
+Architecture: amd64
+Depends: libc6 (>= 2.34), libdaxctl1 (>= 64), libndctl6 (>= 64)
+Description-en: Persistent Memory low level support library, v1 runtime
+ libpmem provides low level persistent memory support.  In particular, support
+ for the persistent memory instructions for flushing changes to pmem is
+ provided.
+ .
+ This library is provided for software which tracks every store to pmem and
+ needs to flush those changes to durability.  Most developers will find higher
+ level libraries like libpmemobj to be much more convenient.
+ .
+ This package provides binary runtime for version 1 of the API.
+Description-md5: 73d7d685c14a96e83a0950f1fdc74bbc
+Multi-Arch: same
+Homepage: https://pmem.io/pmdk/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/p/pmdk/libpmem1_1.12.1-2_amd64.deb
+Size: 90012
+MD5sum: b10fa93cff71a718dfb6b68887e54572
+SHA256: 63ed00821aecdb5537b51b6f378cf571144d02ac3af2f95141bfa0e397359a76
+
+Package: libpmemblk1
+Source: pmdk
+Version: 1.12.1-2
+Installed-Size: 182
+Maintainer: Adam Borowski <kilobyte@angband.pl>
+Architecture: amd64
+Depends: libpmem1 (= 1.12.1-2), libc6 (>= 2.34), libdaxctl1 (>= 64), libndctl6 (>= 64)
+Description-en: Persistent Memory block array support library
+ libpmemblk implements a pmem-resident array of blocks, all the same size, where
+ a block is updated atomically with respect to power failure or program
+ interruption (no torn blocks).
+ .
+ This library is provided for cases requiring large arrays of objects at least
+ 512 bytes each.  Most developers will find higher level libraries like
+ libpmemobj to be more generally useful.
+Description-md5: 3873d4fafd81a68a50d94cab692b4040
+Multi-Arch: same
+Homepage: https://pmem.io/pmdk/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/p/pmdk/libpmemblk1_1.12.1-2_amd64.deb
+Size: 75732
+MD5sum: fa56ee4041cb5f5a7f0fe005d90b8c7b
+SHA256: 48a1a0726bb1d5bff18592522a6ad665b108ebb5bfe443eb9b402732b7451fe1
+
+Package: libpq5
+Source: postgresql-15
+Version: 15.19-0+deb12u1
+Installed-Size: 872
+Maintainer: Debian PostgreSQL Maintainers <team+postgresql@tracker.debian.org>
+Architecture: amd64
+Depends: libc6 (>= 2.33), libgssapi-krb5-2 (>= 1.17), libldap-2.5-0 (>= 2.5.4), libssl3 (>= 3.0.0)
+Description-en: PostgreSQL C client library
+ libpq is a C library that enables user programs to communicate with
+ the PostgreSQL database server.  The server can be on another machine
+ and accessed through TCP/IP.  This version of libpq is compatible
+ with servers from PostgreSQL 8.2 or later.
+ .
+ This package contains the run-time library, needed by packages using
+ libpq.
+ .
+ PostgreSQL is an object-relational SQL database management system.
+Description-md5: 4109d08c168c8058d09c0cc8bf8b18b1
+Homepage: http://www.postgresql.org/
+Multi-Arch: same
+Section: libs
+Priority: optional
+Filename: pool/updates/main/p/postgresql-15/libpq5_15.19-0+deb12u1_amd64.deb
+Size: 202964
+SHA256: 197a6620bd7cfffd6cb6dc005e0f934b1d58ce3ce1f4dd74503c30639ca1a780
+
+Package: librados2
+Source: ceph
+Version: 16.2.15+ds-0+deb12u2
+Installed-Size: 12451
+Maintainer: Ceph Packaging Team <team+ceph@tracker.debian.org>
+Architecture: amd64
+Replaces: librados, librados1
+Depends: libblkid1 (>= 2.17.2), libboost-iostreams1.74.0 (>= 1.74.0+ds1), libboost-thread1.74.0 (>= 1.74.0+ds1), libc6 (>= 2.34), libfmt9 (>= 9.1.0+ds1), libgcc-s1 (>= 3.0), libibverbs1 (>= 1.1.6), librdmacm1 (>= 1.0.15), libssl3 (>= 3.0.0), libstdc++6 (>= 12), libudev1 (>= 183)
+Conflicts: librados, librados1
+Description-en: RADOS distributed object store client library
+ RADOS is a reliable, autonomic distributed object storage cluster
+ developed as part of the Ceph distributed storage system.  This is a
+ shared library allowing applications to access the distributed object
+ store using a simple file-like interface.
+Description-md5: 42d0f393b45b7f226597be77c6f81917
+Homepage: http://ceph.com/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/c/ceph/librados2_16.2.15+ds-0+deb12u2_amd64.deb
+Size: 3252312
+MD5sum: 6eb1e5ebae3088bbc435df750a431cda
+SHA256: 6f4fcfd10f9f6ce86d1ba637adea28f88d5887d1d4a579d4a22f87c1da70d38a
+
+Package: librbd1
+Source: ceph
+Version: 16.2.15+ds-0+deb12u2
+Installed-Size: 9135
+Maintainer: Ceph Packaging Team <team+ceph@tracker.debian.org>
+Architecture: amd64
+Depends: librados2 (= 16.2.15+ds-0+deb12u2), libc6 (>= 2.34), libcryptsetup12 (>= 2:2.4), libfmt9 (>= 9.1.0+ds1), libgcc-s1 (>= 3.0), libssl3 (>= 3.0.0), libstdc++6 (>= 12)
+Description-en: RADOS block device client library
+ RBD is a block device striped across multiple distributed objects
+ in RADOS, a reliable, autonomic distributed object storage cluster
+ developed as part of the Ceph distributed storage system.  This is a
+ shared library allowing applications to manage these block devices.
+Description-md5: 3b39955e1c12f7ad8d4c44efcc8ec188
+Homepage: http://ceph.com/
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/c/ceph/librbd1_16.2.15+ds-0+deb12u2_amd64.deb
+Size: 2404944
+MD5sum: aba3ca371f87ea11754d2872c5d93493
+SHA256: 858cac165993237937e8bea0257341b528552ac3bcee45dfc3c33659be42df75
+
+Package: librdmacm1
+Source: rdma-core
+Version: 44.0-2
+Installed-Size: 208
+Maintainer: Benjamin Drung <bdrung@ubuntu.com>
+Architecture: amd64
+Depends: libc6 (>= 2.34), libibverbs1 (>= 31), libnl-3-200 (>= 3.2.7)
+Description-en: Library for managing RDMA connections
+ librdmacm is a library that allows applications to set up reliable
+ connected and unreliable datagram transfers when using RDMA adapters.
+ It provides a transport-neutral interface in the sense that the same
+ code can be used for both InfiniBand and iWARP adapters.  The
+ interface is based on sockets, but adapted for queue pair (QP) based
+ semantics: communication must use a specific RDMA device, and data
+ transfers are message-based.
+ .
+ librdmacm only provides communication management (connection setup
+ and tear-down) and works in conjunction with the verbs interface
+ provided by libibverbs, which provides the interface used to actually
+ transfer data.
+ .
+ This package contains the shared library.
+Description-md5: dc9d0886ecf59fc604b978f8125cf804
+Multi-Arch: same
+Homepage: https://github.com/linux-rdma/rdma-core
+Tag: role::shared-lib
+Section: libs
+Priority: optional
+Filename: pool/main/r/rdma-core/librdmacm1_44.0-2_amd64.deb
+Size: 68632
+MD5sum: 861ee94f3b1309863d56d67098f49da3
+SHA256: 16b18625834371d023b81477823074ea0d34c478d58dbef3f01107984f47d034
+
+Package: mariadb-common
+Source: mariadb
+Version: 1:10.11.19-0+deb12u1
+Installed-Size: 69
+Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Architecture: all
+Depends: mysql-common (>= 5.6.25)
+Description-en: MariaDB common configuration files
+ MariaDB is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MariaDB are speed, robustness and
+ ease of use.
+ .
+ This package includes configuration files common to all MariaDB programs.
+Description-md5: b0c32a0541f8699ec53307dabf7f987b
+Homepage: https://mariadb.org/
+Multi-Arch: foreign
+Section: database
+Priority: optional
+Filename: pool/updates/main/m/mariadb/mariadb-common_10.11.19-0+deb12u1_all.deb
+Size: 27624
+SHA256: 8312a5cee61770295c48999d24ef7bb53214599eeb28db6c8c43943176be6e5b
+
+Package: mysql-common
+Source: mysql-defaults (1.1.0)
+Version: 5.8+1.1.0
+Installed-Size: 33
+Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Architecture: all
+Replaces: mariadb-server-5.5, mysql-common-5.6, mysql-server-5.5, percona-xtradb-cluster-common-5.5
+Provides: mysql-common-5.6
+Conflicts: mariadb-server-5.5, mysql-common-5.6, mysql-server-5.5, percona-xtradb-cluster-common-5.5
+Breaks: mariadb-common (<< 10.0.20-3~)
+Description-en: MySQL database common files, e.g. /etc/mysql/my.cnf
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes files needed by all versions of the client library,
+ e.g. /etc/mysql/my.cnf.
+Description-md5: 562d254c602f89e4390e28f6362283c8
+Multi-Arch: foreign
+Tag: devel::lang:sql, implemented-in::c, implemented-in::c++, role::app-data,
+ works-with::db
+Section: database
+Priority: optional
+Filename: pool/main/m/mysql-defaults/mysql-common_5.8+1.1.0_all.deb
+Size: 6636
+MD5sum: 2cf95538b4e438afdcce35dac5ccac1f
+SHA256: 4ed466bda89528440ba41f46dbac4336aef2a0fcc074645c3320d82b114a2741
+
+Package: sysbench
+Version: 1.0.20+ds-5
+Installed-Size: 353
+Maintainer: Jeroen Ploemen <jcfp@debian.org>
+Architecture: amd64
+Depends: libaio1 (>= 0.3.93), libc6 (>= 2.33), libluajit2-5.1-2 (>= 2.0.4) | libluajit-5.1-2 (>= 2.1.0~beta3), libmariadb3 (>= 3.0.0), libpq5
+Description-en: multi-threaded benchmark tool for database systems
+ SysBench is a modular, scriptable and multi-threaded benchmark tool based on
+ LuaJIT. It is most frequently used for database benchmarks, but can also be
+ used to create arbitrarily complex workloads that do not involve a database
+ server.
+ .
+ The idea of this benchmark suite is to quickly get an impression about system
+ performance without setting up complex database benchmarks or even without
+ installing a database at all.
+ .
+ Current features allow one to test the following system parameters:
+ .
+  * file I/O performance
+  * scheduler performance
+  * memory allocation and transfer speed
+  * POSIX threads implementation performance
+  * database server performance (OLTP benchmark)
+ .
+ Primarily written for MySQL server benchmarking, SysBench will be further
+ extended to support multiple database backends, distributed benchmarks and
+ third-party plug-in modules.
+Description-md5: f113fb69f045f8b51395ef969a654607
+Homepage: https://github.com/akopytov/sysbench
+Tag: admin::benchmarking, implemented-in::c, role::program, scope::utility
+Section: misc
+Priority: optional
+Filename: pool/main/s/sysbench/sysbench_1.0.20+ds-5_amd64.deb
+Size: 114020
+MD5sum: 7ce4b2ec1ddf2cfac05c3f0456ce0ea3
+SHA256: d90b81b131cd63d5ce4cc2c21a88f5884b33bc40555c18cfb928e8dd2e3e4015
+

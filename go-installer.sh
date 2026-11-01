@@ -182,6 +182,9 @@ lang_pick() {
 # Спросить язык, если он ещё не выбран и есть с кем говорить.
 lang_startup() {
     reattach_tty
+    [ -z "${GOINST_LANG:-}" ] || return 0
+    _lang_marker "$(lang_file)" >/dev/null && return 0
+    [ -t 0 ] && [ -t 1 ] || return 0
     lang_pick || true
     return 0
 }
@@ -478,14 +481,20 @@ ver_extract_any() {
 # ответе: лишние запросы к GitHub стоят времени на глазах у человека.
 # prod_dir <id> — подкаталог продукта в монорепозитории go-all.
 prod_dir() {
-    case "$1" in
-        govless)    printf 'govless' ;;
-        gotelegram) printf 'gotelegram' ;;
-        godns)      printf 'godns' ;;
-        gokaskad)   printf 'gokaskad' ;;
-        gowarp)     printf 'gowarp' ;;
-        goamnezia)  printf 'goamnezia' ;;
-        *)          printf '' ;;
+    # prod_dir <id> [ref] — подкаталог продукта. main — <product>, dev — <product>/dev.
+    local id="$1" ref="${2:-main}" base
+    case "$id" in
+        govless)    base='govless' ;;
+        gotelegram) base='gotelegram' ;;
+        godns)      base='godns' ;;
+        gokaskad)   base='gokaskad' ;;
+        gowarp)     base='gowarp' ;;
+        goamnezia)  base='goamnezia' ;;
+        *) return 1 ;;
+    esac
+    case "$ref" in
+        main|master) printf '%s' "$base" ;;
+        *)           printf '%s/%s' "$base" "$ref" ;;
     esac
 }
 
@@ -547,6 +556,11 @@ refs_sort() {
 
 # Список веток кладём в тот же кеш, что и версии: ключ «<id>.@refs».
 refs_fetch_one() {
+    # B+ монорепо: набор веток статический (см. prod_refs), GitHub branches
+    # спрашивать не нужно. Функция оставлена как точка подмены.
+    return 0
+}
+refs_fetch_one_real() {
     local id="$1" cfg="$2" repo names
     repo=$(prod_repo "$id")
     if [ -n "${GOINST_BRANCHES_FIXTURE:-}" ]; then
@@ -574,10 +588,16 @@ refs_fetch_one() {
 prod_refs() {
     local v="GOINST_REFS_$1" cached
     if [ -n "${!v:-}" ]; then printf '%s' "${!v}"; return 0; fi
+    # B+ монорепо: какие ветки у продукта — статически. main всегда;
+    # dev — только у тех, у кого каталог dev/ реально существует в main.
+    case "$1" in
+        gotelegram|godns|gokaskad|goamnezia) printf 'main dev'; return 0 ;;
+        govless|gowarp)                    printf 'main';     return 0 ;;
+    esac
     if cached=$(ver_cache_get "$1" "@refs") && [ -n "$cached" ]; then
         printf '%s' "$cached"; return 0
     fi
-    printf 'main dev'
+    printf 'main'
 }
 
 # Сколько веток опрашиваем на версию. Репозиторий с десятком веток иначе
@@ -1859,19 +1879,27 @@ prod_ref() {
     local v="GOINST_REF_$1"
     if [ -n "${!v:-}" ]; then printf '%s' "${!v}"; return; fi
     case "$1" in
-        godns) printf 'main' ;;   # на GitHub у goDNS есть только dev
+        godns) printf 'main' ;;   # в монорепо potap1978/go-all
         *)     printf 'main' ;;
     esac
 }
 # Файл, который надо скачать и запустить.
 prod_entry() {
-    case "$1" in
-        govless)    printf 'govless/bootstrap.sh' ;;
-        gotelegram) printf 'gotelegram/bootstrap.sh' ;;
-        godns)      printf 'godns/install.sh' ;;
-        gokaskad)   printf 'gokaskad/install.sh' ;;
-        gowarp)     printf 'gowarp/warp.sh' ;;
-        goamnezia)  printf 'goamnezia/bootstrap.sh' ;;
+    # prod_entry <id> [ref] — путь к entry-файлу в монорепо B+.
+    # main — <product>/<file>; dev — <product>/dev/<file>.
+    local id="$1" ref="${2:-main}" base name
+    case "$id" in
+        govless)    base='govless';    name='bootstrap.sh' ;;
+        gotelegram) base='gotelegram'; name='bootstrap.sh' ;;
+        godns)      base='godns';      name='install.sh' ;;
+        gokaskad)   base='gokaskad';   name='install.sh' ;;
+        gowarp)     base='gowarp';     name='warp.sh' ;;
+        goamnezia)  base='goamnezia';  name='bootstrap.sh' ;;
+        *) return 1 ;;
+    esac
+    case "$ref" in
+        main|master) printf '%s/%s' "$base" "$name" ;;
+        *)           printf '%s/%s/%s' "$base" "$ref" "$name" ;;
     esac
 }
 
@@ -1955,7 +1983,7 @@ run_product_installer() {
         [ -n "${GOINST_LAZY_DOMAIN:-}" ] && amz+=("--domain=${GOINST_LAZY_DOMAIN}")
         [ -n "${GOINST_LAZY_KEYS:-}" ] && amz+=("--keys=${GOINST_LAZY_KEYS}")
     fi
-    repo=$(prod_repo "$id"); ref="${REF:-$(prod_ref "$id")}"; entry=$(prod_entry "$id")
+    repo=$(prod_repo "$id"); ref="${REF:-$(prod_ref "$id")}"; entry=$(prod_entry "$id" "$ref")
     work="${GOINST_DIR}/${id}"
     # Сообщение от mkdir вылезало сырым посреди разговора с человеком.
     # Своё — называет и каталог, и причину.
@@ -1995,7 +2023,9 @@ run_product_installer() {
     true
     say "$(bi "Скачиваю ${entry} из ${repo}@${ref}…" "Downloading ${entry} from ${repo}@${ref}…")"
     mkdir -p "$(dirname "$work/$entry")" || return 1
-    fetch_raw "$repo" "$ref" "$entry" "$work/$entry" || return 1
+    # B+ монорепо: entry уже содержит подкаталог (<product>/ или <product>/dev/),
+    # качаем всегда из git-ветки main.
+    fetch_raw "$repo" "main" "$entry" "$work/$entry" || return 1
     chmod 700 "$work/$entry"
     echo ""
     hr
@@ -2172,12 +2202,13 @@ ver_cache_touch() { local v; v=$(ver_cache_get "$1" "$2") || v=""; ver_cache_wri
 _ver_fetch_one() {
     local id="$1" ref="$2" cfg="$3" repo spec var path url tmp v="" dir
     repo=$(prod_repo "$id")
-    dir=$(prod_dir "$id")
+    dir=$(prod_dir "$id" "$ref")
     spec=$(prod_ver_spec "$id") || spec=""
     var="${spec#*|}"; [ "$var" = "$spec" ] && var=""
     tmp=$(mktemp "${TMPDIR:-/tmp}/goinst-ver.XXXXXX") || return 0
-    local at="$ref" sha="" shaf s0="" v0=""
-    sha=$(ref_sha "$repo" "$ref" "$cfg") && at="$sha"
+    # B+ монорепо: любой ref живёт в git-ветке main, подкаталог задаёт dir.
+    local at="main" sha="" shaf s0="" v0=""
+    sha=$(ref_sha "$repo" "main" "$cfg") && at="$sha"
     # Версия на коммите не меняется никогда: тот же хеш — тот же ответ, и
     # файл из ветки качать незачем.
     shaf="$(_ver_cache_file "$id" "$ref").sha"
@@ -6349,7 +6380,7 @@ main() {
                 *) usage; exit 64 ;;
             esac ;;
         --key)
-            echo "$(bi "���� �� �����: ����������� ���������." "No key needed: repository is public.")"; exit 0 ;;
+            echo "$(bi "Ключ не нужен: репозиторий публичный." "No key needed: repository is public.")"; exit 0 ;;
         --check)
             valid_id "${2:-}" || { usage; exit 64; }
             mode_arg "$2" "${3:-}" || exit 64

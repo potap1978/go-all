@@ -1,0 +1,22 @@
+{
+ "gw_ifwatch.by_kaskad": "Kaskad — причина «{why}», кто: {by}",
+ "gw_ifwatch.by_unknown": "не записано",
+ "gw_ifwatch.core.kernel": "модуль ядра",
+ "gw_ifwatch.core.userspace": "программа",
+ "gw_ifwatch.engine": "; движок: {core}",
+ "gw_ifwatch.gone": "{head}: интерфейса нет {when} (был ifindex {was}); служба {unit}; кто: {who}{tail}",
+ "gw_ifwatch.head": "GW вход {kind} ({iface})",
+ "gw_ifwatch.none": "нет",
+ "gw_ifwatch.recreated": "{head}: интерфейс пересоздан {when} (ifindex {was} → {now}) — клиенты {clients} переподключатся сами за 15–25 с; кто: {who}{tail}",
+ "gw_ifwatch.reset": "{head}: сессии клиентов сброшены без пересоздания интерфейса {when} ({n} из {total}: счётчики обнулились) — они переподключатся сами за 15–25 с; кто: {who}{tail}",
+ "gw_ifwatch.start_at": "в {t} с",
+ "gw_ifwatch.started_times": "{head}: после загрузки служба {unit} запускалась {times} ({starts}) — каждый повторный запуск стоит клиентам {clients} до 15–25 с; кто: {who}{tail}",
+ "gw_ifwatch.times": "{n} раз|{n} раза|{n} раз",
+ "gw_ifwatch.when": "через {up} с после загрузки",
+ "gw_ifwatch.when_unknown": "время загрузки неизвестно",
+ "gw_ifwatch.who_bypassed": "служба не перезапускалась — интерфейс пересоздан в обход неё (чужая команда ip link или выгрузка модуля amneziawg)",
+ "gw_ifwatch.who_not_kaskad": "Kaskad её не перезапускал — systemd или чужая команда systemctl (journalctl -b -u {unit})",
+ "gw_ifwatch.who_not_removed": "Kaskad его не снимал",
+ "gw_ifwatch.who_not_set": "Kaskad настройки не менял — чужая команда awg/wg set или setconf",
+ "gw_ifwatch.who_restarted": "служба {unit} запущена заново ({starts}), Kaskad её не перезапускал — systemd или чужая команда systemctl (journalctl -b -u {unit})"
+}

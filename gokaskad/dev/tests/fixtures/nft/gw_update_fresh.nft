@@ -1,0 +1,104 @@
+add table ip kaskad
+add chain ip kaskad fwd_pre { type nat hook prerouting priority -101; policy accept; }
+add chain ip kaskad fwd_dnat
+add chain ip kaskad fwd_count { type filter hook forward priority -5; policy accept; }
+add chain ip kaskad fwd_post { type nat hook postrouting priority 101; policy accept; }
+flush chain ip kaskad fwd_pre
+flush chain ip kaskad fwd_dnat
+flush chain ip kaskad fwd_count
+flush chain ip kaskad fwd_post
+add counter ip kaskad fwd_tcp_443
+add rule ip kaskad fwd_pre fib daddr type local iifname != "lo" jump fwd_dnat
+add rule ip kaskad fwd_dnat tcp dport 443 ct mark set ct mark or 0x4b000000 dnat to 203.0.113.5:443 comment "kaskad:443:tcp"
+add rule ip kaskad fwd_count meta l4proto tcp ct original proto-dst 443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_443" return
+add rule ip kaskad fwd_post ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade
+add set ip kaskad gw_nets { type ipv4_addr; flags interval; }
+add set ip kaskad gw_ru { type ipv4_addr . inet_proto; flags interval; }
+add set ip kaskad gw_live { type ipv4_addr; }
+add set ip kaskad gw_priv { type ipv4_addr; flags interval; }
+add set ip kaskad gw_ru_dns { type ipv4_addr; flags timeout; timeout 6h; }
+add set ip kaskad gw_force { type ipv4_addr; flags timeout; timeout 6h; }
+add set ip kaskad gw_rd { type ipv4_addr; }
+add set ip kaskad gw_ru_ver { type ipv4_addr; }
+add set ip kaskad gw_ruonly { type ipv4_addr; }
+add set ip kaskad gw_xports { type inet_service; }
+add map ip kaskad gw_route { type ipv4_addr : mark; }
+add chain ip kaskad gw_pre { type filter hook prerouting priority -150; policy accept; }
+add chain ip kaskad gw_fwd { type filter hook forward priority -4; policy accept; }
+add chain ip kaskad gw_out { type filter hook output priority -4; policy accept; }
+add chain ip kaskad gw_post { type nat hook postrouting priority 100; policy accept; }
+add chain ip kaskad gw_dns { type nat hook prerouting priority -102; policy accept; }
+flush chain ip kaskad gw_pre
+flush chain ip kaskad gw_fwd
+flush chain ip kaskad gw_out
+flush chain ip kaskad gw_post
+flush chain ip kaskad gw_dns
+flush set ip kaskad gw_nets
+add element ip kaskad gw_nets { 10.77.0.0/16 }
+flush set ip kaskad gw_priv
+add element ip kaskad gw_priv { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/3 }
+flush map ip kaskad gw_route
+add element ip kaskad gw_route { 10.77.1.10 : 0x102, 10.77.1.11 : 0x102, 10.77.1.12 : 0x301, 10.77.3.10 : 0x102 }
+flush set ip kaskad gw_live
+add element ip kaskad gw_live { 10.77.1.10, 10.77.1.11, 10.77.1.12, 10.77.3.10 }
+flush set ip kaskad gw_rd
+flush set ip kaskad gw_ruonly
+add element ip kaskad gw_xports { 10851, 10852, 10854, 12699, 12701 }
+add rule ip kaskad gw_pre ct direction reply ct mark and 0xffff != 0x0 meta mark set meta mark or 0x10000
+add rule ip kaskad gw_pre iifname "lo" return
+add rule ip kaskad gw_pre iifname "kgw-*" ip saddr != @gw_nets drop
+add rule ip kaskad gw_pre iifname "kgw-*" fib saddr . iif oif missing drop
+add rule ip kaskad gw_pre ip saddr 10.77.1.0/24 iifname != "kgw-wg" drop
+add rule ip kaskad gw_pre ip saddr 10.77.3.0/24 iifname != "kgw-awg2" drop
+add rule ip kaskad gw_pre ip daddr @gw_nets iifname != "kgw-*" meta ipsec missing drop
+add rule ip kaskad gw_pre ip saddr != @gw_nets return
+add rule ip kaskad gw_pre ip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport 53 ct mark set ct mark or 0x4b000000 return
+add rule ip kaskad gw_pre ip daddr 10.77.0.1 icmp type echo-request ct mark set ct mark or 0x4b000000 return
+add rule ip kaskad gw_pre ip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport { 5354, 5364 } drop
+add rule ip kaskad gw_pre ip saddr != @gw_live drop
+add rule ip kaskad gw_pre ip saddr @gw_ruonly fib daddr type local drop
+add rule ip kaskad gw_pre fib daddr type local meta mark set 0x202 ct mark set ct mark or 0x202 return
+add rule ip kaskad gw_pre ip daddr @gw_nets return
+add rule ip kaskad gw_pre ct state established,related ct mark and 0xffff == 0x200 meta l4proto udp meta mark set 0x200 tproxy to 127.0.0.1:12345 accept
+add rule ip kaskad gw_pre ct state established,related ct mark and 0xffff == 0x301 meta l4proto udp meta mark set 0x301 tproxy to 127.0.0.1:12401 accept
+add rule ip kaskad gw_pre ct state established,related meta mark set ct mark and 0xffff return
+add rule ip kaskad gw_pre meta mark set 0x2ff
+add rule ip kaskad gw_pre meta mark set ip saddr map @gw_route
+add rule ip kaskad gw_pre meta mark 0x2fe meta mark set 0x2ff
+add rule ip kaskad gw_pre ip saddr @gw_rd ip daddr . meta l4proto @gw_ru ip daddr != @gw_force meta mark set 0x201
+add rule ip kaskad gw_pre ip saddr @gw_rd ip daddr @gw_ru_dns ip daddr != @gw_force meta mark set 0x201
+add rule ip kaskad gw_pre ct mark set meta mark or 0x4b000000
+add rule ip kaskad gw_pre meta mark 0x200 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12345
+add rule ip kaskad gw_pre meta mark 0x301 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12401
+add rule ip kaskad gw_fwd ip saddr @gw_nets meta mark 0x2ff drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ct mark and 0xffff == 0x2ff drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ct mark and 0xffff == 0x200 drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ct mark and 0xff00 == 0x300 drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ct mark and 0xff00 == 0x100 oifname != "kawg*" drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ip daddr != @gw_nets ct mark and 0xffff == 0x0 drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ct mark and 0xffff == 0x2fe drop
+add rule ip kaskad gw_fwd ip daddr 10.77.0.1 drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ip daddr @gw_nets drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets ip daddr @gw_priv ct mark and 0xffff != 0x202 drop
+add rule ip kaskad gw_fwd ip saddr @gw_nets tcp flags syn tcp option maxseg size set rt mtu
+add rule ip kaskad gw_fwd iifname "kgw-wg" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240
+add rule ip kaskad gw_fwd oifname "kgw-wg" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240
+add rule ip kaskad gw_fwd iifname "kgw-awg2" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240
+add rule ip kaskad gw_fwd oifname "kgw-awg2" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240
+add rule ip kaskad gw_fwd iifname "kawg*" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192
+add rule ip kaskad gw_fwd oifname "kawg*" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192
+add rule ip kaskad gw_out meta mark and 0xffffff00 == 0x100 oifname != "kawg*" drop
+add rule ip kaskad gw_out ip daddr 127.0.0.1 tcp dport @gw_xports meta skuid != 0 reject
+add rule ip kaskad gw_post ip saddr @gw_nets oifname != "lo" ip daddr != @gw_nets masquerade
+add rule ip kaskad gw_dns ip saddr @gw_nets ip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport 53 meta mark set ip saddr map @gw_route
+add rule ip kaskad gw_dns ip saddr @gw_nets ip daddr 10.77.0.1 meta mark 0x201 udp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5364
+add rule ip kaskad gw_dns ip saddr @gw_nets ip daddr 10.77.0.1 meta mark 0x201 tcp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5364
+add rule ip kaskad gw_dns ip saddr @gw_nets ip daddr 10.77.0.1 udp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5354
+add rule ip kaskad gw_dns ip saddr @gw_nets ip daddr 10.77.0.1 tcp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5354
+add table ip6 kaskad6
+add chain ip6 kaskad6 gw_fwd6 { type filter hook forward priority -4; policy accept; }
+add chain ip6 kaskad6 gw_out6 { type filter hook output priority -4; policy accept; }
+flush chain ip6 kaskad6 gw_fwd6
+flush chain ip6 kaskad6 gw_out6
+add rule ip6 kaskad6 gw_fwd6 iifname "kgw-wg" drop
+add rule ip6 kaskad6 gw_fwd6 iifname "kgw-awg2" drop

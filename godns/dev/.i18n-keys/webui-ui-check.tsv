@@ -1,0 +1,46 @@
+# Веб-панель: раздел «Проверка» (ui_chk_*), «Подключение» (ui_cn_*) и
+# общие кирпичики sections/lib.js (ui_lib_*). Формат: ключ TAB ru TAB en.
+# Слово согласия ext сверяется сервером (CONFIRM_WORDS["external"]):
+# принимаются ровно СОГЛАСЕН и I AGREE — другие значения не подойдут.
+ui_chk_word_ext	СОГЛАСЕН	I AGREE
+ui_chk_inside	Изнутри сервера	From inside the server
+ui_chk_inside_note	те же проверки, что в SSH-меню	the same checks as in the SSH menu
+ui_chk_quick	БЫСТРАЯ ▶	QUICK ▶
+ui_chk_full	полная	full
+ui_chk_leak	аудит утечки :53	:53 leak audit
+ui_chk_full_hint	полная гоняет TLS, DoH GET/POST, DNSSEC и ротацию апстримов — до пары минут	the full check exercises TLS, DoH GET/POST, DNSSEC and upstream rotation — up to a couple of minutes
+ui_chk_outside	Снаружи, через третью сторону	From outside, via a third party
+ui_chk_outside_note	«ss показывает LISTEN» и «до нас достучались из интернета» — разные утверждения	“ss shows LISTEN” and “reachable from the internet” are different statements
+ui_chk_ext_btn	проверить доступность снаружи	check reachability from outside
+ui_chk_ext_note	host:port уйдёт стороннему сервису; секретный путь — не уйдёт	host:port will go to a third-party service; the secret path will not
+ui_chk_ext_confirm	Домен и порт будут переданы стороннему сервису проверки доступности. Секретный путь DoH не передаётся.	The domain and port will be sent to a third-party reachability check service. The DoH secret path is not sent.
+ui_chk_ext_go	проверить	check
+ui_cn_addresses	Адреса	Addresses
+ui_cn_addr_note	адрес DoH содержит секретный путь — делитесь только со своими	the DoH address contains the secret path — share it only with people you trust
+ui_cn_copy	копировать	copy
+ui_cn_copied	скопировано	copied
+ui_cn_not_configured	не настроен	not configured
+ui_cn_disabled	ОТКЛЮЧЁН	DISABLED
+ui_cn_dot_hint	включается в «Портах»; нужен для Android Private DNS	enabled under “Ports and path”; needed for Android Private DNS
+ui_cn_instructions	Инструкции	Instructions
+ui_cn_instr_note	тот же текст, что печатает SSH-меню	the same text the SSH menu prints
+ui_cn_tab_routers	роутеры	routers
+ui_cn_tab_os	ОС	OS
+ui_cn_tab_browsers	браузеры	browsers
+ui_lib_svc_running	работает	running
+ui_lib_svc_stopped	остановлена	stopped
+ui_lib_svc_not_installed	не установлена	not installed
+ui_lib_cert_unknown	срок неизвестен	expiry unknown
+ui_lib_cert_expired	ИСТЁК	EXPIRED
+ui_lib_cert_expiring	истекает: {0} дн.	expires in {0} d.
+ui_lib_cert_days	{0} дн.	{0} d.
+ui_lib_chart_gap	данных нет: служба или сервер не работали	no data: the service or the server was down
+ui_lib_chart_max	макс {0} за деление	max {0} per bar
+ui_lib_arm_type	введите {0}	type {0}
+ui_lib_arm_cancel	отмена	cancel
+ui_lib_job_start_failed	не удалось запустить	failed to start
+ui_lib_job_timeout	задание не завершилось за отведённое время	the job did not finish in the allotted time
+ui_lib_job_running	выполняю…	running…
+ui_lib_job_done	готово	done
+ui_lib_job_failed	не удалось	failed
+ui_lib_error	ошибка: {0}	error: {0}

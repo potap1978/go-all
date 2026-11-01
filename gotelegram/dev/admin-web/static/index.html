@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>goTelegram Pro Admin</title>
+  <!-- SDK Telegram: даёт window.Telegram.WebApp.initData — подпись, по которой
+       панель узнаёт админа без ввода кода. Без него мини-апп бесполезен. -->
+  <script defer src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    (function () {
+      var stored = localStorage.getItem("gotelegram-theme");
+      var theme = stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.dataset.theme = theme;
+    }());
+  </script>
+  <link rel="stylesheet" href="./styles.css?v=2.10.1-admin20">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">GT</div>
+        <div>
+          <strong>goTelegram Pro</strong>
+          <span data-i18n="brandSubtitle">Local Admin</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Admin sections" data-i18n-aria-label="ariaAdminSections">
+        <button type="button" class="nav-item active" data-nav="dashboard"><span class="nav-icon">⌁</span><span data-i18n="navDashboard">Dashboard</span></button>
+        <button type="button" class="nav-item" data-nav="traffic"><span class="nav-icon">⇅</span><span data-i18n="navTraffic">Traffic</span></button>
+        <button type="button" class="nav-item" data-nav="keys"><span class="nav-icon">⚿</span><span data-i18n="navKeys">Keys</span></button>
+        <button type="button" class="nav-item" data-nav="backups"><span class="nav-icon">▣</span><span data-i18n="navBackups">Backups</span></button>
+        <button type="button" class="nav-item" data-nav="logs"><span class="nav-icon">☰</span><span data-i18n="navLogs">Logs</span></button>
+        <button type="button" class="nav-item" data-nav="settings"><span class="nav-icon">⚙</span><span data-i18n="navSettings">Settings</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <span id="sidebarVersion">v--</span>
+        <span id="sidebarBind">127.0.0.1:1984</span>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn mobile-only" type="button" aria-label="Menu" data-i18n-aria-label="ariaMenu">☰</button>
+        <div class="title-block">
+          <p class="eyebrow" id="pageKicker">Local Admin</p>
+          <h1 id="pageTitle">Dashboard</h1>
+          <small id="lastRefresh">--</small>
+        </div>
+        <div class="top-actions">
+          <select id="languageSelect" class="language-select" aria-label="Language" data-i18n-aria-label="ariaLanguage">
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+          </select>
+          <button id="themeToggle" class="ghost" type="button">Theme</button>
+          <button id="refreshBtn" type="button" data-i18n="refresh">Refresh</button>
+          <button id="autoRefreshToggle" class="auto-refresh-toggle" type="button" aria-pressed="true" data-i18n-title="autoRefresh" title="Auto refresh">
+            <span class="auto-refresh-icon" aria-hidden="true">↻</span>
+            <span class="auto-refresh-track" aria-hidden="true"><span></span></span>
+            <span class="auto-refresh-state">5s</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="page-panel active" data-page="dashboard">
+          <section class="visual-overview">
+            <div>
+              <p class="eyebrow">goTelegram Pro</p>
+              <h2 id="visualTitle">Port 443</h2>
+              <p id="visualText">Website, MTProxy and local admin status in one operational view.</p>
+            </div>
+            <div class="port-map" id="port443Map">
+              <div class="port-map-head">
+                <div class="port-badge">
+                  <span id="port443Number">443</span>
+                  <small id="port443Configured">public</small>
+                </div>
+                <strong id="port443Summary">--</strong>
+              </div>
+              <div id="port443List" class="port-list"></div>
+            </div>
+          </section>
+
+          <!-- Появляется только когда у машины несколько внешних адресов: на
+               обычной установке рассказывать нечего. Показ включает
+               renderEdgeIps по данным /api/overview. -->
+          <section class="card" id="edgeIpsCard" hidden>
+            <header class="card-head">
+              <h3 data-i18n="edgeTitle">Server addresses</h3>
+              <small id="edgeIpsDomain" class="muted"></small>
+            </header>
+            <div class="edge-list" id="edgeIpsBody"></div>
+            <div class="edge-warn" id="edgeIpsWarn" hidden></div>
+  <small class="muted" data-i18n="edgeHint"></small>
+          </section>
+
+          <div class="metric-grid">
+            <article class="metric-card accent-blue">
+              <span data-i18n="metricMode">Mode</span>
+              <strong id="metricMode">--</strong>
+              <small id="metricDomain">--</small>
+              <small id="siteStatus" class="metric-status">--</small>
+            </article>
+            <article class="metric-card accent-green">
+              <span data-i18n="metricKeys">Keys</span>
+              <strong id="metricUsers">0</strong>
+              <small data-i18n="configuredUsers">configured users</small>
+            </article>
+            <article class="metric-card accent-violet">
+              <span data-i18n="metricProxyTraffic">Proxy Traffic</span>
+              <strong id="metricProxyTraffic">0 B</strong>
+              <small id="metricProxyPackets">0 packets</small>
+            </article>
+            <article class="metric-card accent-amber">
+              <span data-i18n="metricSiteTraffic">Site Traffic</span>
+              <strong id="metricSiteTraffic">0 B</strong>
+              <small id="metricSitePackets">0 packets</small>
+            </article>
+          </div>
+
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="servicesEyebrow">Services</p>
+                  <h2 class="with-help"><span data-i18n="servicesTitle">Service health</span><span class="info-hint" tabindex="0" data-i18n-title="servicesHelp" title="Service health">?</span></h2>
+                </div>
+              </div>
+              <div class="service-grid" id="services"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="runtimeEyebrow">Runtime</p>
+                  <h2 class="with-help"><span data-i18n="runtimeTitle">telemt summary</span><span class="info-hint" tabindex="0" data-i18n-title="runtimeHelp" title="Runtime data">?</span></h2>
+                </div>
+              </div>
+              <div id="runtimeCards" class="runtime-grid"></div>
+              <div id="runtimeIssues" class="issue-list"></div>
+            </section>
+            <section class="panel" id="warpPanel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Cloudflare WARP</p>
+                  <h2>WARP-egress — Telegram через Cloudflare</h2>
+                </div>
+              </div>
+              <div id="warpBody" style="padding:8px 0">Загрузка…</div>
+            </section>
+            <section class="panel" id="webPanel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Telegram Desktop 7.1+</p>
+                  <h2 data-i18n="webTitle">WEB-прокси</h2>
+                </div>
+              </div>
+              <div id="webBody" style="padding:8px 0">…</div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-panel" data-page="traffic">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="trafficEyebrow">Traffic</p>
+                <h2 data-i18n="trafficTitle">History</h2>
+              </div>
+              <div class="panel-actions">
+                <span id="statsHealth" class="status-pill">--</span>
+                <button id="collectStatsBtn" class="ghost" type="button" data-i18n="collectStats" data-i18n-title="collectStatsHelp">Collect</button>
+                <button id="repairStatsBtn" type="button" data-i18n="repairStats" data-i18n-title="repairStatsHelp">Restart collector</button>
+              </div>
+            </div>
+            <div class="traffic-summary">
+              <article>
+                <span data-i18n="collector">Collector</span>
+                <strong id="collectorState">--</strong>
+              </article>
+              <article>
+                <span data-i18n="lastPoint">Last point</span>
+                <strong id="lastStatsPoint">--</strong>
+              </article>
+              <article>
+                <span data-i18n="historyRows">History rows</span>
+                <strong id="historyRows">0</strong>
+              </article>
+            </div>
+            <div class="traffic-controls">
+              <div class="segmented" id="trafficRange" aria-label="Traffic range" data-i18n-aria-label="ariaTrafficRange">
+                <button type="button" data-traffic-range="15m" data-i18n="range15m">15 min</button>
+                <button type="button" data-traffic-range="1h" data-i18n="range1h">1 hour</button>
+                <button type="button" data-traffic-range="24h" data-i18n="range24h">24 hours</button>
+                <button type="button" data-traffic-range="month" data-i18n="rangeMonth">Month</button>
+              </div>
+              <div class="segmented" id="trafficView" aria-label="Traffic view" data-i18n-aria-label="ariaTrafficView">
+                <button type="button" data-traffic-view="chart" data-i18n="viewChart">Chart</button>
+                <button type="button" data-traffic-view="table" data-i18n="viewRows">Rows</button>
+              </div>
+            </div>
+            <div id="trafficChart" class="traffic-chart"></div>
+            <div class="table-wrap" id="trafficTableWrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-i18n="tablePeriod">Period</th>
+                    <th data-i18n="tableProxyDelta">Proxy delta</th>
+                    <th data-i18n="tableSiteDelta">Site delta</th>
+                    <th data-i18n="tableProxyTotal">Proxy total</th>
+                    <th data-i18n="tableSiteTotal">Site total</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-panel" data-page="keys">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="keysEyebrow">Access</p>
+                <h2 data-i18n="keysTitle">User keys</h2>
+              </div>
+              <form id="addUserForm" class="inline-form">
+                <input id="userName" autocomplete="off" placeholder="client-name" data-i18n-placeholder="userPlaceholder">
+                <button type="submit" data-i18n="addKey">Add key</button>
+              </form>
+            </div>
+            <div class="keys-wrap">
+              <div class="keys-list" id="usersTable" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="panel user-traffic-panel" id="userTrafficPanel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="userTrafficEyebrow">Per user</p>
+                <h2 id="userTrafficTitle" data-i18n="userTrafficTitle">User traffic</h2>
+              </div>
+              <div class="panel-actions">
+                <span id="userTrafficHealth" class="status-pill">--</span>
+              </div>
+            </div>
+            <div class="traffic-summary compact">
+              <article>
+                <span data-i18n="trafficTotal">Total</span>
+                <strong id="userTrafficTotal">--</strong>
+              </article>
+              <article>
+                <span data-i18n="currentConnections">Connections</span>
+                <strong id="userTrafficConnections">--</strong>
+              </article>
+              <article>
+                <span data-i18n="activeIps">Active IPs</span>
+                <strong id="userTrafficIps">--</strong>
+              </article>
+            </div>
+            <div class="traffic-controls">
+              <div class="segmented" id="userTrafficRange" aria-label="User traffic range" data-i18n-aria-label="ariaTrafficRange">
+                <button type="button" data-user-traffic-range="15m" data-i18n="range15m">15 min</button>
+                <button type="button" data-user-traffic-range="1h" data-i18n="range1h">1 hour</button>
+                <button type="button" data-user-traffic-range="24h" data-i18n="range24h">24 hours</button>
+                <button type="button" data-user-traffic-range="month" data-i18n="rangeMonth">Month</button>
+              </div>
+              <div class="segmented" id="userTrafficView" aria-label="User traffic view" data-i18n-aria-label="ariaTrafficView">
+                <button type="button" data-user-traffic-view="chart" data-i18n="viewChart">Chart</button>
+                <button type="button" data-user-traffic-view="table" data-i18n="viewRows">Rows</button>
+              </div>
+            </div>
+            <div id="userTrafficChart" class="traffic-chart"></div>
+            <div class="table-wrap" id="userTrafficTableWrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th data-i18n="tablePeriod">Period</th>
+                    <th data-i18n="tableTrafficDelta">Traffic delta</th>
+                    <th data-i18n="tableTrafficTotal">Total</th>
+                  </tr>
+                </thead>
+                <tbody id="userTrafficTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="page-panel" data-page="backups">
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="backupsEyebrow">Snapshots</p>
+                  <h2 data-i18n="backupsTitle">Backups</h2>
+                </div>
+                <button id="createBackupBtn" type="button" data-i18n="createBackup">Create backup</button>
+              </div>
+              <div class="backup-schedule">
+                <div>
+                  <strong data-i18n="backupScheduleTitle">Automatic backups</strong>
+                  <span id="backupScheduleMeta" data-i18n="backupScheduleLoading">Loading schedule...</span>
+                </div>
+                <div class="segmented compact" role="group" aria-label="Backup schedule">
+                  <button type="button" data-backup-schedule="off" data-i18n="scheduleOff">Off</button>
+                  <button type="button" data-backup-schedule="daily" data-i18n="scheduleDaily">Daily</button>
+                  <button type="button" data-backup-schedule="weekly" data-i18n="scheduleWeekly">Weekly</button>
+                  <button type="button" data-backup-schedule="monthly" data-i18n="scheduleMonthly">Monthly</button>
+                </div>
+              </div>
+              <div class="backup-includes">
+                <strong data-i18n="backupIncludesTitle">Backup contents</strong>
+                <span data-i18n="backupIncludesText">telemt config, goTelegram settings, keys, disabled keys, site, templates, SSL certificates, bot, admin panel and traffic history.</span>
+              </div>
+              <div id="backupsList" class="backup-list"></div>
+            </section>
+
+            <aside class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="eventsEyebrow">Events</p>
+                  <h2 data-i18n="eventsTitle">Activity</h2>
+                </div>
+              </div>
+              <div id="events" class="events-list"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page-panel" data-page="logs">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="logsEyebrow">Journal</p>
+                <h2 data-i18n="logsTitle">Logs</h2>
+              </div>
+              <div class="inline-form">
+                <select id="logService">
+                  <option value="telemt">telemt</option>
+                  <option value="nginx">nginx</option>
+                  <option value="gotelegram-bot">bot</option>
+                  <option value="gotelegram-stats">stats</option>
+                  <option value="gotelegram-admin">admin</option>
+                </select>
+                <button id="loadLogsBtn" type="button" data-i18n="loadLogs">Load</button>
+              </div>
+            </div>
+            <div id="logsMeta" class="logs-meta"></div>
+            <pre id="logsBox" class="logs"></pre>
+          </div>
+        </section>
+
+        <section class="page-panel" data-page="settings">
+          <div class="grid-two">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="settingsEyebrow">Settings</p>
+                  <h2 data-i18n="settingsTitle">Panel preferences</h2>
+                </div>
+              </div>
+              <div class="settings-list">
+                <div>
+                  <span data-i18n="panelLanguage">Panel language</span>
+                  <strong id="settingsLanguage">--</strong>
+                </div>
+                <div>
+                  <span data-i18n="theme">Theme</span>
+                  <strong id="settingsTheme">--</strong>
+                </div>
+                <div>
+                  <span data-i18n="bindAddress">Bind address</span>
+                  <strong id="settingsBind">127.0.0.1:1984</strong>
+                </div>
+                <div>
+                  <span data-i18n="publicAddress">Browser address</span>
+                  <strong id="settingsPublic">—</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="configEyebrow">Config</p>
+                  <h2 data-i18n="configTitle">Installation state</h2>
+                </div>
+              </div>
+              <div id="configList" class="settings-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="qrModal" class="promo-modal" hidden>
+    <div class="promo-card qr-card" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+      <button id="qrClose" class="icon-btn ghost" type="button" aria-label="Close" data-i18n-aria-label="ariaClose">×</button>
+      <p class="eyebrow" data-i18n="qrEyebrow">QR import</p>
+      <h2 id="qrTitle">Scan Telegram proxy</h2>
+      <div class="qr-frame">
+        <img id="qrImage" alt="Telegram proxy QR">
+      </div>
+      <p id="qrMeta" class="modal-note"></p>
+      <button id="qrCopyBtn" type="button" class="soft" data-i18n="copyLink">Copy link</button>
+    </div>
+  </div>
+  <div id="promoModal" class="promo-modal" hidden>
+    <div class="promo-card" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+      <button id="promoClose" class="icon-btn ghost" type="button" aria-label="Close" data-i18n-aria-label="ariaClose">×</button>
+      <p class="eyebrow" data-i18n="promoEyebrow">Promo</p>
+      <h2 id="promoTitle" data-i18n="promoTitle">Support goTelegram Pro</h2>
+      <div class="promo-grid">
+        <a href="https://vk.cc/ct29NQ" target="_blank" rel="noreferrer">
+          <strong data-i18n="promoHosting1">Hosting #1</strong>
+          <span>OFF60 · antenka20 · antenka6</span>
+        </a>
+        <a href="https://vk.cc/cUxAhj" target="_blank" rel="noreferrer">
+          <strong data-i18n="promoHosting2">Hosting #2</strong>
+          <span>OFF60</span>
+        </a>
+        <a href="https://pay.cloudtips.ru/p/7410814f" target="_blank" rel="noreferrer">
+          <strong data-i18n="promoTips">Tips</strong>
+          <span>CloudTips</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script src="./app.js?v=2.10.1-admin20" type="module"></script>
+</body>
+</html>

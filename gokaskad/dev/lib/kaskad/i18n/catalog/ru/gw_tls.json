@@ -1,0 +1,5 @@
+{
+ "gw_tls.apply_only": "Сертификат TLS создаётся только при kaskadctl gw apply.",
+ "gw_tls.made": "сертификат TLS для {host}",
+ "gw_tls.made_node": "сертификат TLS для узла"
+}

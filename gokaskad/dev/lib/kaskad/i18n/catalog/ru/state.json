@@ -1,0 +1,18 @@
+{
+ "state.bad_engine": "{path}: неизвестный движок {engine}",
+ "state.bad_ip": "нужен IPv4-адрес вида 203.0.113.5, а не {value}",
+ "state.bad_origin": "неизвестный источник проброса {origin}",
+ "state.bad_port": "{what} должен быть числом 1–65535, а не {value}",
+ "state.bad_proto": "протокол должен быть tcp или udp, а не {value}",
+ "state.bad_schema": "{path}: схема {schema} не поддерживается этой версией (нужна {need})",
+ "state.broken": "{path} повреждён: {error}",
+ "state.fwd_not_object": "запись проброса должна быть объектом: {value}",
+ "state.fwd_twice": "{path}: проброс {fwd} записан дважды",
+ "state.ip_not_allowed": "на адрес {ip} проброс не сделать",
+ "state.locked": "Kaskad уже что-то меняет (занят {lock}). Повторите через минуту.",
+ "state.nested_lock": "Ошибка в коде Kaskad: блокировку состояния ({lock}) повторно берёт тот, кто её уже держит. Сообщите разработчику — повтор не поможет.",
+ "state.not_object": "{path}: ожидался объект JSON",
+ "state.port": "порт",
+ "state.port_in": "входящий порт",
+ "state.port_to": "порт назначения"
+}

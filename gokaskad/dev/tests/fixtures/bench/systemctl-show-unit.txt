@@ -1,0 +1,5 @@
+IPIngressBytes=104857600
+IPEgressBytes=2097152
+IPIngressPackets=72000
+IPEgressPackets=36000
+CPUUsageNSec=41500000000

@@ -1,0 +1,18 @@
+{
+ "gw_in_ipsec.legacy_ca": "центр сертификации IKEv2 старого образца — без ограничения адресом узла (доверие к нему распространяется на любые сайты): сменить — kaskadctl gw pki rotate ikev2, затем выдать устройствам IKEv2 настройки заново",
+ "gw_in_ipsec.err.certs_on_apply": "IKEv2: сертификаты создаются только при kaskadctl gw apply.",
+ "gw_in_ipsec.made.ca_moved": "центр сертификации IKEv2 для {host} (адрес узла сменился — выдайте устройствам IKEv2 настройки заново)",
+ "gw_in_ipsec.made.ca": "центр сертификации IKEv2 для {host}",
+ "gw_in_ipsec.made.server_cert": "сертификат сервера IKEv2 для {host}",
+ "gw_in_ipsec.err.certs_need_system": "IKEv2: сертификаты создаются только с доступом к системе (kaskadctl).",
+ "gw_in_ipsec.log.rotate": "смена центра сертификации IKEv2 по команде владельца",
+ "gw_in_ipsec.made.psk": "общий ключ L2TP/IPsec",
+ "gw_in_ipsec.err.no_psk": "L2TP/IPsec: нет общего ключа, сначала kaskadctl gw apply.",
+ "gw_in_ipsec.err.no_certs": "IKEv2: нет сертификатов, сначала kaskadctl gw apply.",
+ "gw_in_ipsec.err.no_ipsec": "В ядре этого сервера нет IPsec (нет модулей: {modules}) — L2TP/IPsec и IKEv2 здесь не заработают. Kaskad ядро сам не меняет.",
+ "gw_in_ipsec.err.busy": "На узле уже работает {units} — порты IPsec (UDP 500 и 4500) заняты. Отключите его (systemctl disable --now {args}) и повторите.",
+ "gw_in_ipsec.log.installed": "strongSwan установлен (служба {unit})",
+ "gw_in_ipsec.log.removed": "strongSwan Kaskad выключен, его настройки убраны (пакеты остались)",
+ "gw_in_ipsec.err.load": "strongSwan не принял настройки ({conf}): {error}",
+ "gw_in_ipsec.log.applied": "strongSwan: {action}; соединения: {kinds}; файлы: {files}{cut}{created}"
+}

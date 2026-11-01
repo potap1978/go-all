@@ -1,0 +1,19 @@
+{
+ "gw_in_sstp.revocation_note": "Скрипт выключает проверку отзыва сертификата сервера для SSTP (NoCertRevocationCheck=1): у самоподписанного сертификата узла нет списка отзыва. Отдельно для одного подключения Windows такой настройки не даёт — она действует на все подключения SSTP этого компьютера.",
+ "gw_in_sstp.domain_note": "Сертификат сервера — Let's Encrypt для {domain}: клиент проверит его сам, отпечаток сверять не нужно. В адресе сервера — именно этот домен (имя в сертификате должно совпасть).",
+ "gw_in_sstp.err.no_cert": "Сертификат SSTP ещё не создан: kaskadctl gw apply.",
+ "gw_in_sstp.label.fingerprint": "Отпечаток сертификата (SHA-256)",
+ "gw_in_sstp.self_signed": "Сертификат узла самоподписанный: при первом подключении сверьте отпечаток.",
+ "gw_in_sstp.rec.cert": "SSTP — сертификат узла",
+ "gw_in_sstp.cert_trust": "Добавьте в доверенные, чтобы клиент проверял сервер.",
+ "gw_in_sstp.port_hint": "Если Windows не примет адрес с портом {port} — подключайтесь по IKEv2.",
+ "gw_in_sstp.ros_no_verify_le": "Скрипт не проверяет сертификат (verify-server-certificate=no); у сервера сертификат Let's Encrypt — проверку можно включить, если RouterOS доверяет встроенным корневым сертификатам.",
+ "gw_in_sstp.ros_no_verify_self": "Скрипт не проверяет сертификат (verify-server-certificate=no); проверка — импорт kaskad-sstp.crt в /certificate и verify-server-certificate=yes.",
+ "gw_in_sstp.linux_pkg": "Пакет sstp-client. Логин и пароль — только в файле {file} (права 600): ни в командной строке, ни в истории оболочки их нет.",
+ "gw_in_sstp.linux_route": "Маршрут через туннель добавьте сами (ip route) или возьмите NetworkManager-sstp.",
+ "gw_in_sstp.rec.pppd": "SSTP — логин и пароль для pppd",
+ "gw_in_sstp.pppd_note": "Файл с паролем: положите его командой выше (права 600, владелец root) и не оставляйте копий.",
+ "gw_in_sstp.android_trust": "; в доверенные — файл kaskad-sstp.crt",
+ "gw_in_sstp.rec.android": "SSTP — приложение для Android",
+ "gw_in_sstp.android": "Open SSTP Client (Google Play, F-Droid): сервер {host}, порт {port}, логин и пароль{trust}."
+}

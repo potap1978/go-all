@@ -1,0 +1,5 @@
+{
+ "panel_ux.mcp_paste": "Вставьте строку из файла ~/.ssh/kaskad_agent.pub.",
+ "panel_ux.mcp_private": "Это ЗАКРЫТЫЙ ключ — его никому не передают. Нужна строка из файла .pub.",
+ "panel_ux.no_kind": "Нет такого протокола: {kind}."
+}

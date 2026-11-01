@@ -1,0 +1,12 @@
+{
+ "name": "3.0.20260710",
+ "digest": "sha256:88950cf32a36e9689f981967d7679b3348161039a7792abd1caea258da2bf2fb",
+ "tag_last_pushed": "2026-07-10T12:00:00Z",
+ "images": [
+  {
+   "architecture": "amd64",
+   "os": "linux",
+   "digest": "sha256:069bedcda778228ddc49cca47b6e501ccc71ad3702360794cea0bfb36c573d5a"
+  }
+ ]
+}

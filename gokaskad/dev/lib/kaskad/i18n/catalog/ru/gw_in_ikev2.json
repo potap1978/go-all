@@ -1,0 +1,21 @@
+{
+ "gw_in_ikev2.legacy_note": "Сертификат центра Kaskad старого образца: устройство, которое ему доверяет, примет его подпись для любого сайта. Смените его (kaskadctl gw pki rotate ikev2 или «Шлюз → Протоколы → IKEv2») и выдайте настройки IKEv2 заново.",
+ "gw_in_ikev2.ca_where.windows": "сертификат центра Kaskad — внутри скрипта kaskad-ikev2.ps1, отдельного файла не нужно",
+ "gw_in_ikev2.ca_where.apple": "сертификат центра Kaskad — внутри профиля kaskad-ikev2.mobileconfig",
+ "gw_in_ikev2.ca_where.file": "сертификат центра Kaskad, файл kaskad-ikev2-ca.crt",
+ "gw_in_ikev2.err.no_host": "IKEv2: неизвестен внешний адрес узла (gateway.host) — он нужен в сертификате сервера: kaskadctl gw host <адрес или имя> или gw host --detect.",
+ "gw_in_ikev2.err.no_certs": "Сертификаты IKEv2 ещё не созданы: kaskadctl gw apply.",
+ "gw_in_ikev2.ca_scope": "Центр сертификации Kaskad подтверждает только этот сервер ({host}): для других сайтов он недействителен.",
+ "gw_in_ikev2.label.remote_id": "Удалённый идентификатор",
+ "gw_in_ikev2.label.login_eap": "Логин (EAP)",
+ "gw_in_ikev2.label.server_check": "Проверка сервера",
+ "gw_in_ikev2.rec.ca": "IKEv2 — сертификат центра (CA)",
+ "gw_in_ikev2.ca_purpose": "По нему устройство проверяет сервер.",
+ "gw_in_ikev2.how.ios": "Откройте файл на iPhone или iPad → Настройки → «Профиль загружен» → «Установить».",
+ "gw_in_ikev2.how.macos": "Откройте файл → Системные настройки → Основные → Управление устройством (macOS 13–14: Конфиденциальность и безопасность → Профили) → «Установить».",
+ "gw_in_ikev2.rec.mobileconfig": "IKEv2 — профиль .mobileconfig",
+ "gw_in_ikev2.mobileconfig_note": "В профиле пароль устройства — передавайте файл только его владельцу.",
+ "gw_in_ikev2.ps_trust": "Скрипт кладёт сертификат центра Kaskad в доверенные корневые сертификаты компьютера.",
+ "gw_in_ikev2.rec.android": "IKEv2 — встроенный клиент Android 12+",
+ "gw_in_ikev2.linux_note": "Пакет charon-cmd; пароль он спросит сам."
+}

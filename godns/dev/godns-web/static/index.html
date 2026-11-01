@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- viewport-fit=cover обязателен: без него нижнее меню на iPhone уезжает под
+     системную полосу, а в мини-аппе Telegram — под кнопку «закрыть» -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>goDNS Pro · {{ui_title_panel}}</title>
+<meta name="theme-color" content="#080b0a">
+<!-- внутренние панели поисковикам не нужны -->
+<meta name="robots" content="noindex, nofollow">
+<!-- Все пути ОТНОСИТЕЛЬНЫЕ: панель живёт под секретным путём, и абсолютный
+     /favicon.svg улетал бы мимо префикса — на страницу входа вместо иконки. -->
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<!-- Шрифт с CDN не тянем: сервер без гарантированного выхода наружу, а стек
+     --font в theme.css уже подхватывает системный моноширинный. -->
+<link rel="stylesheet" href="./theme.css">
+<link rel="stylesheet" href="./ui.css">
+<!-- Единственный допустимый внешний скрипт — мост Telegram для мини-аппа.
+     Вне Telegram (и без интернета) его отсутствие ничего не ломает. -->
+<script>
+  // SDK мини-аппа грузим ТОЛЬКО внутри Telegram. Безусловный <script src>
+  // отправлял запрос на telegram.org при каждом открытии панели в обычном
+  // браузере: сторонняя сторона узнавала, что панель открыли (и с какого
+  // адреса), а в консоли оставалась ошибка загрузки — на сервере, у
+  // которого исходящее наружу может быть закрыто, она была всегда.
+  // Панель вне Telegram самодостаточна и в этом скрипте не нуждается.
+  (function () {
+    var inTelegram = /[?#].*tgWebApp/.test(location.href)
+      || typeof window.TelegramWebviewProxy !== 'undefined'
+      || (window.top !== window.self && document.referrer.indexOf('telegram.org') !== -1);
+    if (!inTelegram) return;
+    var s = document.createElement('script');
+    s.src = 'https://telegram.org/js/telegram-web-app.js';
+    s.async = false;
+    document.head.appendChild(s);
+  })();
+</script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="dot">▸</span> go<b>DNS</b></div>
+    <nav id="nav"></nav>
+  </aside>
+  <div class="main">
+    <header>
+      <button id="burger" class="btn" type="button" aria-label="{{ui_burger}}">☰</button>
+      <h1 id="head-title">{{ui_title_panel}}</h1>
+      <span class="note" id="head-note"></span>
+      <span class="sp"></span>
+      <div id="period"></div>
+    </header>
+    <!-- полоса «данные могли устареть»: неудачный такт опроса не должен сносить
+         экран с живыми данными и уж тем более наполовину заполненную форму -->
+    <div id="stale" hidden></div>
+    <main id="view"><div class="loading">{{ui_loading}}</div></main>
+  </div>
+</div>
+<script type="module" src="./app.js"></script>
+<noscript><div class="err">{{ui_noscript}}</div></noscript>
+</body>
+</html>

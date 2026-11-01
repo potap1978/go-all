@@ -1,0 +1,17 @@
+{
+ "gw_dns.and": " and ",
+ "gw_dns.conf_refused": "dnsmasq rejected the config: {error}",
+ "gw_dns.down": "Gateway DNS ({unit}) does not start: {why}",
+ "gw_dns.log.moved": "GW repair: {detail} — moved gateway DNS to port {port}",
+ "gw_dns.no_dnsmasq": "dnsmasq is missing: kaskadctl gw enable installs the {package} package.",
+ "gw_dns.no_dnsmasq_short": "dnsmasq is missing (package {package}).",
+ "gw_dns.not_started": "Gateway DNS ({unit}) did not start: {why} — gateway clients have no DNS",
+ "gw_dns.note_old": "dnsmasq {version} is older than 2.89: AAAA answers are not filtered — clients with IPv6 of their own network may bypass the tunnel",
+ "gw_dns.part.config": "config",
+ "gw_dns.part.unit": "service",
+ "gw_dns.port_busy": "port {port} on {ip} is in use: {holders} — free it",
+ "gw_dns.probe_busy": "port {port} (gateway DNS) is in use: {holders} — gateway DNS won’t start until it is free",
+ "gw_dns.process_unknown": "unknown process",
+ "gw_dns.stale": "Gateway DNS is in its old form ({what}): client queries go to port {port}, but dnsmasq may listen on 53",
+ "gw_dns.version_unknown": "of an unknown version"
+}

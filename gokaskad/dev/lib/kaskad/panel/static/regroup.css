@@ -1,0 +1,80 @@
+/* Kaskad — «Разложить заново» в карточке группы выходов (зарубежной и внутренней). Подключается после stream.css.
+   Только новые классы kk-rg-*; токены — существующие (tokens.css 3.3.7.14). Макет: «Kaskad Разложить заново r1».
+   Место: строка «Уровни» (kk-eg-sub) — справа кнопка; подтверждение — на месте, под строкой, до уровней. */
+
+/* строка «Уровни · пояснение» + кнопка справа; на узкой части кнопка — под пояснением, слева */
+.kk-rg-h { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 16px; min-width: 0; }
+.kk-rg-h > .kk-eg-sub { flex: 1 1 420px; min-width: 0; }
+.kk-rg-h > .ga-btn { margin-left: auto; }
+.kk-rg-h > .ga-btn[aria-expanded="true"] { background: var(--surface-3-hover); }
+/* причина, почему кнопка недоступна, — строкой под ней (узор «выключено с подсказкой») */
+.kk-rg-why { flex-basis: 100%; display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-rg-why > .gi { margin-top: 2px; color: var(--text-3); }
+
+/* подтверждение на месте: графика → итог → кто куда → строка сервера → «Отмена · Разложить» */
+.kk-rg { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--r-field); background: var(--surface); min-width: 0; animation: hero-pop var(--dur) var(--ease); }
+.kk-rg__g, .kk-rg__t { display: grid; gap: 8px; min-width: 0; align-content: start; }
+
+/* полоски по выходам: имя · две полоски (сейчас — приглушённо, после — акцентом) · «9 → 5» */
+.kk-rg__bars { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; align-items: center; gap: 6px 12px; min-width: 0; }
+.kk-rg__lg { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: var(--fs-xs); line-height: 1rem; color: var(--text-2); }
+.kk-rg__lg > span { display: inline-flex; align-items: center; gap: 6px; }
+.kk-rg__lg > span::before { content: ""; width: 14px; height: 6px; border-radius: var(--r-pill); background: var(--accent); }
+.kk-rg__lg > span.is-now::before { background: color-mix(in oklab, var(--text-3) 60%, transparent); }
+.kk-rg__row { display: contents; }
+.kk-rg__n { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-sm); font-weight: 500; }
+.kk-rg__pair { display: grid; gap: 3px; min-width: 0; }
+.kk-rg__bar { display: block; height: 6px; border-radius: var(--r-pill); background: var(--surface-3); overflow: hidden; }
+.kk-rg__bar > i { display: block; height: 100%; min-width: 6px; border-radius: inherit; background: var(--accent); }
+.kk-rg__bar--now > i { background: color-mix(in oklab, var(--text-3) 60%, transparent); }
+.kk-rg__bar.is-empty > i { width: 0; min-width: 0; }
+.kk-rg__num { display: inline-flex; align-items: baseline; justify-content: flex-end; gap: 4px; min-width: 64px; font: 400 var(--fs-sm)/1.125rem var(--mono); color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kk-rg__num > b { font-weight: 600; color: var(--foreground); }
+
+/* итог и тихая строка «ещё N — по правилам группы» */
+.kk-rg__sum { margin: 0; font: 600 var(--fs)/1.25rem var(--font); text-wrap: pretty; }
+.kk-rg__also { margin: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+/* кто куда: до 3 строк, остальное — «Показать ещё» */
+.kk-rg__list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px; font-size: var(--fs-sm); line-height: 1.25rem; min-width: 0; }
+.kk-rg__list > li { display: contents; }
+.kk-rg__who { min-width: 0; overflow-wrap: anywhere; }
+.kk-rg__mv { min-width: 0; color: var(--text-2); overflow-wrap: anywhere; }
+.kk-rg__list + .ga-btn.gx-link { justify-self: start; }
+.kk-rg__note { margin: 0; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: pretty; }
+.kk-rg__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 10px; border-top: 1px solid var(--separator); }
+.kk-rg__q { flex: 1 1 100%; min-width: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--foreground); text-wrap: pretty; }
+
+/* считаем…: дорожки без заливки и строка со спиннером; «Разложить» недоступна */
+.kk-rg__wait { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--text-2); }
+.kk-rg.is-busy .kk-rg__bar { animation: hero-pulse 1.4s ease-in-out infinite; }
+/* после «Разложить»: одна строка на месте подтверждения, до события ленты */
+.kk-rg-acc { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--r-field); background: var(--neutral-soft); font-size: var(--fs-sm); line-height: 1.125rem; color: var(--foreground); text-wrap: pretty; }
+.kk-rg-acc > .gx-spin { color: var(--text-2); }
+/* столбец «Устройства» после события group_regrouped: изменившееся число — подложкой акцента до следующего обновления живых данных */
+.kk-eg-dev.kk-rg-upd { margin: -2px -6px; padding: 2px 6px; border-radius: var(--r-tag); background: var(--accent-soft); color: var(--foreground); }
+
+/* широкая часть (≥ 880: окно 1440 и шире): графика слева, слова справа — полоски не тянутся на всю карточку,
+   числа остаются у полосок */
+@container kkpart (min-width: 880px) {
+  .kk-rg { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
+  .kk-rg__foot { grid-column: 1 / -1; }
+}
+/* узкая часть (< 720) и телефон: кнопка — под пояснением, имя выхода короче */
+@container kkpart (max-width: 719.98px) {
+  .kk-rg-h > .ga-btn { margin-left: 0; }
+  .kk-rg__n { max-width: 112px; }
+  .kk-rg__list { grid-template-columns: minmax(0, 1fr); }
+  .kk-rg__mv { padding-bottom: 4px; }
+}
+[data-device="phone"] .kk-rg-h > .ga-btn { margin-left: 0; }
+[data-device="phone"] .kk-rg__n { max-width: 112px; }
+[data-device="phone"] .kk-rg__list { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kk-rg__mv { padding-bottom: 4px; }
+/* телефон: подтверждение — лист снизу (gx-bsheet); в листе без рамки, кнопки — пополам, главная справа */
+.gx-bsheet .kk-rg { padding: 0 8px; border: 0; background: none; animation: none; }
+.gx-bsheet .kk-rg__foot > .ga-btn { flex: 1 1 0; }
+
+/* Kaskad 3.3.7.15 (натяжка, V2): «некому» — итог обычным весом (в макете — атрибутом style); ошибка прогона на широкой
+   части — во всю ширину подтверждения, а не в левой колонке полосок */
+.kk-rg__sum.is-none { font-weight: 400; }
+.kk-rg > .gx-al { grid-column: 1 / -1; }

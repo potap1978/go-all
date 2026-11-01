@@ -1,0 +1,23 @@
+{
+ "gw_mtu.detail.low": "S4 = {s4}, MTU сервера теперь {server} — так мобильные сети не тормозят, но HTTP/3 через этот протокол перейдёт на TCP. Полное лечение — новые настройки с S4 ≤ {s4_max}.",
+ "gw_mtu.detail.narrow": "Карта {nic}, а пакету клиента с MTU {client} при S4 = {s4} нужно {need} (MTU клиента + {overhead} + S4). Выдайте новые настройки с MTU {new_client} или оставьте как есть.",
+ "gw_mtu.log.leg": "MTU ноги {iface}: {was} → {now}",
+ "gw_mtu.log.server": "MTU сервера входа {kind}: {was} → {now} (карта {nic}, бюджет {budget}, S4 = {s4})",
+ "gw_mtu.low": "{title}: S4 = {s4} — чтобы мобильные сети не тормозили, сервер уменьшил MTU до {server}; HTTP/3 через этот протокол перейдёт на TCP. Полное лечение — новые настройки с S4 ≤ {s4_max}.",
+ "gw_mtu.narrow": "{title}: карта сервера {nic} уже, чем нужно клиентам с MTU {client} при S4 = {s4} (пакету нужно {need}: MTU клиента + {overhead} + S4). Выдайте новые настройки с MTU {new_client} (перечень устройств покажу) или оставьте как есть.",
+ "gw_mtu.st.choice": "новые настройки: kaskadctl gw mtu {cmd} {kind} · оставить: kaskadctl gw mtu keep {kind}",
+ "gw_mtu.st.head": "MTU: карта {nic}{dev}, бюджет {budget}",
+ "gw_mtu.st.inbound": "вход {kind}: сервер {server}, клиент {client}",
+ "gw_mtu.st.kept_narrow": "узкая карта: оставлено как есть (клиентам с MTU {client} не уложиться)",
+ "gw_mtu.st.kept_s4": "S4 = {s4}: оставлено как есть (сервер {server}, HTTP/3 через вход — по TCP)",
+ "gw_mtu.st.leg": "нога {iface}: {mtu}",
+ "gw_mtu.st.low": "сервер ниже 1232: HTTP/3 через этот вход перейдёт на TCP",
+ "gw_mtu.st.nic_now": "карта сейчас {nic} — применится при kaskadctl gw apply",
+ "gw_mtu.st.restart_many": "последний перезапуск входов: {text}",
+ "gw_mtu.st.restart_one": "последний перезапуск входа: {text}",
+ "gw_mtu.st.waiting": "ждут новых настроек: {names}",
+ "gw_mtu.manual.kinds": "MTU вручную — только у WireGuard и AmneziaWG, у {title} его нет.",
+ "gw_mtu.manual.range": "{title}: MTU — целое число от {min} до {limit}.",
+ "gw_mtu.manual.over": "{title}: MTU не выше {limit} — иначе пакет снаружи больше {budget}, а в мобильных сетях и PPPoE на таких пакетах скорость падает. Сервер всё равно не поднимется выше {server}.",
+ "gw_mtu.manual.closed": "{title}: MTU вручную сейчас не поменять — при MTU сетевого интерфейса {nic} и S4 = {s4} пакет с MTU {min} снаружи уже больше {budget}. Сейчас MTU {cur}."
+}

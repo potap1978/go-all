@@ -1,0 +1,23 @@
+{
+ "gw_subfetch.big": "The subscription is over {kb} KB — that’s not a list of keys.",
+ "gw_subfetch.cert_bad": "Couldn’t verify the subscription server’s certificate (expired, self-signed or issued for another name) — keys not downloaded.",
+ "gw_subfetch.cert_changed": "The subscription server’s certificate changed (was {old}…, now {new}…) — keys not updated. If the server was reinstalled, delete the subscription and add it again.",
+ "gw_subfetch.cert_domain": "The certificate is issued for the domain {domain} — add the subscription by the domain or over http.",
+ "gw_subfetch.cert_other": "The subscription server’s certificate isn’t issued for this address — add the subscription by the domain in the certificate or over http.",
+ "gw_subfetch.failed": "Couldn’t download the subscription ({err}).",
+ "gw_subfetch.gone": "The subscription server answered 404: there’s no subscription at this address (revoked or reissued).",
+ "gw_subfetch.internal": "The subscription link points to an internal address ({addr}): such links aren’t downloaded — paste the subscription’s keys instead.",
+ "gw_subfetch.no_host": "The subscription link has no server address.",
+ "gw_subfetch.not_found": "Subscription server address not found ({host}).",
+ "gw_subfetch.paste.big": "The subscription is over {kb} KB — paste the keys in parts.",
+ "gw_subfetch.paste.cert": "Couldn’t verify the subscription server’s certificate ({err}) — paste the subscription’s contents instead.",
+ "gw_subfetch.paste.failed": "Couldn’t download the subscription ({err}) — paste its contents instead.",
+ "gw_subfetch.paste.status": "The subscription server answered {status} — paste the subscription’s contents instead.",
+ "gw_subfetch.redirects": "Too many redirects for the subscription link (over {n}).",
+ "gw_subfetch.refused": "The subscription server refuses connections (port closed).",
+ "gw_subfetch.scheme": "Subscriptions only by an http:// or https:// link.",
+ "gw_subfetch.status": "The subscription server answered {status}.",
+ "gw_subfetch.timeout": "The subscription server didn’t answer within {s} s.",
+ "gw_subfetch.unparsed": "Can’t read the subscription link.",
+ "gw_subfetch.userinfo": "Subscription links with a login and password in the address (user:pass@…) aren’t downloaded — paste the keys instead."
+}

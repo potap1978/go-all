@@ -1,0 +1,4 @@
+processor	: 0
+model name	: QEMU Virtual CPU version 2.5+
+flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pse36 clflush mmx fxsr sse sse2 syscall nx lm rep_good nopl cpuid pni cx16 x2apic hypervisor lahf_lm
+

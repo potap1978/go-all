@@ -1,0 +1,10 @@
+{
+ "bot_onboard.bad_chat": "Chat ID — число (у группы с минусом впереди).",
+ "bot_onboard.bad_format": "Это не похоже на токен бота: его выдаёт @BotFather, вид 123456789:AA…",
+ "bot_onboard.bad_token": "Telegram не принял токен — проверьте его у @BotFather.",
+ "bot_onboard.net": "Нет связи с Telegram через прокси бота: {error}",
+ "bot_onboard.net_no_exit": "Не достучались до Telegram — сначала добавьте выход.",
+ "bot_onboard.no_token": "Вставьте токен бота от @BotFather.",
+ "bot_onboard.telegram": "Telegram ответил ошибкой: {error}",
+ "bot_onboard.test_message": "✅ Kaskad: бот подключён в панели. Это проверочное сообщение."
+}

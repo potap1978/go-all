@@ -1,0 +1,40 @@
+{
+ "version": "2026-10-19",
+ "_doc": "The targets of the channel test of the server check (bench.channel; RESEARCH-node-score §2, tests 8 and 8b, §1.5). http: the download (GET) and the upload (POST) by the country of the node, in the order they are tried; «{bytes}» in a URL is the size of one request (at most max_req). iperf3: the public points of the Russian providers for test 8b (a node in Russia, by the button and with its own line of consent only, never by the schedule — SPEC NS-S5): tried one by one in this order until the first that answers; only the names are taken from bench.tlab.pw, never its code; abroad there is no 8b (the upload goes over HTTP). Checked 19.10 from a Mac: selectel 1GB/100MB 200, yandex ls-lR.gz 200 (38 MB), cloudflare __down 200 up to 99999999 bytes (100000000 — 403), __up 200 for 30 MB, ovh 1Gb.dat 200; the iperf3 points — not run (to the stand).",
+ "http": {
+  "down": {
+   "ru": [
+    {"id": "selectel", "url": "https://speedtest.selectel.ru/1GB"},
+    {"id": "yandex", "url": "https://mirror.yandex.ru/ubuntu/ls-lR.gz"}
+   ],
+   "abroad": [
+    {"id": "cloudflare", "url": "https://speed.cloudflare.com/__down?bytes={bytes}", "max_req": 50000000},
+    {"id": "ovh", "url": "https://proof.ovh.net/files/1Gb.dat"}
+   ]
+  },
+  "up": {
+   "ru": [],
+   "abroad": [
+    {"id": "cloudflare", "url": "https://speed.cloudflare.com/__up", "max_req": 25000000}
+   ]
+  }
+ },
+ "iperf3": {
+  "ru": [
+   {"id": "hostkey-msk", "host": "spd-rudp.hostkey.ru", "port": 5201},
+   {"id": "mts-msk", "host": "mskst.st.mtsws.net", "port": 3333},
+   {"id": "beeline-vrn", "host": "voronezh-speedtest.corbina.net", "port": 5203},
+   {"id": "beeline-kgd", "host": "speedtest-kaliningrad-01.corbina.net", "port": 5201},
+   {"id": "ertelecom-spb", "host": "st.spb.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-nn", "host": "st.nn.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-kzn", "host": "st.kzn.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-samara", "host": "st.samara.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-rostov", "host": "st.rostov.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-volgograd", "host": "st.volgograd.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-chel", "host": "st.chel.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-omsk", "host": "st.omsk.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-krsk", "host": "st.krsk.ertelecom.ru", "port": 5203},
+   {"id": "ertelecom-irkutsk", "host": "st.irkutsk.ertelecom.ru", "port": 5203}
+  ]
+ }
+}

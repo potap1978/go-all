@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="kaskad-nonce" content="{{NONCE}}">
+<meta name="kaskad-os" content="{{OS}}">
+<meta name="kaskad-state" content="{{STATE}}">
+<title>Kaskad</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="{{BASE}}/p/user.css?v={{V_CSS}}">
+<link rel="stylesheet" href="{{BASE}}/p/give.css?v={{V_GCSS}}">
+</head>
+<body>
+<div class="up-page">
+  <header class="up-header">
+    <div class="up-brand"><span class="up-mark" aria-hidden="true"></span><span class="up-brand__t" data-t="brand"></span></div>
+    <nav class="up-lang" id="up-lang"><a class="up-lang__b" href="?lang=ru" hreflang="ru" lang="ru">RU</a><a class="up-lang__b" href="?lang=en" hreflang="en" lang="en">EN</a></nav>
+  </header>
+  <main id="up-main">
+    <section class="up-card up-gate" id="up-gate">
+      <div class="up-phead">
+        <span class="up-ava" id="up-ava" aria-hidden="true"></span>
+        <div class="up-phead__tx"><h1 class="up-phead__t" data-t="title"></h1><p class="up-phead__n"><span class="up-vh" data-t="for_name"></span> <b id="up-name">{{NAME}}</b></p></div>
+      </div>
+      <p class="up-lead" data-t="lead"></p>
+      <p class="up-secret" data-t="secret"></p>
+      <p class="up-hint" data-t="inapp"></p>
+      <button type="button" class="up-btn up-btn--primary up-btn--lg" id="up-reveal" data-t="reveal"></button>
+      <p class="up-status" id="up-status" role="status" aria-live="polite"></p>
+    </section>
+    <div id="up-out" class="up-out" tabindex="-1" hidden></div>
+  </main>
+  <noscript><p class="up-card up-note"><span lang="en">JavaScript is required to show the settings.</span><span class="kk-ns-sep" aria-hidden="true"> · </span><span lang="ru">Для показа настроек нужен включённый JavaScript.</span></p></noscript>
+</div>
+<script src="{{BASE}}/p/user-i18n-{{LANG}}.js?v={{V_I18N}}"></script>
+<script src="{{BASE}}/p/qr.js?v={{V_QR}}"></script>
+<script src="{{BASE}}/p/qr-slides.js?v={{V_QRS}}"></script>
+<script src="{{BASE}}/p/icons.js?v={{V_ICONS}}"></script>
+<script src="{{BASE}}/p/give-i18n-{{LANG}}.js?v={{V_GI18N}}"></script>
+<script src="{{BASE}}/p/give.js?v={{V_GIVE}}"></script>
+<script src="{{BASE}}/p/user.js?v={{V_JS}}"></script>
+</body>
+</html>

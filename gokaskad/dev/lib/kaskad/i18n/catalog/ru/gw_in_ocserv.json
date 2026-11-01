@@ -1,0 +1,19 @@
+{
+ "gw_in_ocserv.log.skipped": "пропущены устройства с неподходящим или повторным логином: {devices}",
+ "gw_in_ocserv.err.on_apply": "OpenConnect: сертификат и пароли готовятся только при kaskadctl gw apply.",
+ "gw_in_ocserv.made.hash": "хэш пароля {device}",
+ "gw_in_ocserv.unexpected": "неожиданный ответ",
+ "gw_in_ocserv.err.no_cert": "OpenConnect: нет сертификата сервера, сначала kaskadctl gw apply.",
+ "gw_in_ocserv.log.removed": "удалён (пакеты и пароли остаются)",
+ "gw_in_ocserv.log.applied": "применено: {action}; логинов {users}; файлы: {files}{created}",
+ "gw_in_ocserv.err.no_password": "Пароль устройства {device} для OpenConnect ещё не готов: kaskadctl gw apply.",
+ "gw_in_ocserv.le_note": "Сертификат сервера — Let's Encrypt для {domain}: клиент проверит его сам, отпечаток сверять не нужно.",
+ "gw_in_ocserv.rec.guide": "OpenConnect — как подключиться",
+ "gw_in_ocserv.gui_le": "OpenConnect GUI (Windows, macOS): «New profile» → сервер {server} → «Connect».",
+ "gw_in_ocserv.cisco_le": "Cisco Secure Client (iOS, Android, Windows, macOS): добавьте подключение {server} и подключитесь — сертификат доверенный, настройку «Block connections to untrusted servers» трогать не нужно.",
+ "gw_in_ocserv.linux_note": "Пароль openconnect спросит сам (пакет openconnect).",
+ "gw_in_ocserv.label.fingerprint": "Отпечаток сертификата",
+ "gw_in_ocserv.self_signed": "Сертификат узла самоподписанный: сверьте отпечаток при первом подключении.",
+ "gw_in_ocserv.gui_self": "OpenConnect GUI (Windows, macOS): «New profile» → сервер {server} → «Connect»; на вопросе о сертификате сверьте отпечаток {pin} и примите его.",
+ "gw_in_ocserv.cisco_self": "Cisco Secure Client (iOS, Android, Windows, macOS): в настройках выключите «Block connections to untrusted servers», добавьте подключение {server}, на вопросе о сертификате — «Connect Anyway»."
+}

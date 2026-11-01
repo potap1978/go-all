@@ -1,0 +1,35 @@
+Package: fio
+Version: 1
+Installed-Size: 2421
+Maintainer: x
+
+Package: libaio1
+Version: 1
+Installed-Size: 50
+Maintainer: x
+
+Package: libluajit-5.1-2
+Version: 1
+Installed-Size: 610
+Maintainer: x
+
+Package: libluajit-5.1-common
+Version: 1
+Installed-Size: 120
+Maintainer: x
+
+Package: libnuma1
+Version: 1
+Installed-Size: 70
+Maintainer: x
+
+Package: libpmem1
+Version: 1
+Installed-Size: 360
+Maintainer: x
+
+Package: sysbench
+Version: 1
+Installed-Size: 380
+Maintainer: x
+

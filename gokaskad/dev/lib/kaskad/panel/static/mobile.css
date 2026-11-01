@@ -1,0 +1,275 @@
+/* Kaskad 3.3.6 — панель на телефоне как самостоятельный интерфейс (макеты Claude Design «Kaskad Mobile», М1–М15 и П1;
+   задание k3/design/stage1-ui/PROMPT-mobile.md). Те же токены и шрифты (DS v2), меняются раскладка и поведение.
+   Телефон — <html data-device="phone"> (порог PHONE_MQ в app.js); планшет 720–1099 — меню «значки», у «Людей» список и
+   деталь рядом (kk-split); 1100 и шире — как было.
+   Компоненты (kit.js): MobileList (gx-mlist / gx-mrow), StatusWord (gx-mst), Avatar (kk-av--*), MobileSection (gx-msec),
+   MobileHero (gx-mhero), MobileNav (gx-mnav), KpiTile (kk-mkpi), EventRow (gx-ev), BottomSheet (gx-bsheet), MoreLine
+   (gx-more-line). Оболочка (app.js): шапка kk-mhead со строкой состояния kk-srv, страница «Ещё» (kk-more).
+   Без style= и <style> (CSP), без литералов цветов: только токены. */
+
+[data-hero] { --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px); --mrow: 60px; --mrow-nav: 52px; }
+
+/* ── Шапка телефона: название раздела, точка состояния и адрес сервера одной строкой, одна главная кнопка ─────── */
+.kk-mhead { flex: none; display: grid; gap: 0; padding: calc(var(--safe-top) + 4px) var(--page-p) 10px; background: var(--background); }
+.kk-mhead__row { display: flex; align-items: center; gap: 12px; min-height: 44px; min-width: 0; }
+.kk-mhead__t { flex: 1; min-width: 0; margin: 0; font: 600 1.625rem/2rem var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-mhead__row > .ga-btn { flex: none; max-width: 52%; }
+/* Т3 №17: «Aa» в шапке раздела — лист «Размер текста» с тремя «A» */
+.kk-mhead__row > .kk-mhead__fs { width: 44px; height: 44px; padding: 0; justify-content: center; font: 600 .9375rem/1 var(--font-head); }
+.kk-fsheet__seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.kk-fsheet__seg > button { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 64px; padding: 8px; border: 0; border-radius: var(--r-field); background: var(--tile-bg); color: var(--foreground); font: 600 1.125rem/1 var(--font-head); cursor: pointer; }
+.kk-fsheet__seg > button > span { font: 400 .78125rem/1rem var(--font); color: var(--text-2); }
+.kk-fsheet__seg > button[aria-checked="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-text); }
+.kk-fsheet__seg > button:nth-child(1) { font-size: .9375rem; }
+.kk-fsheet__seg > button:nth-child(3) { font-size: 1.375rem; }
+.kk-fsheet__seg > button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-mhead__row > .ga-btn > span:not(.gi) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* T-it1b Н-3 (макет t1 «Пользователи · телефон 390»): уже 600 главная кнопка раздела — круглая «+» без подписи
+   (действие — в aria-label и подсказке): заголовок раздела целиком рядом с «Aa» и поиском на всех трёх «A A A» */
+@media (max-width: 599.98px) {
+  .kk-mhead__row > .kk-mhead__act { width: 44px; min-width: 44px; height: 44px; padding: 0; gap: 0; justify-content: center; border-radius: 50%; }
+  .kk-mhead__row > .kk-mhead__act { font-size: 0; }                /* подпись — текстовый узел (U.btn): прячем размером; значок — в px */
+}
+/* 360 (частая ширина Android): «Aa», «+» и поиск — 132 px; заголовок раздела чуть мельче и зазоры уже, чтобы «Пользователи»
+   помещались целиком и на «крупнее» (детектор headtitle) */
+@media (max-width: 399.98px) {
+  .kk-mhead__row { gap: 8px; }
+  .kk-mhead__t { font-size: 1.3125rem; line-height: 1.75rem; }
+}
+.kk-mhead .gx-mnav { margin: 0 calc(var(--page-p) * -1 + 6px); padding: 0; }
+.kk-srv { display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 20px; font: 400 .78125rem/1.125rem var(--mono); color: var(--text-2); white-space: nowrap; }
+.kk-srv::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--success); }
+.kk-srv--warn::before { background: var(--warning); }
+.kk-srv--bad::before { background: var(--danger); }
+.kk-srv--wait::before { background: var(--text-3); }
+.kk-srv__h { min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
+.kk-srv__s { flex: 0 1 auto; min-width: 0; font-family: var(--font); color: var(--text-3); overflow: hidden; text-overflow: ellipsis; }
+.kk-srv__s--bad { color: var(--danger-text); }
+.kk-srv__s--warn { color: var(--warning-text); }
+
+/* ── Тело раздела на телефоне: прокрутка только по вертикали, разделы — с промежутком 20 px ───────────────── */
+[data-device="phone"] .gx-main { padding: 4px var(--page-p) calc(var(--sp-6) + 8px); overflow-x: hidden; }
+[data-device="phone"] .gx-page.kk-mpage { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); align-content: start; }
+[data-device="phone"] .gx-tabs { padding-bottom: max(8px, var(--safe-bottom)); }
+.gx-tabs__pill { position: relative; }
+.gx-tabs__pill > .gx-badge { position: absolute; top: -3px; left: 34px; min-width: 18px; height: 18px; padding: 0 5px; font-size: .6875rem; line-height: 1.125rem; }
+
+/* ── Раздел страницы: подпись и ссылка «Все» ─────────────────────────────────────────────────────────── */
+.gx-msec { display: grid; gap: 8px; min-width: 0; }
+.gx-msec__h { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px; min-height: 24px; }
+.gx-msec__t { margin: 0; min-width: 0; font: 600 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-msec__h > .ga-btn.gx-link { flex: none; }
+
+/* ── MobileList: значок · имя одной строкой · одна строка подробностей · состояние · стрелка ───────────────── */
+.gx-mlist { display: grid; min-width: 0; background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-tile); overflow: hidden; }
+.gx-mrow { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; min-height: var(--mrow); padding: 8px 12px 8px 14px; border: 0; border-radius: 0; background: none; color: var(--foreground); font: inherit; text-align: left; text-decoration: none; cursor: pointer; }
+[data-hero][data-device="phone"] .gx-mrow { line-height: normal; }
+.gx-mrow:active, .gx-mrow:hover { background: var(--surface-hover); }
+.gx-mrow--static, .gx-mrow--static:hover, .gx-mrow--static:active { cursor: default; background: none; }
+.gx-mrow + .gx-mrow::before { content: ""; position: absolute; top: 0; left: 66px; right: 0; height: 1px; background: var(--separator); }
+.gx-mrow--nav { min-height: var(--mrow-nav); }
+.gx-mrow--nav + .gx-mrow::before, .gx-mrow + .gx-mrow--nav::before { left: 50px; }
+.gx-mrow--kv { min-height: 48px; cursor: default; }
+.gx-mrow--kv:hover, .gx-mrow--kv:active { background: none; }
+.gx-mrow--kv + .gx-mrow::before, .gx-mrow + .gx-mrow--kv::before { left: 14px; }
+.gx-mrow.is-cur { background: var(--accent-soft); }
+.gx-mrow.is-cur .gx-mrow__chev { color: var(--accent-text); }
+.gx-mrow.is-flash { background: var(--accent-soft); }
+.gx-mrow__ic { width: 40px; height: 40px; flex: none; border-radius: var(--r-field); display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); }
+.gx-mrow__ic--ok { background: var(--success-soft); color: var(--success-text); }
+.gx-mrow__ic--warn { background: var(--warning-soft); color: var(--warning-text); }
+.gx-mrow__ic--bad { background: var(--danger-soft); color: var(--danger-text); }
+.gx-mrow__ic--accent { background: var(--accent-soft); color: var(--accent-text); }
+.gx-mrow__gl { width: 24px; flex: none; display: grid; place-items: center; color: var(--text-2); }
+.gx-mrow__tag { width: 40px; height: 40px; flex: none; border-radius: var(--r-field); display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); font: 500 .71875rem/1 var(--mono); }
+.gx-mrow__b { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; }
+/* UI-1 F12: длинное имя — до двух строк, дальше многоточие (полное — в подсказке title): выходы с общим началом различимы */
+.gx-mrow__t { min-width: 0; font: 500 var(--fs)/1.25rem var(--font); white-space: normal; overflow: hidden; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.gx-mrow__t--mono { font: 400 .875rem/1.25rem var(--mono); }
+.gx-mrow__s { min-width: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-mrow__s--bad { color: var(--danger-text); }
+/* UI-3 круг 2 (З3): «Можно установить» — описание до двух строк (целиком — в окне установки по нажатию), недоступные — причина целиком */
+.kk-mrow2 .gx-mrow__s { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.kk-mrow-full .gx-mrow__s { white-space: normal; overflow: visible; }
+.kk-mrow2.kk-tap { cursor: pointer; }
+.gx-mrow__s--warn { color: var(--warning-text); }
+.gx-mrow__end { flex: none; display: flex; align-items: center; gap: 4px; max-width: 46%; min-width: 0; color: var(--text-2); font-size: var(--fs-sm); line-height: 1.125rem; }
+.gx-mrow__end > .ga-btn { flex: none; }
+.gx-mrow__val { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-mrow__v { font: 400 .84375rem/1.25rem var(--mono); color: var(--foreground); white-space: nowrap; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; }
+/* адрес полем, когда буфер отказал («Поделиться», REV-336-mobile С-2): выделить и скопировать вручную */
+.gx-mrow__url { display: block; width: 100%; min-width: 0; margin: 2px 0 0; padding: 2px 6px; border: 1px solid var(--border); border-radius: var(--r-field); background: var(--surface-2); color: var(--foreground); font: 400 .8125rem/1.25rem var(--mono); }
+.gx-mrow__chev { flex: none; color: var(--text-3); margin-right: -4px; }
+.gx-mrow > .gx-track { margin-left: 4px; }
+.gx-mlist > .gx-sw { padding-left: 14px; padding-right: 12px; }
+/* высота строк по макету (60 / 52 / 48) весомее общего «касание ≥ 44 px» у кнопок телефона (components.css §11,
+   REV-336-mobile З-3); кольцо фокуса — внутрь строки: у .gx-mlist overflow: hidden срезал его (З-8) */
+[data-hero][data-device="phone"] .gx-mrow { min-height: var(--mrow); }
+[data-hero][data-device="phone"] .gx-mrow--nav { min-height: var(--mrow-nav); }
+[data-hero][data-device="phone"] .gx-mrow--kv { min-height: 48px; }
+[data-hero] .gx-mrow:focus-visible { outline-offset: -2px; }
+
+/* ── StatusWord: состояние словом с точкой, без подложки ───────────────────────────────────────────────── */
+.gx-mst { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); white-space: nowrap; }
+.gx-mst > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gx-mst::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: currentColor; }
+.gx-mst--ok { color: var(--success-text); }
+.gx-mst--warn { color: var(--warning-text); }
+.gx-mst--bad { color: var(--danger-text); }
+.gx-mst--off::before { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.gx-mst--none::before { display: none; }
+
+/* Аватар (avatar() в app.js красит фон и букву через CSSOM по имени): размеры для строк и героя */
+.kk-av--40 { width: 40px; height: 40px; flex: none; font-size: .875rem; }
+.kk-av--56 { width: 56px; height: 56px; flex: none; font-size: 1.125rem; }
+.kk-av.is-off { filter: saturate(.2); opacity: .8; }
+
+/* ── KpiTile: плитка показателя 2 в ряд, нажатие ведёт в раздел ────────────────────────────────────────── */
+.kk-mkpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.kk-mkpi { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 12px 14px; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+[data-hero][data-device="phone"] .kk-mkpi { line-height: normal; }
+.kk-mkpi__k { font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kk-mkpi__v { min-width: 0; font: 600 1.25rem/1.625rem var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-mkpi__u { margin-left: 4px; font: 400 var(--fs-sm) var(--font); color: var(--text-2); }
+.kk-mkpi__s { min-width: 0; font-size: .78125rem; line-height: 1rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-mkpi__s--bad { color: var(--danger-text); }
+.kk-mkpi__s--warn { color: var(--warning-text); }
+.kk-mkpi__s--ok { color: var(--success-text); }
+.kk-mkpi__s--mono { font-family: var(--mono); }
+/* UI-2 круг 2 (REV-ui2 З3): адрес «Шлюза» на телефоне — до двух строк, как на компьютере (одна строка с «…» прятала длинный
+   домен, подсказки на телефоне нет); нажатие на плитку — Настройки → Шлюз, где адрес целиком */
+.kk-mkpi__s--mono { white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+
+/* ── EventRow ─────────────────────────────────────────────────────────────────────────────────────────── */
+.gx-ev { position: relative; display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; min-width: 0; }
+.gx-ev + .gx-ev::before { content: ""; position: absolute; top: 0; left: 14px; right: 0; height: 1px; background: var(--separator); }
+.gx-ev__t { flex: none; min-width: 42px; font: 400 .78125rem/1.25rem var(--mono); color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-ev__d { width: 8px; height: 8px; flex: none; margin-top: 6px; border-radius: 50%; background: var(--text-3); }
+.gx-ev__d--ok { background: var(--success); }
+.gx-ev__d--warn { background: var(--warning); }
+.gx-ev__d--bad { background: var(--danger); }
+.gx-ev__b { flex: 1; min-width: 0; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); overflow-wrap: anywhere; text-wrap: pretty; }
+
+/* ── MobilePage: деталь во весь экран — «‹ Назад» · «⋯»; герой — имя, состояние, две главные кнопки ────────── */
+.gx-mnav { display: flex; align-items: center; gap: 4px; min-height: 44px; min-width: 0; }
+.gx-mnav__back { display: inline-flex; align-items: center; gap: 2px; min-width: 0; min-height: 44px; padding: 0 10px 0 2px; border: 0; background: none; color: var(--accent-text); font: 500 var(--fs)/1.25rem var(--font); cursor: pointer; }
+.gx-mnav__back > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-mnav__t { flex: 1; min-width: 0; text-align: center; font: 600 var(--fs)/1.25rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-mnav__sp { flex: 1; }
+.gx-mnav__end { flex: none; display: flex; justify-content: flex-end; min-width: 44px; }
+.gx-mhero { display: grid; gap: 16px; min-width: 0; }
+.gx-mhero__top { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.gx-mhero__tt { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
+.gx-mhero__n { margin: 0; font: 600 1.5rem/1.875rem var(--font-head); overflow-wrap: anywhere; }
+.gx-mhero__s { display: flex; align-items: center; gap: 4px 8px; flex-wrap: wrap; min-width: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.gx-mhero__s > .gx-mono { font-size: .78125rem; overflow-wrap: anywhere; }
+.gx-mhero__acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.gx-mhero__acts > .ga-btn { justify-content: center; }
+.gx-mhero__acts > .ga-btn:only-child { grid-column: 1 / -1; }
+.gx-mhero__ic { width: 56px; height: 56px; flex: none; border-radius: var(--r-tile); display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); }
+.gx-mhero__ic--ok { background: var(--success-soft); color: var(--success-text); }
+.gx-mhero__ic--bad { background: var(--danger-soft); color: var(--danger-text); }
+.gx-mhero__ic--warn { background: var(--warning-soft); color: var(--warning-text); }
+.gx-mhero__ic--off { background: var(--surface-2); color: var(--text-2); }
+.gx-mhero__ic--accent { background: var(--accent-soft); color: var(--accent-text); }
+/* Деталь: тело общего компонента (ProtocolCard, плитка выхода, карточка настроек) без его заголовка — его роль у героя */
+.kk-mdet { display: grid; gap: var(--sp-5); min-width: 0; }
+.kk-mdet .ux-pc__head, .kk-mdet .gx-tc__head, .kk-mdet .gx-pcard__head { display: none; }
+.kk-mdet .ux-pc, .kk-mdet .gx-tc { min-height: 0; }
+.kk-mdet .gx-cards { grid-template-columns: minmax(0, 1fr); }
+
+/* ── BottomSheet: меню «⋯», выбор и подтверждения на телефоне — лист снизу ─────────────────────────────────── */
+.gx-bsheet-bd { position: fixed; inset: 0; z-index: 40; background: var(--backdrop); animation: hero-fade .15s; }
+.gx-bsheet { position: fixed; z-index: 41; left: 0; right: 0; bottom: 0; max-height: calc(100% - var(--safe-top) - 24px); display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: 4px; padding: 8px 0 calc(var(--safe-bottom) + 12px); background: var(--surface); border-radius: var(--r-dialog) var(--r-dialog) 0 0; box-shadow: var(--overlay-shadow); --tile-bg: var(--surface-2); --card-bg: var(--surface-2); --card-bd: transparent; --card-sh: none; animation: hero-in-up .26s var(--ease); }
+.gx-bsheet__grab { justify-self: center; width: 36px; height: 5px; margin-bottom: 4px; border-radius: 3px; background: var(--surface-3); }
+/* смахивание вниз за захват и шапку — жест листа, не прокрутка страницы (REV-336-mobile З-1) */
+.gx-bsheet__grab, .gx-bsheet__h { touch-action: none; }
+.gx-bsheet__h { display: flex; align-items: center; gap: 12px; padding: 4px 12px 8px 20px; min-width: 0; }
+.gx-bsheet__tt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.gx-bsheet__t { margin: 0; font: 600 1.1875rem/1.5rem var(--font-head); overflow-wrap: anywhere; }
+.gx-bsheet__s { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); overflow-wrap: anywhere; }
+/* строки сетки — по содержимому: на низком экране (телефон боком, 360 px) тело листа прокручивается, а не сжимает
+   списки (у .gx-mlist overflow: hidden — нижние пункты срезались без прокрутки, REV-336-mobile-2 З-10) */
+.gx-bsheet__b { min-height: 0; overflow: auto; display: grid; grid-auto-rows: max-content; gap: 12px; align-content: start; padding: 0 12px; }
+/* пока открыт слой, панель под ним inert: видные над формой во весь экран вкладки — притушены, чтобы было видно,
+   что они не нажимаются (REV-336-mobile-2 З-11) */
+.gx-app[inert] .gx-tabs { opacity: var(--disabled-opacity); }
+.gx-bsheet__note { padding: 0 8px; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: pretty; }
+.gx-bsheet__txt { padding: 0 8px; font-size: var(--fs); line-height: 1.375rem; color: var(--text-2); overflow-wrap: anywhere; white-space: pre-line; }
+.gx-bsheet .gx-mrow--danger, .gx-bsheet .gx-mrow--danger .gx-mrow__gl { color: var(--danger-text); }
+.gx-bsheet .gx-mrow[disabled] { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.gx-bsheet .gx-mrow__gl > .gx-track { margin: 0; }
+
+/* ── «Ещё»: разделы группами, версия внизу ───────────────────────────────────────────────────────────────── */
+.kk-more__g { display: grid; gap: 8px; min-width: 0; }
+.kk-more__l { margin: 0; padding: 0 4px; font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-3); }
+.kk-more__foot { display: flex; align-items: center; gap: 12px; padding: 4px 4px 0; min-width: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-more__foot > .gi { flex: none; color: var(--text-3); }
+.kk-more__foot > span { flex: 1; min-width: 0; display: grid; }
+.kk-more__foot b { font-weight: 500; color: var(--foreground); overflow-wrap: anywhere; }
+.kk-more__foot > .ga-btn { flex: none; }
+
+/* Одна строка пояснения и «Подробнее» (полный текст — в листе снизу) */
+.gx-more-line { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 0 4px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.gx-more-line > span { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-more-line > .ga-btn.gx-link { flex: none; }
+
+/* Поиск в списке телефона */
+.kk-msearch { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border-radius: var(--r-field); background: var(--surface); border: 1px solid var(--border); color: var(--text-2); }
+.kk-msearch > input { flex: 1; min-width: 0; height: 42px; border: 0; background: none; color: var(--foreground); font: 400 max(1rem, 16px) var(--font); outline: none; }
+.kk-msearch:focus-within { border-color: var(--accent); }
+[data-device="phone"] .kk-mpage .gx-seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+[data-device="phone"] .kk-mpage .gx-seg > button { min-width: 0; }
+
+/* ── Окна на телефоне: вопрос — листом снизу; форма (md/lg) — во весь экран, полоса «Отменить · Сохранить» внизу ─ */
+[data-device="phone"] .gx-dlg-bd { place-items: end stretch; padding: 0; }
+[data-device="phone"] .gx-dlg { width: 100%; max-height: calc(100% - var(--safe-top) - 24px); border-radius: var(--r-dialog) var(--r-dialog) 0 0; animation: hero-in-up .26s var(--ease); }
+[data-device="phone"] .gx-dlg__foot { padding-bottom: calc(var(--safe-bottom) + 12px); }
+[data-device="phone"] .gx-dlg--stack .gx-dlg__foot { padding-bottom: calc(var(--safe-bottom) + 16px); }
+[data-device="phone"] .gx-dlg__foot > .ga-btn { flex: 1 1 0; justify-content: center; min-width: max-content; white-space: nowrap; }   /* UI-1 F11: подпись кнопки целиком */
+[data-device="phone"] .gx-dlg-bd--sheet { padding: 0; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg { height: 100%; max-height: 100%; border-radius: 0; }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-sheet__head { padding-top: calc(var(--safe-top) + var(--sp-4)); }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg__foot { background: var(--surface-raised); }
+/* форма во весь экран — над нижними вкладками (М10, REV-336-mobile З-7): полоса «Отменить · главное» над ними, вкладки
+   видны (под окном они неактивны, как вся панель); край экрана с полосой «домой» — у вкладок */
+[data-device="phone"] .gx-dlg-bd--sheet { bottom: var(--tabs-h, 0px); }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg__foot { padding-bottom: calc(max(var(--safe-bottom) - var(--tabs-h, 0px), 0px) + 12px); }
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg--stack .gx-dlg__foot { padding-bottom: calc(max(var(--safe-bottom) - var(--tabs-h, 0px), 0px) + 16px); }
+[data-device="phone"] .gx-sheet { inset: calc(var(--safe-top) + 24px) 0 0 0; }
+
+/* ── Вход в панель на телефоне ───────────────────────────────────────────────────────────────────────── */
+.kk-login__brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.kk-login__brand > span { display: grid; gap: 2px; min-width: 0; }
+.kk-login__brand b { font: 600 var(--fs)/1.25rem var(--font-head); }
+.kk-login__brand .kk-srv { font-size: .78125rem; }
+[data-device="phone"] .kk-login { align-items: start; padding: calc(var(--safe-top) + 48px) 24px calc(var(--safe-bottom) + 24px); }
+[data-device="phone"] .kk-login__box { width: 100%; max-width: none; padding: 0; background: none; border: 0; box-shadow: none; gap: var(--sp-5); }
+[data-device="phone"] .kk-login__box > .gx-logo { display: none; }
+
+/* ── Планшет 720–1099: у «Людей» список и деталь рядом (макет П1) ───────────────────────────────────────── */
+.kk-split { display: grid; grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); gap: 16px; align-items: start; min-width: 0; }
+.kk-split__list { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.kk-split__detail { position: sticky; top: 0; display: grid; gap: 20px; align-content: start; min-width: 0; padding: 20px 16px; border-radius: var(--r-card); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); }
+.kk-split__detail .gx-mlist { background: var(--tile-bg); border-color: transparent; box-shadow: none; }
+.kk-split__detail .gx-mhero__n { font-size: 1.375rem; line-height: 1.75rem; }
+.kk-split__detail .gx-mhero__acts { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); }
+.kk-split .gx-mrow { min-height: 60px; }
+
+/* Пустые блоки раздела (плашка, которой сейчас нет) не занимают промежуток */
+[data-device="phone"] .kk-mpage > :empty { display: none; }
+
+/* Меню «⋯» общих компонентов ux.js (ProtocolCard и др.) на телефоне — тоже лист снизу: ux.js на телефоне снимает свои
+   координаты (placeMenu), место задаёт этот файл */
+[data-device="phone"] .ux-menu, [data-device="phone"] .ux-menu--up, [data-device="phone"] .ux-menu--r { position: fixed; z-index: 41; top: auto; left: 0; right: 0; bottom: 0; width: auto; max-width: none; padding: 12px 12px calc(var(--safe-bottom) + 16px); border-radius: var(--r-dialog) var(--r-dialog) 0 0; animation: hero-in-up .2s var(--ease); }
+[data-device="phone"] .ux-menu .ux-mi { min-height: 52px; font-size: var(--fs); }
+/* В форме во весь экран полоса внизу — «Отменить · главное»; остальные кнопки («Загрузить файл») — строкой над ней */
+[data-device="phone"] .gx-dlg-bd--sheet .gx-dlg__foot > .ga-btn:not(:first-child):not(:last-child) { order: -1; flex-basis: 100%; }
+.gx-mchips { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+
+/* Вход: на телефоне — строка «значок · Kaskad · точка и адрес сервера» вместо крупного значка (макет М15) */
+.kk-login__brand { display: none; }
+[data-device="phone"] .kk-login__brand { display: flex; }
+
+/* Знакомство с панелью на телефоне: запас прокрутки под карточкой тура (короткий список встаёт над ней) */
+[data-device="phone"].kk-touring .gx-main { padding-bottom: 60vh; }

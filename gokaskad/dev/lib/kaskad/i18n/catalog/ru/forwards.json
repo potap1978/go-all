@@ -1,0 +1,6 @@
+{
+ "forwards.exists": "Проброс {proto}/{port} уже есть (→ {to}:{to_port}). Заменить — сначала удалить его.",
+ "forwards.legacy_engine": "Пробросы ведёт старый движок (iptables); эта команда — для движка nftables.",
+ "forwards.missing": "Проброса {proto} :{port} нет.",
+ "forwards.rename_dup": "Имя «{name}» уже есть у проброса {ids}. Сохранить всё равно?"
+}

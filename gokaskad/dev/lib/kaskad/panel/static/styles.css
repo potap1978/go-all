@@ -1,0 +1,1406 @@
+/* Kaskad — панель 3.3. Своё у панели: оболочка (меню, рамка, шапки, вкладки телефона), шторка «Вид», карточки
+   протоколов и блоки Kaskad (kk-*). Токены — tokens.css, общие компоненты серии go (кнопки, статусы, сообщения,
+   таблица «подпись — значение», карточка, поля, окна) — components.css; оба подключаются раньше этого файла.
+   Описание дизайн-системы — docs/k3/DESIGN-SYSTEM.md. Основа — дизайн-система goAmnezia pro и HeroUI v3 (Apache-2.0):
+   имена ga-* и gx-* общие для серии «go». Внешних шрифтов, картинок и CDN нет: шрифты — свои файлы fonts/*.woff2.
+   CSP панели — style-src 'self': стили пишутся только в файлах и через CSSOM из app.js (атрибута style в разметке нет).
+
+   Вид выбирает сам человек в шторке «Вид»: data-атрибуты на <html data-hero> (theme, tint, density, btn, cards, fs,
+   vibrant, motion, device, nav) и переменные --accent, --accent-foreground, --accent-text, --radius (boot.js, app.js).
+   Выбор хранится на сервере (GET/PUT /api/appearance), копия — в localStorage только для первого кадра (boot.js). */
+
+/* ════════════════════════════════════════════════════════════════════════════
+   1. Оболочка: боковое меню, рамка, шапки, нижние вкладки, «Ещё»
+   ════════════════════════════════════════════════════════════════════════════ */
+body { background: var(--background); color: var(--foreground); font: 400 var(--fs)/1.5 var(--font); -webkit-font-smoothing: antialiased; overflow: hidden; }
+button, input, select, textarea { font: inherit; }
+a { color: var(--accent-text); }
+a:hover { opacity: .8; }
+[hidden] { display: none !important; }
+.gx-app { position: relative; display: flex; height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; background: var(--background); color: var(--foreground); }
+
+.gx-logo { width: 40px; height: 40px; flex: none; border-radius: 11px; background: var(--brand-grad); color: #fff; display: grid; place-items: center; font: 800 .75rem/1 var(--font); }
+.gx-logo--sm { width: 40px; height: 40px; font-size: .6875rem; }
+
+/* Боковое меню: 248 px, пункты 44 px, текущий — на поверхности, жирнее */
+.gx-side { width: var(--side-w); flex: none; display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-3); background: var(--background); overflow: auto; }
+.gx-brand { display: flex; align-items: center; gap: var(--sp-3); flex: none; min-height: var(--head-h); padding: 0 var(--sp-2); min-width: 0; }
+.gx-brand__t { min-width: 0; }
+.gx-brand__name { font: 600 .9375rem/1.2 var(--font-head); }
+.gx-brand__host { font: 400 .75rem/1rem var(--mono); color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gx-nav { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-1); }   /* строка меню не шире колонки (3.3.7.10) */
+.gx-nav__cap { padding: 0 10px 6px; font: 500 .75rem var(--font); color: var(--text-2); }
+.gx-nav__item { display: flex; align-items: center; gap: var(--sp-3); height: 44px; padding: 0 var(--sp-3); border: 0; border-radius: var(--r-field); background: transparent; color: var(--text-2); font: 400 var(--fs)/1 var(--font); text-align: left; cursor: pointer; transition: background var(--dur), color var(--dur); }
+.gx-nav__item:hover { background: color-mix(in oklab, var(--surface) 55%, transparent); color: var(--foreground); }
+.gx-nav__item[aria-current="page"] { background: var(--surface); color: var(--foreground); font-weight: 600; box-shadow: var(--surface-shadow); }
+/* длинная подпись («Пользователи и устройства») — в две строки, а не шире меню (3.3.7.10, R-q6-screens) */
+.gx-nav__label { flex: 1; min-width: 0; overflow: hidden; line-height: 1.2; overflow-wrap: break-word; }
+.gx-side__foot { margin-top: auto; display: grid; gap: var(--sp-2); }
+.gx-sess { display: grid; gap: 6px; padding: var(--sp-3); border-radius: var(--r-tile); background: var(--surface); box-shadow: var(--surface-shadow); }
+.gx-sess__top { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font: 500 var(--fs-sm) var(--font); min-width: 0; }
+.gx-sess__top > .gi { color: var(--text-2); }
+.gx-sess.is-tunnel .gx-sess__top > .gi { color: var(--accent-text); }
+.gx-sess__title { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.gx-sess__out { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 8px; border: 0; border-radius: var(--r-btn); background: transparent; color: var(--text-2); font: 500 .78125rem var(--font); cursor: pointer; white-space: nowrap; flex: none; }
+.gx-sess__out:hover { background: var(--surface-2); color: var(--foreground); }
+.gx-sess__who { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.gx-sess__sys { display: grid; gap: 2px; padding-top: 8px; margin-top: 2px; border-top: 1px solid var(--separator); font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.gx-sess__sys > span { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Меню «Значки» (768–1099 и по выбору) */
+.gx-side--icons { width: 72px; align-items: center; gap: 18px; padding: var(--sp-3) 0; }
+.gx-side--icons > .gx-logo { margin: calc((var(--head-h) - 40px) / 2) 0; }
+.gx-side--icons .gx-nav { gap: var(--sp-1); }
+.gx-side--icons .gx-nav__item { position: relative; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; }
+.gx-side--icons .gx-nav__dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--text-2); box-shadow: 0 0 0 2px var(--background); }
+.gx-side--icons .gx-nav__dot--warning { background: var(--warning); }
+.gx-side--icons .gx-nav__dot--danger { background: var(--danger); }
+.gx-side--icons .gx-nav__dot--accent { background: var(--accent); }
+.gx-side--icons .gx-side__foot { display: grid; gap: var(--sp-1); justify-items: center; }
+.gx-side__ic { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: var(--r-field); background: transparent; color: var(--foreground); cursor: pointer; }
+.gx-side__ic:hover { background: color-mix(in oklab, var(--surface) 55%, transparent); }
+span.gx-side__ic { cursor: default; color: var(--text-2); }
+span.gx-side__ic.is-tunnel { color: var(--accent-text); }
+span.gx-side__ic:hover { background: transparent; }
+
+/* Рамка контента: фон между фоном и поверхностью, радиус окна, поля 12 */
+.gx-mainwrap { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%; }
+.gx-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.gx-app.has-side .gx-mainwrap { padding: var(--sp-3) var(--sp-3) var(--sp-3) 0; }
+.gx-app.has-side .gx-frame { border-radius: var(--r-dialog); background: var(--frame-bg); }
+
+/* Шапка компьютера: адрес узла моноширинным › раздел, заголовок Rubik 26 */
+/* UI-3 (владелец 20.10): шапка — одна полоса высотой --head-h; логотип с именем узла (боковое меню, его верх — те же 12 px,
+   что поле рамки), заголовок и кнопки — по одной оси (детектор HEADAXIS: центры ±2 px) */
+.gx-head { display: flex; align-items: center; gap: var(--sp-3); flex: none; height: var(--head-h); box-sizing: border-box; padding: 0 var(--page-p); margin-bottom: var(--sp-2); min-width: 0; }
+/* 3.3.3: заголовок сжимается (min-width 0), длинный адрес узла в крошке — многоточием, целиком в title; кнопки справа не вытесняются */
+.gx-head__title { min-width: 0; flex: 0 1 auto; display: flex; align-items: center; gap: var(--sp-2); }
+.gx-crumb { display: flex; align-items: center; gap: 6px; min-width: 0; font: 400 var(--fs-sm) var(--font); color: var(--text-3); white-space: nowrap; }
+.gx-crumb > * { flex: none; }
+.gx-crumb > span:first-child { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono); }
+.gx-h1 { margin: 0; min-width: 0; font: 600 var(--fs-h1)/1.2 var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[data-density="min"] .gx-h1 { font-size: 1.875rem; }
+[data-density="min"] .gx-crumb { display: none; }
+.gx-head__sp { flex: 1 1 0; min-width: 8px; }
+.gx-head .kk-conn { height: 28px; padding: 0 12px; font-size: var(--fs-sm); }
+.gx-iconbtn { width: var(--h-md); height: var(--h-md); flex: none; display: grid; place-items: center; border: 0; border-radius: var(--r-btn); background: var(--surface-2); color: var(--foreground); cursor: pointer; transition: background var(--dur), transform var(--dur); }
+.gx-iconbtn:hover { background: var(--surface-3); }
+.gx-iconbtn:active { transform: scale(.94); }
+.gx-iconbtn.is-spin .gi { animation: hero-spin .7s linear; }
+.gx-viewbtn { display: inline-flex; align-items: center; gap: var(--sp-2); height: var(--h-md); padding: 0 var(--sp-4) 0 14px; border: 0; border-radius: var(--r-btn); background: var(--surface-2); color: var(--foreground); font: 500 var(--fs) var(--font); cursor: pointer; flex: none; white-space: nowrap; transition: background var(--dur), transform var(--dur); }
+.gx-viewbtn:hover { background: var(--surface-3); }
+.gx-viewbtn:active { transform: scale(.97); }
+/* Т3 №17 (Д2 Б r3, Ш1): «A A A» — размер текста; на «крупнее» подсказка клавиш поиска скрыта (сочетание работает) */
+.kb2-fz { display: inline-flex; align-items: center; gap: 2px; flex: none; height: var(--h-md); padding: 0 4px; border-radius: var(--r-btn); background: var(--surface-2); }
+.kb2-fz > button { min-width: 32px; height: 32px; padding: 0 6px; display: grid; place-items: center; border: 0; border-radius: var(--r-btn); background: none; color: var(--text-2); font: 600 .875rem/1 var(--font-head); cursor: pointer; }
+.kb2-fz > button:nth-child(1) { font-size: .75rem; }
+.kb2-fz > button:nth-child(3) { font-size: 1.0625rem; }
+.kb2-fz > button:hover { color: var(--foreground); }
+.kb2-fz > button[aria-checked="true"] { background: var(--segment); box-shadow: var(--segment-shadow); color: var(--foreground); }
+.kb2-fz > button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+html[data-fs="l"] .kk-hfind__k { display: none; }
+/* от 1100 (меню с подписями рядом с подменю; эталон nav2 r4, H6): заголовок раздела — целиком; место уступают
+   поле поиска (сжимается первым) и «Вид» (значком до 1280, подпись — подсказкой). Т3 №17: с «A A A» и на 1440 —
+   иначе «Пользователи и устройства» обрезался.
+   З-1 (REV-3313-final): с кнопкой стрима шапке не хватало места («Вид» за краем на 1100–1149 у «Пользователей»). Порядок
+   уступок задан так: поле поиска не сжимается от 340, а растёт от 0 в свободное место (до 340, на «крупнее» — до 180);
+   заголовок сжимается (многоточие, целиком — в подсказке h1) только когда поле уже значком 40 и места всё равно нет.
+   Простое flex-shrink: 1 у заголовка рядом с полем делило нехватку пропорционально — обрезало «Сводка», «Вид» и др.
+   «Крупнее» — только здесь: прежнее правило без @media (основа 180) перебивало значок поля уже 1100 (find.css) — на 1000
+   поле-значок было шириной 180, а «Сводка» обрезалась до «Св…» (детектор headprio) */
+@media (min-width: 1100px) {
+  .gx-head__title { flex-shrink: 1; max-width: 55%; }
+  .gx-head .kk-hfind { flex: 1000 0 0; max-width: 340px; }
+  html[data-fs="l"] .gx-head .kk-hfind { max-width: 180px; }
+}
+.gx-topnav { display: flex; gap: 2px; padding: 4px; border-radius: var(--r-btn); background: var(--surface-2); min-width: 0; overflow-x: auto; }
+.gx-topnav > button { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 0; border-radius: var(--r-btn); background: transparent; color: var(--text-2); font: 500 var(--fs-sm) var(--font); cursor: pointer; white-space: nowrap; flex: none; }
+.gx-topnav > button[aria-current="page"] { background: var(--segment); box-shadow: var(--segment-shadow); color: var(--foreground); }
+/* Шапка телефона: значок, адрес с точкой связи, заголовок 24; круглые кнопки 44 */
+.gx-phead { display: flex; align-items: center; gap: var(--sp-3); padding: 14px var(--sp-4); }
+.gx-phead__t { flex: 1; min-width: 0; }
+.gx-phead__host { display: flex; align-items: center; gap: 6px; font: 400 var(--fs-sm)/1.125rem var(--mono); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-phead__host > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gx-phead__title { font: 600 1.5rem/1.2 var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-roundbtn { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border: 0; border-radius: var(--r-btn); background: var(--surface-2); color: var(--foreground); cursor: pointer; }
+.gx-roundbtn:hover { background: var(--surface-3); }
+
+.gx-main { flex: 1; min-height: 0; overflow: auto; padding: var(--sp-2) var(--page-p) var(--sp-8); overscroll-behavior: contain; }
+[data-device="phone"] .gx-main { padding: var(--sp-1) var(--page-p) var(--sp-5); }
+/* UI-6 (аудит 20.10 №3): все разделы — как «Настройки»: шапка и содержимое в одной колонке, содержимое на всю ширину,
+   от левого края (заголовок и карточки — одна левая линия, кнопки шапки — правая линия содержимого). Пределы ширины —
+   у отдельных компонентов (таблица, форма), тоже от левого края. Прежде — max-width 1600 и margin auto: на 2000–2560
+   колонка центровалась, а шапка стояла у меню (расхождение 318 px) */
+.gx-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); max-width: none; margin: 0; min-width: 0; }
+.gx-page[hidden] { display: none !important; }
+.gx-page > * { min-width: 0; }
+
+/* Нижние вкладки телефона и лист «Ещё» */
+.gx-tabs { display: grid; grid-template-columns: repeat(4, 1fr); padding: 6px 8px 14px; padding-bottom: max(14px, env(safe-area-inset-bottom)); background: var(--background); border-top: 1px solid var(--separator); }
+.gx-tabs > button { display: grid; justify-items: center; gap: 3px; min-height: 52px; padding: 6px 0; border: 0; background: none; color: var(--text-2); font: 500 .71875rem var(--font); cursor: pointer; }
+.gx-tabs > button[aria-current="page"], .gx-tabs > button.is-on { color: var(--foreground); font-weight: 600; }
+.gx-tabs__pill { display: grid; place-items: center; width: 56px; height: 30px; border-radius: var(--r-pill); background: transparent; transition: background var(--dur); }
+.gx-tabs > button[aria-current="page"] .gx-tabs__pill, .gx-tabs > button.is-on .gx-tabs__pill { background: var(--accent-soft); color: var(--accent-text); }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   2. Шторка и раздел «Вид»
+   ════════════════════════════════════════════════════════════════════════════ */
+.gx-sheet--look { width: min(400px, calc(100% - 24px)); z-index: 25; }
+.gx-look__sec { display: grid; gap: 10px; }
+.gx-look__cap { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gx-look__cap > span { font: 500 .8125rem var(--font); color: var(--text-2); white-space: nowrap; }
+.gx-dice { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px 0 10px; border: 0; border-radius: var(--r-btn); background: var(--accent-soft); color: var(--accent-text); font: 500 .8125rem var(--font); cursor: pointer; white-space: nowrap; transition: background var(--dur), transform var(--dur); }
+.gx-dice:hover { background: var(--accent-soft-hover); }
+.gx-dice:active { transform: scale(.96); }
+.gx-dice--md { height: var(--h-md); font-size: var(--fs); }
+.gx-dice__cube { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 1px; width: 20px; height: 20px; padding: 3px; border-radius: 5px; background: var(--accent); transition: transform .55s cubic-bezier(.3, 1.4, .5, 1); flex: none; }
+.gx-dice__cube > i { width: 4px; height: 4px; place-self: center; border-radius: 50%; background: var(--accent-foreground); opacity: 0; transition: opacity .2s; }
+.gx-dice__cube > i.is-on { opacity: 1; }
+.gx-presets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+/* превью не шире своей колонки: на 390 три колонки по 99 px, превью было 102 (T-332 №43) */
+.gx-preset { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; overflow: hidden; gap: 6px; padding: 4px 4px 8px; border: 0; border-radius: calc(var(--r-field) + 2px); background: transparent; box-shadow: 0 0 0 1px var(--border); color: var(--foreground); cursor: pointer; font: inherit; transition: box-shadow var(--dur); text-align: left; }
+.gx-preset[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--accent); }
+.gx-preset__pic { display: grid; grid-template-columns: 14px minmax(0, 1fr); min-width: 0; gap: 5px; height: 58px; padding: 6px; }
+.gx-preset__col { display: grid; gap: 3px; align-content: start; }
+.gx-preset__col > i, .gx-preset__card > i { display: block; height: 5px; border-radius: 3px; }
+.gx-preset__card { display: grid; gap: 4px; align-content: start; padding: 6px; border: 1px solid transparent; }
+.gx-preset__card > i:first-child { width: 70%; }
+.gx-preset__card > i.is-btn { justify-self: start; height: 10px; width: 26px; }
+.gx-preset__name { font: 500 .75rem var(--font); padding: 0 2px; }
+.gx-presets--wide { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.gx-presets--wide .gx-preset { gap: 8px; padding: 6px 6px 10px; border-radius: calc(var(--r-field) + 4px); }
+.gx-presets--wide .gx-preset__pic { grid-template-columns: 24px 1fr; gap: 6px; height: 76px; padding: 8px; }
+.gx-presets--wide .gx-preset__col { gap: 4px; }
+.gx-presets--wide .gx-preset__col > i, .gx-presets--wide .gx-preset__card > i { height: 6px; }
+.gx-presets--wide .gx-preset__card { gap: 5px; padding: 7px; }
+.gx-presets--wide .gx-preset__card > i:first-child { width: 60%; }
+.gx-presets--wide .gx-preset__card > i:nth-child(2) { width: 85%; }
+.gx-presets--wide .gx-preset__card > i.is-btn { height: 12px; width: 34px; }
+.gx-presets--wide .gx-preset__name { display: flex; align-items: center; justify-content: space-between; padding: 0 4px; font-size: .8125rem; }
+.gx-presets--wide .gx-preset__name .gi { color: var(--accent); }
+/* акценты (9): одним рядом, если влезают, иначе 5 + 4 — девятый не остаётся один в ряду (3.3.6, REV-336-look П-1) */
+.gx-look__sec[data-look="accent"] { container-type: inline-size; }
+.gx-swatches { display: grid; grid-template-columns: repeat(5, max-content); gap: 10px; }
+@container (min-width: 368px) { .gx-swatches { grid-template-columns: repeat(9, max-content); } }
+.gx-swatch { width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; display: grid; place-items: center; box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent); transition: box-shadow var(--dur), transform var(--dur); }
+.gx-swatch:active { transform: scale(.92); }
+/* «Каскад» (auto): кружок из двух половин по диагонали — мятной (тёмная тема) и фиолетовой (светлая); без градиента:
+   фон — вторая половина, первая — ::before с clip-path; галочка на подложке поверхности (читается на обеих) */
+.gx-swatch--auto { position: relative; overflow: hidden; background: var(--sw-b); }
+.gx-swatch--auto::before { content: ""; position: absolute; inset: 0; background: var(--sw-a); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.gx-swatch--auto > .gi { position: relative; display: grid; place-items: center; padding: 2px; border-radius: 50%; background: var(--surface); color: var(--foreground); }
+.gx-hue { display: grid; gap: 6px; }
+.gx-hue__l { display: flex; justify-content: space-between; font-size: .75rem; color: var(--text-2); }
+.gx-range { position: relative; height: 24px; display: flex; align-items: center; }
+.gx-range__track { position: absolute; left: 0; right: 0; height: 12px; border-radius: 999px; background: linear-gradient(90deg, oklch(.63 .17 0), oklch(.63 .17 60), oklch(.63 .17 120), oklch(.63 .17 180), oklch(.63 .17 240), oklch(.63 .17 300), oklch(.63 .17 360)); }
+.gx-range__track--plain { height: 6px; background: var(--surface-3); }
+.gx-range__fill { position: absolute; left: 0; height: 6px; border-radius: 999px; background: var(--accent); }
+.gx-range__knob { position: absolute; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; box-shadow: 0 0 0 3px #fff, 0 1px 6px rgba(0,0,0,.3); pointer-events: none; }
+.gx-range__knob--w { width: 20px; height: 20px; margin-left: -10px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.05); }
+.gx-range > input { position: absolute; inset: 0; width: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.gx-range__ends { display: flex; justify-content: space-between; font-size: .6875rem; color: var(--text-2); }
+/* «Подробность» (HANDOFF v2 §13): три карточки с подписью, выбранная — рамкой и мягким фоном акцента */
+.gx-dens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); }
+.gx-dens__i { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--r-field); background: var(--tile-bg); color: var(--foreground); text-align: left; cursor: pointer; font: inherit; transition: border-color var(--dur), background var(--dur); }
+.gx-dens__i[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.gx-dens__i:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-dens__cells { display: grid; grid-template-columns: repeat(4, 1fr); height: 34px; align-content: start; margin-bottom: 4px; }
+.gx-dens__cells > i { border-radius: 3px; background: var(--surface-3-hover); display: block; }
+.gx-dens__i[aria-checked="true"] .gx-dens__cells > i:first-child { background: var(--accent); }
+.gx-dens__n { font-weight: 600; font-size: var(--fs-md); }
+.gx-dens__d { font-size: var(--fs-xs); line-height: 1.4; color: var(--text-2); }
+.gx-dens--wide .gx-dens__cells { height: 44px; }
+.gx-dens--wide .gx-dens__cells > i { border-radius: 4px; }
+[data-device="phone"] .gx-dens { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .gx-dens__i { display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; }
+[data-device="phone"] .gx-dens__cells { grid-row: 1 / span 2; margin: 0; }
+.gx-css { margin: 0; padding: 12px; border-radius: var(--r-field); background: var(--tile-bg); font: .75rem/1.6 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; animation: hero-fade .2s; }
+.gx-look .gx-sheet__head { align-items: flex-start; padding-bottom: 10px; }
+.gx-look__body { gap: 22px; padding-top: 6px; }
+.gx-look__sec--seg { gap: 8px; }
+.gx-look__lbl { font: 500 .8125rem var(--font); color: var(--text-2); }
+.gx-lookhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.gx-lookhead__t { flex: 1 1 280px; min-width: 0; display: grid; gap: 2px; }
+.gx-lookhead__h { margin: 0; font: 600 var(--fs-h3)/1.375rem var(--font-head); }
+.gx-lookhead__b { display: flex; gap: 8px; flex-wrap: wrap; }
+.gx-lookdens { display: grid; gap: 8px; }
+.gx-lookdens > span { font: 500 .875rem var(--font); }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   3. Протоколы: карточки профилей, ожидание страницы
+   ════════════════════════════════════════════════════════════════════════════ */
+.gx-main > .gx-busy { margin: 0 0 var(--gap); }
+.gx-loader { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 48px 16px; color: var(--text-2); }
+/* Протоколы: карточки профилей одной сеткой, высота карточки — по её содержимому (POLISH-3.3.0 п.4: подсетка тянула
+   соседей VLESS до его высоты — по ~500 px пустоты); кнопки — сразу под содержимым карточки. «Обновления Amnezia» и
+   «Импорт» — карточки с таблицей (узкая — плитками). */
+.gx-prow { display: flex; justify-content: flex-end; }
+.gx-pstack { display: grid; gap: var(--gap); }
+.gx-pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--gap); align-items: start; }
+.gx-pcard { background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-card); padding: var(--card-p); display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-4); min-width: 0; }
+.gx-pcard > * { min-width: 0; }
+/* имя протокола не рвётся по буквам (POLISH-3.3.0 п.5: «OpenConne / ct» рядом с «нет в этой версии»): блок имени не уже
+   самого длинного слова, плашка, которой не хватило места, уходит строкой ниже */
+.gx-pcard__head { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 8px 12px; }
+.gx-pcard__head > .gx-chip { margin-left: auto; flex: none; white-space: nowrap; margin-top: 2px; }
+.gx-pcard__ic { width: 40px; height: 40px; flex: none; border-radius: var(--r-field); background: var(--surface-2); color: var(--text-2); display: grid; place-items: center; }
+.gx-pcard__ic.is-on { background: var(--accent-soft); color: var(--accent-text); }
+.gx-pcard__tt { flex: 1 1 0; min-width: min-content; max-width: 100%; }
+.gx-pcard__title { margin: 0; font: 600 var(--fs-h3)/1.375rem var(--font-head); overflow-wrap: break-word; }
+/* код и движок входа — переносом, не обрезкой: «l2tp · accel-ppp + strongswan» рядом с чипом статуса не влезал (T-332 №43) */
+.gx-pcard__c { font: 400 .78125rem/1.0625rem var(--mono); color: var(--text-2); overflow-wrap: anywhere; width: 0; min-width: 100%; }
+.gx-pcard__tt > .gx-chip { margin-top: 6px; }
+.gx-pcard__img { font: 400 .78125rem/1.0625rem var(--mono); color: var(--text-2); white-space: nowrap; }
+.gx-pcard__st { align-self: start; display: grid; gap: 10px; min-height: 0; }
+/* заметка в карточке протокола — сообщение дизайн-системы в малом размере */
+.gx-pnote { display: flex; gap: 10px; padding: 10px 12px; border-radius: var(--r-field); font-size: var(--fs-sm); line-height: 1.125rem; background: var(--info-soft); color: var(--text-2); }
+.gx-pnote > .gi { flex: none; margin-top: 1px; }
+.gx-pnote b { font-weight: 600; color: var(--foreground); }
+.gx-pnote--warning { background: var(--warning-soft); }
+.gx-pnote--warning > .gi { color: var(--warning-text); }
+.gx-pnote--danger { background: var(--danger-soft); }
+.gx-pnote--danger > .gi { color: var(--danger-text); }
+.gx-pnote--success { background: var(--success-soft); }
+.gx-pnote--success > .gi { color: var(--success-text); }
+.gx-pfor { font-size: .8125rem; line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+/* плитка «Порт» не уже своего самого длинного порта (min-content: «48445/udp» целиком, T-M6-qs330b №13) */
+.gx-pkv { align-self: stretch; align-content: stretch; display: grid; grid-template-columns: minmax(min-content, 1fr) minmax(0, 1fr); gap: 8px; }
+.gx-pkv__t { padding: 10px 12px; border-radius: var(--r-field); background: var(--tile-bg); min-width: 0; display: grid; align-content: start; gap: 2px; }
+.gx-pkv__k { font-size: .75rem; color: var(--text-2); }
+.gx-pkv__v { font: 400 .875rem/1.25rem var(--mono); overflow-wrap: anywhere; }
+.gx-pkv__v--txt { font-family: var(--font); font-weight: 400; }
+.gx-nowrap { white-space: nowrap; }
+.gx-pcard__acts { display: grid; gap: 10px; }
+.gx-pbtns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.gx-pdanger { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-3); flex-wrap: wrap; padding-top: var(--sp-3); border-top: 1px solid var(--separator); }
+.gx-pdanger > span { font: 500 var(--fs-sm) var(--font); color: var(--text-2); }
+.gx-pdanger > div { display: flex; gap: 4px 8px; flex-wrap: wrap; align-items: center; }
+.gx-pskel { gap: 16px; }
+.gx-pskel__h { display: flex; align-items: center; gap: 12px; }
+.gx-pskel__ic { width: 40px; height: 40px; flex: none; border-radius: var(--r-field); }
+.gx-pskel__tt { display: grid; gap: 8px; flex: 1; }
+.gx-pskel__tt > .gx-sk { height: 12px; width: 55%; }
+.gx-pskel__tt > .gx-sk + .gx-sk { height: 8px; width: 35%; }
+.gx-pskel__tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.gx-sk.gx-pskel__tile { height: 56px; border-radius: var(--r-field); background: var(--tile-bg); }
+.gx-pskel__btns { display: flex; gap: 8px; }
+.gx-pskel__btns > .gx-sk { height: 32px; width: 120px; border-radius: var(--r-btn); }
+.gx-pskel__btns > .gx-sk + .gx-sk { width: 90px; }
+.gx-fade { animation: hero-fade .2s; }
+.gx-ptile { padding: 12px 14px; border-radius: var(--r-field); background: var(--tile-bg); font-size: .8125rem; line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+/* Пока идёт долгое действие, остальные кнопки страницы ждут его окончания (как в макете); копирование,
+   ссылки, меню и окна — работают. */
+html.is-busy .gx-main .ga-btn:not(.gx-copy):not(.gx-link):not([data-keep]) { opacity: var(--disabled-opacity); pointer-events: none; }
+[data-hero][data-device="phone"] .gx-sess__out, [data-hero][data-device="phone"] .gx-toast__x { min-height: 44px; min-width: 44px; }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   4. Kaskad: то, чего нет в goAmnezia pro (написано заново; имена kk-*)
+   ════════════════════════════════════════════════════════════════════════════ */
+.kk-stack { display: grid; gap: var(--card-gap); min-width: 0; align-content: start; }
+/* UI-1 F14: пустой слот (ни одного блока) не занимает места и не добавляет gap раздела; блок без содержимого
+   (app.js blkUpdate → data-blk-empty) — тоже, какой бы display ни дал ему класс */
+.kk-stack:empty { display: none; }
+[data-blk-empty] { display: none !important; }
+/* пустая живая область (сообщение появится позже) — вне потока, но в дереве доступности: из display:none диктор
+   новое не прочтёт, а в сетке с gap она давала лишний зазор */
+.gx-hint[role="status"]:empty, .gx-hint[role="alert"]:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.kk-ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 2px; }
+.kk-ul--plain { margin: 0; color: var(--text-2); font-size: .8125rem; line-height: 1.125rem; }
+.kk-alerts { display: grid; gap: var(--gap); }
+.kk-alerts:empty { display: none; }
+.kk-more { padding-top: 8px; }
+/* Телефон: четыре плитки показателей — по две в ряд */
+.kk-kpi__link { display: flex; }
+[data-device="phone"] .gx-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+[data-device="phone"] .gx-kpis .gx-kpi { padding: var(--sp-4); gap: 6px; }
+[data-device="phone"] .gx-kpis .gx-kpi__v { font-size: 1.5rem; }
+[data-device="phone"] .gx-kpis .gx-kpi__split { overflow-wrap: anywhere; }
+.gx-phead__host .kk-conn { padding: 0; background: none; }
+.kk-tone--ok { color: var(--success-text); }
+.kk-tone--warn { color: var(--warning-text); }
+.kk-conn { cursor: default; }
+[data-device="phone"] .kk-conn { min-width: 0; min-height: 0; padding: 0 7px; gap: 0; font-size: 0; line-height: 1.125rem; flex: none; }
+[data-device="phone"] .kk-conn::before { width: 8px; height: 8px; }
+.gx-segwrap-host { min-width: 0; }
+.gx-usearch { flex: 1 1 200px; max-width: 360px; }
+[data-device="phone"] .gx-usearch { max-width: none; }
+[data-device="phone"] .gx-toolbar > .gx-segwrap-host { flex: 1 1 100%; }
+.gx-main > .gx-page { padding-bottom: 8px; }
+.gx-loader .gx-spin { color: var(--text-2); }
+
+.kk-noscript { padding: 24px; }
+
+/* Вход */
+#loginHost[hidden] { display: none !important; }
+.kk-login { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 16px; background: var(--background); overflow: auto; }
+.kk-login__box { width: min(420px, 100%); display: grid; gap: var(--sp-4); padding: var(--sp-8) var(--sp-6); border-radius: var(--r-card); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); }
+.kk-login__box .gx-logo { width: 48px; height: 48px; border-radius: 13px; }
+.kk-login__t { margin: 0; font: 600 var(--fs-h2)/1.75rem var(--font-head); }
+.kk-login__err .gx-al__text { color: var(--foreground); }
+
+/* Люди и устройства: аватар (таблица, листы телефона, «График»); строки и листы — people.css, xt.css */
+.kk-av { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; font: 600 .875rem var(--font-head); }
+.kk-route { display: grid; gap: var(--sp-2); }
+/* «Маршрут по умолчанию»: два поля рядом, подсказка — под своим полем; форма не шире 1100 px */
+.kk-formcap { min-width: 0; }                          /* ширина — как у соседних карточек страницы (доводка 3.3.0) */
+[data-device="desktop"] .kk-route-wide .kk-route { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-4); align-items: start; }
+[data-device="desktop"] .kk-route-wide .kk-route > :nth-child(1) { grid-column: 1; grid-row: 1; }
+[data-device="desktop"] .kk-route-wide .kk-route > :nth-child(2) { grid-column: 1; grid-row: 2; }
+[data-device="desktop"] .kk-route-wide .kk-route > :nth-child(n+3) { grid-column: 2; grid-row: 1 / span 2; }
+/* группа: «если все выходы недоступны — как у группы …»; выход: «другие выходы группы, затем: [▼]» (SE §7.3) */
+.kk-route__gf { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.kk-route__then { display: grid; gap: var(--sp-1); }
+.kk-route__gf[hidden], .kk-route__then[hidden], .kk-route .gx-hint[hidden] { display: none; }
+
+/* Выдача настроек */
+.kk-issue { display: grid; gap: 14px; }
+.kk-issue__ctl { display: grid; gap: 10px; }
+.kk-reissue { display: grid; min-width: 0; }
+.kk-reissue__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 6px 0; border-top: 1px solid var(--separator); min-width: 0; }
+.kk-item { display: grid; gap: 10px; padding: 14px; border-radius: var(--r-field); background: var(--tile-bg); min-width: 0; }
+.kk-item__h { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.kk-item__t { display: grid; min-width: 0; }
+.kk-item__t > b { font-weight: 500; overflow-wrap: anywhere; }
+.kk-note { margin: 0; }
+.kk-guide { margin: 0; font: .8125rem/1.1875rem var(--font); white-space: pre-wrap; overflow-wrap: anywhere; }
+.kk-item .gx-qrcard { background: transparent; padding: 0; }
+.kk-item .gx-qrcard__pic { width: min(320px, 100%); }
+.kk-item .gx-qrcard__pic--big { width: min(440px, 100%); }
+.gx-qrcard__slot { width: 100%; display: grid; justify-items: center; min-height: 240px; }
+.kk-item .kq { --kq-size: 360px; }   /* все коды выдачи — одной рамки: ключ, .conf, части (владелец, 3.3.2) */
+/* «Установите приложение»: ссылки на магазины с QR — коды магазинов меньше кодов ключа, но одинаковые между собой */
+.kk-store { gap: 12px; }
+.kk-store__app { display: grid; gap: 10px; min-width: 0; }
+.kk-store__links { display: flex; flex-wrap: wrap; gap: 14px; }
+.kk-store__link { display: grid; gap: 6px; justify-items: center; width: 136px; min-width: 0; text-align: center; }
+.kk-store__icon { width: 40px; height: 40px; border-radius: 10px; }
+.kk-store__warn { color: var(--warning-text); }
+.kk-alts { display: grid; gap: 6px; width: 100%; }
+.kk-alts__more > summary { cursor: pointer; }
+.kk-alts__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.kk-store__qr { width: 120px; height: 120px; padding: 4px; box-sizing: border-box; border-radius: var(--r-tile, 10px); background: #fff; }
+.kk-store__qr > svg { display: block; width: 100%; height: 100%; }
+.kk-item .gx-conftext__pre { width: 100%; }
+
+.gx-pcard.is-dim { opacity: .78; }
+.gx-pkv { grid-template-columns: minmax(min-content, 1fr) repeat(2, minmax(0, 1fr)); }
+.gx-pcard__acts .gx-sw { padding: 10px 0 0; }
+
+/* Схема и «Настройки» */
+.kk-scheme { min-height: min(70vh, 720px); display: grid; align-content: start; min-width: 0; }
+.gx-look__wide { display: grid; gap: var(--sp-5); min-width: 0; align-content: start; }
+[data-device="phone"] .gx-look__wide .gx-presets--wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* «Вид» в «Настройках»: настройки колонкой (темы, сегменты и ползунки одной ширины, подписи одним стилем) и
+   предпросмотр справа, липкий; уже 1200 px — предпросмотр под настройками, на телефоне его нет */
+.kk-look { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); min-width: 0; }
+/* UI-5: «Вид» — часть рядом с подменю; две колонки (настройки · предпросмотр) — по ширине части, а не окна */
+@container kkpart (min-width: 720px) { [data-device="desktop"] .kk-look { grid-template-columns: minmax(360px, 600px) minmax(320px, 1fr); align-items: start; gap: var(--sp-8); } }
+.kk-look .gx-look__wide .gx-presets--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kk-look .gx-slide, .kk-look .gx-look__sec > .gx-hue { width: 100%; max-width: none; }
+.kk-look .gx-hue__l, .kk-look .gx-look__cap > span, .kk-look .gx-look__lbl { font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.kk-pv { position: sticky; top: 0; display: grid; gap: var(--sp-2); min-width: 0; container-type: inline-size; }
+[data-device="phone"] .kk-pv { display: none; }
+.kk-pv__cap { font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.kk-pv__box { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-3); border-radius: var(--r-tile); background: var(--background); box-shadow: inset 0 0 0 1px var(--border); pointer-events: none; user-select: none; }
+.kk-pv__side { display: grid; gap: var(--sp-1); align-content: start; }
+.kk-pv__nav { display: flex; align-items: center; gap: var(--sp-2); height: 36px; padding: 0 10px; border-radius: var(--r-field); color: var(--text-2); font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; }
+.kk-pv__nav.is-cur { background: var(--surface); color: var(--foreground); font-weight: 600; box-shadow: var(--surface-shadow); }
+.kk-pv__main { min-width: 0; padding: var(--sp-3); border-radius: var(--r-tile); background: var(--frame-bg); }
+.kk-pv .gx-kv { --kv-label: 104px; }
+.kk-pv__card { box-shadow: var(--card-sh); }
+/* узкий предпросмотр: без мини-меню, таблица — подпись над значением */
+@container (max-width: 560px) {
+  .kk-pv__box { grid-template-columns: minmax(0, 1fr); }
+  .kk-pv__side { display: none; }
+}
+/* 3.3.3: таблица карточки — подпись над значением, метка статуса под значением, а не сжимает его до «vpn.e…» /
+   «Включё-н»; рядом с мини-меню карточка узкая уже при 760 */
+@container (max-width: 760px) {
+  .kk-pv .gx-kv { grid-template-columns: minmax(0, 1fr); }
+  .kk-pv .gx-kv__k { grid-column: 1 / -1; padding-bottom: 2px; }
+  .kk-pv .gx-kv__v, .kk-pv .gx-kv__end { padding-top: 0; border-top: 0; }
+  .kk-pv .gx-kv__v { padding-left: 0; }
+  .kk-pv .gx-kv__end { padding: 0 0 var(--sp-3); justify-content: flex-start; }
+  .kk-pv .gx-kv__end:empty { display: none; }
+  .kk-pv .gx-kv__v:has(+ .gx-kv__end:not(:empty)) { padding-bottom: 6px; }
+}
+[data-device="phone"] .gx-range { height: 44px; }
+[data-device="phone"] .gx-field__row { flex-wrap: wrap; }
+[data-device="phone"] .gx-field__row > .gx-input { flex: 1 1 100%; }
+[data-device="phone"] .gx-dens--wide { grid-template-columns: minmax(0, 1fr); }
+
+/* ── ровность (критик панели, 2026-10-06) ── */
+/* карточка ряда, в которой только пустое состояние: оно — посередине свободной высоты (ряд тянет карточки по высоте) */
+.gx-card:has(> .gx-card__head + .kk-stack:last-child > .gx-empty:only-child) { grid-template-rows: auto 1fr; align-content: stretch; }
+.gx-card > .kk-stack:has(> .gx-empty:only-child) { align-content: center; }
+/* протоколы: кнопки — сразу под содержимым своей карточки (без растянутых пустых карточек, POLISH-3.3.0 п.4) */
+.gx-pbtns .gx-pdel { margin-left: auto; }
+.gx-pbtns .gx-pmenu { flex: 0 0 auto; }               /* меню «⋯» — рядом с главным действием, корзина — справа */
+.gx-pbtns.is-confirm { display: flex; flex: 1 1 100%; flex-wrap: nowrap; }
+.gx-popt { display: grid; gap: 6px; }
+.gx-popt > span { font: 500 var(--fs-sm) var(--font); color: var(--text-2); }
+.gx-popt > div { display: flex; gap: 4px 8px; flex-wrap: wrap; align-items: center; }
+.kk-psec { margin: 6px 2px -4px; font: 600 var(--fs-lg)/1.25rem var(--font-head); color: var(--text-2); }
+.kk-psec:first-child { margin-top: 0; }
+.kk-igrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: var(--sp-3) var(--sp-4); }
+.kk-irow { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; padding: var(--sp-3) var(--sp-4); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-field); }
+.kk-irow__ic { width: 36px; height: 36px; flex: none; border-radius: var(--r-field); background: var(--surface-2); color: var(--text-2); display: grid; place-items: center; }
+.kk-irow__tt { flex: 1 1 auto; min-width: 0; }
+.kk-irow__t { margin: 0; font: 600 var(--fs-md)/1.25rem var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-irow__s { font-size: .8125rem; line-height: 1.125rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* UI-3 круг 2 (З3): описание — до двух строк (целиком — в подсказке и в окне установки по нажатию на строку); у недоступных
+   причина — целиком */
+.kk-irow__s { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
+.kk-irow.is-na .kk-irow__s { display: block; -webkit-line-clamp: none; line-clamp: none; overflow: visible; }
+.kk-irow.kk-tap { cursor: pointer; }
+.kk-irow.kk-tap:hover { border-color: color-mix(in oklab, var(--accent) 35%, var(--card-bd)); }
+/* С1: движок AmneziaWG без карточки AWG — кнопки справа у заголовка раздела */
+.kk-psecbar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin: 6px 2px -4px; }
+.kk-psecbar:first-child { margin-top: 0; }
+.kk-psecbar > .kk-psec { margin: 0; flex: 1 1 auto; }
+.kk-psecbar__b { display: flex; flex-wrap: wrap; gap: 6px; }
+.ga-btn.kk-btn-bad { color: var(--danger-text); }
+.kk-irow > .ga-btn, .kk-irow > .gx-chip { flex: none; }
+.kk-irow.is-na .kk-irow__t { color: var(--text-2); }
+/* UI-3 ч.3: движок AmneziaWG — в подробностях раскрытой карточки AWG, без подсветки */
+.kk-awgeng { display: grid; gap: var(--sp-2); padding-top: var(--sp-3); border-top: 1px solid var(--separator); min-width: 0; }
+.kk-awgeng__t { display: flex; align-items: center; gap: var(--sp-2); font-size: .875rem; }
+.kk-awgeng__t > .gx-ic, .kk-awgeng__t > svg { color: var(--text-2); flex: none; }
+.kk-awgeng__d { margin: 0; font-size: .84375rem; line-height: 1.5; color: var(--text-2); }
+.kk-awgeng__b { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.kk-narrow { max-width: 560px; }
+/* вход: место под ошибку — только когда она есть */
+/* «Вид»: ползунок той же ширины, что и переключатели; готовые темы — 3 или 6 в ряд, без «хвоста» */
+.gx-presets--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* телефон: панели инструментов — столбиком на всю ширину, поиск не обрезается */
+[data-device="phone"] .gx-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .gx-toolbar__sp { display: none; }
+[data-device="phone"] .gx-toolbar > .ga-btn { width: 100%; justify-content: center; }
+[data-device="phone"] .gx-usearch { max-width: none; }
+[data-device="phone"] .gx-toolbar .gx-seg { display: grid; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+/* телефон: акценты — 5 + 4 (кружки 44 px одним рядом не влезают) */
+[data-device="phone"] .gx-swatches { grid-template-columns: repeat(5, max-content); justify-content: space-between; }
+.kk-dlg-err:empty { display: none; }
+.kk-dlg-err { color: var(--danger-text); font-size: .8125rem; line-height: 1.125rem; overflow-wrap: anywhere; }
+
+/* ── контракт: возможности панели (пауза, страница человека, доступ к панели, ключ GitHub) ── */
+
+/* поиск: переход ?focus=<id записи описи> — найденная карточка или поле подсвечены 2 с (focusFind → flashNode, та же
+   подсветка, что у людей и карточек ниже — они её уточняют); прокрутка оставляет место рамке (REV-s1-f0-2 П-1).
+   Рамка — одна тень, без своей тени карточки: в тёмной теме и у карточек border/flat та равна none, а список
+   «…, none» недопустим — правило отбрасывалось целиком и рамки не было (REV-336 С-1) */
+[data-find] { scroll-margin-top: 8px; scroll-margin-bottom: 8px; }
+[data-find].is-flash { box-shadow: 0 0 0 3px var(--accent); }
+.gx-card.is-flash { box-shadow: 0 0 0 3px var(--accent); }
+
+/* ── Выходы: плитки ряда одной высоты, шапка в одну строку (имя и подпись — многоточием, статус справа на линии
+   имени), одинаковые строки, значения — колонкой по правому краю, действия — одной строкой внизу ── */
+.kk-exit .gx-tc__head { flex-wrap: nowrap; }
+.kk-exit .gx-tc__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-exit .gx-tc__head > .gx-chip { margin-top: -2px; }
+.kk-exit .gx-tc__r > span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-exit .gx-tc__btns { flex-wrap: nowrap; gap: var(--sp-2); }
+/* телефон: «Случайная» и «Сбросить вид» в ряду действий карточки — одной высоты */
+[data-device="phone"] .gx-card__actions .gx-dice--md { height: var(--h-lg); }
+/* «Подробность»: подсказка выбранного варианта — только под плитками (в самих плитках «Вида» в «Настройках» она есть) */
+.kk-look .gx-look__sec > .gx-dens--wide + .gx-hint { display: none; }
+[data-device="phone"] .kk-exit .gx-tc__sub { white-space: normal; overflow-wrap: anywhere; }   /* на касании подсказки нет — адрес целиком */
+
+/* ── «Выходы › Все выходы» — таблица gx-xt--exa (UI-A2; Claude Design People Activity r1 В1–В2, Nav2 r1 Н2; HANDOFF
+   «Активность → Выходы», сетки gx-xt--exa). Переключатель · выход · состояние · тип · отклик · группа · активность · «⋯»;
+   «Крупно» — без «Отклика» и «Активности» (линия во второй строке), «Строка» — имя с линией 48, состояние, «⋯», две
+   колонки. Таблица уже 860 (окно 1100–1439 с подменю, r4) — без «Отклика», «Группы» и колонки «Активность» (линия — в
+   «Крупно» и «Строке», HANDOFF «Вопрос 1»); уже 560 (планшет) — имя, состояние, «⋯»; от 1400 (окно ≥ 2000, таблица
+   ≈ 1460) — «Группа» 220, линия 140 и объём за сутки. Раскрытие — kk-exd. ── */
+.gx-xt--exa > * { --cols: 32px minmax(0, 1fr) 104px 120px 60px 124px 96px 52px; }
+.kk-dn--lg .gx-xt--exa > * { --cols: 40px minmax(0, 1fr) 112px 128px 120px 52px; }
+.kk-dn--row .gx-xt--exa { --xt-gap: 8px; }
+.kk-dn--row .gx-xt--exa > * { --cols: 32px minmax(0, 1fr) 104px 52px; }
+.kk-dn--row .gx-xt--exa .gx-xt__x { width: 100%; gap: 6px; padding-right: 2px; }
+.kk-dn--lg .gx-xt--exa .gx-xt__r { height: auto; min-height: var(--xt-row); padding-top: 6px; padding-bottom: 6px; }
+.kk-dn--lg .gx-xt--exa .gx-xt__x { width: 100%; }
+.kk-dn--lg .gx-xt--exa .gx-xt__x > .gx-xt__nb { flex: 1 1 auto; }
+.kk-dn--lg .gx-xt--exa .gx-xt__nb { gap: 4px; }
+.gx-xt--exa .kk-exst > .gx-xt__t { overflow: hidden; text-overflow: ellipsis; }
+.gx-xt__c.kk-exst--on { color: var(--success-text); }
+.gx-xt__c.kk-exst--warn { color: var(--warning-text); }
+.gx-xt__c.kk-exst--bad { color: var(--danger-text); }
+.kk-exst--on > .gx-dot { background: var(--success); box-shadow: none; }
+.kk-exst--warn > .gx-dot { background: var(--warning); box-shadow: none; }
+.kk-exst--bad > .gx-dot { background: var(--danger); box-shadow: none; }
+@container xt (min-width: 1400px) {
+  .gx-xt--exa > * { --cols: 32px minmax(0, 1fr) 120px 150px 72px 220px calc(140px + 8px + var(--act-vw)) 52px; }
+  .kk-dn--lg .gx-xt--exa > * { --cols: 40px minmax(0, 1fr) 120px 150px 220px 52px; }
+  .gx-xt--exa .kk-act > .gx-spark { --spark-w: 140px; }
+  .gx-xt--exa .kk-act__v { display: block; }
+}
+@container xt (max-width: 859.98px) {
+  .gx-xt--exa > * { --cols: 32px minmax(0, 1fr) 104px 120px 52px; }
+  .kk-dn--lg .gx-xt--exa > * { --cols: 40px minmax(0, 1fr) 112px 128px 52px; }
+  .gx-xt--exa .kk-xwr, .gx-xt--exa .kk-xwg, .gx-xt--exa .kk-xwa { display: none; }
+}
+@container xt (max-width: 559.98px) {
+  .gx-xt--exa > * { --cols: 32px minmax(0, 1fr) 104px 52px; }
+  .kk-dn--lg .gx-xt--exa > * { --cols: 40px minmax(0, 1fr) 104px 52px; }
+  .gx-xt--exa .gx-xt__r > .kk-nrow, .gx-xt--exa .gx-xt__h > .kk-nrow { display: none; }
+  /* «Строка» на узкой таблице — одной колонкой */
+  .kk-dn--row .gx-xt--exa .gx-xt__cols { grid-template-columns: minmax(0, 1fr); }
+  .kk-dn--row .gx-xt--exa .gx-xt__cols::before { display: none; }
+  .kk-dn--row .gx-xt--exa .gx-xt__hw { grid-template-columns: minmax(0, 1fr); }
+  .kk-dn--row .gx-xt--exa .gx-xt__hw > .gx-xt__h + .gx-xt__h { display: none; }
+  .kk-dn--row .gx-xt--exa .gx-xt__col + .gx-xt__col > .gx-xt__g:first-child > .gx-xt__r:first-child { box-shadow: inset 0 1px 0 var(--separator); }
+}
+/* раскрытие строки: подробности плитки без рамки, по левому краю имени; действия — строкой, корзина справа */
+.gx-xt .gx-tc.kk-exd { gap: 10px; margin: 0 12px 12px 52px; padding: 2px 0 0; background: none; border: 0; box-shadow: none; border-radius: 0; }
+.kk-dn--lg .gx-xt .gx-tc.kk-exd { margin-left: 100px; }
+.kk-dn--row .gx-xt .gx-tc.kk-exd { margin-left: 40px; }
+.kk-exd__kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 4px 24px; min-width: 0; }
+.kk-exd__r { display: flex; gap: 8px; min-width: 0; font-size: var(--fs-sm); line-height: 1.25rem; }
+.kk-exd__r[hidden] { display: none; }                                   /* значение свёрнутого столбца (№25) — только пока он свёрнут */
+.kk-exd__k { flex: none; color: var(--text-3); }
+.kk-exd__v { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+.gx-xt .kk-exd > .gx-tc__btns--row { padding-top: 10px; }
+/* строка над таблицей: фильтр, ⓘ, плотность значками на узком окне, «Добавить ключ» */
+.kk-ex__bar { flex-wrap: wrap; row-gap: 8px; }
+/* 3.3.7.14 (Claude Design r1 «вправо», кадры Е2/Е3/Е5): плотность и «Добавить ключ» — правая группа вместо пустой распорки
+   (gx-toolbar__sp брала лишние 10 px зазора). Основа 0, не уже самой широкой кнопки: группа растёт на свободное место и
+   прижимает кнопки вправо; «+» не помещается — встаёт под переключатель вида, по правому краю; не помещается и
+   переключатель — вся группа на второй строке, вправо. Телефон: столбик, кнопка на всю ширину */
+.kk-ex__end { flex: 1 1 0; min-width: min-content; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 10px; }
+[data-device="phone"] .kk-ex__end { display: grid; grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kk-ex__end > .ga-btn { width: 100%; justify-content: center; }
+.kk-ex__body { display: grid; min-width: 0; }
+.kk-ex__info { margin: 0; max-width: 880px; color: var(--text-2); }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   5. Знакомство с панелью (3.3.2, №14 владельца)
+   Подсказка — карточка справа внизу (на телефоне — над вкладками, во всю ширину); рамки — пункт меню и первый блок
+   раздела. Не затемняет и не перехватывает нажатия: панель под ней работает. Кнопки — на постоянных местах:
+   «Пропустить» сверху справа, «Назад» и «Далее» снизу колонками постоянной ширины (текст «Далее» на последнем шаге
+   длиннее, но кнопка не сдвигается и не растёт).
+   ════════════════════════════════════════════════════════════════════════════ */
+.kk-tour { position: fixed; z-index: 17; right: 24px; bottom: 24px; width: min(380px, calc(100vw - 32px)); display: grid; gap: var(--sp-2); padding: var(--sp-4) var(--sp-5) var(--sp-5); border-radius: var(--r-dialog); background: var(--surface); box-shadow: var(--overlay-shadow); animation: hero-in-up .22s var(--ease); outline: none; }
+.kk-tour__top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); min-height: 32px; }
+.kk-tour__cap { display: inline-flex; align-items: center; gap: 6px; min-width: 0; color: var(--accent-text); font: 600 var(--fs-sm) var(--font); }
+.kk-tour__skip { flex: none; }
+.kk-tour__of { color: var(--text-3); font: 500 var(--fs-sm) var(--font); font-variant-numeric: tabular-nums; }
+.kk-tour__t { margin: 0; font: 600 var(--fs-h3)/1.3 var(--font-head); }
+.kk-tour__d { margin: 0; min-height: 4.5em; color: var(--text-2); }   /* запас на первый кадр; точную высоту по самому длинному шагу ставит tourFit (app.js) */
+.kk-tour__dots { display: flex; gap: 6px; padding: 2px 0 4px; }
+.kk-tour__dots > i { width: 6px; height: 6px; border-radius: 3px; background: var(--border); }
+.kk-tour__dots > i.is-on { width: 18px; background: var(--accent); }
+.kk-tour__btns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--sp-2); }
+.kk-tour__btns > .ga-btn { width: 100%; justify-content: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-tour__back { grid-column: 1; }
+.kk-tour__next { grid-column: 2; }
+.kk-tour__ring { position: fixed; z-index: 16; pointer-events: none; border-radius: var(--r-tile); box-shadow: 0 0 0 2px var(--accent), 0 0 0 6px var(--accent-soft); }
+.kk-tour__ring--block { border-radius: var(--r-card); }
+[data-motion="on"] .kk-tour__ring { transition: top .25s var(--ease), left .25s var(--ease), width .25s var(--ease), height .25s var(--ease); }
+[data-device="phone"] .kk-tour { left: 8px; right: 8px; width: auto; bottom: calc(84px + env(safe-area-inset-bottom)); padding: var(--sp-4); }
+[data-device="phone"] .kk-tour__d { min-height: 4.5em; }
+/* 3.3.3: подсвеченный блок внизу — карточка тура сверху */
+.kk-tour.is-top { top: 24px; bottom: auto; }
+[data-device="phone"] .kk-tour.is-top { top: calc(8px + env(safe-area-inset-top)); bottom: auto; }
+/* 3.3.3 (R-333 круг 3 №1): короткий экран телефона (iPhone SE в Safari, 548) — карточка тура ниже на 65 px: «1 из 4» рядом с
+   заголовком, без точек, плотнее. Иначе над ней не помещаются и «Добавить человека», и начало блока.
+   3.3.7.14 (Claude Design r1, вариант (а)): порог 680 вместо 600 — на 360×640 и 375×667 у шагов «Правила» и «Настройки»
+   над обычной карточкой видно 56 px раздела, над плотной — 119; 390×844 и выше — без изменений */
+@media (max-height: 679.98px) {
+  [data-device="phone"] .kk-tour { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--sp-2); row-gap: var(--sp-1); padding: var(--sp-3); }
+  [data-device="phone"] .kk-tour > * { grid-column: 1 / -1; }
+  [data-device="phone"] .kk-tour > .kk-tour__t { grid-column: 1; }
+  [data-device="phone"] .kk-tour > .kk-tour__of { grid-column: 2; grid-row: 2; align-self: center; }
+  [data-device="phone"] .kk-tour__dots { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .kk-tour { animation: none; } .kk-tour__ring { transition: none; } }
+
+/* 3.3.3 — «Настройки → Бот и ИИ-агент» (ux.js TelegramBot, AgentKey) и «Протоколы → Установлены» (ProtocolCard) */
+.kk-uxgroup { display: flex; flex-direction: column; gap: var(--gap, 16px); min-width: 0; }
+.kk-uxgroup__cards { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.kk-ushare { display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; min-width: 0; }   /* «Поделиться ▾» и «⋯» — одной строкой */
+[data-device="phone"] .kk-ushare { flex: 1 1 100%; }
+[data-device="phone"] .kk-ushare > .ux-share { flex: 1 1 auto; }
+
+/* ── «Выходы → Группы» и деталь выхода (этап 1, T8; pages/exits-groups.js) ─────────────────────────────────────── */
+.kk-eg-cards { display: flex; flex-direction: column; gap: 12px; }
+.kk-eg-name { display: flex; min-width: 0; }   /* имя выхода в шапке детали (Kit.rename) */
+/* UI-A2 (HANDOFF r3 «Выходы › Группы», UX-аудит 20.10): группа и «Тест скорости» — свёрнутой строкой 64: значок · имя
+   (кнопка, растянутая на всю шапку) · карандаш и метки · «2 уровня · 3 выхода · 10 устройств» · состояние · шеврон;
+   раскрытие — телом на всю ширину под шапкой */
+.kk-eg-card { display: flex; flex-direction: column; gap: 0; padding: 0; }
+.kk-eg-head { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; min-height: 64px; padding: 12px 16px; border-radius: var(--r-card); }
+.kk-eg-card.is-open > .kk-eg-head { border-radius: var(--r-card) var(--r-card) 0 0; }
+.kk-eg-head:hover { background: var(--surface-hover); }
+.kk-eg-head__ic { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--r-field); background: var(--accent-soft); color: var(--accent-text); }
+.kk-eg-head__b { flex: 1 1 220px; min-width: 0; display: grid; gap: 2px; }
+.kk-eg-head__t { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
+.kk-eg-head__n { margin: 0; min-width: 0; max-width: 100%; font: 600 var(--fs-md)/1.375rem var(--font-head); }
+.kk-eg-tog { display: block; max-width: 100%; padding: 0; border: 0; background: none; color: var(--foreground); font: inherit; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+.kk-eg-tog::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.kk-eg-tog:focus-visible { outline: none; }
+.kk-eg-tog:focus-visible::after { box-shadow: var(--focus-ring); }
+.kk-eg-head .kk-eg-pen { position: relative; z-index: 1; }
+.kk-eg-head__m { font-size: .78125rem; line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kk-eg-head__s { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 10px; margin-left: auto; min-width: 0; }
+.kk-eg-chev { flex: none; display: inline-flex; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.kk-eg-card.is-open > .kk-eg-head .kk-eg-chev, .kk-eg-more.is-open > .kk-eg-more__tog .kk-eg-chev { transform: rotate(180deg); color: var(--foreground); }
+.kk-eg-body { display: flex; flex-direction: column; gap: 14px; padding: 16px 20px 20px; border-top: 1px solid var(--separator); }
+.kk-eg-body[hidden], .kk-eg-more__b[hidden] { display: none; }
+.kk-eg-body--form > * { max-width: var(--form-max); }
+/* второй уровень группы: «Поведение и проверки» строкой с шевроном */
+.kk-eg-more { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; border-top: 1px solid var(--border); }
+.kk-eg-more__tog { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 4px; border: 0; border-radius: var(--r-field); background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.kk-eg-more__tog:hover { background: var(--surface-hover); }
+.kk-eg-more__tog:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-eg-more__tog[aria-disabled="true"] { cursor: default; }
+.kk-eg-more__t { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.kk-eg-more__b { display: flex; flex-direction: column; gap: 8px; }
+.kk-eg-more__b > .kk-eg-blk:first-child { padding-top: 4px; border-top: 0; }
+.kk-eg-dns { flex-basis: 100%; display: grid; gap: 4px; min-width: 0; }
+.kk-eg-dns[hidden] { display: none; }
+.kk-eg-dns__l { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.kk-eg-blk { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border); }
+.kk-eg-sub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.kk-eg-h3 { margin: 0; font-size: var(--fs-md); font-weight: 600; }
+.kk-eg-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kk-eg-l { font-size: var(--fs-sm); color: var(--text-2); }
+.kk-eg-warn { color: var(--warning-text); }
+.kk-eg-warn:empty { display: none; }
+.kk-eg-presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.kk-eg-compat { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-field); }
+.kk-eg-compat.is-on { border-color: var(--accent); }
+.kk-eg-compat__t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.kk-eg-tier { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: var(--r-field); background: var(--neutral-soft); }
+.kk-eg-tier__h { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.kk-eg-tier__m { margin-left: auto; }   /* «Способ выбора» — вправо без пустого распорного узла (phantom при переносе) */
+.kk-eg-exits, .kk-eg-rules, .kk-eg-trans { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.kk-eg-exit { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto auto auto auto; align-items: center; gap: 8px; min-height: 44px; }
+/* PLAN-order Ш5–Ш6: ручка, ↑↓ и метка ряда — ячейкой kk-eg-ord (сетка — ниже, у «№31в»); строка под шапкой уровня */
+.kk-eg-exit.is-out .kk-eg-exit__n, .kk-eg-exit.is-out .kk-eg-nums, .kk-eg-exit.is-stale .kk-eg-nums { color: var(--text-3); }
+.kk-eg-rkn, .kk-eg-man { margin: 0; }
+.kk-eg-tier__tt > .gx-grip { align-self: center; height: 24px; }
+.kk-eg-exit__n { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.kk-eg-exit__n > b { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kk-eg-rtt { min-width: 56px; text-align: right; font-size: var(--fs-sm); color: var(--text-2); }
+.kk-eg-w { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); color: var(--text-2); }
+.kk-eg-w .gx-input { width: 84px; }
+.kk-eg-w select.gx-input { width: auto; min-width: 84px; }
+.kk-eg-empty { padding: 8px 0; font-size: var(--fs-sm); color: var(--text-2); }
+.kk-eg-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kk-eg-swrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kk-eg-swrow > .gx-sw { flex: 1 1 320px; }
+.kk-eg-speed { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.kk-eg-speed[hidden] { display: none; }
+.kk-eg-rules { gap: 0; }
+.kk-eg-rule { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 2px 0 6px; border-bottom: 1px solid var(--separator); }
+.kk-eg-rule__sw { flex: none; display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: var(--r-pill); background: none; cursor: pointer; }
+.kk-eg-rule__sw:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-eg-rule__t { flex: 1 1 auto; min-width: 0; padding: 9px 0; font-size: var(--fs-sm); line-height: 1.25rem; text-wrap: pretty; cursor: pointer; }
+.kk-eg-rule__d { color: var(--text-2); }
+.kk-eg-rule__btns { display: inline-flex; align-items: center; gap: 2px; flex: 0 0 auto; }
+.kk-eg-rule.is-bad { box-shadow: inset 3px 0 0 var(--danger); }
+/* форма условия (SE §7.2; вид — экран Г «Условие фразой», PROMPT-stage1-ui §Г, владелец 29.10). Форма шире 400 px —
+   колонка подписей (Если, держится, то, Вернуть, когда, Для выходов) и колонка полей: проверки, «+ условие» и ошибки —
+   в колонке полей, «×» проверки — у правого края, переключатель строки — справа в ней же. Уже — строки фразой (подпись
+   и поля подряд). Проверка переносится между парами «метрика и оператор» / «значение и единица». Поля — малые, как
+   gx-input--sm макета (--h-sm, --fs-sm); список — по ширине выбранного, как фишка gx-pick */
+.kk-eg-rulef { list-style: none; container: egrule / inline-size; }
+.kk-eg-rform { display: grid; gap: 10px; padding: 12px; border-radius: var(--r-field); background: var(--tile-bg); }
+.kk-eg-rrow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }   /* подпись — по первой строке полей */
+.kk-eg-rrow__f, .kk-eg-cond__f, .kk-eg-cond__p { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+.kk-eg-rrow__f { flex: 1 1 0; }   /* узкая форма: поля — в строке подписи, переносятся внутри */
+.kk-eg-cond { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; }
+.kk-eg-cond__f { flex: 1 1 0; }
+.kk-eg-cond > .ga-btn { flex: none; }
+.kk-eg-rsw { display: inline-flex; align-items: center; gap: 8px; min-height: var(--h-sm); margin-left: auto; padding: 0; border: 0; border-radius: var(--r-pill); background: none; color: var(--foreground); font: 500 var(--fs-sm) var(--font); white-space: nowrap; cursor: pointer; }
+.kk-eg-rsw:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+@container egrule (min-width: 400px) {
+  .kk-eg-rform { grid-template-columns: max-content minmax(0, 1fr); column-gap: 12px; }
+  .kk-eg-rform > * { grid-column: 1 / -1; }
+  .kk-eg-rform > .kk-eg-rrow { display: grid; grid-template-columns: subgrid; column-gap: 12px; }   /* зазор — как у формы: колонка полей одна */
+  .kk-eg-rform > .kk-eg-cond, .kk-eg-rform > .kk-eg-add, .kk-eg-rform > .kk-eg-err, .kk-eg-rform > .kk-eg-expick { grid-column: 2; }
+}
+.kk-eg-rform .gx-input { width: auto; max-width: 100%; flex: 0 1 auto; height: var(--h-sm); padding-left: 10px; font-size: var(--fs-sm); }
+.kk-eg-rform select.gx-input { field-sizing: content; }
+.kk-eg-cond__p > select.gx-input { min-width: 72px; }
+.kk-eg-rform > button, .kk-eg-rform > .gx-btn { justify-self: start; }
+.kk-eg-num.gx-input { width: 84px; }
+.kk-eg-iso.gx-input { width: 64px; text-transform: uppercase; }
+.kk-eg-err { flex-basis: 100%; }
+.kk-eg-err[hidden] { display: none; }
+.kk-eg-expick { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.kk-eg-expick__i { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); }
+.kk-eg-rsum { font-style: normal; }
+/* форма квоты выхода (SE §7.3) */
+.kk-eg-qform { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
+.kk-eg-qf { display: grid; gap: 4px; }
+.kk-eg-qf .gx-input { width: auto; min-width: 84px; max-width: 100%; }
+.kk-eg-hint { display: flex; flex-direction: column; gap: 10px; }
+.kk-eg-hint__t { display: flex; flex-direction: column; gap: 4px; }
+.kk-eg-kv { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-size: var(--fs-sm); }
+.kk-eg-qbar { display: block; width: 100%; height: 6px; }
+.kk-eg-qbar__bg { fill: var(--neutral-soft); }
+.kk-eg-qbar__fg { fill: var(--accent); }
+.kk-eg-qbar__fg.is-warn { fill: var(--warning); }
+.kk-eg-dhead { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.kk-eg-dstate { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.kk-eg-dacts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid var(--border); }
+.kk-eg-country { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.kk-eg-charts { display: flex; flex-direction: column; gap: 16px; }
+.kk-eg-trans > li { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: var(--fs-sm); }
+.kk-eg-trans > li > span:last-child { display: flex; flex-direction: column; gap: 2px; }
+.kk-eg-trans__t { color: var(--text-2); }
+.gx-tc > .kk-ca { margin-top: 8px; }
+@media (max-width: 1100px) { .kk-eg-presets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .kk-eg-presets { grid-template-columns: minmax(0, 1fr); }
+  .kk-eg-exit { grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: row; row-gap: 4px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .kk-eg-exit .kk-eg-rtt, .kk-eg-exit .kk-eg-dev { text-align: left; }
+  .kk-eg-trans > li { grid-template-columns: 1fr; gap: 2px; }
+}
+/* nav2 r1 (UI-A1): «Группы» — часть рядом с подменю; строка выхода узкой раскладкой — по ширине части, а не окна */
+@container kkpart (max-width: 719.98px) {
+  .kk-eg-exit { grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: row; row-gap: 4px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .kk-eg-exit .kk-eg-rtt, .kk-eg-exit .kk-eg-dev { text-align: left; }
+}
+.kk-eg-tier__h .gx-input, .kk-eg-row .gx-input, .kk-eg-exit .gx-input, .kk-eg-speed .gx-input, .kk-eg-swrow .gx-input { width: auto; min-width: 0; max-width: 100%; }
+.kk-eg-row .gx-input { min-width: 220px; }
+.kk-eg-trans__s { font-weight: 600; }
+.kk-eg-freq { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.kk-eg-w[hidden] { display: none; }
+@media (max-width: 1100px) { .kk-eg-freq { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .kk-eg-freq { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── UI-5 T13 «Страница с подменю» — раскладка «Настроек»: подменю · часть (своё у панели) ───────────────────────
+   Ширина колонки — токены --subnav-w / -md / -sm (tokens.css: 184 на ≥ 1440 · 164 при ≤ 1439, таблица ширин r4 · 152 на
+   планшете, < 900, пункт 44 — касание); зазор 24 / 20 / 20 (Nav2 r1). Телефон — список частей (Kit.msec + mlist). */
+.kk-sub { display: grid; grid-template-columns: var(--subnav-w) minmax(0, 1fr); gap: var(--sub-gap); align-items: start; min-width: 0; }
+.kk-part { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); align-content: start; min-width: 0; max-width: var(--part-max); container: kkpart / inline-size; outline: none; }
+/* крошки уступают место заголовку части: не влезают — сжимаются с многоточием; на узком компьютере и планшете (≤ 1279)
+   их нет — группу и часть видно в подменю рядом */
+.gx-crumb--path { flex: 0 1 auto; min-width: 0; overflow: hidden; font: 500 var(--fs-lg) var(--font); color: var(--text-2); }
+.gx-crumb--path > span:not(.gi) { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: var(--font); }
+.gx-crumb--path + .gx-h1 { flex: none; max-width: 100%; }
+/* владелец 20.10: подменю прилегает к боковому меню на любой ширине — раздел с подменю не центруется (у .gx-page
+   max-width 1600 и margin auto: на 2000 подменю уезжало на 70 px, на 2560 — на 350), поле слева — --sub-edge (≤ 24);
+   шапка — то же поле, заголовок над подменю. Часть — на всё оставшееся место (--part-max: none), от левого края */
+.gx-frame:has(.kk-sub) > .gx-head, .gx-frame:has(.kk-sub) > .gx-main { padding-left: var(--sub-edge); }
+/* 1280–1439: подменю 164, как в таблице ширин r4 (зазор остаётся 24); ≤ 1279 — тоже 164 и зазор 20 (ниже) */
+@media (max-width: 1439.98px) { .kk-sub { --subnav-w: var(--subnav-w-md); } }
+@media (max-width: 1279.98px) {
+  .kk-sub { --subnav-w: var(--subnav-w-md); --sub-gap: 20px; }
+  /* «Вид» значком (подпись — подсказкой) уже 1280: с «A A A» (Т3 №17) подпись не влезала в шапку на 720 на «крупнее» */
+  .gx-viewbtn { width: var(--h-md); padding: 0; justify-content: center; }
+  .gx-viewbtn__t { display: none; }
+  .gx-crumb--path { display: none; }
+  /* «Выходы › Все выходы» (UI-A2): плотность и «Добавить ключ» — значками, полоса над таблицей в одну строку */
+  .kk-ex__bar .gx-dn__t, .kk-ex__bar .kk-ex__addt { display: none; }
+  .kk-ex__bar .kk-ex__add { min-width: 0; padding: 0 12px; gap: 0; }
+}
+@media (max-width: 899.98px) {
+  .kk-sub { --subnav-w: var(--subnav-w-sm); --sub-gap: 20px; }
+  .kk-sub .gx-subnav__i { min-height: 44px; padding-block: 11px; }
+}
+.kk-mnavlist { display: grid; gap: var(--sp-5); min-width: 0; }
+/* UI-A1 (r4, Н5): строка пояснения части (kk-phead__s) — первой в части, не шире формы; части-формы (Доступ, О панели,
+   Шлюз, Время, Хранение, Проверка сервера, Копия, GitHub) — карточки до --form-max по левому краю; списки и сетки — во
+   всю ширину. Изменённое поле — подпись с точкой акцентом (gx-dirty). «Проверка сервера» — две колонки строк gx-kv. */
+.kk-phead__s { margin: 0; max-width: var(--form-max); color: var(--text-2); font-size: var(--fs); line-height: 1.25rem; text-wrap: pretty; }
+.kk-part--form > * { max-width: var(--form-max); min-width: 0; }
+.gx-dirty { display: inline-flex; align-items: center; gap: 6px; }
+.gx-dirty::before { content: ""; width: 7px; height: 7px; flex: none; border-radius: 50%; background: var(--accent); }
+.kk-hc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 var(--sp-6); align-items: stretch; min-width: 0; --kv-label: 112px; }
+.kk-hc > .gx-kv { align-content: start; }      /* колонки одной высоты, строки — сверху (перенос «Отметки ▲/▼» справа) */
+@container kkpart (max-width: 619.98px) { .kk-hc { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 767.98px) { .kk-hc { grid-template-columns: minmax(0, 1fr); } }
+.kk-sto__t { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+.gx-sw__t > .kk-swwarn { color: var(--text-3); }   /* пояснение под переключателем истории (кадр Н1) */
+
+/* ── «Уведомления» по кадру Н8 (nav2 r3, владелец 20.10: часть — в один экран 1440×900) ──────────────────────────
+   Полоса gx-nhead «В бот @имя · Все», группы событий карточками gx-ngrp колонками (CSS columns: 1 — планшет и телефон,
+   3 — 1100–1999, 4 — от 2000), строка gx-nrow 32: подпись · ⓘ · маленький переключатель справа; у группы
+   «N из M» и «все» (gx-nsw, role=checkbox: вкл / выкл / смешано). Будущие группы — gx-ngrp--soon (пунктир, серым).
+   UI-A2: 3 колонки уже с 1100 (было 2 до 1439: на 1100×900 и 1280×900 часть не помещалась на 234 и 200 px — правило r3
+   «один экран» главнее таблицы r4); узкие колонки 190–300 px (1100–1439) — заголовок группы короче, ниже. */
+.gx-nhead { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 10px 12px 10px 10px; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); }
+.gx-nhead > .gx-card__ic { flex: none; }
+.gx-nhead__b { flex: 1; min-width: 0; display: grid; }
+.gx-nhead__t { display: flex; align-items: center; gap: 6px; min-width: 0; font: 600 var(--fs)/1.25rem var(--font); }
+.gx-nhead__t .gx-mono { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .8125rem; font-weight: 400; color: var(--text-2); }
+.gx-nhead__s { font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.gx-nhead > .gx-chip { flex: none; }
+.gx-nsw { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 4px 0 10px; border: 0; border-radius: var(--r-pill); background: none; color: var(--text-2); font: 500 .78125rem/1 var(--font); cursor: pointer; }
+.gx-nsw:hover:not([disabled]) { background: var(--surface-2); color: var(--foreground); }
+.gx-nsw[disabled] { opacity: var(--disabled-opacity, .45); cursor: not-allowed; }
+.gx-ngrid { column-count: 1; column-gap: 12px; }
+/* компьютер: пояснение под «В бот» — одной строкой (полный текст — в title), полоса 62 на любой ширине */
+@media (min-width: 1100px) { .gx-ngrid { column-count: 3; } .gx-nhead__s { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
+@media (min-width: 2000px) { .gx-ngrid { column-count: 4; } }
+.gx-ngrp { break-inside: avoid; display: grid; min-width: 0; margin: 0 0 12px; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); }
+.gx-ngrp__h { display: flex; align-items: center; gap: 6px; min-width: 0; height: 40px; padding: 0 6px 0 12px; border-bottom: 1px solid var(--separator); }
+.gx-ngrp__h > .gi { flex: none; color: var(--text-2); }
+.gx-ngrp__t { margin: 0; flex: 1; min-width: 0; font: 600 var(--fs-sm)/1.125rem var(--font); color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-ngrp__tg { display: flex; align-items: center; gap: 6px; height: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; }
+.gx-ngrp__tg > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gx-ngrp__tg[aria-expanded="true"] > .gi { transform: rotate(180deg); }
+.gx-ngrp__n { flex: none; font-size: .75rem; color: var(--text-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gx-ngrp__h > .gx-soon { flex: none; }
+.gx-ngrp__h > .gx-nsw { gap: 6px; padding: 0 2px 0 6px; }
+.gx-ngrp__l { margin: 0; padding: 4px 0; list-style: none; display: grid; }
+.gx-ngrp__l[hidden] { display: none; }
+.gx-nrow { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; min-height: 32px; padding: 0 6px 0 12px; min-width: 0; }
+.gx-nrow:hover { background: var(--surface-hover); }
+.gx-nrow__t { flex: 1; min-width: 0; padding: 7px 0; font-size: var(--fs-sm); line-height: 1.125rem; text-wrap: pretty; cursor: pointer; }
+.gx-nrow__i { flex: none; display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-3); cursor: help; }
+.gx-nrow__i:hover, .gx-nrow__i[aria-expanded="true"] { color: var(--foreground); background: var(--surface-2); }
+.gx-nrow__sw { flex: none; display: inline-grid; place-items: center; min-width: 36px; height: 28px; padding: 0; border: 0; border-radius: var(--r-pill); background: none; cursor: pointer; }
+.gx-nrow__sw[disabled] { cursor: not-allowed; }
+.gx-nrow > .kk-ninfo__t { flex-basis: 100%; margin: 0 0 6px; padding-right: 40px; }
+.gx-nhead + .kk-ninfo__t { margin: 0; }
+.gx-nsw:focus-visible, .gx-nrow__sw:focus-visible, .gx-nrow__i:focus-visible, .gx-ngrp__tg:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-ngrp--soon { background: transparent; box-shadow: none; border-style: dashed; }
+.gx-ngrp--soon .gx-ngrp__t, .gx-ngrp--soon .gx-nrow__t, .gx-ngrp--soon .gx-ngrp__h > .gi { color: var(--text-3); }
+.gx-ngrp--soon .gx-nrow:hover { background: none; }
+.gx-ngrp--soon .gx-nrow__t { cursor: default; }
+.gx-ngrp--soon .gx-nrow__sw { opacity: .6; }
+/* маленький переключатель 28×16 (gx-track тот же: цвета и «вкл» — из components.css); «смешано» — полузаливка, бегунок посередине */
+.gx-track.kk-ntrack { width: 28px; height: 16px; }
+.gx-track.kk-ntrack::after { top: 2px; left: 2px; width: 12px; height: 12px; }
+[aria-checked="true"] > .gx-track.kk-ntrack::after { transform: translateX(12px); }
+[aria-checked="mixed"] > .gx-track.kk-ntrack { background: color-mix(in srgb, var(--accent) 45%, var(--surface-3)); }
+[aria-checked="mixed"] > .gx-track.kk-ntrack::after { transform: translateX(6px); }
+.kk-ninfo { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--text-3); cursor: pointer; }
+.kk-ninfo:hover, .kk-ninfo[aria-expanded="true"] { color: var(--foreground); background: var(--surface); }
+.kk-ninfo__t { max-width: 520px; color: var(--text-2); font-size: .78125rem; line-height: 1.0625rem; text-wrap: pretty; }
+/* kk-nrow — колонка плотности списка «Людей» (xt.js): раньше это была строка «Уведомлений», список на правило опирается */
+.kk-nrow { display: flex; flex-wrap: wrap; align-items: center; column-gap: 4px; min-width: 0; }
+/* узкие колонки (1100–1439, UI-A2): у группы прячутся слово «все» (остаётся переключатель с подписью для чтения с
+   экрана) и счёт «N из M» (он — в подсказке «все», общий — в полосе бота); у будущей группы — недоступный «все»;
+   подпись группы, которой и так тесно, переносится на вторую строку, а не режется многоточием. На 1100–1279 (колонка
+   190–250) — ещё и без значка группы */
+@media (min-width: 1100px) and (max-width: 1439.98px) {
+  .gx-ngrp .gx-nsw > span:first-child { display: none; }
+  .gx-ngrp .gx-nsw { padding: 0 4px; }
+  .gx-ngrp__n, .gx-ngrp--soon .gx-ngrp__h > .gx-nsw { display: none; }
+  .gx-ngrp__h { height: auto; min-height: 40px; padding-block: 4px; }
+  .gx-ngrp__t { white-space: normal; text-wrap: balance; line-height: 1rem; }
+}
+@media (min-width: 1100px) and (max-width: 1279.98px) { .gx-ngrp__h > .gi { display: none; } }
+/* касание (телефон, планшет): строки и заголовки групп 44, группы свёрнуты — раскрываются нажатием на заголовок */
+@media (max-width: 899.98px) {
+  .gx-ngrp__h { height: 48px; }
+  .gx-nrow { min-height: 44px; }
+  .gx-nrow__sw, .gx-nsw { min-height: 44px; }
+  .gx-nrow__i { width: 32px; height: 32px; }
+  .gx-nhead { flex-wrap: wrap; }
+  .gx-nhead__b { flex-basis: calc(100% - 60px); }
+}
+@media (prefers-reduced-motion: reduce) { .gx-ngrp__tg > .gi { transition: none; } }
+
+/* ── UI-6 «Обзор»: сводка «Что не в порядке: N» под плитками (аудит 20.10 №4) ─────────────────────────────────────
+   Одна карточка: шапка-кнопка (раскрыть / свернуть, память браузера) и строки 36 px — значок, что случилось, «×N» у
+   повторов, причина тихим текстом в той же строке (обрезается, полный текст — в подсказке), действие справа. */
+.kk-ovs { background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-tile); min-width: 0; }
+.kk-ovs__h { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border: 0; background: none; color: var(--foreground); font: 600 var(--fs) var(--font); text-align: left; cursor: pointer; border-radius: var(--r-tile); }
+.kk-ovs__h > .gi:last-child { margin-left: auto; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.kk-ovs__h[aria-expanded="false"] > .gi:last-child { transform: rotate(-90deg); }
+.kk-ovs__ht { min-width: 0; }
+.kk-ovs__h .kk-ovs__ic { color: var(--warning); }
+.kk-ovs--bad .kk-ovs__h .kk-ovs__ic { color: var(--danger); }
+.kk-ovs__list { list-style: none; margin: 0; padding: 0 8px 6px; }
+.kk-ovs__list[hidden] { display: none; }
+.kk-ovs__r { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 36px; padding: 0 8px; border-top: 1px solid var(--separator); }
+.kk-ovs__ic { display: grid; place-items: center; }
+.kk-ovs__r--danger .kk-ovs__ic { color: var(--danger); }
+.kk-ovs__r--warning .kk-ovs__ic { color: var(--warning); }
+.kk-ovs__r--accent .kk-ovs__ic { color: var(--accent); }
+.kk-ovs__t { min-width: 0; display: flex; align-items: baseline; gap: 8px; white-space: nowrap; overflow: hidden; }
+.kk-ovs__tt { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-sm); }
+.kk-ovs__n { flex: none; padding: 0 6px; border-radius: var(--r-tag); background: var(--surface-2); color: var(--text-2); font: 600 .75rem/1.125rem var(--font); }
+.kk-ovs__s { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text-3); font-size: var(--fs-sm); }
+
+/* ── nav2 r1: будущий раздел в меню первого уровня (серым, с выпуском) и «Внешний вид» внизу меню ──────────────── */
+.gx-nav__item--soon, .gx-nav__item--soon:hover { color: var(--text-3); background: none; cursor: default; box-shadow: none; }
+.gx-nav__item--soon > .gi { opacity: .7; }
+.gx-nav__item--soon > .gx-nav__label { flex: 1; min-width: 0; }
+.gx-side__look { width: 100%; }
+
+/* ── nav2 r1 / r3: части раздела (kk-part) и «Обзор › Сводка» (Н4) ─────────────────────────────────────────────
+   Сводка и «Здоровье сервера» — часть ovb (ovb.css); здесь — карточка «События»
+   (kk-ov__*, строка kk-ov__r — 48 px). Проверка сервера (pages/diag.js)
+   собирается в части — её вкладки заменяет подменю. */
+.kk-part__cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); align-items: start; min-width: 0; }
+@container kkpart (max-width: 719.98px) { .kk-part__cols { grid-template-columns: minmax(0, 1fr); } }
+.kk-ov__card { display: grid; gap: 8px; padding: 18px 20px; min-width: 0; }
+.kk-ov__hrow { display: flex; align-items: center; gap: 8px; }
+.kk-ov__h { margin: 0; flex: 1; min-width: 0; font: 600 var(--fs-lg)/1.5rem var(--font-head); }
+.kk-ov__list { display: grid; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.kk-ov__r { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 6px 0; min-width: 0; box-shadow: inset 0 1px 0 var(--separator); }
+.kk-ov__r:first-child { box-shadow: none; }
+.kk-ov__b { flex: 1; min-width: 0; display: grid; }
+.kk-ov__t { font: 500 var(--fs-sm)/1.125rem var(--font); overflow-wrap: anywhere; }
+.kk-ov__tm { flex: none; width: 44px; font: 400 .78125rem/1rem var(--mono); color: var(--text-3); }
+.kk-ov__r > .gx-ev__d { margin-top: 0; }
+.kk-ov__r > .ga-btn { flex: none; }
+.kk-ov__ok { display: flex; align-items: center; gap: 8px; margin: 0; padding: 8px 0; color: var(--text-2); font-size: var(--fs-sm); }
+.kk-ov__diag .gx-diag__tabs { display: none; }
+/* nav2 r1 / r4: одиночная карточка-форма части («Маршрут по умолчанию», «Профиль по умолчанию», «Блокировка», «Куда пойдёт
+   трафик») — не шире 880, по левому краю; списки и сетки части — до правого края */
+.kk-part > .kk-part__form, .kk-part > .kk-stack > .kk-part__form { max-width: 880px; }
+@media (min-width: 2000px) { .kk-sub { --subnav-w: 200px; } }
+/* ── «Выходы › Внутренние группы» (T15 Q6; РФ-группы Ш1 29.10): группа — общая карточка kk-eg-card (kk-eg-card--ru:
+   значок роутера (K.domMark) вместо «РФ», «сейчас: …» в шапке переносится), в теле после уровней — факты kk-rukv; над карточками — схема
+   kk-rus, под ними — российские ключи вне групп kk-rux */
+.kk-lnk { padding: 0; border: 0; background: none; font: inherit; color: var(--accent-text); text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.kk-lnk:hover { color: var(--foreground); text-decoration-style: solid; }
+.kk-lnk:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
+.kk-ru__top { display: flex; align-items: flex-start; gap: 12px 16px; flex-wrap: wrap; }
+.kk-ru__top > .gx-card__acts { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.kk-ru__lead { flex: 1 1 360px; margin: 0; max-width: 620px; color: var(--text-2); font-size: var(--fs); line-height: 1.25rem; text-wrap: pretty; }
+.kk-ru { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; max-width: 920px; min-width: 0; align-items: start; }
+.kk-ru__col { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; align-content: start; }
+/* от 1400: группы слева, «Российские выходы» справа (кадр 1.8) — колонки разного содержания и разной высоты */
+.kk-ru__main, .kk-ru__side { min-width: 0; }
+@container kkpart (min-width: 1400px) { .kk-ru { max-width: 2000px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; } }
+@container kkpart (min-width: 1400px) { .kk-rug__kv { --kv-label: 200px; } }
+/* часть уже 600 (768 с подменю): подпись над значением, кнопка — справа от значения; иначе «Добавить условие»
+   сжимает значение до столбика в одно слово */
+/* состояние выхода словом и значком */
+.kk-xst { display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+.kk-xst__ic { width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--neutral-soft); color: var(--text-2); }
+.kk-xst__ic .gx-ico { width: 13px; height: 13px; stroke-width: 1.8; }
+.kk-xst__w { font: 500 var(--fs-sm)/1.125rem var(--font); white-space: nowrap; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; }
+.kk-xst--ok .kk-xst__ic { background: var(--success-soft); color: var(--success-text); }
+.kk-xst--ok .kk-xst__w { color: var(--success-text); }
+.kk-xst--warn .kk-xst__ic { background: var(--warning-soft); color: var(--warning-text); }
+.kk-xst--warn .kk-xst__w { color: var(--warning-text); }
+.kk-xst--bad .kk-xst__ic { background: var(--danger-soft); color: var(--danger-text); }
+.kk-xst--bad .kk-xst__w { color: var(--danger-text); }
+.kk-xst--none .kk-xst__ic { background: transparent; box-shadow: inset 0 0 0 1px var(--border); color: var(--text-3); }
+.kk-xst--none .kk-xst__w { color: var(--text-3); }
+/* список российских выходов: имя · группа и шаг · состояние · устройств · ⋯ */
+.kk-rux { gap: 0; padding: 0; overflow: hidden; }
+.kk-rux__top { display: flex; align-items: flex-start; gap: 12px; padding: 18px 16px 14px 20px; }
+.kk-rux__tt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.kk-rux__s { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-rux__h, .kk-rux__r { display: grid; grid-template-columns: minmax(0, 1fr) 150px 112px 84px 36px; gap: 12px; align-items: center; padding: 0 10px 0 20px; }
+.kk-rux__h { height: 32px; border-top: 1px solid var(--separator); font: 500 .75rem/1rem var(--font); color: var(--text-3); }
+.kk-rux__r { min-height: 52px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); }
+.kk-rux__n { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 6px 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.kk-rux__n:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-tag); }
+.kk-rux__n:hover .kk-rux__nt { color: var(--accent-text); }
+.kk-rux__ic { width: 28px; height: 28px; flex: none; border-radius: var(--r-tag); display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); }
+.kk-rux__nb { display: grid; min-width: 0; }
+.kk-rux__nt { min-width: 0; font: 500 var(--fs)/1.25rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-rux__ns { font-size: .75rem; line-height: 1rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-rux__g { color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-rux__d { color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kk-rux__link { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; padding: 14px 20px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); color: var(--text-2); }
+.kk-rux__link > .gx-ico { color: var(--text-3); }
+@container kkpart (max-width: 720px) {
+  .kk-rux__h, .kk-rux__r { grid-template-columns: minmax(0, 1fr) 112px 124px 36px; }   /* «✕ не работает» — целиком */
+  .kk-rux__c4 { display: none; }
+}
+/* «Российских групп пока нет» */
+.kk-empty { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 6px 14px; align-items: start; max-width: 920px; }
+.kk-empty > .gx-card__ic { grid-row: 1 / span 3; }
+.kk-empty__t { margin: 0; font: 600 var(--fs-h3)/1.3 var(--font-head); }
+.kk-empty__p { margin: 0; color: var(--text-2); max-width: 600px; text-wrap: pretty; }
+.kk-empty__b { grid-column: 2; display: flex; gap: 8px; flex-wrap: wrap; padding-top: 8px; }
+/* телефон: карточка группы — значок роутера, имя, «сейчас: …» под ним, стрелка 44 × 44; факты столбиком */
+.kk-mru { display: grid; gap: 10px; }
+.kk-mru__h { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.kk-mru__tt { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.kk-mru__tt > .gx-chip { max-width: 100%; height: auto; min-height: 24px; padding-top: 3px; padding-bottom: 3px; white-space: normal; text-wrap: pretty; justify-self: start; }
+.kk-mru__row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.kk-mru__n { margin: 0; font: 600 1.0625rem/1.375rem var(--font-head); }
+.kk-mru__kv { display: grid; }
+.kk-mru__r { display: grid; gap: 2px; padding: 10px 0; border-top: 1px solid var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; }
+.kk-mru__r .gx-kv__text small { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kk-mru__r .gx-kv__btns { margin: 4px 0 0; }
+.kk-mru__k { color: var(--text-2); }
+.kk-mru__tog { width: 44px; height: 44px; margin: -8px -8px 0 0; }
+/* «Назначение» ключа (окно «Добавить ключ», T15 Q6, кадры 2.1–2.2): строка роли с выбором группы внутри фразы (gx-pick) */
+.gx-pick { display: inline-flex; align-items: center; gap: 6px; height: var(--h-sm); max-width: 100%; padding: 0 10px 0 12px; border: 0; border-radius: var(--r-field); background: var(--field-background); box-shadow: var(--field-shadow); color: var(--foreground); font: 500 var(--fs-sm) var(--font); white-space: nowrap; cursor: pointer; flex: none; }
+.gx-pick:hover { background: var(--field-hover); }
+.gx-pick:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-pick > .gx-ico { color: var(--text-2); }
+.gx-pick__t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.kk-dest .gx-radio__i { cursor: pointer; }
+.kk-dest .gx-radio__t { flex-wrap: wrap; gap: 6px 10px; }
+.kk-rsnote { display: flex; align-items: flex-start; gap: 8px; color: var(--text-2); font-size: var(--fs-sm); line-height: 1.125rem; text-wrap: pretty; }
+.kk-rsnote > .gx-ico { flex: none; margin-top: 1px; color: var(--text-3); }
+/* «Правила › Профиль по умолчанию» — строка «Российские сайты» и окно «Выбрать пользователей…» (T15 Q6, кадры 4.1–4.5) */
+.kk-rs { display: grid; gap: 8px; padding-top: var(--card-gap, 16px); border-top: 1px solid var(--separator); }
+.kk-rs__h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.kk-rs__t { margin: 0; font: 600 var(--fs-lg, .9375rem)/1.25rem var(--font-head); }
+.kk-rs__cap { font-size: var(--fs-sm); color: var(--text-2); }
+.kk-rs__main { margin: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; }
+.kk-rs__sub { margin: 0; color: var(--text-2); font-size: var(--fs-sm); line-height: 1.125rem; text-wrap: pretty; }
+.kk-rs__acts { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 2px; }
+.kk-ptools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.kk-ptools > .gx-search-in { flex: 1 1 200px; }
+.kk-ulist { display: grid; min-width: 0; max-height: 340px; overflow: auto; border-radius: var(--r-tile); box-shadow: inset 0 0 0 1px var(--border); }
+.kk-ulist > .gx-check__i { grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; padding: 10px 14px; border-top: 1px solid var(--separator); }
+.kk-ulist > .gx-check__i:first-child { border-top: 0; }
+.kk-ulist > .gx-check__i[aria-disabled="true"] { opacity: var(--disabled-opacity, .5); cursor: not-allowed; }
+.kk-ulist > .gx-check__i:not([aria-checked="true"]) .gx-box > .gi { visibility: hidden; }
+.kk-ulist__b { display: grid; min-width: 0; }
+.kk-ulist__n { font: 500 var(--fs)/1.25rem var(--font); overflow-wrap: anywhere; }
+.kk-ulist__s { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kk-ulist__none { margin: 0; padding: 14px; }
+.kk-psum { display: grid; gap: 6px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-psum b { color: var(--foreground); font-weight: 600; }
+[data-device="phone"] .kk-ulist { max-height: none; }
+[data-device="phone"] .kk-ulist > .gx-check__i { min-height: 56px; }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Т2 Настройки — круг 1, макет it1 Д3 «Выходы и Настройки» (css/it1-d3.css: №36, №39, П4, №37, №41; кадры Н1–Н6, Т3–Т4)
+   ════════════════════════════════════════════════════════════════════════════ */
+/* №36, №39, П4 · «Шлюз»: «Адрес для клиентов» — здесь, в двух видах (по IP / по домену) */
+.kk-gw2 { gap: 18px; }
+.kk-gw2__addr { display: grid; gap: 8px; min-width: 0; border-radius: var(--r-tile); }   /* подсветка перехода (?open=host) — скруглённым кольцом */
+.kk-gw2__lh { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+.kk-gw2__lh > .gx-field__l { margin: 0; }
+.kk-gw2__addr > .gx-field__row > .gx-input { flex: 1 1 280px; min-width: 0; }
+.kk-gw2__alt { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-top: 4px; padding: 12px 14px; border-radius: var(--r-tile); background: var(--tile-bg); }
+.kk-gw2__alt > span { flex: 1 1 320px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-gw2__dom { display: grid; gap: 10px; padding: 12px 14px; border-radius: var(--r-tile); background: var(--tile-bg); }
+.kk-gw2__dv { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; min-width: 0; }
+.kk-gw2__dn { font: 500 .9375rem/1.375rem var(--mono); overflow-wrap: anywhere; }
+.kk-gw2__dom > .gx-p { margin: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-gw2__dom > .ga-btn { justify-self: start; }
+.kk-gw2__net { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 4px 16px; padding-top: 14px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; }
+.kk-gw2__net > span:first-child { color: var(--text-2); }
+.kk-gw2__net > span:nth-child(2) { display: flex; gap: 6px 14px; flex-wrap: wrap; }
+.kk-gw2__nv { font-family: var(--mono); color: var(--foreground); }
+.kk-gw2__net > .gx-hint { grid-column: 2; }
+/* №37 · «Домен и сайт»: метки и переключатели — одной колонкой 240 у правого края */
+.kk-use { display: grid; }
+.kk-use__r { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 16px; align-items: center; min-height: 56px; padding: 10px 0; border-top: 1px solid var(--separator); }
+.kk-use__b { display: grid; gap: 2px; min-width: 0; }
+.kk-use__b > b { font: 500 var(--fs)/1.25rem var(--font); }
+.kk-use__b > span { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-use__e { justify-self: end; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kk-use__st { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-3); text-align: right; text-wrap: pretty; }
+.kk-use__e > button.gx-track:disabled { opacity: var(--disabled-opacity, .5); cursor: not-allowed; }
+.kk-use__e > button.gx-track:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* П4 · строка-ссылка «Адрес для клиентов» внизу «Домена и сайта» — в «Шлюз» */
+.kk-lrow { display: flex; align-items: center; gap: 14px; padding: 14px 16px; color: inherit; text-decoration: none; cursor: pointer; }
+.kk-lrow:hover { background: var(--surface-hover); }
+.kk-lrow:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-lrow__b { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.kk-lrow__t { font: 600 var(--fs)/1.25rem var(--font); overflow-wrap: anywhere; }
+.kk-lrow__s { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-lrow > .gi:last-child { flex: none; color: var(--text-3); }
+/* №41 · «Хранение данных»: «Удалить историю активности» — последней строкой карточки */
+.kk-sto2 { gap: 14px; }
+.kk-sto2 .gx-sw { max-width: none; }                /* переключатель «Хранить» — во всю ширину карточки, как в кадре Н5 */
+.kk-wipe { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: center; padding-top: 14px; border-top: 1px solid var(--separator); }
+.kk-wipe__b { display: grid; gap: 2px; min-width: 0; }
+.kk-wipe__b > b { font: 500 var(--fs)/1.25rem var(--font); }
+.kk-wipe__b > span { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-wipe__e { display: grid; justify-items: end; gap: 4px; }
+.kk-wipe__f { font-size: .78125rem; line-height: 1rem; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* окно подтверждения «Удалить историю активности?» (Н6): Сотрётся · Останется · Освободится */
+.kk-dlg3 > .gx-dlg__body { gap: 12px; }
+.kk-dlg3__sec { display: grid; gap: 6px; }
+.kk-dlg3__h { font: 600 .78125rem/1rem var(--font); color: var(--text-2); }
+/* телефон 390 (Т3, Т4) */
+[data-device="phone"] .kk-gw2__alt > .ga-btn, [data-device="phone"] .kk-gw2__dom > .ga-btn { width: 100%; justify-content: center; }
+[data-device="phone"] .kk-gw2__addr > .gx-field__row { flex-wrap: wrap; }
+[data-device="phone"] .kk-gw2__net { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kk-gw2__net > .gx-hint { grid-column: 1; }
+[data-device="phone"] .kk-use__r { grid-template-columns: minmax(0, 1fr) auto; }
+[data-device="phone"] .kk-use__r--st { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }    /* метка — под подписью */
+[data-device="phone"] .kk-use__r--st > .kk-use__e { justify-self: start; }
+[data-device="phone"] .kk-use__r--st .kk-use__st { text-align: left; }
+/* переключатель — своего размера 40×24 (общее правило телефона растягивает кнопки до 44×44), касание — полем ::before */
+[data-hero][data-device="phone"] .kk-use__e > button.gx-track { position: relative; min-height: 0; min-width: 0; width: 40px; height: 24px; }
+[data-device="phone"] .kk-use__e > button.gx-track::before { content: ""; position: absolute; inset: -10px -4px; }
+[data-device="phone"] .kk-wipe { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kk-wipe__e { justify-items: stretch; }
+[data-device="phone"] .kk-wipe__e > .ga-btn { width: 100%; justify-content: center; }
+[data-device="phone"] .kk-wipe__f { white-space: normal; }
+[data-device="phone"] .kk-gw2 > .gx-card__head > .gx-card__acts { margin-left: 0; }   /* «включён» — под заголовком слева (Т3) */
+
+/* ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   Т2 Выходы — круг 1, макет it1 Д3 «Выходы и Настройки» (css/it1-d3.css: №28–№31; кадры Г1–Г4, Р1–Р2, Т1–Т2)
+   ───────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+/* №29: «⋯» шапки группы — поверх растянутой кнопки раскрытия */
+.kk-eg-head .kk-gmw { position: relative; z-index: 1; }
+/* №28: строка «группа или уровень» под «Уровнями» */
+.kk-g2__gl { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-g2__gl > .gi { flex: none; margin-top: 2px; color: var(--text-3); }
+/* №31в: уровень — шапка и строки выхода одной сеткой: ↑↓ · имя · состояние · отклик · вес · выбор 148 · «⋯» */
+/* РФ-группы Ш1: после отклика — «Устройств» (88): ↑↓ · имя · состояние · отклик · устройств · вес · выбор 148 · «⋯» */
+/* PLAN-order Ш6 (макет Claude Design «Порядок в группах» r1, классы ko-*): шапка уровня, шапка колонок и строки — одна
+   сетка: метка ряда 48 · ручка 24 · ↑↓ 56 · имя · полоска силы 72 · число 140 · устройства 88 · уровень 176 · «⋯» 32
+   (вес — полем в колонке числа). У внутренней группы вместо полоски — «Состояние» 120 и число 64: силы у шагов нет */
+.kk-eg-tier { --ko-lab: 48px; --ko-c3: 72px; --ko-num: 140px; --ko-lvl: 176px; }
+.kk-eg-tier.is-ru { --ko-c3: 120px; --ko-num: 64px; }
+.kk-eg-tier.ko-nolab { --ko-lab: 0px; }
+.kk-eg-tier__h, .kk-eg-exit, .ko-ch { display: grid; grid-template-columns: calc(var(--ko-lab) + 88px) minmax(0, 1fr) var(--ko-c3) var(--ko-num) 88px var(--ko-lvl) 32px; align-items: center; column-gap: 8px; }
+.kk-eg-tier__h { min-height: 40px; }
+.kk-eg-tier__tt { grid-column: 1 / 3; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; min-width: 0; }   /* REV-it1 №2: «N выходов» — под имя уровня, если в колонке тесно (720–900: наезжало на «Способ выбора») */
+.kk-eg-tier__tt > b { white-space: nowrap; }
+.kk-eg-tier__m { grid-column: 3 / 6; justify-self: end; display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.kk-eg-tier__pw { min-width: 0; display: flex; }
+.kk-eg-tier__pw > *, .kk-eg-tier__h .kk-eg-tier__pw .gx-input, .kk-eg-exit .kk-eg-tier__pw .gx-input { width: 100%; min-width: 0; max-width: none; }
+.kk-eg-tier__h > .gx-menu-btn, .kk-eg-exit > .gx-menu-btn { justify-self: end; }
+.kk-eg-st { min-width: 0; display: flex; }
+.kk-eg-nums { display: contents; }   /* отклик и устройства — своими колонками; в узкой части — строкой под именем */
+.kk-eg-dev { min-width: 0; text-align: right; font-size: var(--fs-sm); color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* строка выхода: колонки явно (фишки, полоски и числа бывает нет — соседи не съезжают) */
+.kk-eg-tier .kk-eg-exits { gap: 0; }
+.kk-eg-exit { position: relative; min-height: 52px; }
+.kk-eg-exit > .kk-eg-ord { grid-column: 1; grid-row: 1; display: grid; grid-template-columns: var(--ko-lab) 32px 28px 28px; align-items: center; justify-items: start; }
+.kk-eg-ord > .kk-eg-rk:not(.gx-vh) { grid-column: 1; grid-row: 1; }
+.kk-eg-ord > .gx-grip { grid-column: 2; grid-row: 1; }
+.kk-eg-ord > .gx-grip + .ga-btn { grid-column: 3; grid-row: 1; }
+.kk-eg-ord > .ga-btn + .ga-btn { grid-column: 4; grid-row: 1; }
+.kk-eg-ord > .ga-btn { width: 28px; height: 32px; min-width: 0; }
+.kk-eg-ord > .ga-btn[disabled] { opacity: var(--disabled-opacity); }
+.kk-eg-exit > .kk-eg-exit__n { grid-column: 2; grid-row: 1; }
+.kk-eg-exit > .ko-bar { grid-column: 3; grid-row: 1; }
+.kk-eg-exit .kk-eg-st { grid-column: 3; grid-row: 1; }
+.kk-eg-tier:not(.is-ru) .kk-eg-exit .kk-eg-st { grid-column: 3 / 5; }   /* «не участвуют»: фишка на месте полоски и числа */
+.kk-eg-exit .ko-num { grid-column: 4; grid-row: 1; }
+.kk-eg-exit .kk-eg-dev { grid-column: 5; grid-row: 1; text-align: left; }   /* макет: устройства — слева, после числа справа */
+.kk-eg-exit > .kk-eg-tier__pw { grid-column: 6; grid-row: 1; }
+.kk-eg-exit > .gx-menu-btn { grid-column: 7; grid-row: 1; }
+/* разделитель строки — от колонки ручки (метки рядов — вне сетки строк, как в макете) */
+.kk-eg-exit::after { content: ""; position: absolute; left: var(--ko-lab); right: 0; top: 0; height: 1px; background: var(--separator); pointer-events: none; }
+.kk-eg-exit.is-dirty { background: linear-gradient(var(--accent-soft), var(--accent-soft)) var(--ko-lab) 0 / calc(100% - var(--ko-lab)) 100% no-repeat; }   /* метка места — вне подложки */
+.kk-eg-tier .kk-eg-exit__n > .gx-desc { font-size: var(--fs-xs); line-height: 1.0625rem; }
+.kk-eg-exit.is-lifted { background: var(--surface-raised); }   /* «было: Р2 · AmneziaWG 2.0» — одной строкой */
+.kk-eg-exit.is-dirty > .kk-eg-exit__n > b::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 2px 0; border-radius: 50%; background: var(--accent); vertical-align: middle; }
+.kk-eg-exit.is-out .kk-eg-exit__n > b { color: var(--text-2); font-weight: 400; }
+/* метка ряда «Р1» (Р2 и ниже — приглушённо); место в ручном порядке — числом без подложки */
+.ko-rk, .kk-eg-exit.ko-lab .kk-eg-rk { min-width: 28px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: var(--r-tag); background: var(--accent-soft); color: var(--accent-text); font: 600 .75rem/1.375rem var(--mono); text-align: center; }
+.ko-rk--2, .kk-eg-exit.ko-lab.ko-r2 .kk-eg-rk { background: var(--surface-3); color: var(--text-2); }
+.kk-eg-tier.ko-man .kk-eg-exit.ko-lab .kk-eg-rk { background: none; color: var(--text-2); font-weight: 500; font-size: var(--fs-sm); }
+/* ряд силы: метка и причина строкой над рядом; линия от метки к строкам ряда (дерево «уровень → ряд → выходы») */
+.ko-why { position: relative; display: grid; grid-template-columns: var(--ko-lab) minmax(0, 1fr); align-items: center; min-height: 42px; box-shadow: inset 0 1px 0 var(--separator); font-size: var(--fs-xs); line-height: 1.0625rem; color: var(--text-2); }
+.ko-why__t { min-width: 0; text-wrap: pretty; }
+.ko-why.ko-in0::before, .kk-eg-exit.ko-in::before, .kk-eg-exit.ko-in0::before { content: ""; position: absolute; left: 15px; top: 0; bottom: 0; width: 1px; background: var(--border); pointer-events: none; }
+.ko-why.ko-in0::before { top: 32px; }
+.kk-eg-exit.ko-in0::before { top: calc(50% + 14px); }
+.kk-eg-exit.ko-end::before { bottom: 16px; }
+/* шапка колонок: «Сила» перед числом — сначала графика */
+.ko-ch { min-height: 28px; font: 500 .75rem/1rem var(--font); color: var(--text-3); }
+.ko-ch > span { min-width: 0; white-space: nowrap; }
+.ko-ch__num { position: relative; display: inline-flex; align-items: center; justify-content: flex-end; gap: 2px; justify-self: end; }
+.ko-ch .gx-pop { width: 300px; font-weight: 400; color: var(--foreground); white-space: normal; }
+/* полоска силы 72 × 6, --accent; у Р2 и ниже — приглушённо; рядов нет — пустая дорожка */
+.ko-bar { display: block; width: 100%; height: 6px; min-width: 0; border-radius: var(--r-pill); background: var(--surface-3); overflow: hidden; }
+.ko-bar > i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.ko-bar--mute > i { opacity: .45; }
+/* число: справа, моно; вес — полем перед долей */
+.ko-num { display: flex; align-items: center; justify-content: flex-end; gap: 6px; min-width: 0; justify-self: end; }
+.ko-num > .kk-eg-rtt { min-width: 0; color: var(--foreground); white-space: nowrap; }
+.kk-eg-exit.is-stale .ko-num > .kk-eg-rtt { color: var(--text-3); }
+.ko-num .kk-eg-w .gx-input { width: 60px; }
+.ko-num > .kk-eg-w + .kk-eg-rtt::before { content: "· "; color: var(--text-3); }
+/* «Не участвуют · N» — приглушённо, разделитель сильнее */
+.kk-eg-outh { padding: 8px 0 8px var(--ko-lab); border-top: 1px solid var(--border); font-size: var(--fs-xs); font-weight: 500; color: var(--text-3); }
+.kk-eg-outh + .kk-eg-exit::after { display: none; }
+/* шапка уровня: способ поменяли до «Сохранить» — подложка и «было: …» */
+.kk-eg-tier__h.is-dirty { border-radius: var(--r-field); background: var(--accent-soft); box-shadow: 0 0 0 6px var(--accent-soft); }
+.ko-was { margin-right: 8px; font-size: var(--fs-xs); color: var(--text-2); }
+/* строка «нет рядов» под шапкой и предупреждение ручного порядка — на поверхности уровня (ko-note, ko-al) */
+.ko-note { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border-radius: var(--r-field); background: var(--surface); font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.ko-note > .gi { flex: none; color: var(--text-3); }
+.kk-eg-man.ko-al { padding: 12px 14px; background: var(--surface); }
+.kk-eg-man.ko-al .gx-al__text { font-size: var(--fs-sm); line-height: 1.1875rem; }
+/* уровень: поднят ручкой шапки — как строка; «встанет по силе» — рамка у уровня, куда встанет */
+.kk-eg-tier.is-drop { box-shadow: inset 0 0 0 1.5px var(--accent); }
+/* внутренняя группа: бросок на ключ другого шага — «в один шаг с …», шаг подсвечен целиком (макет В2, REV-order С-2) */
+.kk-eg-tier.is-target { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.kk-eg-presets--ru { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kk-lv__bp { flex: 1 1 300px; max-width: 520px; margin: 0; }
+/* №30: «Что будет при наборе …» — сценарии словами перед переключателями */
+.kk-scn { display: grid; border-radius: var(--r-tile); box-shadow: inset 0 0 0 1px var(--border); }
+.kk-scn__h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 10px 14px; }
+.kk-scn__t { font: 600 var(--fs)/1.25rem var(--font); }
+.kk-scn__s { font-size: var(--fs-sm); color: var(--text-2); }
+.kk-scn__r { display: grid; grid-template-columns: 28px 230px 14px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 14px; box-shadow: inset 0 1px 0 var(--separator); font-size: var(--fs-sm); line-height: 1.1875rem; }
+.kk-scn__ic { width: 28px; height: 28px; display: grid; place-items: center; border-radius: var(--r-tag); background: var(--surface-2); color: var(--text-2); }
+.kk-scn__w { padding-top: 4px; font-weight: 600; }
+.kk-scn__a { padding-top: 4px; color: var(--text-3); }
+.kk-scn__x { padding-top: 4px; text-wrap: pretty; }
+.kk-scn__line { margin: 0; padding: 10px 14px; box-shadow: inset 0 1px 0 var(--separator); font-size: var(--fs-sm); line-height: 1.1875rem; }
+/* №31б: строка-ссылка «Российские группы» внизу «Групп» */
+.kk-g2__ru { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px; color: inherit; text-decoration: none; cursor: pointer; }
+.kk-g2__ru:hover { background: var(--surface-hover); }
+.kk-g2__ru:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-g2__ru > .kk-grp__b { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.kk-g2__rt { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+.kk-g2__rs { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-g2__ru > .gi { flex: none; color: var(--text-3); }
+.kk-flag { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: var(--r-field); background: var(--surface-2); color: var(--text-2); font: 600 .78125rem/1 var(--font-head); letter-spacing: .04em; }
+/* №31а: «+ Группа · + Ключ» над схемой, схема на всю ширину */
+.kk-ru2 { display: grid; gap: 14px; min-width: 0; }
+.kk-ru2__btns { display: flex; justify-content: flex-end; gap: 8px; }
+.kk-rus { padding: 18px 20px 14px; gap: 14px; }
+.kk-rus__flow { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr) minmax(90px, 150px) minmax(0, 1fr) minmax(90px, 150px) minmax(0, 1fr); align-items: start; }
+.kk-rus__n { display: grid; justify-items: center; gap: 2px; min-width: 0; text-align: center; }
+.kk-rus__ic { width: 48px; height: 48px; margin-bottom: 6px; display: grid; place-items: center; border-radius: 50%; background: var(--surface-2); color: var(--text-2); }
+.kk-rus__n--mid .kk-rus__ic { background: var(--accent-soft); color: var(--accent-text); }
+.kk-rus__n > b { font: 600 var(--fs)/1.25rem var(--font); }
+.kk-rus__n > span { max-width: 240px; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: balance; }
+.kk-rus__a { position: relative; height: 48px; display: grid; align-content: center; }
+.kk-rus__a::before { content: ""; display: block; height: 0; border-top: 1.5px solid var(--text-3); }
+.kk-rus__a::after { content: ""; position: absolute; right: 1px; top: calc(50% - 4.5px); width: 8px; height: 8px; border-top: 1.5px solid var(--text-3); border-right: 1.5px solid var(--text-3); transform: rotate(45deg); }
+.kk-rus__a > span { position: absolute; left: 0; right: 0; top: 2px; text-align: center; font-size: .71875rem; line-height: .875rem; color: var(--text-3); white-space: nowrap; }
+.kk-rus__why { margin: 0; padding-top: 12px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-align: center; text-wrap: pretty; }
+.kk-rus__why > b { color: var(--foreground); font-weight: 600; }
+/* №31в: факты внутренней группы («О группе» в общей карточке) — тремя колонками: подпись · значение · действие */
+.kk-rukv { display: grid; grid-template-columns: 200px minmax(0, 1fr) 200px; }
+.kk-rukv__r { display: contents; }
+.kk-rukv__k, .kk-rukv__v, .kk-rukv__e { min-width: 0; padding: 11px 0; border-top: 1px solid var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; }
+.kk-rukv__k { padding-right: 16px; color: var(--text-2); }
+.kk-rukv__v { display: grid; gap: 2px; }
+.kk-rukv__v > b { font-weight: 400; }
+.kk-rukv__v > span { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: pretty; }
+.kk-rukv__e { display: flex; justify-content: flex-end; align-items: flex-start; padding-left: 12px; }
+.kk-rukv__e > .ga-btn { margin-top: -5px; }
+/* РФ-группы Ш1: внутренняя группа — общей карточкой: значок роутера на месте значка группы, «сейчас: через «Роутер»» — длинная метка
+   переносится; пачка А п. 3: редкие переключатели «Поведения» — под «Ещё» (раскрытие строкой с шевроном, как второй
+   уровень группы); подсказка «подключённые перейдут при ночной перебалансировке» — под шапкой уровня */
+.kk-eg-head__ic--rf { background: var(--surface-2); color: var(--text-2); }
+/* значок внутренней группы фишкой (K.domMark: окна «Новая группа», «Перенести в группу», окно выхода) — только роутер */
+.gx-chip.kk-dom { padding: 0 7px; }
+/* длинное «сейчас: с сервера напрямую — выходы недоступны с …» переносится, а не уезжает за левый край на 390 (у .gx-chip
+   flex: none — без сжатия значок шире шапки) */
+.kk-eg-card--ru .kk-eg-head__s > .gx-chip { flex: 0 1 auto; min-width: 0; max-width: min(460px, 100%); height: auto; min-height: 24px; padding-top: 3px; padding-bottom: 3px; white-space: normal; text-wrap: pretty; }
+.kk-eg-rare { display: flex; flex-direction: column; gap: 8px; }
+.kk-eg-rare__tog { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 4px; border: 0; border-radius: var(--r-field); background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.kk-eg-rare__tog:hover { background: var(--surface-hover); }
+.kk-eg-rare__tog:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-eg-rare__t { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.kk-eg-rare__t > b { font-weight: 600; }
+.kk-eg-rare.is-open > .kk-eg-rare__tog .kk-eg-chev { transform: rotate(180deg); color: var(--foreground); }
+.kk-eg-rare__b { display: flex; flex-direction: column; gap: 8px; }
+.kk-eg-rare__b[hidden] { display: none; }
+.kk-eg-nt .gx-hint { flex-basis: 100%; }
+.kk-eg-later { margin: 0; }
+.kk-dlg3__k { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-tile); background: var(--tile-bg); font-size: var(--fs-sm); }
+.kk-dlg3__kn { flex: 1; min-width: 0; text-align: start; }   /* имя ключа — у значка, растягивается оно, а не значок */
+.kk-ph { display: none; }
+[data-device="phone"] .kk-ph { display: inline; }
+/* уровень в узкой части (телефон и узкое окно; nav2: по ширине части): имя и состояние, отклик и выбор уровня — второй строкой */
+/* уровень в узкой части (узкое окно; nav2: по ширине части) — PLAN-order Ш6, макет Т1–Т4: в строке ручка слева, имя,
+   полоска и число, ↑↓ справа; под именем — устройства, уровень и «⋯». Шапки колонок нет, метка ряда — строкой над рядом */
+@container kkpart (max-width: 719.98px) {
+  .kk-eg-tier { --ko-lab: 0px; --ko-g: 32px; --ko-rk: 0px; --ko-bar: 40px; --ko-n: 72px; }
+  .kk-eg-tier.ko-hasrk { --ko-rk: 24px; }
+  .kk-eg-tier.is-ru { --ko-bar: 0px; --ko-n: 0px; }
+  .kk-eg-tier__h { grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 10px; row-gap: 6px; padding: 6px 0; border-bottom: 0; }
+  .kk-eg-exit { grid-template-columns: var(--ko-g) var(--ko-rk) minmax(0, 1fr) var(--ko-bar) var(--ko-n) var(--ko-g) var(--ko-g); column-gap: 6px; row-gap: 4px; padding: 6px 0; border-bottom: 0; }
+  .ko-ch { display: none; }
+  .kk-eg-tier__tt { grid-column: 1; grid-row: 1; }
+  .kk-eg-tier__m { grid-column: 2; grid-row: 1; }
+  .kk-eg-tier__h > .gx-menu-btn { grid-column: 3; grid-row: 1; }
+  .kk-eg-tier__h > .kk-eg-tier__pw { grid-column: 1 / 3; grid-row: 2; }
+  .kk-eg-exit > .kk-eg-ord { display: contents; }
+  .kk-eg-ord > .gx-grip { grid-column: 1; grid-row: 1; justify-self: start; }
+  .kk-eg-ord > .kk-eg-rk:not(.gx-vh) { grid-column: 2; grid-row: 1; justify-self: center; }
+  .kk-eg-ord > .gx-grip + .ga-btn { grid-column: 6; grid-row: 1; }
+  .kk-eg-ord > .ga-btn + .ga-btn { grid-column: 7; grid-row: 1; }
+  .kk-eg-ord > .ga-btn { width: var(--ko-g); }
+  .kk-eg-exit > .kk-eg-exit__n { grid-column: 3; grid-row: 1; }
+  .kk-eg-exit > .ko-bar { grid-column: 4; grid-row: 1; }
+  .kk-eg-exit .ko-num { grid-column: 5; grid-row: 1; }
+  .kk-eg-tier:not(.is-ru) .kk-eg-exit .kk-eg-st { grid-column: 4 / 6; grid-row: 1; justify-self: end; }
+  .kk-eg-exit .kk-eg-dev { grid-column: 3; grid-row: 2; text-align: left; }
+  .kk-eg-exit > .kk-eg-tier__pw { grid-column: 4 / 7; grid-row: 2; }
+  .kk-eg-exit > .gx-menu-btn { grid-column: 7; grid-row: 2; }
+  .kk-eg-exit .kk-eg-w { display: none; }
+  .kk-eg-exit .kk-eg-w + .kk-eg-rtt::before { content: none; }
+  .kk-eg-exit.ko-in::before, .kk-eg-exit.ko-in0::before, .ko-why.ko-in0::before { display: none; }
+  .kk-eg-exit::after { left: 0; }
+  .kk-eg-outh { padding-left: 0; }
+  .ko-why { grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; min-height: 34px; }
+  .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-exit__n { grid-column: 3 / 6; }
+  .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-nums { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; grid-column: 3 / 8; grid-row: 2; min-width: 0; }
+  .kk-eg-tier.is-ru .kk-eg-exit .kk-eg-nums > * { grid-column: auto; grid-row: auto; }
+  .kk-eg-tier.is-ru .kk-eg-exit .ko-num > .kk-eg-rtt { color: var(--text-2); }
+  .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-tier__pw { grid-column: 3 / 7; grid-row: 3; width: 132px; justify-self: end; }
+  .kk-eg-tier.is-ru .kk-eg-exit > .gx-menu-btn { grid-column: 7; grid-row: 3; }
+}
+/* то же на телефоне: «Внутренние группы» там без контейнера kkpart (общая карточка группы, РФ-группы Ш1); ручка и ↑↓ —
+   44 × 44 (макет Т3, палец) */
+[data-device="phone"] .kk-eg-tier { --ko-lab: 0px; --ko-g: 32px; --ko-rk: 0px; --ko-bar: 40px; --ko-n: 72px; }
+[data-device="phone"] .kk-eg-tier.ko-hasrk { --ko-rk: 24px; }
+[data-device="phone"] .kk-eg-tier.is-ru { --ko-bar: 0px; --ko-n: 0px; }
+[data-device="phone"] .kk-eg-tier__h { grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 10px; row-gap: 6px; padding: 6px 0; border-bottom: 0; }
+[data-device="phone"] .kk-eg-exit { grid-template-columns: var(--ko-g) var(--ko-rk) minmax(0, 1fr) var(--ko-bar) var(--ko-n) var(--ko-g) var(--ko-g); column-gap: 6px; row-gap: 4px; padding: 6px 0; border-bottom: 0; }
+[data-device="phone"] .ko-ch { display: none; }
+[data-device="phone"] .kk-eg-tier__tt { grid-column: 1; grid-row: 1; }
+[data-device="phone"] .kk-eg-tier__m { grid-column: 2; grid-row: 1; }
+[data-device="phone"] .kk-eg-tier__h > .gx-menu-btn { grid-column: 3; grid-row: 1; }
+[data-device="phone"] .kk-eg-tier__h > .kk-eg-tier__pw { grid-column: 1 / 3; grid-row: 2; }
+[data-device="phone"] .kk-eg-exit > .kk-eg-ord { display: contents; }
+[data-device="phone"] .kk-eg-ord > .gx-grip { grid-column: 1; grid-row: 1; justify-self: start; }
+[data-device="phone"] .kk-eg-ord > .kk-eg-rk:not(.gx-vh) { grid-column: 2; grid-row: 1; justify-self: center; }
+[data-device="phone"] .kk-eg-ord > .gx-grip + .ga-btn { grid-column: 6; grid-row: 1; }
+[data-device="phone"] .kk-eg-ord > .ga-btn + .ga-btn { grid-column: 7; grid-row: 1; }
+[data-device="phone"] .kk-eg-ord > .ga-btn { width: var(--ko-g); }
+[data-device="phone"] .kk-eg-exit > .kk-eg-exit__n { grid-column: 3; grid-row: 1; }
+[data-device="phone"] .kk-eg-exit > .ko-bar { grid-column: 4; grid-row: 1; }
+[data-device="phone"] .kk-eg-exit .ko-num { grid-column: 5; grid-row: 1; }
+[data-device="phone"] .kk-eg-tier:not(.is-ru) .kk-eg-exit .kk-eg-st { grid-column: 4 / 6; grid-row: 1; justify-self: end; }
+[data-device="phone"] .kk-eg-exit .kk-eg-dev { grid-column: 3; grid-row: 2; text-align: left; }
+[data-device="phone"] .kk-eg-exit > .kk-eg-tier__pw { grid-column: 4 / 7; grid-row: 2; }
+[data-device="phone"] .kk-eg-exit > .gx-menu-btn { grid-column: 7; grid-row: 2; }
+[data-device="phone"] .kk-eg-exit .kk-eg-w { display: none; }
+[data-device="phone"] .kk-eg-exit .kk-eg-w + .kk-eg-rtt::before { content: none; }
+[data-device="phone"] .kk-eg-exit.ko-in::before, [data-device="phone"] .kk-eg-exit.ko-in0::before, [data-device="phone"] .ko-why.ko-in0::before { display: none; }
+[data-device="phone"] .kk-eg-exit::after { left: 0; }
+[data-device="phone"] .kk-eg-outh { padding-left: 0; }
+[data-device="phone"] .ko-why { grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; min-height: 34px; }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-exit__n { grid-column: 3 / 6; }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-nums { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; grid-column: 3 / 8; grid-row: 2; min-width: 0; }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit .kk-eg-nums > * { grid-column: auto; grid-row: auto; }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit .ko-num > .kk-eg-rtt { color: var(--text-2); }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit > .kk-eg-tier__pw { grid-column: 3 / 7; grid-row: 3; width: 132px; justify-self: end; }
+[data-device="phone"] .kk-eg-tier.is-ru .kk-eg-exit > .gx-menu-btn { grid-column: 7; grid-row: 3; }
+[data-device="phone"] .kk-eg-tier { --ko-g: 44px; }
+[data-device="phone"] .kk-eg-ord > .gx-grip, [data-device="phone"] .kk-eg-ord > .ga-btn { width: 44px; height: 44px; }
+/* средняя ширина части (720–879: окно ~1280 рядом с подменю): метка 44, число 112 (вес — полем без слова «вес»),
+   уровень 128 — имени остаётся место */
+@container kkpart (min-width: 720px) and (max-width: 879.98px) {
+  .kk-eg-tier { --ko-lab: 44px; --ko-num: 112px; --ko-lvl: 128px; }
+  .kk-eg-tier.is-ru { --ko-num: 64px; }
+  .kk-eg-tier.ko-nolab { --ko-lab: 0px; }
+  .ko-num .kk-eg-w > span { display: none; }
+}
+/* внутренняя группа в узкой части (окно до ~1100 рядом с подменю): схема сверху вниз, ключи и настройки — столбиком */
+@container kkpart (max-width: 719.98px) {
+  .kk-rus { padding: 16px 14px 12px; }
+  .kk-rus__flow { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .kk-rus__a { width: 120px; height: 44px; align-content: stretch; justify-items: center; }
+  .kk-rus__a::before { width: 0; height: 100%; border-top: 0; border-left: 1.5px solid var(--text-3); }
+  .kk-rus__a::after { right: auto; top: auto; left: calc(50% - 4.5px); bottom: 1px; transform: rotate(135deg); }
+  .kk-rus__a > span { left: calc(50% + 12px); right: auto; top: calc(50% - 7px); text-align: left; }
+  .kk-rukv { grid-template-columns: minmax(0, 1fr) auto; }
+  .kk-rukv__k { grid-column: 1 / -1; padding-bottom: 0; }
+  .kk-rukv__v, .kk-rukv__e { border-top: 0; padding-top: 2px; }
+}
+/* на телефоне часть рисуется без контейнера kkpart — те же правила по признаку устройства */
+[data-device="phone"] .kk-rus { padding: 16px 14px 12px; }
+[data-device="phone"] .kk-rus__flow { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+[data-device="phone"] .kk-rus__a { width: 120px; height: 44px; align-content: stretch; justify-items: center; }
+[data-device="phone"] .kk-rus__a::before { width: 0; height: 100%; border-top: 0; border-left: 1.5px solid var(--text-3); }
+[data-device="phone"] .kk-rus__a::after { right: auto; top: auto; left: calc(50% - 4.5px); bottom: 1px; transform: rotate(135deg); }
+[data-device="phone"] .kk-rus__a > span { left: calc(50% + 12px); right: auto; top: calc(50% - 7px); text-align: left; }
+[data-device="phone"] .kk-rukv { grid-template-columns: minmax(0, 1fr) auto; }
+[data-device="phone"] .kk-rukv__k { grid-column: 1 / -1; padding-bottom: 0; }
+[data-device="phone"] .kk-rukv__v, [data-device="phone"] .kk-rukv__e { border-top: 0; padding-top: 2px; }
+/* телефон 390 (Т1, Т2) */
+[data-device="phone"] .kk-lv__bp { flex-basis: 100%; max-width: none; }
+[data-device="phone"] .kk-scn__r { grid-template-columns: 28px minmax(0, 1fr); row-gap: 2px; }
+[data-device="phone"] .kk-scn__a { display: none; }
+[data-device="phone"] .kk-scn__x { grid-column: 2; padding-top: 0; }
+[data-device="phone"] .kk-ru2__btns > .ga-btn { flex: 1; }

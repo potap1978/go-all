@@ -1,0 +1,46 @@
+/* Kaskad — gx-grid: одна сетка для линейных графиков панели (Claude Design «Сетка на графиках r1» 30.10, выгрузка
+   kaskad-charts/export-2026-10-30-grid/files/css/grid.css без части «Стенд»; HANDOFF «grid · Сетка на графиках r1»).
+   Подключается после charts.css и ovb.css. Пишется поверх текущих классов: gx-gr* (окно «График», spark.js),
+   kc* (графики выхода, charts.js), gx-trf* (Трафик сервера), gx-spd* (скорость из браузера).
+   Цвета — только токены tokens.css; атрибута style в разметке нет — переменные места (--grid-yw, top/left подписей,
+   left курсора) ставит код через CSSOM (KaskadSpark.grid.box). */
+
+/* ── каркас: колонка подписей значений | поле графика; над ними — единица, под полем — ось времени ── */
+.gx-grid { --grid-yw: 16px; --grid-h: 150px; display: grid; grid-template-columns: var(--grid-yw) minmax(0, 1fr); column-gap: 8px; row-gap: 6px; min-width: 0; }
+.gx-grid--sm { --grid-h: 120px; }
+.gx-grid__u { grid-column: 1 / -1; justify-self: start; font: 400 max(.6875rem, 11px)/.875rem var(--mono); color: var(--text-2); white-space: nowrap; }
+.kc__t > .gx-grid__u { grid-column: auto; }
+.gx-grid__y { grid-column: 1; position: relative; height: var(--grid-h); }
+.gx-grid__y > span { position: absolute; right: 0; transform: translateY(-50%); font: 400 max(.6875rem, 11px)/.875rem var(--mono); color: var(--text-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.gx-grid > .gx-gr__plot { grid-column: 2; height: var(--grid-h); }
+.gx-grid__x { grid-column: 2; position: relative; height: .875rem; font: 400 max(.6875rem, 11px)/.875rem var(--mono); color: var(--text-3); }
+.gx-grid__x > span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.gx-grid__x > .is-start { transform: none; }
+.gx-grid__x > .is-end { transform: translateX(-100%); }
+.gx-grid__x > .is-hid { visibility: hidden; }
+
+/* ── линии сетки: тише данных. Горизонтальные — --border, вертикальные — --separator, обе 1 px ── */
+.gx-grid__h, .gx-grid__v { fill: none; stroke-width: 1; vector-effect: non-scaling-stroke; shape-rendering: crispEdges; }
+.gx-grid__h { stroke: var(--border); }
+.gx-grid__v { stroke: var(--separator); }
+.gx-grid .gx-gr__line, .gx-grid .gx-gr__nd, .gx-grid .kc__line, .gx-grid .gx-trf__rx, .gx-grid .gx-trf__tx, .gx-grid .gx-spd__line { vector-effect: non-scaling-stroke; }
+
+/* ── точки: круглый конец нулевого отрезка (M x y h0) — круг при любой ширине поля ── */
+.gx-grid__dot { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke: var(--text-3); stroke-width: 5; }
+.gx-grid__dot--on { stroke: var(--success); }
+.gx-grid__dot--acc { stroke: var(--accent); stroke-width: 6; }
+/* курсор: черта gx-gr__hx (как было) + точка на линии с кольцом цвета поверхности */
+.gx-grid__ring { fill: none; stroke: var(--surface); stroke-width: 11; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.gx-grid__pt { fill: none; stroke: var(--success); stroke-width: 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.gx-grid__pt--acc { stroke: var(--accent); }
+.gx-grid .gx-gr__hx { top: 0; bottom: 0; }
+
+/* «История с …»: пустое место до начала истории закрывает сетку, кроме нулевой линии */
+.gx-grid .gx-gr__pre { bottom: 2px; z-index: 1; background: var(--surface); }
+
+/* графики выхода: подпись ряда и единица одной строкой */
+.gx-grid ~ .kc__leg, .kc > .gx-grid { margin-left: 0; }
+.kc__t:has(> .gx-grid__u) { display: flex; align-items: baseline; gap: 8px; }
+.gx-grid--band { --grid-h: 16px; }
+.gx-grid--band > .kc__svg--band { grid-column: 2; width: 100%; height: 16px; }
+.gx-grid--band + .kc__leg { padding-left: calc(var(--grid-yw) + 8px); }

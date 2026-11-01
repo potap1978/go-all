@@ -1,0 +1,428 @@
+/* Kaskad 3 — круг 1, Т1: «Обзор» по варианту Б Claude Design (export-2026-10-27-it1-r3, css/it1-b.css) — Сводка,
+   окно «Балл сервера», «Проверка сервера › Сейчас»; экран «Здоровье сервера» и трафик — из варианта А (css/it1.css,
+   kk-hh, gx-trf) в стиле Б. Цвета — только токены; новых токенов нет. Атрибутов style нет (CSP): переменные значения —
+   CSSOM. Подключается после speed.css. Радар «Балл сервера» (kb-st) — своя отрисовка pages/ovb.js (как lk-star.js
+   макета: оси, кольца 100/500/700/900, «обычно» пунктиром, разброс коридором, «свежие» заливкой). */
+
+.kb { display: grid; gap: 16px; min-width: 0; align-content: start; }
+.kb-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; align-items: start; min-width: 0; }
+.kb .gx-card { padding: 16px 18px; gap: 12px; }
+.kb-h { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-height: 28px; }
+.kb-t { margin: 0; font: 600 var(--fs-h3)/1.5rem var(--font-head); white-space: nowrap; }
+.kb-sp { flex: 1; }
+/* в шапке карточки распорка не нужна: при переносе строки (окно 900, текст «крупнее») пустой узел давал лишний зазор —
+   следующий за ней элемент сам прижат вправо */
+.kb-h > .kb-sp { display: none; }
+.kb-h > .kb-sp + * { margin-left: auto; }
+.kb-more { padding: 0; border: 0; background: none; color: var(--accent-text); font: 500 var(--fs-sm)/1.125rem var(--font); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.kb-mut { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: pretty; }
+
+/* ── Герой Сводки: вердикт словами + маленькая «паутинка» + замечания + 30 дней ── */
+.kb-hero { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 8px 28px; align-items: center; padding: 20px 22px !important; }
+.kb-hero__star { display: grid; place-items: center; padding: 0; border: 0; border-radius: var(--r-tile); background: none; color: inherit; cursor: pointer; }
+.kb-hero__star:hover { background: var(--surface-2); }
+.kb-hero__star:focus-visible, .kb-hero__sc:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kb-hero__v { display: grid; gap: 8px; min-width: 0; }
+.kb-hero__k { display: flex; align-items: center; gap: 8px; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kb-hero__k > i { width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 4px var(--success-soft); }
+.kb-hero__k > i.is-warn { background: var(--warning); box-shadow: 0 0 0 4px var(--warning-soft); }
+.kb-hero__k > i.is-none { background: var(--text-3); box-shadow: 0 0 0 4px var(--neutral-soft); }   /* шлюз выключен, нет данных — не зелёная */
+.kb-hero__t { margin: 0; font: 600 1.875rem/2.25rem var(--font-head); letter-spacing: -.01em; text-wrap: pretty; }
+.kb-hero__m { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kb-hero__sc { display: inline-flex; align-items: baseline; gap: 6px; padding: 2px 10px; border: 0; border-radius: var(--r-pill); background: var(--tile-bg); color: var(--foreground); font: 500 var(--fs-sm)/1.375rem var(--font); cursor: pointer; }
+.kb-hero__sc > b { font: 600 1.0625rem/1.375rem var(--font-head); font-variant-numeric: tabular-nums; }
+.kb-hero__sc:hover { background: var(--surface-3); }
+.kb-iss { display: grid; gap: 6px; min-width: 0; }
+/* строка замечания: значок · что и почему · кнопка; узко (окно 1024, текст «крупнее») — кнопка переносится под текст
+   (flex-wrap вместо сетки: текст не налезает на кнопку, Т3 №17) */
+.kb-iss__r { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 44px; padding: 6px 8px 6px 10px; border-radius: var(--r-field); background: var(--warning-soft); }
+.kb-iss__r > svg { flex: none; width: 22px; }
+.kb-iss__r > .kb-iss__b { flex: 1 1 9rem; }
+.kb-iss__r > .ga-btn { flex: none; margin-left: auto; }
+.kb-iss__r > svg { color: var(--warning-text); }
+.kb-iss__b { display: grid; gap: 1px; min-width: 0; }
+.kb-iss__b > b { font: 500 var(--fs)/1.25rem var(--font); }
+.kb-iss__b > span { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kb-30 { grid-column: 1 / -1; display: grid; gap: 6px; padding-top: 12px; border-top: 1px solid var(--separator); }
+.kb-30__h { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kb-30__h > b { font-weight: 500; color: var(--foreground); }
+.kb-30__row { display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); gap: 3px; height: 14px; }
+.kb-30__row > i { border-radius: 2px; background: var(--success); }
+.kb-30__row > i.is-warn { background: var(--warning); } .kb-30__row > i.is-fail { background: var(--danger); }
+.kb-30__row > i.is-none { background: none; box-shadow: inset 0 0 0 1px var(--border); }
+.kb-30__ax { display: flex; justify-content: space-between; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); }
+/* Д2 r3 E (Б1, Б2): справа от «паутинки» одной колонкой сверху вниз — вердикт и балл, замечания с действием, 30 дней
+   (было: 30 дней строкой во всю ширину под ними, под вердиктом пустота). Строки 1fr · вердикт · замечания · 30 дней · 1fr:
+   «паутинка» на всех строках, её лишний рост делят пустые 1fr сверху и снизу — колонка плотная и по центру «паутинки»;
+   колонка выше — 1fr = 0, по центру «паутинка». Зазоры — отступом 12 px, как прежний gap карточки (.kb .gx-card): пустые
+   строки (1fr, нет замечаний) лишнего gap не дают. Телефон и узкая карточка — прежняя раскладка (ниже) */
+.kb-hero { grid-template-rows: 1fr auto auto auto 1fr; }
+.kb .kb-hero { row-gap: 0; }
+.kb-hero > .kb-hero__star { grid-column: 1; grid-row: 1 / -1; }
+.kb-hero > .kb-hero__v { grid-column: 2; grid-row: 2; }
+.kb-hero > .kb-iss { grid-column: 2; grid-row: 3; margin-top: 12px; }
+.kb-hero > .kb-30 { grid-column: 2; grid-row: 4; margin-top: 12px; }
+
+/* ── Трафик: график первым, три цифры под ним ── */
+.kb-trf__sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding-top: 10px; border-top: 1px solid var(--separator); }
+.kb-trf__c { display: grid; gap: 1px; min-width: 0; }
+.kb-trf__c > span { display: flex; align-items: center; gap: 6px; font-size: .75rem; line-height: 1rem; color: var(--text-2); white-space: nowrap; }
+.kb-trf__c > span > i { width: 12px; height: 3px; border-radius: 2px; background: var(--foreground); }
+.kb-trf__c > span > i.is-tx { background: var(--text-3); }
+.kb-trf__c > b { font: 600 1.25rem/1.625rem var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kb-trf__c > small { font-size: .75rem; line-height: 1rem; color: var(--text-3); }
+
+/* ── Выходы сейчас: имя → линия часа → цифра ── */
+.kb-xn { display: grid; }
+.kb-xn__r { display: grid; grid-template-columns: minmax(0, 1fr) 96px 74px; align-items: center; gap: 10px; min-height: 44px; margin: 0 -8px; padding: 4px 8px; border: 0; border-radius: var(--r-field); background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; box-shadow: inset 0 1px 0 var(--separator); }
+.kb-xn__r:first-child { box-shadow: none; }
+.kb-xn__r:hover { background: var(--surface-hover); }
+.kb-xn__b { display: grid; min-width: 0; }
+/* Л3: имя выхода — целиком, как в макете Б1 («AmneziaWG 2.0 · …» резалось в карточке 347 px на 1440): длинное имя
+   переносится в своей колонке, линия и цифра остаются справа */
+.kb-xn__b > span:first-child { font: 500 var(--fs-sm)/1.125rem var(--font); overflow-wrap: anywhere; }
+.kb-xn__b > .gx-mst { font-size: .75rem; line-height: 1rem; }
+/* метка внутреннего выхода после имени (решение 6) — значок роутера, как у внутренней группы (K.domMark) */
+.kb-xn__rf { display: inline-flex; align-items: center; height: 1.125rem; margin-left: 6px; padding: 0 4px; border-radius: var(--r-tag); background: var(--surface-2); color: var(--text-2); vertical-align: -4px; }
+.kb-xn__v { text-align: right; font: 500 .8125rem/1.125rem var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kb-xn .gx-spark { --spark-w: 96px; --spark-h: 22px; }
+.kb-xn .gx-spark__l, .kb-xn .gx-spark__nd { vector-effect: non-scaling-stroke; }
+
+/* ── Здоровье: 2 × 2 — ряд за сутки сверху, цифра под ним ── */
+.kb-hl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.kb-hl__c { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--r-tile); background: var(--tile-bg); min-width: 0; }
+.kb-hl__c.is-warn { background: var(--warning-soft); }
+.kb-hl__h { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 500 var(--fs-sm)/1.125rem var(--font); }
+/* шаг «крупнее»: статус («ждёт данных») не налезает на название — уходит на свою строку */
+html[data-fs="l"] .kb-hl__h { flex-wrap: wrap; row-gap: 4px; }
+.kb-hl__svg { display: block; width: 100%; height: 34px; overflow: visible; }
+.kb-hl__v { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; }
+.kb-hl__v > b { font: 600 1.375rem/1.625rem var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kb-hl__v > span { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+
+/* ── Панель «Балл сервера» (ПК — справа, телефон — лист) ── */
+.kb-drw__h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.kb-drw__h > div { display: grid; gap: 2px; }
+.kb-drw__h h2 { margin: 0; font: 600 var(--fs-h3)/1.3 var(--font-head); }
+.kb-drw__h span { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kb-drw__sc { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+.kb-drw__sc > b { font: 600 3rem/1 var(--font-head); font-variant-numeric: tabular-nums; }
+.kb-drw__sc > span { font: 600 var(--fs-h3)/1.2 var(--font-head); }
+.kb-drw__sc > small { flex-basis: 100%; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kb-drw__star { display: grid; justify-items: center; }
+.kb-drw__lg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.kb-drw__lg > button { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 6px 10px; text-align: left; border: 0; border-radius: var(--r-field); background: none; color: var(--text-2); font: inherit; cursor: pointer; }
+.kb-drw__lg > button[aria-pressed="true"] { color: var(--foreground); background: var(--tile-bg); }
+.kb-sec { display: grid; gap: 8px; min-width: 0; }
+.kb-sec > h3 { margin: 0; font: 600 var(--fs)/1.25rem var(--font); }
+/* «предварительно» (владелец 28.10, решения 4 и 5): подпись под большим радаром, строка в «Почему»; эталоны не показываем (D-142) */
+.kb-st__cap { margin: 2px 0 0; font-size: .75rem; line-height: 1rem; color: var(--text-2); text-align: center; text-wrap: pretty; overflow-wrap: anywhere; }
+.kb-why__prov { display: block; margin-bottom: 6px; }
+details.kb-sec > p { margin: 6px 0 0; }
+.kb-dl { display: grid; }
+.kb-dl__r { display: grid; grid-template-columns: 118px minmax(0, 1fr) 44px 40px; align-items: center; gap: 10px; min-height: 30px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.kb-dl__r:first-child { border-top: 0; }
+.kb-dl__svg { display: block; width: 100%; height: 12px; overflow: visible; }
+.kb-dl__z { stroke: var(--text-3); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.kb-dl__p { fill: var(--success); } .kb-dl__n { fill: var(--warning); }
+.kb-dl__d { text-align: right; font: 500 .8125rem/1.125rem var(--mono); color: var(--text-3); }
+.kb-dl__d.is-up { color: var(--success-text); } .kb-dl__d.is-dn { color: var(--warning-text); }
+.kb-dl__v { text-align: right; font: 600 var(--fs)/1.25rem var(--font-head); }
+.kb-tr { display: block; width: 100%; height: 56px; overflow: visible; }
+.kb-tr__m { fill: none; stroke: var(--text-3); stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.kb-tr__l { fill: none; stroke: var(--accent); stroke-width: 1.75; vector-effect: non-scaling-stroke; }
+.kb-tr__p { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.kb-tr__x { display: flex; justify-content: space-between; gap: 8px; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); }
+.kb-why { padding: 12px 14px; border-radius: var(--r-tile); background: var(--tile-bg); font-size: var(--fs-sm); line-height: 1.1875rem; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.kb-why > b { display: block; margin-bottom: 4px; font: 600 var(--fs)/1.25rem var(--font); }
+.kb-how { display: inline-flex; align-items: center; gap: 4px; justify-self: start; color: var(--accent-text); font: 500 var(--fs-sm)/1.3 var(--font); }
+
+/* ── Проверка сервера › Сейчас: «паутинка» + итог сверху, звенья — одной таблицей с линией 30 дней ── */
+.kb-ck { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); gap: 16px 36px; align-items: center; }
+.kb-ck__star { display: grid; justify-items: center; min-width: 0; }
+.kb-ck__r { display: grid; gap: 12px; justify-items: start; min-width: 0; }
+.kb-ck__sc { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
+.kb-ck__sc > b { font: 600 4rem/1 var(--font-head); font-variant-numeric: tabular-nums; }
+.kb-ck__sc > span { font: 600 var(--fs-h2)/1.2 var(--font-head); }
+.kb-ck__rel { display: flex; align-items: baseline; gap: 8px; padding: 6px 12px; border-radius: var(--r-field); background: var(--tile-bg); font-size: var(--fs-sm); color: var(--text-2); }
+.kb-ck__rel > b { font: 600 1.25rem/1.5rem var(--font-head); color: var(--foreground); font-variant-numeric: tabular-nums; }
+.kb-ck__btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.kb-lk { display: grid; }
+.kb-lk__h, .kb-lk__r { display: grid; grid-template-columns: 150px minmax(0, 1fr) 120px 120px 92px; align-items: center; gap: 16px; }
+.kb-lk__h { padding: 0 0 8px; font-size: .75rem; line-height: 1rem; color: var(--text-3); border-bottom: 1px solid var(--separator); }
+.kb-lk__h > span:nth-child(n+3), .kb-lk__r > span:nth-child(n+3) { text-align: right; }
+.kb-lk__r { min-height: 52px; border-bottom: 1px solid var(--separator); font-variant-numeric: tabular-nums; }
+.kb-lk__r:last-child { border-bottom: 0; }
+.kb-lk__n { display: grid; gap: 2px; min-width: 0; }
+.kb-lk__n > b { font: 500 var(--fs)/1.25rem var(--font); }
+.kb-lk__n > .gx-mk { font-size: .75rem; }
+.kb-lk__svg { display: block; width: 100%; height: 30px; overflow: visible; }
+.kb-lk__band { fill: var(--neutral-soft); }
+.kb-lk__l { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.kb-lk__nd { fill: none; stroke: var(--text-3); stroke-dasharray: 1 3; vector-effect: non-scaling-stroke; }
+.kb-lk__dot { fill: none; stroke: var(--foreground); stroke-width: 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.kb-lk__dot.is-dn { stroke: var(--warning); }
+.kb-lk__v { font: 500 var(--fs)/1.25rem var(--mono); }
+.kb-lk__v > small { font: 400 .75rem/1rem var(--font); color: var(--text-2); }
+.kb-lk__us { font: 400 var(--fs-sm)/1.25rem var(--mono); color: var(--text-2); }
+.kb-lk__rel { font: 600 var(--fs)/1.25rem var(--font-head); }
+.kb-lk__rel.is-dn { color: var(--warning-text); }
+.kb-lk__ax { display: grid; grid-template-columns: 150px minmax(0, 1fr) 120px 120px 92px; gap: 16px; padding-top: 4px; }
+.kb-lk__ax > span:nth-child(2) { display: flex; justify-content: space-between; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); }
+
+/* ── Телефон 390 ── */
+[data-device="phone"] .kb-row { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kb-hero { grid-template-columns: 112px minmax(0, 1fr); gap: 10px 14px; padding: 16px !important; }
+[data-device="phone"] .kb-hero__star { grid-row: auto; }
+[data-device="phone"] .kb-hero__t { font-size: 1.375rem; line-height: 1.75rem; }
+[data-device="phone"] .kb-hero__m, [data-device="phone"] .kb-iss { grid-column: 1 / -1; }
+[data-device="phone"] .kb .kb-hero { grid-template-rows: none; row-gap: 10px; }   /* row-gap — прежний 10 (gap выше), не 12 узкой карточки */
+[data-device="phone"] .kb-hero > .kb-hero__star, [data-device="phone"] .kb-hero > .kb-hero__v, [data-device="phone"] .kb-hero > .kb-iss, [data-device="phone"] .kb-hero > .kb-30 { grid-row: auto; margin-top: 0; }
+[data-device="phone"] .kb-hero > .kb-iss, [data-device="phone"] .kb-hero > .kb-30 { grid-column: 1 / -1; }
+[data-device="phone"] .kb-iss__r > .kb-iss__b { flex-basis: calc(100% - 32px); }
+[data-device="phone"] .kb-iss__r > .ga-btn { margin-left: 32px; }
+[data-device="phone"] .kb-30__row { grid-template-columns: repeat(15, minmax(0, 1fr)); height: 12px; row-gap: 3px; height: auto; }
+[data-device="phone"] .kb-30__row > i { height: 12px; }
+[data-device="phone"] .kb .gx-card { padding: 14px 16px; }
+[data-device="phone"] .kb-dl__r { grid-template-columns: 96px minmax(0, 1fr) 40px 36px; gap: 8px; }
+[data-device="phone"] .kb-ck { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kb-ck__sc > b { font-size: 2.75rem; } [data-device="phone"] .kb-ck__sc > span { font-size: var(--fs-h3); }
+[data-device="phone"] .kb-lk__h { display: none; }
+[data-device="phone"] .kb-lk__r { grid-template-columns: minmax(0, 1fr) auto auto; gap: 4px 10px; padding: 10px 0; }
+[data-device="phone"] .kb-lk__n { grid-column: 1; grid-row: 1; }
+[data-device="phone"] .kb-lk__r > .kb-lk__svg { grid-column: 1 / -1; grid-row: 2; }
+[data-device="phone"] .kb-lk__r > .kb-lk__v { grid-column: 2; grid-row: 1; }
+[data-device="phone"] .kb-lk__r > .kb-lk__us { display: none; }
+[data-device="phone"] .kb-lk__r > .kb-lk__rel { grid-column: 3; grid-row: 1; }
+[data-device="phone"] .kb-lk__ax { grid-template-columns: minmax(0, 1fr); }
+[data-device="phone"] .kb-lk__ax > span:not(:nth-child(2)) { display: none; }
+.kb-drw__lg > button > span { flex: none; }
+.kb-drw__lg > button { white-space: nowrap; }
+[data-device="phone"] .kb-drw__lg { grid-template-columns: minmax(0, 1fr); }
+.kb-lk__ax > span:nth-child(2) > span { white-space: nowrap; }
+
+/* ── из варианта А: gx-need, трафик (gx-trf), «Здоровье сервера» (kk-hh) ── */
+.gx-need { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: var(--r-pill); background: var(--neutral-soft); color: var(--text-3); font: 500 .71875rem/1.25rem var(--font); white-space: nowrap; }
+.gx-trf__sum { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; }
+.gx-trf__tot { white-space: nowrap; font: 600 1.5rem/1.75rem var(--font-head); font-variant-numeric: tabular-nums; }
+.gx-trf__tot > span { margin-left: 6px; font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.gx-trf__k { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); white-space: nowrap; }
+.gx-trf__k > b { font: 500 .8125rem/1.125rem var(--mono); color: var(--foreground); }
+.gx-trf__k > i { width: 14px; height: 3px; border-radius: 2px; background: var(--foreground); }
+.gx-trf__k > i.is-tx { background: var(--text-3); }
+.gx-trf__pk { font-size: .78125rem; line-height: 1rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-trf__plot { position: relative; height: 116px; margin-top: 6px; }
+.gx-trf__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.gx-trf__a { fill: var(--neutral-soft); }
+.gx-trf__rx { fill: none; stroke: var(--foreground); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.gx-trf__tx { fill: none; stroke: var(--text-3); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+[data-device="phone"] .gx-trf__plot { height: 120px; }
+.kk-hh { display: grid; gap: 14px; min-width: 0; align-content: start; }
+.kk-hh__al { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; padding: 12px 16px; border-radius: var(--r-tile); background: var(--tile-bg); box-shadow: inset 3px 0 0 var(--success); }
+.kk-hh__al.is-warn { background: var(--warning-soft); box-shadow: inset 3px 0 0 var(--warning); }
+.kk-hh__al.is-crit { background: var(--danger-soft); box-shadow: inset 3px 0 0 var(--danger); }
+.kk-hh__st { flex: 1 1 320px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+.kk-hh__st > b { font: 600 var(--fs-h3)/1.5rem var(--font-head); }
+.kk-hh__st > span { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-hh__note { font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kk-hh__list { padding: 4px 18px; gap: 0; }
+.kk-hh__hd, .kk-hh__r { display: grid; grid-template-columns: 132px 184px minmax(0, 1fr) 220px; gap: 20px; }
+.kk-hh__hd { padding: 10px 0 8px; font-size: .75rem; line-height: 1rem; color: var(--text-3); border-bottom: 1px solid var(--separator); }
+.kk-hh__r { align-items: start; padding: 14px 0; border-bottom: 1px solid var(--separator); }
+.kk-hh__r:last-child { border-bottom: 0; }
+.kk-hh__r.is-warn, .kk-hh__r.is-crit { margin: 0 -18px; padding-left: 18px; padding-right: 18px; background: var(--warning-soft); }
+.kk-hh__r.is-crit { background: var(--danger-soft); }
+.kk-hh__n { display: grid; gap: 4px; padding-top: 4px; }
+.kk-hh__t { font: 600 var(--fs)/1.25rem var(--font); }
+.kk-hh__v { display: grid; gap: 2px; min-width: 0; }
+.kk-hh__big { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; font: 600 1.875rem/2.125rem var(--font-head); font-variant-numeric: tabular-nums; }
+.kk-hh__big > small { font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.kk-hh__s { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); text-wrap: pretty; font-variant-numeric: tabular-nums; }
+.kk-hh__ch { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; min-width: 0; padding-top: 4px; }
+.kk-hh__plot { position: relative; height: 48px; margin-left: 38px; }
+.kk-hh__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.kk-hh__g { fill: none; stroke: var(--separator); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.kk-hh__a { fill: var(--neutral-soft); }
+.kk-hh__l { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.kk-hh__r.is-warn .kk-hh__l { stroke: var(--warning-text); } .kk-hh__r.is-crit .kk-hh__l { stroke: var(--danger-text); }
+.kk-hh__th { fill: none; stroke: var(--warning); stroke-width: 1; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
+.kk-hh__dot { fill: none; stroke: var(--success); stroke-width: 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.kk-hh__dot.is-warn { stroke: var(--warning); } .kk-hh__dot.is-crit { stroke: var(--danger); }
+.kk-hh__y { position: absolute; left: -38px; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); transform: translateY(-50%); white-space: nowrap; }
+.kk-hh__y--t { top: 0; } .kk-hh__y--b { top: 100%; }
+.kk-hh__thl { position: absolute; right: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; transform: translateY(-115%); font-size: .6875rem; line-height: .875rem; color: var(--warning-text); white-space: nowrap; padding: 0 0 0 4px; }
+.kk-hh__ax { display: flex; justify-content: space-between; min-width: 0; overflow: hidden; margin-left: 38px; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); white-space: nowrap; }
+.kk-hh__do { display: grid; gap: 2px; padding-top: 4px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.kk-hh__dk { font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--foreground); }
+.kk-hh__r.is-warn .kk-hh__do, .kk-hh__r.is-crit .kk-hh__do { color: var(--foreground); }
+.kk-hh__sys { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 20px; padding: 14px 18px; }
+.kk-hh__kv { display: grid; gap: 2px; min-width: 0; }
+.kk-hh__kv > span { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.kk-hh__kv > b { font: 500 var(--fs)/1.25rem var(--mono); font-variant-numeric: tabular-nums; }
+.kk-hh__kv > small { font-size: .75rem; line-height: 1rem; color: var(--text-3); }
+[data-device="phone"] .kk-hh__hd { display: none; }
+[data-device="phone"] .kk-hh__list { padding: 0 16px; }
+[data-device="phone"] .kk-hh__r { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; }
+[data-device="phone"] .kk-hh__r.is-warn, [data-device="phone"] .kk-hh__r.is-crit { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+[data-device="phone"] .kk-hh__n { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding-top: 0; }
+[data-device="phone"] .kk-hh__v, [data-device="phone"] .kk-hh__ch, [data-device="phone"] .kk-hh__do { grid-column: 1 / -1; }
+[data-device="phone"] .kk-hh__ax > span:nth-child(2), [data-device="phone"] .kk-hh__ax > span:nth-child(4) { display: none; }
+[data-device="phone"] .kk-hh__sys { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 14px 16px; }
+[data-device="phone"] .kk-hh__al { padding: 12px; }
+.kk-hh__ax > span:nth-child(2), .kk-hh__ax > span:nth-child(4) { display: none; }
+@container (min-width: 1200px) { .kk-hh__ax > span:nth-child(2), .kk-hh__ax > span:nth-child(4) { display: inline; } }
+.kk-hh__hd, .kk-hh__r { grid-template-columns: 132px minmax(0, 1fr) 184px 220px; }
+[data-device="phone"] .kk-hh__r { grid-template-columns: minmax(0, 1fr) auto; }
+
+/* ── Радар «Балл сервера» (pages/ovb.js; lk-star.js макета) ── */
+.kb-st { position: relative; display: block; max-width: 100%; }
+.kb-st > svg { display: block; overflow: visible; max-width: 100%; height: auto; touch-action: manipulation; }
+.kb-st__ax { stroke: var(--border); stroke-width: 1; }
+.kb-st__ax--nd { stroke: var(--text-3); stroke-dasharray: 2 3; }          /* звено без данных (стенд it1 Н-1) */
+.kb-st__ring { fill: none; stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 2 3; opacity: .7; }
+.kb-st__ring--edge { stroke-dasharray: none; opacity: .45; }
+.kb-st__rl { fill: var(--text-2); font: 400 .625rem var(--font); paint-order: stroke; stroke: var(--card-bg); stroke-width: 3px; stroke-linejoin: round; }
+.kb-st__band { fill: color-mix(in oklab, var(--accent) 18%, transparent); fill-rule: evenodd; }
+.kb-st__edge { fill: none; stroke: color-mix(in oklab, var(--accent) 45%, transparent); stroke-width: 1; stroke-linejoin: round; }
+.kb-st__med { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 4 3; stroke-linejoin: round; opacity: .85; }
+.kb-st--tile .kb-st__med { stroke-dasharray: 2 2; }
+.kb-st__now { fill: color-mix(in oklab, var(--accent) 35%, transparent); stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
+.kb-st--tile .kb-st__now { stroke-width: 1.25; }
+.kb-st__dot { fill: var(--accent); stroke: var(--card-bg); stroke-width: 1.5; }
+.kb-st__dot--weak { fill: var(--warning); }
+.kb-st__nd { fill: var(--card-bg); stroke: var(--text-3); stroke-width: 1.5; }
+.kb-st__lab { fill: var(--text-2); font: 400 .75rem var(--font); paint-order: stroke; stroke: var(--card-bg); stroke-width: 3px; stroke-linejoin: round; }
+.kb-st__lab--v { fill: var(--foreground); font-weight: 500; }
+.kb-st__lab--nd { fill: var(--text-2); }
+.kb-st__lab--warn { fill: var(--warning-text); font-weight: 600; }
+.kb-st__cap { fill: none; stroke: var(--warning); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.kb-st__hit { fill: transparent; cursor: help; }
+.kb-st.is-noretro .kb-st__band, .kb-st.is-noretro .kb-st__edge, .kb-st.is-noretro .kb-st__med { opacity: 0; }
+.kb-st.is-nonow .kb-st__now, .kb-st.is-nonow .kb-st__dot, .kb-st.is-nonow .kb-st__nd { opacity: 0; }
+.kb-st__band, .kb-st__edge, .kb-st__med, .kb-st__now, .kb-st__dot, .kb-st__nd { transition: opacity 200ms; pointer-events: none; }
+.kb-st__empty { fill: var(--text-3); font: 400 .75rem var(--font); }
+.kb-drw__lg > button > i { flex: none; width: 18px; height: 10px; border-radius: 3px; }
+.kb-drw__lg > button > i.is-band { background: color-mix(in oklab, var(--accent) 18%, transparent); box-shadow: inset 0 0 0 1px var(--accent); }
+.kb-drw__lg > button > i.is-now { background: color-mix(in oklab, var(--accent) 35%, transparent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.kb-drw { display: grid; align-content: start; gap: 16px; }
+.gx-seg--sm > button { height: 28px; padding: 0 10px; font-size: .78125rem; }
+.gx-chart__ax { display: flex; justify-content: space-between; gap: 8px; min-width: 0; overflow: hidden; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); white-space: nowrap; }
+.kb-iss__r.is-danger { background: var(--danger-soft); }
+.kb-iss__r.is-danger > svg { color: var(--danger-text); }
+.kb-iss__r.is-accent { background: var(--tile-bg); }
+.kb-iss__r.is-accent > svg { color: var(--accent-text); }
+.kb-30__row > button { padding: 0; border: 0; border-radius: 2px; background: var(--success); cursor: pointer; }
+.kb-30__row > button.is-warn { background: var(--warning); } .kb-30__row > button.is-fail { background: var(--danger); }
+.kb-30__row > button.is-none { background: none; box-shadow: inset 0 0 0 1px var(--border); }
+.kb-30__row > button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+[data-device="phone"] .kb-30__row > button { height: 12px; }
+.kb-hero__k > i.is-crit { background: var(--danger); box-shadow: 0 0 0 4px var(--danger-soft); }
+.kb-hl__c.is-crit { background: var(--danger-soft); }
+.kb-hl__c { padding: 12px 14px; border: 0; color: inherit; font: inherit; text-align: left; }
+.kb-empty { padding: 12px 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kb-ck__n { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kb-sch { display: grid; gap: 16px; max-width: 880px; min-width: 0; }
+.kb-sch > .kk-phead__s { margin: 0; }
+/* ось трафика — сетка графиков (grid.css, KaskadSpark.grid): подписи времени и деления ставит ovb.js через CSSOM */
+.kb-hero-wrap { display: grid; min-width: 0; }
+/* «Проверка сервера › Сейчас» (вариант Б): «от обычного» прежнего блока gx-rel — плашкой kb-ck__rel; ряд 30 дней звена */
+.kb-ck-wrap { display: grid; min-width: 0; }
+.kb-ck__r .gx-rel { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; padding: 6px 12px; border-radius: var(--r-field); background: var(--tile-bg); font-size: var(--fs-sm); color: var(--text-2); }
+.kb-ck__r .gx-rel__v { display: flex; align-items: baseline; gap: 6px; }
+.kb-ck__r .gx-rel__n { font: 600 1.25rem/1.5rem var(--font-head); color: var(--foreground); font-variant-numeric: tabular-nums; }
+.kb-ck__r .gx-rel__n.is-grey { color: var(--text-3); }
+.kb-ck__r .gx-chk__s, .kb-ck__r .gx-chk__u, .kb-ck__r .gx-rel__mk { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kb-ck__r .gx-chk__btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.kb-lk__c { display: block; min-width: 0; }
+.kb-lk { --cl-w: 100%; --cl-h: 30px; }
+.kb-lk__c > .gx-cl { width: 100%; }
+[data-device="phone"] .kb-lk__r > .kb-lk__c { grid-column: 1 / -1; grid-row: 2; }
+/* REV-it1 №1: карточка «Звенья» уже 720 px (окно 1100: «Сейчас» в колонке ≈ 600) — линия 30 дней сжималась до 16 px.
+   Ниже 720 px строка в два этажа, как на телефоне: звено · сейчас · обычно · от обычного, под ними линия во всю ширину */
+.kb-lk { container: kblk / inline-size; }
+@container kblk (max-width: 719.98px) {
+  .kb-lk__h, .kb-lk__r { grid-template-columns: minmax(0, 1fr) 120px 120px 92px; gap: 4px 12px; }
+  .kb-lk__h > span:nth-child(2) { display: none; }
+  .kb-lk__r { padding: 10px 0; }
+  .kb-lk__n { grid-column: 1; grid-row: 1; }
+  .kb-lk__r > .kb-lk__c { grid-column: 1 / -1; grid-row: 2; }
+  .kb-lk__r > .kb-lk__v { grid-column: 2; grid-row: 1; }
+  .kb-lk__r > .kb-lk__us { grid-column: 3; grid-row: 1; }
+  .kb-lk__r > .kb-lk__rel { grid-column: 4; grid-row: 1; }
+  .kb-lk__ax { grid-template-columns: minmax(0, 1fr); }
+  .kb-lk__ax > span:not(:nth-child(2)) { display: none; }
+}
+/* ещё уже 520 px (окно 720–900: рядом подменю «Проверки сервера») — как на телефоне: без шапки и колонки «обычно» */
+@container kblk (max-width: 519.98px) {
+  .kb-lk__h { display: none; }
+  .kb-lk__r { grid-template-columns: minmax(0, 1fr) auto auto; gap: 4px 10px; }
+  .kb-lk__r > .kb-lk__us { display: none; }
+  .kb-lk__r > .kb-lk__rel { grid-column: 3; }
+}
+/* Л3 №8: звено без значения — причина одной ячейкой на месте «сейчас · обычно · от обычного» (без «— —»), на любой
+   ширине: на ПК три колонки, в узкой карточке и на телефоне — всё справа от имени */
+.kb-lk__r > .kb-lk__why { grid-column: span 3; min-width: 0; overflow-wrap: break-word; }
+@container kblk (max-width: 719.98px) { .kb-lk__r > .kb-lk__why { grid-column: 2 / -1; grid-row: 1; } }
+[data-device="phone"] .kb-lk__r > .kb-lk__why { grid-column: 2 / -1; grid-row: 1; }
+/* Т-3312 «Мелочь 2»: причина длиннее имени («ещё измеряется — 5 ч из 12») — имя не сжимается под неё, причина
+   переносится ровными строками, без «12» одного внизу (узкая карточка и телефон: строка без значения — имя и причина) */
+.kb-lk__r > .kb-lk__why { text-wrap: balance; }
+@container kblk (max-width: 519.98px) { .kb-lk__r.is-dim { grid-template-columns: auto minmax(0, 1fr); } }
+[data-device="phone"] .kb-lk__r.is-dim { grid-template-columns: auto minmax(0, 1fr); }
+/* Д2 r3 F: значение есть, истории мало — одна ячейка на месте «Обычно · От обычного»: точки дней истории и «"обычно" — с
+   N-го дня» (полный текст — подсказкой). Узкая карточка (< 720) — на месте тех же колонок; ещё уже и на телефоне —
+   третьей строкой под линией, слева; «Сейчас» тогда прижато к правому краю */
+.kb-lk__r > .kb-lk__few { grid-column: 4 / -1; display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-width: 0; font: 400 .78125rem/1rem var(--font); color: var(--text-2); text-align: right; }
+.kb-lk__pips { display: inline-flex; gap: .125rem; flex: none; }
+.kb-lk__pips > i { width: .3125rem; height: .3125rem; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--text-3); }
+.kb-lk__pips > i.is-on { background: var(--text-2); box-shadow: none; }
+@container kblk (max-width: 719.98px) { .kb-lk__r > .kb-lk__few { grid-column: 3 / -1; grid-row: 1; } }
+@container kblk (max-width: 519.98px) {
+  .kb-lk__r.is-few > .kb-lk__few { grid-column: 1 / -1; grid-row: 3; justify-content: flex-start; text-align: left; }
+  .kb-lk__r.is-few > .kb-lk__v { grid-column: 2 / -1; }
+}
+[data-device="phone"] .kb-lk__r.is-few > .kb-lk__few { grid-column: 1 / -1; grid-row: 3; justify-content: flex-start; text-align: left; }
+[data-device="phone"] .kb-lk__r.is-few > .kb-lk__v { grid-column: 2 / -1; }
+/* «Настройки › Проверка сервера» (Д7/Д8): расписание модуля проверки — одной колонкой с остальными карточками */
+.gx-diag--sched { display: grid; gap: 12px; min-width: 0; }
+/* радар карточки — не шире своей колонки (на 1440 колонка уже 560: справа итог и кнопки), правая колонка не вылезает */
+.kb-ck__star .kb-st svg { width: 100%; height: auto; }
+.kb-ck__r > * { max-width: 100%; }
+/* T-it1b Н-5 (было с Т1 9c49d328): у колонки не было своей дорожки — неявная auto росла по самому широкому ребёнку
+   (ряд кнопок, «Почему итог не выше», строки «Новая база…» / «Расписание выключено…»), и колонка вылезала за край
+   карточки (1200 — на 28–85 px, 1440 — на 8). Дорожка не шире колонки; длинные строки и ссылка — переносом */
+.kb-ck__r { grid-template-columns: minmax(0, 1fr); }
+.kb-ck__r .gx-chk__u, .kb-ck__r .kb-why { overflow-wrap: anywhere; }
+.kb-ck__next .ga-btn.gx-link { display: inline; white-space: normal; text-align: start; }
+/* Д8 №7: в «Настройки › Проверка сервера» все карточки одной ширины (880) — расписание и повтор тоже во всю колонку */
+.kb-sch .gx-sched, .kb-sch .gx-retry { max-width: none; }
+.kb-sch .gx-retry, .kb-sch .gx-sched__list, .kb-sch .gx-sched__sum { width: 100%; box-sizing: border-box; }
+
+/* Т1: на узкой области (планшет, окно 768–1024) две колонки Сводки сжимались до 200 px — плитки и подписи налезали;
+   ниже 960 px области карточки идут одной колонкой, как на телефоне */
+@container gxmain (max-width: 959.98px) { .kb-row { grid-template-columns: minmax(0, 1fr); } }
+.kb-30--go { width: 100%; margin: 0; padding: 12px 0 0; border: 0; border-top: 1px solid var(--separator); border-radius: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.kb-30--go:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kb-30--go > .kb-30__row, .kb-30--go > .kb-30__h { pointer-events: none; }
+/* Сводка в узкой колонке (окно 768–820): радар 112 px, замечания и строка балла — во всю ширину, как на телефоне */
+.kb-hero-wrap { container: kbhero / inline-size; }
+@container kbhero (max-width: 519.98px) {
+  .kb-hero { grid-template-columns: 112px minmax(0, 1fr); gap: 10px 16px; }
+  .kb-hero__star { grid-row: auto; }
+  .kb-hero__star svg { width: 112px; height: auto; }
+  .kb-hero__t { font-size: 1.5rem; line-height: 1.875rem; }
+  .kb-hero__m, .kb-iss { grid-column: 1 / -1; }
+  .kb-hero { grid-template-rows: none; }
+  .kb .kb-hero { row-gap: 12px; }
+  .kb-hero > .kb-hero__star, .kb-hero > .kb-hero__v, .kb-hero > .kb-iss, .kb-hero > .kb-30 { grid-row: auto; margin-top: 0; }
+  .kb-hero > .kb-iss, .kb-hero > .kb-30 { grid-column: 1 / -1; }
+}
+/* «Здоровье сервера» в узкой области (окно 768–1024): четыре колонки таблицы сжимали ряд за сутки до нуля —
+   ниже 860 px списка строки идут как на телефоне: метрика и цифра, под ними ряд и «что сделать» */
+.kk-hh__list { container: kkhh / inline-size; }
+@container kkhh (max-width: 859.98px) {
+  .kk-hh__hd { display: none; }
+  .kk-hh__r { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; }
+  .kk-hh__n { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding-top: 0; }
+  .kk-hh__v, .kk-hh__ch, .kk-hh__do { grid-column: 1 / -1; }
+}

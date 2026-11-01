@@ -1,0 +1,21 @@
+Architecture:                       x86_64
+CPU op-mode(s):                     32-bit, 64-bit
+Address sizes:                      40 bits physical, 48 bits virtual
+Byte Order:                         Little Endian
+CPU(s):                             2
+On-line CPU(s) list:                0,1
+Vendor ID:                          AuthenticAMD
+BIOS Vendor ID:                     QEMU
+Model name:                         AMD EPYC 7763 64-Core Processor
+BIOS Model name:                    pc-q35-7.2
+CPU family:                         25
+Model:                              1
+Thread(s) per core:                 1
+Core(s) per socket:                 2
+Socket(s):                          1
+Stepping:                           1
+BogoMIPS:                           4890.81
+Flags:                              fpu vme de pse tsc msr pae aes avx2 vaes
+Hypervisor vendor:                  KVM
+Virtualization type:                full
+L1d cache:                          64 KiB (2 instances)

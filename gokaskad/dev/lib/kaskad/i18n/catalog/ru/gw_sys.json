@@ -1,0 +1,17 @@
+{
+ "gw_sys.apt.failed": "Не удалось установить пакеты {pkgs}: {why}",
+ "gw_sys.apt.interrupted": "получен сигнал {signal} — установка пакетов {pkgs} прервана",
+ "gw_sys.apt.not_installed": "Пакеты {pkgs} не установлены: {why}",
+ "gw_sys.bad.module": "недопустимое имя модуля {name}",
+ "gw_sys.bad.package": "недопустимое имя пакета {name}",
+ "gw_sys.bad.sysctl": "недопустимый параметр sysctl {name}",
+ "gw_sys.bad.unit": "недопустимое имя службы {name}",
+ "gw_sys.log.hold_signal": "GW: получен {signal} во время изменения шлюза — изменение доведено до конца, состояние сохранено",
+ "gw_sys.log.networkd_removed": "NETWORKD: {path} удалён — правил маршрутизации Kaskad не осталось",
+ "gw_sys.log.networkd_written": "NETWORKD: {path} записан — перезапуск systemd-networkd больше не стирает правила Kaskad",
+ "gw_sys.log.restarted": "GW repair: {detail} — перезапустил",
+ "gw_sys.rc": "код {rc}",
+ "gw_sys.stale.detail": "{unit} работает на удалённом {path} (пакет обновлён) — нужен перезапуск службы",
+ "gw_sys.ufw_failed": "ufw не открыл {rule}: {why}",
+ "gw_sys.write_failed": "не удалось записать {path}: {why}"
+}

@@ -1,0 +1,5 @@
+{
+ "gw_in_pptp.weak": "PPTP has weak encryption (MS-CHAPv2 and MPPE were broken long ago): use it only for routers that support nothing else.",
+ "gw_in_pptp.own": "PPTP has its own login and password (the login ends in “-pptp”): the device’s shared password for L2TP, SSTP, IKEv2 and OpenConnect is never sent over PPTP. If the device was set up earlier with the shared login, enter these instead.",
+ "gw_in_pptp.mppe": "MPPE 128-bit, required"
+}

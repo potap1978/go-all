@@ -1,0 +1,337 @@
+/* Kaskad 3 — «Выдать настройки» (give.js): окно панели, страница человека /p/ и шаг 6 мастера. Размеры и цвета —
+   k3/design/issue-qr/export-2026-10-11/HANDOFF-give-settings.md §3–4; токены — дизайн-системы панели (tokens.css; у /p/
+   — те же имена в user.css). Новые токены 3.3.2: --surface-raised, --popover-shadow, --warning-icon.
+   Телефон — ширина < 768 px (как tokens.css). Две колонки шагов складываются сами, когда контейнер уже 912. */
+
+.gs { --gs-ic: 40px; --gs-rowh: 62px; color: var(--foreground); font-family: var(--font); font-size: .875rem; line-height: 1.5; container-type: inline-size; }
+.gs[data-phone="1"] { --gs-ic: 36px; --gs-rowh: 58px; }
+.gs *, .gs *::before, .gs *::after { box-sizing: border-box; }
+.gs :where(button, a) { font: inherit; color: inherit; }
+.gs :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.gs code { font-family: var(--mono); font-size: .78125rem; }
+.gs-sep { border: 0; height: 1px; background: var(--separator); margin: 0; }
+
+/* ── ряды «Платформа / Протокол» ─────────────────────────────────────── */
+.gs-sel { display: grid; gap: 10px; padding-bottom: 20px; }
+.gs-sel__row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: center; }
+.gs-sel__l { color: var(--text-2); font-size: .875rem; }
+.gs-chips { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; min-width: 0; }
+.gs-chip { height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--surface-2); color: var(--text-2); font-weight: 500; font-size: .875rem;
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; transition: background var(--dur, .16s), box-shadow var(--dur, .16s); }
+.gs-chip:hover { background: var(--surface-3); color: var(--foreground); }
+.gs-chip.is-on { background: var(--accent-soft); color: var(--foreground); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.gs-chip.is-dim { color: var(--text-3); }
+.gs-chip.is-on.is-dim { color: var(--foreground); }           /* выбранный — обычным текстом, как в макете */
+.gs-chip .gs-tri__svg { width: 15px; height: 15px; }
+.gs-chip svg:not(.gs-tri__svg) { color: var(--text-3); }
+.gs-chipw, .gs-rtw, .gs-qrbw, .gs-tipw { position: relative; display: inline-flex; }
+.gs-chiptip { position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%); z-index: 6; white-space: nowrap; pointer-events: none;
+  background: var(--surface-raised); color: var(--foreground); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--popover-shadow);
+  padding: 8px 12px; font-size: .8125rem; opacity: 0; visibility: hidden; transition: opacity .12s; }
+.gs-chipw:hover .gs-chiptip, .gs-chipw:focus-within .gs-chiptip { opacity: 1; visibility: visible; }
+.gs-menu { position: absolute; top: calc(100% + 8px); left: 0; z-index: 7; width: 220px; padding: 6px; border-radius: 14px; background: var(--surface-raised);
+  border: 1px solid var(--border); box-shadow: var(--popover-shadow); display: grid; gap: 2px; }
+.gs-menu__i { height: 36px; border: 0; border-radius: 9px; background: none; text-align: left; padding: 0 10px; cursor: pointer; font-size: .875rem; }
+.gs-menu__i:hover, .gs-menu__i:focus-visible { background: var(--surface-2); }
+.gs-menu__i.is-on { color: var(--accent-text); font-weight: 600; }
+
+/* ── шаги ─────────────────────────────────────────────────────────────── */
+.gs-cols { display: flex; flex-wrap: wrap; gap: 32px; padding-top: 24px; align-items: flex-start; }   /* UI-1 F08: столбцы по содержимому, QR не тянется */
+.gs-col--l { flex: 1 1 480px; min-width: 0; }
+.gs-col--r { flex: 0 1 476px; min-width: 0; }      /* рамка QR ключа до 436 (kaskad.qr.FRAME_MAX_OUTER_PX) + поля .gs-key 2×20 */
+/* колонки рядом — только когда обе помещаются целиком: 480 + 32 + 476 = 988 (R-333-qr, ≤2 частей: №2 — на 912–987 правая
+   переносилась и стояла слева в 476 px) */
+@container (max-width: 987px) { .gs-col--l, .gs-col--r { flex: 1 1 100%; } }
+.gs-step__h { display: flex; align-items: center; gap: 12px; }
+.gs-num { width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); display: inline-flex; align-items: center;
+  justify-content: center; font: 600 .875rem/1 var(--font-head); }
+.gs-step__t { margin: 0; font: 600 1.0625rem/1.75rem var(--font-head); display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gs-step__sub { margin: 2px 0 0 40px; color: var(--text-2); font-size: .84375rem; }
+.gs-step__as { margin: 2px 0 0 40px; color: var(--text-3); font-size: .8125rem; }
+.gs-col .gs-step__sub + .gs-apps, .gs-col .gs-step__h + .gs-apps { margin-top: 16px; }
+.gs-step__sub code, .gs-app__f code { font-weight: 500; color: var(--foreground); }
+
+/* строки приложений — одной высоты */
+.gs-apps { display: grid; gap: 8px; margin-top: 16px; }
+.gs-app { position: relative; min-height: var(--gs-rowh); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px 10px 14px; border-radius: 14px;
+  background: var(--surface-2); }
+.gs-app.is-on { background: color-mix(in oklab, var(--accent) 9%, var(--surface-2)); box-shadow: inset 0 0 0 1.5px var(--accent); }
+/* UI-1 F07: одна раскладка для всех строк — имя и формат сверху, кнопки отдельной строкой справа (высота не зависит от подписи кнопки) */
+.gs-app__main { flex: 1 1 100%; min-width: 0; display: flex; align-items: center; gap: 12px; cursor: pointer; border-radius: 10px; }
+.gs-radio { width: 18px; height: 18px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--text-3); position: relative; }
+.is-on > .gs-app__main .gs-radio { box-shadow: inset 0 0 0 5px var(--accent); background: #fff; }
+.gs-appic { width: var(--gs-ic); height: var(--gs-ic); flex: none; border-radius: 10px; object-fit: cover; display: block; }
+.gs-appic--none { display: inline-flex; align-items: center; justify-content: center; background: var(--surface-3); color: var(--text-2); font: 600 1.0625rem/1 var(--font-head); }
+.gs-app__tx { display: grid; min-width: 0; }
+/* длинное имя («Cisco Secure Client», «WireSock Secure Connect») переносится, а не режется: «рекомендуем» и треугольник
+   уходят на вторую строку, а не выталкивают имя (FIX-332g №11: в мастере на 390 было «DefaultVP…») */
+.gs-app__n { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; font-size: .9375rem; line-height: 1.375rem; }
+.gs-app__n b { flex: 0 1 auto; min-width: 0; font-weight: 600; white-space: normal; overflow-wrap: break-word; }
+.gs-app__f { color: var(--text-2); font-size: .8125rem; line-height: 1.25rem; }
+.gs-rec { height: 22px; padding: 0 9px; border-radius: 999px; background: var(--success-soft); color: var(--success-text); font-size: .75rem; font-weight: 500;
+  display: inline-flex; align-items: center; white-space: nowrap; }
+.gs-app__acts { display: flex; gap: 6px; flex: none; margin-left: auto; }
+.gs-rec { flex: none; }
+
+/* кнопки */
+.gs-btn { height: 32px; padding: 0 12px 0 10px; border: 0; border-radius: 999px; background: var(--surface-3); color: var(--foreground); font-weight: 500; font-size: .84375rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.gs-btn:hover { background: var(--surface-3-hover, var(--surface-3)); }
+.gs-btn svg { flex: none; }
+.gs-btn.is-open { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.gs-btn--primary { background: var(--accent); color: var(--accent-foreground); height: 36px; padding: 0 12px 0 16px; }
+.gs-btn--primary:hover { background: var(--accent-hover, var(--accent)); }
+.gs-btn--key { height: 40px; flex: 1 1 0; min-width: max-content; padding: 0 14px; font-size: .875rem; }
+.gs-btn--sm { height: 32px; }
+.gs-btn--icon { width: 32px; padding: 0; }
+.gs-btn--icon span:empty { display: none; }
+.gs-btn--file { height: 36px; }
+.gs-btn--big { height: 52px; border-radius: 16px; font-weight: 600; font-size: .9375rem; width: 100%; }
+
+/* карточка «QR · установить»: под кнопкой, по правому краю */
+.gs-card { position: absolute; top: calc(100% + 12px); right: 0; z-index: 8; width: 232px; padding: 12px 12px 14px 14px; border-radius: 16px; background: var(--surface-raised);
+  border: 1px solid var(--border); box-shadow: var(--popover-shadow); }
+.gs-card::before { content: ""; position: absolute; top: -7px; right: 40px; width: 12px; height: 12px; transform: rotate(45deg); background: var(--surface-raised);
+  border-left: 1px solid var(--border); border-top: 1px solid var(--border); }
+.gs-card__h { display: flex; gap: 8px; align-items: flex-start; }
+.gs-card__h p { margin: 0; flex: 1; font-size: .8125rem; color: var(--text-2); line-height: 1.4; }
+.gs-card__x { width: 28px; height: 28px; flex: none; border: 0; border-radius: 50%; background: var(--surface-2); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.gs-card__qr { margin-top: 10px; width: 204px; height: 204px; padding: 14px; background: #fff; border-radius: 12px; }
+.gs-card__qr svg { width: 100%; height: 100%; display: block; }
+
+/* ключевой блок */
+.gs-key { margin-top: 16px; padding: 20px; border-radius: 20px; background: var(--surface-2); display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; justify-items: center; }
+.gs-qrwrap { position: relative; }
+.gs-qr { display: grid; justify-items: center; gap: 12px; }
+/* фокус на коде после «Показать QR целиком»: низ кода стоит ровно у края прокрутки — контур внутрь, иначе край диалога
+   срезает его нижнюю кромку (R-333-qr, пятый круг №1) */
+.gs .gs-qr:focus-visible { outline-offset: -2px; }
+.gs-qr__frame { width: 312px; height: 312px; padding: 8px; background: #fff; border-radius: 18px; transition: filter .2s, opacity .2s; }
+/* сторона рамки на компьютере — по порогу модуля (give.js keyQr: 312…436, CSSOM), на телефоне — вся ширина (@media);
+   код занимает рамку целиком: ни полей, ни отступов, ни масштаба внутри (tests/test_333q.py) */
+.gs-qr__frame .kq { margin: 0; padding: 0; width: 100%; height: 100%; --kq-size: 100%; transform: none; }
+.gs-qr__frame .kq__frame { max-width: none; margin: 0; padding: 0; transform: none; }
+.gs-qr__frame .gx-qrart { background: #fff; border-radius: 0; }
+.gs-card__qr .gx-qrart { background: #fff; border-radius: 0; }
+.gs-card__qr .gx-qrart__paper { fill: #fff; }
+.gs-card__qr .gx-qrart__ink { fill: #111; }
+.gs-qr__frame .kq__frame, .gs-qr__frame .kq__part { width: 100%; height: 100%; }
+.gs-qr__frame .kq__cap { display: none; }
+.gs-qr__frame svg { width: 100%; height: 100%; max-width: none; margin: 0; padding: 0; transform: none; display: block; }
+.gs-qr__frame .gx-qrart__paper, .gs-qr__frame .up-qr__paper { fill: #fff; }
+.gs-qr__frame .gx-qrart__ink, .gs-qr__frame .up-qr__ink { fill: #111; }
+.gs-qr.is-covered .gs-qr__frame { filter: blur(10px); opacity: .3; }
+/* 3.3.3 №38: код плотнее, чем берёт камера с экрана, — вместо него честный путь (файл, страница на телефоне) */
+.gs-dense { display: grid; gap: 10px; max-width: 420px; padding: 16px; border-radius: 18px; border: 1px dashed var(--border); }
+.gs-dense__t { margin: 0; font-weight: 600; }
+.gs-dense__x, .gs-dense__warn { margin: 0; font-size: .8125rem; line-height: 1.45; opacity: .85; }
+/* QR адреса страницы: сторона — по порогу камеры (give.js PAGE_MIN 164 + 2×6, больше при длинном адресе) */
+.gs-dense__page { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.gs-dense__qr { width: 176px; height: 176px; padding: 6px; box-sizing: border-box; background: #fff; border-radius: 12px; transition: filter .2s, opacity .2s; }
+.gs-dense__page.is-covered .gs-dense__qr { filter: blur(10px); opacity: .3; }
+.gs-dense__qr svg { width: 100%; height: 100%; display: block; }
+.gs-dense__qr .gx-qrart { background: #fff; border-radius: 0; }
+.gs-dense__qr .gx-qrart__paper, .gs-dense__qr .up-qr__paper { fill: #fff; }
+.gs-dense__qr .gx-qrart__ink, .gs-dense__qr .up-qr__ink { fill: #111; }
+.gs-qr.is-covered .gs-parts { visibility: hidden; }
+.gs-parts { display: flex; align-items: center; gap: 10px; color: var(--text-2); font-size: .8125rem; }
+.gs-bars { display: inline-flex; gap: 4px; }
+.gs-bar { width: 20px; height: 4px; border-radius: 2px; background: var(--surface-3); }
+.gs-bar.is-on { background: var(--accent); }
+.gs-cover { position: absolute; inset: 0 0 32px; display: grid; place-content: center; justify-items: center; gap: 10px; text-align: center; }
+.gs-cover p { margin: 0; font-weight: 600; font-size: .9375rem; }
+/* узкий блок (мастер с колонкой видео): кнопки — друг под другом, а не за край карточки (R-333-qr, ≤2 частей: №1) */
+.gs-keybtns { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
+.gs-textbtn { height: 32px; border: 0; background: none; color: var(--text-2); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: .84375rem; border-radius: 999px; padding: 0 10px; }
+.gs-textbtn[aria-expanded="true"] svg { transform: rotate(180deg); }
+/* «Показать QR целиком»: код не помещается в видимую часть окна; прокрутка — только по нажатию (R-333-qr ≤2: повтор №2) */
+.gs-qrwhole[hidden] { display: none; }
+.gs-qrwhole[data-off] { visibility: hidden; }
+.gs-qrwhole { color: var(--accent-text); font-weight: 500; }
+.gs-keytext { width: 100%; margin: 0; max-height: 132px; overflow: auto; padding: 10px 12px; border-radius: 12px; background: var(--field-background); border: 1px solid var(--border);
+  font: .75rem/1.55 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.gs-qrfail { margin: 0; color: #333; font-size: .8125rem; text-align: center; padding: 40px 10px; }
+
+/* шаг 3 и пути */
+.gs-step3 { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--separator); }
+.gs-step3__in, .gs-step3__tail { color: var(--text-2); font-size: .84375rem; }
+.gs-path { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.gs-pill { height: 28px; padding: 0 10px; border-radius: 8px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border); font-size: .84375rem; font-weight: 500;
+  display: inline-flex; align-items: center; white-space: nowrap; }
+.gs-path__sep { color: var(--text-3); display: inline-flex; }
+
+/* подсказка у треугольника */
+.gs-tri { width: 20px; height: 20px; padding: 0; border: 0; background: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 6px; flex: none; }
+.gs-tri__fill { fill: var(--warning-icon); stroke: var(--warning-icon-stroke, none); stroke-width: 1.4; }
+.gs-tri__mark { stroke: oklch(.25 .05 70); stroke-width: 2; stroke-linecap: round; fill: none; }
+.gs-tip { position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translateX(-50%); z-index: 9; width: max-content; max-width: 320px; padding: 10px 12px;
+  border-radius: 12px; background: var(--surface-raised); border: 1px solid var(--border); box-shadow: var(--popover-shadow); font: 400 .8125rem/1.45 var(--font);
+  color: var(--foreground); text-align: left; white-space: normal; }
+.gs-tip::after { content: ""; position: absolute; left: calc(50% - 5px); bottom: -6px; width: 10px; height: 10px; transform: rotate(45deg); background: var(--surface-raised);
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.gs-tipw--down .gs-tip { bottom: auto; top: calc(100% + 10px); }
+.gs-tipw--down .gs-tip::after { bottom: auto; top: -6px; border: 0; border-left: 1px solid var(--border); border-top: 1px solid var(--border); }
+.gs-tip__p { margin: 0; font-weight: 400; }
+.gs-tip__p + .gs-tip__p { margin-top: 4px; }
+.gs-tip__links { display: grid; gap: 2px; margin-top: 6px; }
+.gs-tip__a, .gs-more { color: var(--accent-text); font-weight: 600; text-decoration: none; }
+.gs-tip__a { font-size: .8125rem; }
+.gs-tip__a:hover, .gs-more:hover { text-decoration: underline; }
+.gs-ext { font-size: .75rem; }
+
+/* роутер */
+.gs-rstep { padding-top: 24px; }
+.gs-rstep + .gs-rstep { padding-top: 20px; }
+.gs-rstep > .gs-file, .gs-rstep > .gs-code, .gs-rstep > .gs-fields, .gs-rstep > .gs-guide { margin: 14px 0 0 40px; }
+.gs-file { max-width: 560px; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: 16px; background: var(--surface-2); flex-wrap: wrap; }
+.gs-file__ic { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent-text); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.gs-file__tx { flex: 1 1 200px; min-width: 0; display: grid; }
+.gs-file__tx b { font: 600 .84375rem/1.4 var(--mono); overflow-wrap: anywhere; }
+.gs-file__tx span { color: var(--text-3); font-size: .8125rem; }
+.gs-code { border-radius: 16px; background: var(--field-background); border: 1px solid var(--border); overflow: hidden; max-width: 760px; }
+.gs-code__h { height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--border); color: var(--text-2); font-size: .8125rem; }
+.gs-code__pre { margin: 0; padding: 14px 16px; max-height: 260px; overflow: auto; font: .78125rem/1.7 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+.gs-fields { margin: 0; max-width: 600px; display: grid; gap: 6px; }
+.gs-field { min-height: 48px; display: grid; grid-template-columns: minmax(90px, 150px) minmax(0, 1fr); align-items: center; gap: 12px; padding: 6px 8px 6px 14px; border-radius: 14px; background: var(--surface-2); }
+.gs-field dt { color: var(--text-2); font-size: .84375rem; }
+.gs-field dd { margin: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.gs-field__v { font: .8125rem/1.4 var(--mono); overflow-wrap: anywhere; min-width: 0; }
+.gs-guide p { margin: 4px 0 0; color: var(--text-2); font-size: .84375rem; }
+.gs-col--r > .gs-file, .gs-col--r > .gs-code, .gs-col--r > .gs-fields, .gs-col--r > .gs-guide { margin-top: 14px; }
+
+/* А — баннер; Б — «Подойдёт:»; В — ничего */
+.gs-banner { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-radius: 16px; background: var(--surface-2); margin: 0 0 20px; }
+.gs-banner p { margin: 0; font-size: .875rem; color: var(--text-2); }
+.gs-banner b { color: var(--foreground); font-weight: 600; }
+.gs-banner__i { color: var(--text-2); display: inline-flex; padding-top: 1px; }
+.gs-none { padding-top: 24px; }
+.gs-none__t { margin: 0; font: 600 1.0625rem/1.75rem var(--font-head); }
+.gs-none > .gs-step__sub { margin-left: 0; }
+.gs-alts { display: grid; gap: 8px; margin-top: 16px; max-width: 760px; }
+.gs-alt { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px 10px 16px; border-radius: 14px; background: var(--surface-2); }
+.gs-alt[data-state="ready"] { cursor: pointer; }
+.gs-alt__tx { display: grid; gap: 2px; min-width: 0; }
+.gs-alt__n { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: .9375rem; }
+.gs-alt__st { display: inline-flex; align-items: center; gap: 8px; color: var(--text-2); font-size: .84375rem; }
+.gs-alt__ask { color: var(--text-2); font-size: .84375rem; text-align: right; }
+.gs-alt .gs-btn { height: 36px; }
+.gs-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-3); flex: none; }
+.gs-dot--ready { background: var(--success); }
+.gs-dot--device_off { background: var(--warning); }
+.gs-nothing { padding: 24px 0 0; }
+.gs-nothing .gs-none__t { padding: 16px 18px; border-radius: 16px; background: var(--surface-2); font: 500 .875rem/1.5 var(--font); }
+.gs-nothing .gs-step__sub { margin: 10px 0 0; }
+
+/* телефон: верхние кнопки, QR строкой */
+.gs-top { display: grid; gap: 12px; padding: 4px 0 20px; border-bottom: 1px solid var(--separator); }
+.gs-open { min-height: 60px; display: flex; align-items: center; gap: 12px; padding: 0 16px 0 12px; border-radius: 16px; background: var(--accent); color: var(--accent-foreground) !important; text-decoration: none; }
+.gs-open .gs-appic { width: 36px; height: 36px; border-radius: 9px; }
+.gs-open__tx { flex: 1; display: grid; min-width: 0; }
+.gs-open__tx b { font: 600 1rem/1.25 var(--font-head); }
+.gs-open__tx span { font-size: .8125rem; }   /* 3.3.3: без прозрачности — белое на акценте не ниже 4,5 : 1 */
+.gs-qrph { width: 100%; height: 44px; border: 0; border-radius: 12px; background: var(--surface-3); display: flex; align-items: center; gap: 10px; padding: 0 14px; cursor: pointer; font-weight: 500; }
+.gs-qrph span { flex: 1; text-align: left; }
+.gs-qrph[aria-expanded="true"] svg:last-child { transform: rotate(180deg); }
+
+@media (max-width: 767px) {
+  .gs-sel__row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .gs-sel__row .gs-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 2px 16px; scrollbar-width: none; }
+  .gs-sel__row .gs-chips::-webkit-scrollbar { display: none; }
+  /* 3.3.3: ряд уходит за край — правый край гаснет: видно, что дальше есть ещё (поля 16 px — первая и последняя фишки целы).
+     R-333 №8: гаснет, только пока дальше правда есть (is-more из give.js); в конце прокрутки — только левый край */
+  .gs-sel__row .gs-chips { -webkit-mask-image: linear-gradient(to right, transparent, #000 14px); mask-image: linear-gradient(to right, transparent, #000 14px); }
+  .gs-sel__row .gs-chips.is-more { -webkit-mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 28px), transparent); }
+  .gs-sel__row--sub { margin-top: -2px; }
+  .gs-cols { gap: 28px; padding-top: 20px; }
+  .gs-key { padding: 16px; }
+  .gs-qr__frame { width: min(436px, calc(100vw - 72px)); height: min(436px, calc(100vw - 72px)); }
+  .gs-tri { width: 44px; height: 44px; margin: -12px; }
+  .gs-step__t:has(.gs-tri) + .gs-step__sub { padding-top: 6px; }   /* 3.3.3: касание «!» (44 px) не накрывает «Подробнее» */
+  .gs-tipw { position: static; }
+  .gs-tip { position: static; transform: none; width: auto; max-width: none; margin: 8px 0 0; }
+  .gs-tip::after { display: none; }
+  .gs-step3 { gap: 10px; }
+  .gs-step3 .gs-path { flex: 1 1 100%; }
+  .gs-code__pre { white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+  .gs-file .gs-btn--file { flex: 1 1 100%; }
+  .gs-rstep > .gs-file, .gs-rstep > .gs-code, .gs-rstep > .gs-fields, .gs-rstep > .gs-guide { margin-left: 0; }
+  .gs-alt { flex-wrap: wrap; }
+  .gs-alt__ask { text-align: left; }
+  .gs-chip, .gs-btn, .gs-menu__i { min-height: 44px; }
+  .gs-btn--icon { width: 44px; }                       /* копировать в полях L2TP/IKEv2 — цель пальца 44×44 (№12) */
+  .gs-textbtn { min-height: 44px; }                    /* «Показать текст» */
+  .gs-chip { height: 40px; }
+  .gs-app__main { min-height: 44px; }
+}
+
+/* ── окно панели (openDialog + .gs-dlg): ширина 1088, отступ 16 сверху и снизу, поля 24/28 ─────────────── */
+.gx-dlg.gs-dlg { border: 1px solid var(--border); border-radius: 24px; }
+.gx-dlg-bd:has(.gs-dlg) { padding: 16px; }
+.gs-dlg .gx-sheet__head { padding: 24px 28px 20px; align-items: center; }
+/* О5 / О6: под заголовком строка «пользователь · N устройств · протоколы» — шапка плотнее (в макете до вкладок ≈ 80 px):
+   высота окна та же, что без строки, — код ключа на ноутбуке не уезжает ниже края */
+.gs-dlg .gx-sheet__head:has(.gx-sheet__sub) { padding-top: 20px; padding-bottom: 14px; }
+.gs-dlg .gx-sheet__sub { margin-top: 2px; font-size: .8125rem; line-height: 1.125rem; }
+.gs-dlg .gx-card__titlerow { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.gs-dlg .gx-sheet__title { font: 600 1.375rem/1.75rem var(--font-head); }
+.gs-dlg .gx-close { width: 40px; height: 40px; }
+.gs-dlg .gx-dlg__body { padding: 0 28px 24px; display: block; }
+.gs-dlg .gx-dlg__foot { padding: 16px 28px; justify-content: space-between; flex-wrap: nowrap; align-items: center; gap: 16px; }
+.gs-dlg .gx-dlg__foot .ga-btn { padding: 0 20px; }
+/* UI-1 F11: рядом с подсказкой кнопка по своей подписи (на телефоне общее правило делит ряд поровну — здесь нет) */
+.gs-dlg .gx-dlg__foot > .ga-btn, [data-device="phone"] .gs-dlg .gx-dlg__foot > .ga-btn { flex: none; white-space: nowrap; }
+.gs-host[aria-busy="true"] .gs { opacity: .6; transition: opacity .2s; }
+.gs-foot { margin: 0; display: flex; align-items: center; gap: 12px; color: var(--text-2); font-size: .84375rem; }
+.gs-foot svg { flex: none; }
+/* плашка «человек · устройство»: в одну строку — 32 px, как была; длинное имя устройства переносится внутри
+   плашки, а она растёт по высоте (T-67-332b №1: на 390 «qa-Анна» ломалась по дефису, текст выходил за фон) */
+.gs-who { min-height: 32px; height: auto; max-width: 100%; min-width: 0; box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; border-radius: 16px; background: var(--surface-2); font-size: .875rem; line-height: 1.25rem; font-weight: 400; }
+.gs-who__txt { min-width: 0; }
+.gs-who b { font-weight: 600; white-space: nowrap; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+.gs-who__ava { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); font: 600 .625rem/1.5rem var(--font-head); text-align: center; margin-right: 2px; }
+.gs-who__dev { color: var(--text-2); overflow-wrap: anywhere; }
+@media (max-width: 767px) {
+  .gx-dlg-bd:has(.gs-dlg), .gx-dlg-bd--sheet:has(.gs-dlg) { padding: 0; place-items: stretch; }
+  .gx-dlg.gs-dlg { border: 0; border-radius: 0; width: 100%; height: 100%; max-height: 100%; }
+  .gs-dlg .gx-sheet__head, .gs-dlg .gx-sheet__head:has(.gx-sheet__sub) { padding: 20px 16px 12px; }
+  .gs-dlg .gx-sheet__title { font-size: 1.25rem; }
+  .gs-dlg .gx-dlg__body { padding: 0 16px 24px; }
+  .gs-dlg .gx-dlg__foot { padding: 14px 16px 20px; }
+}
+
+/* FIX-332g: тело окна — без своей разметки; область «Скопировано» — только для экранного диктора */
+.gs-body { display: contents; }
+.gs-live { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* состояние А (SPEC п. 2): строка о других протоколах этой системы под баннером; готовый — нажимается */
+.gs-also { margin: -8px 0 20px; font-size: .84375rem; color: var(--text-2); }
+.gs-also__a { border: 0; background: none; padding: 0; color: var(--accent-text); font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.gs-also__n { color: var(--foreground); }
+@media (max-width: 767px) { .gs-also__a { min-height: 44px; } }
+
+/* вкладка «Подписка» окна панели на ПК (o.only = 'apps', макет Б r3, О5): строка приложения в одну линию; общая строка
+   «есть подделки» над списком вместо треугольника у каждой строки */
+.gs-app--line { --gs-ic: 32px; flex-wrap: nowrap; min-height: 48px; gap: 8px; padding: 6px 8px 6px 12px; }
+.gs-app--line > .gs-app__main { flex: 1 1 auto; gap: 6px; }
+.gs-app--line .gs-app__n { column-gap: 4px; }
+.gs-app--line .gs-btn--row:not(.gs-btn--ic) { padding: 0 12px; }
+.gs-app--line > .gs-app__acts { flex: none; }
+.gs-btn--ic { width: 32px; padding: 0; justify-content: center; }
+/* серая строка пометок приложения (give.js noteLine — подписка, статический ключ, /p/, мастер; R-it1-tri): до двух строк с многоточием; у выбранного
+   приложения (нажатие на строку — и на телефоне) — целиком (REV-it1-pol З-3); весь текст ещё и в title */
+.gs-app__nt { display: flex; align-items: baseline; gap: 8px; min-width: 0; color: var(--text-2); font-size: .8125rem; line-height: 1.125rem; }
+.gs-app__nt-t { flex: 0 1 auto; min-width: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; }
+.gs-app.is-on .gs-app__nt-t { display: block; -webkit-line-clamp: none; overflow: visible; }
+/* вкладка «Подписка» окна выдачи на ПК — окно без прокрутки (T-it1b п.4): у невыбранных одна строка */
+@media (min-width: 768px) {
+  .kk-iss__body--sub .gs-app:not(.is-on) .gs-app__nt-t { -webkit-line-clamp: 1; }
+  .kk-iss__body--sub .gs-app__nt { line-height: 1rem; }
+}
+.gs-app__nt-a { flex: none; color: var(--text-2); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.gs-app__nt-a:hover { color: var(--foreground); }
+/* пометка пары у «Установите приложение» — серым под заголовком, без треугольника (решение координатора 29.10) */
+.gs-pair { display: grid; gap: 2px; overflow-wrap: anywhere; }
+.gs-pair__p { margin: 0; }
+.gs-pair__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 2px 0 0; }
+.gs-col .gs-pair + .gs-fakes { margin-top: 12px; }
+.gs-fakes { display: flex; align-items: flex-start; gap: 8px; margin: 0 0 8px; font-size: .8125rem; line-height: 1.1875rem; color: var(--text-2); }
+.gs-fakes svg { flex: none; margin-top: 1px; }

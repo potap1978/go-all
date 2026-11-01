@@ -1,0 +1,5 @@
+{
+ "panel_ux.mcp_paste": "Paste the line from ~/.ssh/kaskad_agent.pub.",
+ "panel_ux.mcp_private": "This is a PRIVATE key — never share it. Paste the line from the .pub file.",
+ "panel_ux.no_kind": "No such protocol: {kind}."
+}

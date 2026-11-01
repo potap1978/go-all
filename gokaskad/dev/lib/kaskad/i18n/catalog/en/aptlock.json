@@ -1,0 +1,12 @@
+{
+ "aptlock.busy.anon": "apt is busy{lim} — the system is installing updates. Try again later.",
+ "aptlock.busy.who": "apt is busy{lim}: the lock is held by {who} — the system is installing updates. Try again when it’s done.",
+ "aptlock.busy_line": "Kaskad is already installing packages (another window or the bot) — waiting…",
+ "aptlock.install_busy": "Kaskad has been installing packages in another window or from the bot for more than {minutes} minutes — try again later.",
+ "aptlock.lim.sec": " for more than {sec} s",
+ "aptlock.lim.ten_min": " for more than 10 minutes",
+ "aptlock.log.gave_up": "APT: gave up waiting — the lock is held by {who}",
+ "aptlock.log.unknown": "an unknown process",
+ "aptlock.log.waited": "APT: waited {sec} s while the system installed updates ({who})",
+ "aptlock.wait_line": "The system is installing updates (apt is busy) — waiting up to 10 minutes…"
+}

@@ -1,0 +1,13 @@
+{
+  "lang.bad": "Language must be ru or en (got “{value}”).",
+  "lang.name.ru": "Russian",
+  "lang.name.en": "English",
+  "lang.now": "Server language: {name} ({code}).",
+  "lang.set": "Server language: {name} ({code}). The menu, panel, wizard and bot use it.",
+  "lang.same": "Server language is already {name} ({code}).",
+  "lang.env": "KASKAD_LANG={env} is set in the environment of this command — it overrides the server setting.",
+  "lang.help": "server language (ru/en): show and change",
+  "lang.help.get": "current server language",
+  "lang.help.set": "change the server language",
+  "lang.help.json": "machine-readable output"
+}

@@ -1,0 +1,2 @@
+State  Recv-Q Send-Q Local Address:Port  Peer Address:Port Process
+UNCONN 0      0        127.0.0.53%lo:53         0.0.0.0:*     users:(("systemd-resolve",pid=520,fd=13))

@@ -1,0 +1,12 @@
+{
+ "gw_in_l2tp.plain_warning": "L2TP without IPsec is on: these connections aren’t encrypted — use it only for routers that can’t do IPsec.",
+ "gw_in_l2tp.off_both": "L2TP accepts no connections: both IPsec and unencrypted L2TP are off (inbounds.l2tp.ipsec / plain).",
+ "gw_in_l2tp.err.off": "The L2TP protocol is off or accepts no connections (neither IPsec nor unencrypted L2TP).",
+ "gw_in_l2tp.err.no_psk": "The L2TP/IPsec pre-shared key isn’t created yet: kaskadctl gw apply.",
+ "gw_in_l2tp.apple_ipsec_off": "Apple’s built-in client supports only L2TP/IPsec, and IPsec is off on the server.",
+ "gw_in_l2tp.type_psk": "L2TP/IPsec with pre-shared key",
+ "gw_in_l2tp.type_psk_or_plain": "L2TP/IPsec with pre-shared key (or L2TP without IPsec)",
+ "gw_in_l2tp.type_plain": "L2TP without IPsec",
+ "gw_in_l2tp.label.psk": "IPsec pre-shared key (PSK)",
+ "gw_in_l2tp.err809": "Error 809 behind NAT: restart the computer — the script has already set AssumeUDPEncapsulationContextOnSendRule=2."
+}

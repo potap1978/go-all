@@ -1,0 +1,13 @@
+{
+ "gw_addr.err.base_format": "база адресов шлюза должна быть сетью вида 10.77.0.0/16, а не {value}",
+ "gw_addr.err.base_private": "сеть шлюза — только /16 внутри 10.0.0.0/8, 172.16.0.0/12 или 192.168.0.0/16, а не {net}",
+ "gw_addr.err.base_rfc1918": "сеть шлюза — только /16 внутри 10.0.0.0/8, 172.16.0.0/12 или 192.168.0.0/16, а не {net}",
+ "gw_addr.err.no_free": "Нет свободной сети для шлюза: {why}",
+ "gw_addr.err.no_subnet": "у входа {kind} нет своей подсети",
+ "gw_addr.err.pool_full": "в подсети {net} закончились адреса ({count} устройств)",
+ "gw_addr.err.unknown_pool": "неизвестный пул адресов {pool}",
+ "gw_addr.why.address": "адрес {cidr} на {dev}",
+ "gw_addr.why.route": "маршрут {net}",
+ "gw_addr.why.route_dev": "маршрут {net} через {dev}",
+ "gw_addr.why.taken": "{net} занята: {why}"
+}

@@ -1,0 +1,7 @@
+{
+ "ipt.list_failed": "не удалось прочитать правила iptables (таблица {table}): {error}",
+ "ipt.no_value": "нет значения у {opt}",
+ "ipt.save_failed": "iptables-save не сработал: {error}",
+ "ipt.unclosed_quotes": "кавычки не закрыты ({error})",
+ "ipt.unparsed": "(не разобрано: {error})"
+}

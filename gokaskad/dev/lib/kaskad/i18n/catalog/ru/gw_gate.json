@@ -1,0 +1,5 @@
+{
+ "gw_gate.comment": "Kaskad 3: вход шлюза не запускается без части шлюза в таблице nftables (fail-closed).",
+ "gw_gate.comment_owner": "Файл пишет kaskadctl.",
+ "gw_gate.start_line": "Kaskad: запуск входа {iface} №{n} с загрузки, через {u} с после неё"
+}

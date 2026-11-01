@@ -1,0 +1,17 @@
+{
+ "gw_sys.apt.failed": "Couldn’t install packages {pkgs}: {why}",
+ "gw_sys.apt.interrupted": "got {signal} — installing packages {pkgs} was interrupted",
+ "gw_sys.apt.not_installed": "Packages {pkgs} not installed: {why}",
+ "gw_sys.bad.module": "invalid kernel module name {name}",
+ "gw_sys.bad.package": "invalid package name {name}",
+ "gw_sys.bad.sysctl": "invalid sysctl parameter {name}",
+ "gw_sys.bad.unit": "invalid service name {name}",
+ "gw_sys.log.hold_signal": "GW: got {signal} while the gateway was being changed — the change was completed and the state saved",
+ "gw_sys.log.networkd_removed": "NETWORKD: {path} removed — no Kaskad routing rules left",
+ "gw_sys.log.networkd_written": "NETWORKD: {path} written — a restart of systemd-networkd no longer wipes Kaskad’s rules",
+ "gw_sys.log.restarted": "GW repair: {detail} — restarted",
+ "gw_sys.rc": "exit code {rc}",
+ "gw_sys.stale.detail": "{unit} is running a deleted {path} (the package was updated) — the service needs a restart",
+ "gw_sys.ufw_failed": "ufw didn’t open {rule}: {why}",
+ "gw_sys.write_failed": "couldn’t write {path}: {why}"
+}

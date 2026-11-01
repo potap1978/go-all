@@ -1,0 +1,6 @@
+{
+ "util.bytes": "{n} byte|{n} bytes",
+ "util.redact.bot_token": "bot token hidden",
+ "util.redact.github": "GitHub key hidden",
+ "util.redact.hidden": "hidden"
+}

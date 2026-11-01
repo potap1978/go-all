@@ -1,0 +1,1388 @@
+{
+ "schema": 1,
+ "checked": "2026-10-20",
+ "_comment": "Каталог блока «Установите приложение» Kaskad PRO: какие приложения ставить для протокола (kind) на платформе и откуда. protocols[kind][platform] — список id из apps (первым — то, что называют шаги gw/issue_os.py howto/MATRIX) или \"builtin\" (встроенное средство ОС/прошивки, подпись — builtin_note); нет платформы — нет приложения или способа. AmneziaWG (awg1 = линия 1.5, awg2 = 2.0, awg3 = 3.1): приложения из vendor/clients.json по полю support (как issue_os.apps(), без static:false); у них в apps только name и from_vendor — ссылки и пометки брать из vendor (свои links и note у такого приложения — только для платформ, которых в vendor нет: incy на Windows и Linux, UI-1 F09) (платформа vendor: androidtv → android_tv, keenetic/openwrt/mikrotik → router; у other своей платформы в vendor нет — там отдельное amneziavpn-site со своими ссылками). Ссылки проверены 2026-10-11: curl -sIL (код 200 и название на странице), App Store — ещё и через itunes.apple.com/lookup (us и ru), GitHub — через API releases/latest. v2RayTun из App Store убран (id6476628951 — 404, lookup пуст во всех витринах), поэтому на iOS/macOS его нет. Таблица поддержки support[platform] — список {proto, level: native|package|app|workaround|none, min, guide {ru,en}, note {ru,en}, links [{label,url}], unverified} в порядке рекомендации (решение владельца 2026-10-11, k3/handoff/SPEC-issue-fallbacks.md; источники — k3/research/ios-apps-ru-2026-10.md и platforms-2026-10.md). У приложения: icon — файл в panel/static (иконки лежат в продукте, браузер никуда не ходит); fakes — платформы, где в магазине есть подделки с тем же названием; unverified (+ unverified_kinds) или пары {платформа: [kind, …] | \"*\"} — не проверено на устройстве (оранжевый «!»): новые пары без проверки на устройстве — всегда с ним (UI-1 круг 2). name — строка или {ru,en}.",
+ "apps": {
+  "amneziavpn": {
+   "name": "AmneziaVPN",
+   "from_vendor": "amneziavpn",
+   "note": {"ios": {"ru": "Нет в российском App Store — нужен Apple ID другой страны", "en": "Not in the Russian App Store — an Apple ID of another country is needed"}},
+   "icon": "apps/amneziavpn.png"
+  },
+  "amneziawg": {"name": "AmneziaWG", "from_vendor": "amneziawg", "icon": "apps/amneziawg.png"},
+  "defaultvpn": {
+   "name": "DefaultVPN",
+   "from_vendor": "defaultvpn",
+   "note": {
+    "ios": {
+     "ru": "Официальный форк Amnezia для российского App Store; vless:// без XHTTP и без подписки",
+     "en": "The official Amnezia fork for the Russian App Store; vless:// without XHTTP and without a subscription"
+    }
+   },
+   "icon": "apps/defaultvpn.png"
+  },
+  "incy": {
+   "name": "incy",
+   "from_vendor": "incy",
+   "links": {
+    "windows": [{"kind": "github", "url": "https://github.com/INCY-DEV/incy-platforms/releases/latest"}],
+    "linux": [{"kind": "github", "url": "https://github.com/INCY-DEV/incy-platforms/releases/latest"}]
+   },
+   "note": {
+    "windows": {"ru": "Предварительная версия (pre-alpha) с GitHub разработчика: установщик .exe; ссылка, подписка, QR", "en": "Preview build (pre-alpha) from the developer's GitHub: the .exe installer; link, subscription, QR"},
+    "linux": {"ru": "Предварительная версия (pre-alpha) с GitHub разработчика: deb, rpm, Arch; x64 и ARM64", "en": "Preview build (pre-alpha) from the developer's GitHub: deb, rpm, Arch; x64 and ARM64"}
+   },
+   "unverified": {"ios": ["awg1", "awg2", "awg3", "hy2"], "android": "*", "androidtv": "*", "macos": "*", "windows": "*", "linux": "*"},
+   "fakes": ["ios"],
+   "icon": "apps/incy.png"
+  },
+  "wgtunnel": {"name": "WG Tunnel", "from_vendor": "wgtunnel", "icon": "apps/wgtunnel.png"},
+  "v2raytun": {"name": "v2RayTun", "from_vendor": "v2raytun", "fakes": ["ios"], "icon": "apps/v2raytun.png"},
+  "wiresock": {"name": "WireSock Secure Connect", "from_vendor": "wiresock", "icon": "apps/wiresock.png"},
+  "amneziawg-tools": {"name": "amneziawg-tools", "from_vendor": "amneziawg-tools", "icon": "apps/amneziawg-tools.png"},
+  "keenetic": {"name": "Keenetic / Netcraze", "from_vendor": "keenetic", "icon": "apps/keenetic.png"},
+  "openwrt": {"name": "OpenWrt (amneziawg)", "from_vendor": "openwrt", "icon": "apps/openwrt.png"},
+  "mikrotik": {"name": {"ru": "MikroTik (контейнер)", "en": "MikroTik (container)"}, "from_vendor": "mikrotik", "icon": "apps/mikrotik.png"},
+  "amneziavpn-site": {
+   "name": "AmneziaVPN",
+   "links": {"other": [{"kind": "site", "url": "https://amnezia.org/downloads"}, {"kind": "github", "url": "https://github.com/amnezia-vpn/amnezia-client/releases/latest"}]},
+   "note": {
+    "other": {
+     "ru": "Телефоны — из Google Play или App Store (в российском App Store — DefaultVPN)",
+     "en": "Phones: from Google Play or the App Store (DefaultVPN in the Russian App Store)"
+    }
+   },
+   "icon": "apps/amneziavpn-site.png"
+  },
+  "wireguard": {
+   "name": "WireGuard",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id1441195209"}],
+    "android": [
+     {"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=com.wireguard.android"},
+     {"kind": "site", "url": "https://download.wireguard.com/android-client/"}
+    ],
+    "windows": [{"kind": "site", "url": "https://www.wireguard.com/install/"}],
+    "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id1451685025"}],
+    "linux": [{"kind": "site", "url": "https://www.wireguard.com/install/"}],
+    "other": [{"kind": "site", "url": "https://www.wireguard.com/install/"}],
+    "androidtv": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=com.wireguard.android"}]
+   },
+   "note": {
+    "android": {"ru": "Нет Google Play — файл APK с download.wireguard.com", "en": "No Google Play — the APK from download.wireguard.com"},
+    "linux": {"ru": "Пакет wireguard-tools из репозитория дистрибутива (wg-quick)", "en": "The wireguard-tools package of your distribution (wg-quick)"},
+    "ios": {"ru": "Не обновлялся с 02.2023, но работает", "en": "Not updated since 02.2023, but works"}
+   },
+   "icon": "apps/wireguard.png"
+  },
+  "openwrt-wireguard": {
+   "name": "luci-proto-wireguard",
+   "links": {"openwrt": [{"kind": "site", "url": "https://openwrt.org/docs/guide-user/services/vpn/wireguard/client"}]},
+   "note": {"openwrt": {"ru": "Пакеты luci-proto-wireguard и wireguard-tools: System → Software", "en": "Packages luci-proto-wireguard and wireguard-tools: System → Software"}},
+   "icon": "apps/openwrt-wireguard.png"
+  },
+  "hiddify": {
+   "name": "Hiddify",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6596777532"}],
+    "android": [
+     {"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=app.hiddify.com"},
+     {"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}
+    ],
+    "androidtv": [
+     {"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=app.hiddify.com"},
+     {"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}
+    ],
+    "windows": [{"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}],
+    "macos": [{"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}],
+    "linux": [{"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}],
+    "other": [{"kind": "site", "url": "https://hiddify.com/"}, {"kind": "github", "url": "https://github.com/hiddify/hiddify-app/releases/latest"}]
+   },
+   "note": {
+    "ios": {
+     "ru": "Нет в российском App Store (нужен Apple ID другой страны); не обновлялся с 02.2026",
+     "en": "Not in the Russian App Store (an Apple ID of another country is needed); not updated since 02.2026"
+    },
+    "windows": {"ru": "Hiddify-Windows-Setup-x64.exe", "en": "Hiddify-Windows-Setup-x64.exe"},
+    "macos": {"ru": "Hiddify-MacOS.dmg — и для Intel, и для Apple M1+", "en": "Hiddify-MacOS.dmg — for Intel and Apple M1+ alike"},
+    "linux": {"ru": "AppImage или deb", "en": "AppImage or deb"}
+   },
+   "icon": "apps/hiddify.png"
+  },
+  "streisand": {
+   "name": "Streisand",
+   "links": {"ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6450534064"}], "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6450534064"}]},
+   "note": {
+    "ios": {"ru": "Нет в российском App Store — нужен Apple ID другой страны", "en": "Not in the Russian App Store — an Apple ID of another country is needed"},
+    "macos": {"ru": "Нет в российском App Store; на Mac — только Apple M1+", "en": "Not in the Russian App Store; on a Mac — Apple M1+ only"}
+   },
+   "icon": "apps/streisand.png"
+  },
+  "v2rayng": {
+   "name": "v2rayNG",
+   "links": {"android": [{"kind": "github", "url": "https://github.com/2dust/v2rayNG/releases/latest"}]},
+   "note": {
+    "android": {
+     "ru": "В Google Play настоящего нет — всё, что там с этим названием, чужое; файл APK с GitHub (чаще всего arm64-v8a)",
+     "en": "The real one is not in Google Play — anything named so there is someone else's; the APK from GitHub (usually arm64-v8a)"
+    }
+   },
+   "fakes": ["android"],
+   "icon": "apps/v2rayng.png"
+  },
+  "v2rayn": {
+   "name": "v2rayN",
+   "links": {
+    "windows": [{"kind": "github", "url": "https://github.com/2dust/v2rayN/releases/latest"}],
+    "macos": [{"kind": "github", "url": "https://github.com/2dust/v2rayN/releases/latest"}],
+    "linux": [{"kind": "github", "url": "https://github.com/2dust/v2rayN/releases/latest"}],
+    "other": [{"kind": "github", "url": "https://github.com/2dust/v2rayN/releases/latest"}]
+   },
+   "icon": "apps/v2rayn.png"
+  },
+  "openvpn-connect": {
+   "name": "OpenVPN Connect",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id590379981"}],
+    "android": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=net.openvpn.openvpn"}],
+    "windows": [{"kind": "site", "url": "https://openvpn.net/client/"}, {"kind": "microsoft", "url": "https://apps.microsoft.com/detail/xpdlgw32hhrb5p"}],
+    "macos": [{"kind": "site", "url": "https://openvpn.net/client/"}],
+    "other": [{"kind": "site", "url": "https://openvpn.net/client/"}]
+   },
+   "icon": "apps/openvpn-connect.png"
+  },
+  "openvpn-gui": {
+   "name": "OpenVPN GUI",
+   "links": {"windows": [{"kind": "site", "url": "https://openvpn.net/community/"}]},
+   "note": {"windows": {"ru": "Установщик OpenVPN Community (.msi) — OpenVPN GUI в нём", "en": "The OpenVPN Community installer (.msi) includes OpenVPN GUI"}},
+   "icon": "apps/openvpn-gui.png"
+  },
+  "openvpn": {
+   "name": "OpenVPN",
+   "links": {"linux": [{"kind": "site", "url": "https://community.openvpn.net/Pages/OpenVPN%20software%20repos"}]},
+   "note": {"linux": {"ru": "Пакет openvpn из репозитория дистрибутива", "en": "The openvpn package of your distribution"}},
+   "icon": "apps/openvpn.png"
+  },
+  "openwrt-openvpn": {
+   "name": "openvpn-openssl",
+   "links": {"openwrt": [{"kind": "site", "url": "https://openwrt.org/docs/guide-user/services/vpn/openvpn/client-luci"}]},
+   "note": {"openwrt": {"ru": "Пакеты openvpn-openssl и luci-app-openvpn: System → Software", "en": "Packages openvpn-openssl and luci-app-openvpn: System → Software"}},
+   "icon": "apps/openwrt-openvpn.png"
+  },
+  "cisco-secure-client": {
+   "name": "Cisco Secure Client",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id1135064690"}],
+    "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id1135064690"}],
+    "android": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=com.cisco.anyconnect.vpn.android.avf"}]
+   },
+   "note": {
+    "macos": {
+     "ru": "Приложение для iPad: только Mac на Apple M1 и новее, Apple не проверяла его на macOS",
+     "en": "An iPad app: Apple M1 or newer Macs only, not verified by Apple for macOS"
+    }
+   },
+   "icon": "apps/cisco-secure-client.png"
+  },
+  "openconnect-gui": {
+   "name": "OpenConnect GUI",
+   "links": {
+    "windows": [{"kind": "site", "url": "https://gui.openconnect-vpn.net/download/"}, {"kind": "site", "url": "https://gitlab.com/openconnect/openconnect-gui/-/releases"}]
+   },
+   "note": {"windows": {"ru": "Windows 10 и новее; проект не обновлялся с 2024 года (1.6.2)", "en": "Windows 10 and newer; no updates since 2024 (1.6.2)"}},
+   "icon": "apps/openconnect-gui.png"
+  },
+  "openconnect": {
+   "name": "OpenConnect",
+   "links": {"macos": [{"kind": "site", "url": "https://formulae.brew.sh/formula/openconnect"}], "linux": [{"kind": "site", "url": "https://www.infradead.org/openconnect/"}]},
+   "note": {
+    "macos": {"ru": "Командная строка: brew install openconnect", "en": "Command line: brew install openconnect"},
+    "linux": {"ru": "Пакет openconnect из репозитория дистрибутива", "en": "The openconnect package of your distribution"}
+   },
+   "icon": "apps/openconnect.png"
+  },
+  "karing": {
+   "name": "Karing",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6472431552"}],
+    "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6472431552"}, {"kind": "github", "url": "https://github.com/KaringX/karing/releases/latest"}],
+    "android": [{"kind": "github", "url": "https://github.com/KaringX/karing/releases/latest"}],
+    "windows": [{"kind": "github", "url": "https://github.com/KaringX/karing/releases/latest"}],
+    "linux": [{"kind": "github", "url": "https://github.com/KaringX/karing/releases/latest"}]
+   },
+   "note": {
+    "ios": {"ru": "Бесплатно, открытый код: vless://, подписка, QR, XHTTP", "en": "Free, open source: vless://, subscription, QR, XHTTP"},
+    "macos": {"ru": "macOS 12+, и Intel, и Apple M1+", "en": "macOS 12+, Intel and Apple M1+ alike"},
+    "android": {"ru": "APK с GitHub разработчика (в Google Play его нет), Android 8+, чаще всего arm64-v8a", "en": "APK from the developer's GitHub (not in Google Play), Android 8+, usually arm64-v8a"},
+    "windows": {"ru": "Windows 10+ (64-бит): установщик .exe", "en": "Windows 10+ (64-bit): the .exe installer"},
+    "linux": {"ru": "64-бит: AppImage, deb (glibc 2.38+) или rpm", "en": "64-bit: AppImage, deb (glibc 2.38+) or rpm"}
+   },
+   "unverified": {"ios": ["hy2"], "macos": ["hy2"], "android": "*", "windows": "*", "linux": "*"},
+   "icon": "apps/karing.png"
+  },
+  "shadowrocket": {
+   "name": "Shadowrocket",
+   "links": {"ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id932747118"}], "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id932747118"}]},
+   "note": {
+    "ios": {"ru": "Платно: 249 ₽ / $2.99", "en": "Paid: 249 ₽ / $2.99"},
+    "macos": {"ru": "Платно: 249 ₽ / $2.99; macOS 10.15+", "en": "Paid: 249 ₽ / $2.99; macOS 10.15+"}
+   },
+   "fakes": ["ios"],
+   "icon": "apps/shadowrocket.png"
+  },
+  "v2box-pro": {
+   "name": "V2Box Pro",
+   "links": {"ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6756966178"}]},
+   "note": {"ios": {"ru": "Платно: 249 ₽; на Mac — только Apple M1+", "en": "Paid: 249 ₽; on a Mac — Apple M1+ only"}},
+   "fakes": ["ios"],
+   "icon": "apps/v2box-pro.png"
+  },
+  "happ": {
+   "name": "Happ",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id6504287215"}],
+    "android": [
+     {"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=com.happproxy"},
+     {"kind": "github", "url": "https://github.com/Happ-proxy/happ-android/releases/latest"}
+    ],
+    "androidtv": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=com.happproxy"}],
+    "windows": [{"kind": "github", "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest"}],
+    "linux": [{"kind": "github", "url": "https://github.com/Happ-proxy/happ-desktop/releases/latest"}]
+   },
+   "note": {
+    "ios": {"ru": "Нет в российском App Store — нужен Apple ID другой страны", "en": "Not in the Russian App Store — an Apple ID of another country is needed"},
+    "android": {"ru": "Закрытый код; держите приложение обновлённым", "en": "Closed source; keep the app updated"},
+    "windows": {"ru": "Закрытый код; держите приложение обновлённым", "en": "Closed source; keep the app updated"},
+    "linux": {"ru": "deb, rpm или pkg", "en": "deb, rpm or pkg"}
+   },
+   "fakes": ["ios", "android"],
+   "icon": "apps/happ.png"
+  },
+  "telegram": {
+   "name": "Telegram",
+   "links": {
+    "ios": [{"kind": "appstore", "url": "https://apps.apple.com/app/id686449807"}],
+    "android": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=org.telegram.messenger"}, {"kind": "site", "url": "https://telegram.org/android"}],
+    "windows": [{"kind": "site", "url": "https://desktop.telegram.org/"}],
+    "linux": [{"kind": "site", "url": "https://desktop.telegram.org/"}],
+    "macos": [{"kind": "appstore", "url": "https://apps.apple.com/app/id747648890"}],
+    "other": [{"kind": "site", "url": "https://telegram.org/apps"}]
+   },
+   "icon": "apps/telegram.png"
+  },
+  "openvpn-android": {
+   "name": "OpenVPN for Android",
+   "links": {
+    "android": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=de.blinkt.openvpn"}],
+    "androidtv": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=de.blinkt.openvpn"}]
+   },
+   "note": {"android": {"ru": "Открытый код, обновляется", "en": "Open source, updated"}},
+   "icon": "apps/openvpn-android.png"
+  },
+  "strongswan": {
+   "name": "strongSwan",
+   "links": {"androidtv": [{"kind": "googleplay", "url": "https://play.google.com/store/apps/details?id=org.strongswan.android"}]},
+   "unverified": ["androidtv"],
+   "icon": "apps/strongswan.png"
+  },
+  "open-sstp": {
+   "name": "Open SSTP Client",
+   "links": {"android": [{"kind": "github", "url": "https://github.com/kittoku/Open-SSTP-Client/releases/latest"}]},
+   "note": {"android": {"ru": "В Google Play нет — файл APK с GitHub", "en": "Not in Google Play — the APK from GitHub"}},
+   "icon": "apps/open-sstp.png"
+  },
+  "awg-manager": {
+   "name": "AWG Manager",
+   "links": {"keenetic": [{"kind": "site", "url": "https://awgm.hoaxisr.ru/install/"}, {"kind": "github", "url": "https://github.com/hoaxisr/awg-manager"}]},
+   "note": {
+    "keenetic": {
+     "ru": "Неофициальная панель на Entware: нужна USB-флешка; AmneziaWG 3.1 на прошивках 4.x/5.x через свой модуль ядра (не на всех моделях)",
+     "en": "An unofficial panel on Entware: a USB stick is needed; AmneziaWG 3.1 on firmware 4.x/5.x through its own kernel module (not on every model)"
+    }
+   },
+   "icon": "apps/awg-manager.png"
+  },
+  "xkeen": {
+   "name": "XKeen",
+   "links": {"keenetic": [{"kind": "github", "url": "https://github.com/jameszeroX/XKeen"}, {"kind": "site", "url": "https://anten-ka.com/guides/no8/"}]},
+   "note": {"keenetic": {"ru": "Xray на Entware: нужна USB-флешка и SSH — для опытных", "en": "Xray on Entware: a USB stick and SSH are needed — for the experienced"}},
+   "icon": "apps/xkeen.png"
+  },
+  "podkop": {
+   "name": "Podkop",
+   "links": {"openwrt": [{"kind": "site", "url": "https://podkop.net/docs/install/"}, {"kind": "site", "url": "https://anten-ka.com/guides/no26/"}]},
+   "note": {"openwrt": {"ru": "sing-box на OpenWrt 24.10+: ссылка vless:// или подписка", "en": "sing-box on OpenWrt 24.10+: a vless:// link or a subscription"}},
+   "icon": "apps/podkop.png"
+  },
+  "xrayui": {
+   "name": "XrayUI",
+   "links": {"asus": [{"kind": "github", "url": "https://github.com/DanielLavrushin/asuswrt-merlin-xrayui"}]},
+   "note": {"asus": {"ru": "Только Asuswrt-Merlin + Entware (USB-флешка)", "en": "Asuswrt-Merlin + Entware only (a USB stick)"}},
+   "icon": "apps/xrayui.png"
+  },
+  "merlin-amneziawg": {
+   "name": "asuswrt-merlin-amneziawg",
+   "links": {"asus": [{"kind": "github", "url": "https://github.com/william-aqn/asuswrt-merlin-amneziawg"}]},
+   "note": {"asus": {"ru": "Только Asuswrt-Merlin + Entware (USB-флешка), AmneziaWG до 3.1", "en": "Asuswrt-Merlin + Entware only (a USB stick), AmneziaWG up to 3.1"}},
+   "icon": "apps/merlin-amneziawg.png"
+  }
+ },
+ "protocols": {
+  "wg": {
+   "ios": ["wireguard"],
+   "android": ["wireguard"],
+   "windows": ["wireguard"],
+   "macos": ["wireguard"],
+   "linux": ["wireguard"],
+   "keenetic": "builtin",
+   "mikrotik": "builtin",
+   "openwrt": ["openwrt-wireguard"],
+   "other": ["wireguard"],
+   "tplink": "builtin",
+   "asus": "builtin",
+   "androidtv": ["wireguard"]
+  },
+  "awg1": {
+   "ios": ["defaultvpn", "amneziawg", "incy", "amneziavpn"],
+   "android": ["amneziavpn", "amneziawg", "wgtunnel", "incy"],
+   "androidtv": ["amneziavpn", "amneziawg", "wgtunnel", "incy"],
+   "windows": ["amneziavpn", "amneziawg", "wiresock"],
+   "macos": ["amneziavpn", "amneziawg", "incy"],
+   "linux": ["amneziawg-tools", "amneziavpn"],
+   "keenetic": ["keenetic"],
+   "mikrotik": ["mikrotik"],
+   "openwrt": ["openwrt"],
+   "other": ["amneziavpn-site"],
+   "asus": ["merlin-amneziawg"]
+  },
+  "awg2": {
+   "ios": ["defaultvpn", "amneziawg", "incy", "amneziavpn"],
+   "android": ["amneziavpn", "amneziawg", "wgtunnel", "v2raytun", "incy"],
+   "androidtv": ["amneziavpn", "amneziawg", "wgtunnel", "v2raytun", "incy"],
+   "windows": ["amneziavpn", "amneziawg", "v2raytun", "wiresock"],
+   "macos": ["amneziavpn", "amneziawg", "incy"],
+   "linux": ["amneziawg-tools", "amneziavpn"],
+   "keenetic": ["keenetic"],
+   "mikrotik": ["mikrotik"],
+   "openwrt": ["openwrt"],
+   "other": ["amneziavpn-site"],
+   "asus": ["merlin-amneziawg"]
+  },
+  "awg3": {
+   "ios": ["defaultvpn", "amneziawg", "incy", "amneziavpn"],
+   "android": ["amneziavpn", "amneziawg", "wgtunnel", "incy"],
+   "androidtv": ["amneziavpn", "amneziawg", "wgtunnel", "incy"],
+   "windows": ["amneziavpn", "amneziawg"],
+   "macos": ["amneziavpn", "amneziawg", "incy"],
+   "linux": ["amneziawg-tools", "amneziavpn"],
+   "mikrotik": ["mikrotik"],
+   "openwrt": ["openwrt"],
+   "other": ["amneziavpn-site"],
+   "asus": ["merlin-amneziawg"],
+   "keenetic": ["keenetic", "awg-manager"]
+  },
+  "l2tp": {
+   "ios": "builtin",
+   "windows": "builtin",
+   "macos": "builtin",
+   "linux": "builtin",
+   "keenetic": "builtin",
+   "mikrotik": "builtin",
+   "tplink": "builtin",
+   "huawei": "builtin",
+   "xiaomi": "builtin",
+   "asus": "builtin",
+   "openwrt": "builtin"
+  },
+  "pptp": {
+   "windows": "builtin",
+   "linux": "builtin",
+   "keenetic": "builtin",
+   "mikrotik": "builtin",
+   "tplink": "builtin",
+   "huawei": "builtin",
+   "xiaomi": "builtin",
+   "asus": "builtin",
+   "openwrt": "builtin"
+  },
+  "sstp": {"windows": "builtin", "linux": "builtin", "mikrotik": "builtin", "keenetic": "builtin", "android": ["open-sstp"]},
+  "ikev2": {
+   "ios": "builtin",
+   "android": "builtin",
+   "windows": "builtin",
+   "macos": "builtin",
+   "linux": "builtin",
+   "keenetic": "builtin",
+   "mikrotik": "builtin",
+   "androidtv": ["strongswan"]
+  },
+  "openvpn": {
+   "ios": ["openvpn-connect"],
+   "android": ["openvpn-connect", "openvpn-android"],
+   "windows": ["openvpn-connect", "openvpn-gui"],
+   "macos": ["openvpn-connect"],
+   "linux": ["openvpn"],
+   "mikrotik": "builtin",
+   "openwrt": ["openwrt-openvpn"],
+   "asus": "builtin",
+   "other": ["openvpn-connect"],
+   "keenetic": "builtin",
+   "tplink": "builtin",
+   "androidtv": ["openvpn-android"]
+  },
+  "ocserv": {
+   "ios": ["cisco-secure-client"],
+   "windows": ["openconnect-gui"],
+   "macos": ["cisco-secure-client", "openconnect"],
+   "linux": ["openconnect"],
+   "keenetic": "builtin",
+   "openwrt": "builtin",
+   "android": ["cisco-secure-client"]
+  },
+  "socks5": {
+   "ios": ["telegram"],
+   "android": ["telegram"],
+   "windows": ["telegram"],
+   "linux": "builtin",
+   "macos": "builtin",
+   "keenetic": "builtin",
+   "openwrt": ["podkop"],
+   "androidtv": ["v2raytun", "happ"],
+   "other": ["telegram"]
+  },
+  "vless": {
+   "ios": ["karing", "incy", "shadowrocket", "v2box-pro", "defaultvpn", "streisand", "happ"],
+   "android": ["v2raytun", "happ", "v2rayng", "hiddify", "incy", "karing"],
+   "androidtv": ["v2raytun", "happ", "incy"],
+   "windows": ["v2rayn", "happ", "hiddify", "incy", "karing"],
+   "macos": ["karing", "hiddify", "v2rayn", "shadowrocket", "incy"],
+   "linux": ["v2rayn", "happ", "hiddify", "incy", "karing"],
+   "keenetic": ["xkeen"],
+   "openwrt": ["podkop"],
+   "asus": ["xrayui"],
+   "other": ["hiddify", "v2rayn"]
+  },
+  "hy2": {
+   "ios": ["karing", "shadowrocket", "v2box-pro", "incy"],
+   "android": ["v2raytun", "hiddify", "v2rayng", "karing", "incy"],
+   "windows": ["v2rayn", "hiddify", "karing", "incy"],
+   "macos": ["karing", "hiddify", "v2rayn", "incy"],
+   "linux": ["v2rayn", "hiddify", "karing", "incy"],
+   "other": ["hiddify", "v2rayn"]
+  }
+ },
+ "_subscription_comment": "subscription[платформа] — приложения, которые берут подписку Kaskad (/p/<токен>/sub): protocols.vless той же платформы в том же порядке (первое — рекомендуемое, как в шагах gw/issue_os.py), без DefaultVPN («vless:// без XHTTP и без подписки» — его заметка выше и k3/research/ios-apps-ru-2026-10.md) и без роутеров (keenetic, openwrt, asus); новых приложений нет. Решение координатора 28.10 (владелец отдал ему), вкладка «Подписка» окна «Выдать настройки».",
+ "subscription": {
+  "ios": ["karing", "incy", "shadowrocket", "v2box-pro", "streisand", "happ"],
+  "android": ["v2raytun", "happ", "v2rayng", "hiddify", "incy", "karing"],
+  "androidtv": ["v2raytun", "happ", "incy"],
+  "windows": ["v2rayn", "happ", "hiddify", "incy", "karing"],
+  "macos": ["karing", "hiddify", "v2rayn", "shadowrocket", "incy"],
+  "linux": ["v2rayn", "happ", "hiddify", "incy", "karing"],
+  "other": ["hiddify", "v2rayn"]
+ },
+ "builtin_note": {
+  "wg": {
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент WireGuard VPN): Интернет → Другие подключения → WireGuard → импорт из файла",
+    "en": "Built into KeeneticOS (the WireGuard VPN component): Internet → Other connections → WireGuard → import from file"
+   },
+   "mikrotik": {"ru": "Встроено в RouterOS 7: вставьте скрипт в Winbox → New Terminal", "en": "Built into RouterOS 7: paste the script into Winbox → New Terminal"},
+   "tplink": {
+    "ru": "Встроено в часть моделей TP-Link: Дополнительные настройки → VPN-клиент → WireGuard (удалите из файла MTU и IPv6)",
+    "en": "Built into some TP-Link models: Advanced → VPN Client → WireGuard (remove MTU and IPv6 from the file)"
+   },
+   "asus": {
+    "ru": "Встроено в Asuswrt 3.0.0.4.388.23000+: VPN → VPN Fusion → Добавить профиль → WireGuard",
+    "en": "Built into Asuswrt 3.0.0.4.388.23000+: VPN → VPN Fusion → Add profile → WireGuard"
+   }
+  },
+  "l2tp": {
+   "ios": {"ru": "Встроено в iOS: Настройки → Основные → VPN и управление устройством → VPN", "en": "Built into iOS: Settings → General → VPN & Device Management → VPN"},
+   "windows": {
+    "ru": "Встроено в Windows: скрипт PowerShell добавит подключение в Параметры → Сеть и Интернет → VPN",
+    "en": "Built into Windows: the PowerShell script adds the connection to Settings → Network & Internet → VPN"
+   },
+   "macos": {"ru": "Встроено в macOS: Системные настройки → VPN → «Добавить конфигурацию VPN»", "en": "Built into macOS: System Settings → VPN → «Add VPN Configuration»"},
+   "linux": {"ru": "NetworkManager: поставьте пакет network-manager-l2tp-gnome", "en": "NetworkManager: install the network-manager-l2tp-gnome package"},
+   "keenetic": {"ru": "Встроено в KeeneticOS: Интернет → Другие подключения → VPN-подключения", "en": "Built into KeeneticOS: Internet → Other connections → VPN connections"},
+   "mikrotik": {"ru": "Встроено в RouterOS 7: вставьте скрипт в Winbox → New Terminal", "en": "Built into RouterOS 7: paste the script into Winbox → New Terminal"},
+   "tplink": {
+    "ru": "Встроено в прошивку TP-Link: Дополнительные настройки → VPN-клиент (или Сеть → Интернет)",
+    "en": "Built into the TP-Link firmware: Advanced → VPN Client (or Network → Internet)"
+   },
+   "huawei": {"ru": "Встроено в прошивку Huawei: Дополнительно → VPN", "en": "Built into the Huawei firmware: Advanced → VPN"},
+   "xiaomi": {"ru": "Встроено в прошивку Xiaomi: дополнительные настройки → VPN", "en": "Built into the Xiaomi firmware: Advanced settings → VPN"},
+   "asus": {"ru": "Встроено в прошивку ASUS: VPN → VPN-клиент (VPN Fusion)", "en": "Built into the ASUS firmware: VPN → VPN Client (VPN Fusion)"},
+   "openwrt": {"ru": "Пакеты xl2tpd и strongSwan: System → Software (настраивать сложно)", "en": "Packages xl2tpd and strongSwan: System → Software (hard to set up)"}
+  },
+  "pptp": {
+   "windows": {
+    "ru": "Встроено в Windows: скрипт PowerShell добавит подключение в Параметры → Сеть и Интернет → VPN",
+    "en": "Built into Windows: the PowerShell script adds the connection to Settings → Network & Internet → VPN"
+   },
+   "linux": {"ru": "NetworkManager: поставьте пакет network-manager-pptp-gnome", "en": "NetworkManager: install the network-manager-pptp-gnome package"},
+   "keenetic": {"ru": "Встроено в KeeneticOS: Интернет → Другие подключения → VPN-подключения", "en": "Built into KeeneticOS: Internet → Other connections → VPN connections"},
+   "mikrotik": {"ru": "Встроено в RouterOS 7: вставьте скрипт в Winbox → New Terminal", "en": "Built into RouterOS 7: paste the script into Winbox → New Terminal"},
+   "tplink": {
+    "ru": "Встроено в прошивку TP-Link: Дополнительные настройки → VPN-клиент (или Сеть → Интернет)",
+    "en": "Built into the TP-Link firmware: Advanced → VPN Client (or Network → Internet)"
+   },
+   "huawei": {"ru": "Встроено в прошивку Huawei: Дополнительно → VPN", "en": "Built into the Huawei firmware: Advanced → VPN"},
+   "xiaomi": {"ru": "Встроено в прошивку Xiaomi: дополнительные настройки → VPN", "en": "Built into the Xiaomi firmware: Advanced settings → VPN"},
+   "asus": {"ru": "Встроено в прошивку ASUS: VPN → VPN-клиент (VPN Fusion)", "en": "Built into the ASUS firmware: VPN → VPN Client (VPN Fusion)"},
+   "openwrt": {"ru": "Пакеты ppp-mod-pptp и luci-proto-ppp: System → Software", "en": "Packages ppp-mod-pptp and luci-proto-ppp: System → Software"}
+  },
+  "sstp": {
+   "windows": {
+    "ru": "Встроено в Windows: скрипт PowerShell добавит подключение в Параметры → Сеть и Интернет → VPN",
+    "en": "Built into Windows: the PowerShell script adds the connection to Settings → Network & Internet → VPN"
+   },
+   "linux": {"ru": "NetworkManager: поставьте пакет network-manager-sstp-gnome", "en": "NetworkManager: install the network-manager-sstp-gnome package"},
+   "mikrotik": {"ru": "Встроено в RouterOS 7: вставьте скрипт в Winbox → New Terminal", "en": "Built into RouterOS 7: paste the script into Winbox → New Terminal"},
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент «SSTP VPN-клиент»): Другие подключения → VPN-подключения → SSTP",
+    "en": "Built into KeeneticOS (the «SSTP VPN client» component): Other connections → VPN connections → SSTP"
+   }
+  },
+  "ikev2": {
+   "ios": {
+    "ru": "Встроено в iOS: откройте профиль .mobileconfig и установите его в Настройках",
+    "en": "Built into iOS: open the .mobileconfig profile and install it in Settings"
+   },
+   "android": {"ru": "Встроено в Android 12 и новее: Настройки → VPN, тип IKEv2/IPSec MSCHAPv2", "en": "Built into Android 12 and newer: Settings → VPN, type IKEv2/IPSec MSCHAPv2"},
+   "windows": {
+    "ru": "Встроено в Windows: скрипт PowerShell добавит подключение в Параметры → Сеть и Интернет → VPN",
+    "en": "Built into Windows: the PowerShell script adds the connection to Settings → Network & Internet → VPN"
+   },
+   "macos": {
+    "ru": "Встроено в macOS: откройте профиль .mobileconfig и установите его в Системных настройках",
+    "en": "Built into macOS: open the .mobileconfig profile and install it in System Settings"
+   },
+   "linux": {"ru": "NetworkManager: поставьте пакет network-manager-strongswan", "en": "NetworkManager: install the network-manager-strongswan package"},
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент «IKEv2/IPsec VPN»): Другие подключения → VPN-подключения → IKEv2",
+    "en": "Built into KeeneticOS (the «IKEv2/IPsec VPN» component): Other connections → VPN connections → IKEv2"
+   },
+   "mikrotik": {"ru": "Встроено в RouterOS: IP → IPsec (mode-config)", "en": "Built into RouterOS: IP → IPsec (mode-config)"}
+  },
+  "openvpn": {
+   "mikrotik": {
+    "ru": "Встроено в RouterOS 7: /interface ovpn-client, сертификаты из файла .ovpn",
+    "en": "Built into RouterOS 7: /interface ovpn-client, certificates from the .ovpn file"
+   },
+   "asus": {"ru": "Встроено в прошивку ASUS: VPN → VPN-клиент → импорт файла .ovpn", "en": "Built into the ASUS firmware: VPN → VPN Client → import the .ovpn file"},
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент «Клиент OpenVPN»): Другие подключения → VPN-подключения → OpenVPN",
+    "en": "Built into KeeneticOS (the «OpenVPN client» component): Other connections → VPN connections → OpenVPN"
+   },
+   "tplink": {
+    "ru": "Встроено в модели с пунктом «VPN-клиент»: Дополнительные настройки → VPN-клиент → OpenVPN (файл до 20 КБ)",
+    "en": "Built into models with «VPN Client»: Advanced → VPN Client → OpenVPN (a file up to 20 KB)"
+   }
+  },
+  "ocserv": {
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент «OpenConnect VPN-клиент»): Другие подключения → VPN-подключения → OpenConnect",
+    "en": "Built into KeeneticOS (the «OpenConnect VPN client» component): Other connections → VPN connections → OpenConnect"
+   },
+   "openwrt": {"ru": "Пакеты openconnect и luci-proto-openconnect: System → Software", "en": "Packages openconnect and luci-proto-openconnect: System → Software"}
+  },
+  "socks5": {
+   "keenetic": {
+    "ru": "Встроено в KeeneticOS (компонент «Клиент прокси»): Другие подключения → Прокси-подключения → SOCKS5",
+    "en": "Built into KeeneticOS (the «Proxy client» component): Other connections → Proxy connections → SOCKS5"
+   },
+   "macos": {
+    "ru": "Встроено в macOS: Системные настройки → Сеть → Подробнее → Прокси → SOCKS; для Telegram — ссылка tg://",
+    "en": "Built into macOS: System Settings → Network → Details → Proxies → SOCKS; for Telegram — the tg:// link"
+   },
+   "linux": {
+    "ru": "Встроено в GNOME: Настройки → Сеть → Сетевой прокси; для Telegram — ссылка tg://",
+    "en": "Built into GNOME: Settings → Network → Network Proxy; for Telegram — the tg:// link"
+   }
+  }
+ },
+ "support": {
+  "ios": [
+   {
+    "proto": "awg3",
+    "level": "app",
+    "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}
+   },
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "awg1", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "wg", "level": "app"},
+   {"proto": "ikev2", "level": "native"},
+   {"proto": "openvpn", "level": "app"},
+   {"proto": "ocserv", "level": "app"},
+   {"proto": "l2tp", "level": "native"},
+   {
+    "proto": "socks5",
+    "level": "app",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {
+    "proto": "sstp",
+    "level": "none",
+    "note": {"ru": "В iOS нет SSTP, а сторонних клиентов в российском App Store не нашли", "en": "iOS has no SSTP, and no third-party client was found in the Russian App Store"}
+   },
+   {"proto": "pptp", "level": "none", "note": {"ru": "Apple убрала PPTP (iOS 10, macOS 10.12)", "en": "Apple removed PPTP (iOS 10, macOS 10.12)"}},
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ],
+  "macos": [
+   {
+    "proto": "awg3",
+    "level": "app",
+    "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"},
+    "note": {"ru": "AmneziaWG из Mac App Store; DefaultVPN для Mac нет", "en": "AmneziaWG from the Mac App Store; there is no DefaultVPN for Mac"}
+   },
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "awg1", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "wg", "level": "app"},
+   {"proto": "ikev2", "level": "native"},
+   {"proto": "openvpn", "level": "app"},
+   {
+    "proto": "ocserv",
+    "level": "app",
+    "note": {
+     "ru": "Cisco Secure Client — только Mac на Apple M1+; иначе openconnect из Homebrew",
+     "en": "Cisco Secure Client — Apple M1+ Macs only; otherwise openconnect from Homebrew"
+    }
+   },
+   {"proto": "l2tp", "level": "native"},
+   {
+    "proto": "socks5",
+    "level": "native",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {"proto": "sstp", "level": "none"},
+   {"proto": "pptp", "level": "none", "note": {"ru": "Apple убрала PPTP (iOS 10, macOS 10.12)", "en": "Apple removed PPTP (iOS 10, macOS 10.12)"}},
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ],
+  "android": [
+   {
+    "proto": "awg3",
+    "level": "app",
+    "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"},
+    "note": {"ru": "AmneziaVPN, AmneziaWG или WG Tunnel (5.6.0+)", "en": "AmneziaVPN, AmneziaWG or WG Tunnel (5.6.0+)"}
+   },
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "awg1", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "wg", "level": "app"},
+   {"proto": "ikev2", "level": "native", "min": {"ru": "Android 11+", "en": "Android 11+"}},
+   {"proto": "openvpn", "level": "app"},
+   {
+    "proto": "ocserv",
+    "level": "app",
+    "note": {"ru": "Cisco Secure Client может не принять самоподписанный сертификат", "en": "Cisco Secure Client may reject a self-signed certificate"},
+    "unverified": true
+   },
+   {
+    "proto": "socks5",
+    "level": "app",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {
+    "proto": "sstp",
+    "level": "app",
+    "note": {"ru": "Open SSTP Client — только файл APK с GitHub, в Google Play его нет", "en": "Open SSTP Client — only the APK from GitHub, it is not in Google Play"}
+   },
+   {
+    "proto": "l2tp",
+    "level": "none",
+    "note": {
+     "ru": "В Android 12 и новее встроенных L2TP и PPTP нет; в Android 11 и старше — встроенный клиент",
+     "en": "Android 12 and newer have no built-in L2TP or PPTP; Android 11 and older have the built-in client"
+    }
+   },
+   {
+    "proto": "pptp",
+    "level": "none",
+    "note": {
+     "ru": "В Android 12 и новее встроенных L2TP и PPTP нет; в Android 11 и старше — встроенный клиент",
+     "en": "Android 12 and newer have no built-in L2TP or PPTP; Android 11 and older have the built-in client"
+    }
+   },
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ],
+  "androidtv": [
+   {
+    "proto": "awg3",
+    "level": "app",
+    "note": {"ru": "У телевизора нет камеры: ключ — файлом или ссылкой с телефона", "en": "A TV has no camera: the key goes as a file or a link from the phone"}
+   },
+   {
+    "proto": "vless",
+    "level": "app",
+    "note": {"ru": "У телевизора нет камеры: ключ — файлом или ссылкой с телефона", "en": "A TV has no camera: the key goes as a file or a link from the phone"}
+   },
+   {
+    "proto": "awg2",
+    "level": "app",
+    "note": {"ru": "У телевизора нет камеры: ключ — файлом или ссылкой с телефона", "en": "A TV has no camera: the key goes as a file or a link from the phone"}
+   },
+   {
+    "proto": "awg1",
+    "level": "app",
+    "note": {"ru": "У телевизора нет камеры: ключ — файлом или ссылкой с телефона", "en": "A TV has no camera: the key goes as a file or a link from the phone"}
+   },
+   {
+    "proto": "wg",
+    "level": "app",
+    "note": {"ru": "У телевизора нет камеры: ключ — файлом или ссылкой с телефона", "en": "A TV has no camera: the key goes as a file or a link from the phone"}
+   },
+   {"proto": "openvpn", "level": "app"},
+   {"proto": "ikev2", "level": "app", "note": {"ru": "strongSwan — если ставится на этот телевизор", "en": "strongSwan — if it installs on this TV"}, "unverified": true},
+   {"proto": "socks5", "level": "app", "note": {"ru": "v2RayTun или Happ (ссылка socks://)", "en": "v2RayTun or Happ (a socks:// link)"}, "unverified": true},
+   {"proto": "ocserv", "level": "none"},
+   {"proto": "l2tp", "level": "none"},
+   {"proto": "sstp", "level": "none"},
+   {"proto": "pptp", "level": "none"},
+   {"proto": "hy2", "level": "none"}
+  ],
+  "windows": [
+   {
+    "proto": "awg3",
+    "level": "app",
+    "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"},
+    "note": {"ru": "AmneziaWG 3.1.0+ или AmneziaVPN 5.0.1+", "en": "AmneziaWG 3.1.0+ or AmneziaVPN 5.0.1+"}
+   },
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "awg1", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "wg", "level": "app"},
+   {"proto": "ikev2", "level": "native"},
+   {"proto": "sstp", "level": "native"},
+   {"proto": "openvpn", "level": "app"},
+   {"proto": "l2tp", "level": "native"},
+   {"proto": "ocserv", "level": "app", "note": {"ru": "OpenConnect GUI давно не обновлялся", "en": "OpenConnect GUI has not been updated for a long time"}},
+   {
+    "proto": "socks5",
+    "level": "app",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {"proto": "pptp", "level": "native"},
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ],
+  "linux": [
+   {
+    "proto": "awg3",
+    "level": "package",
+    "guide": {"ru": "https://github.com/amnezia-vpn/amneziawg-tools", "en": "https://github.com/amnezia-vpn/amneziawg-tools"},
+    "note": {
+     "ru": "amneziawg-tools и модуль ядра или amneziawg-go линии 3.1; с окном — AmneziaVPN",
+     "en": "amneziawg-tools with the kernel module or amneziawg-go of line 3.1; with a window — AmneziaVPN"
+    }
+   },
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "package", "guide": {"ru": "https://github.com/amnezia-vpn/amneziawg-tools", "en": "https://github.com/amnezia-vpn/amneziawg-tools"}},
+   {"proto": "awg1", "level": "package", "guide": {"ru": "https://github.com/amnezia-vpn/amneziawg-tools", "en": "https://github.com/amnezia-vpn/amneziawg-tools"}},
+   {"proto": "wg", "level": "package", "guide": {"ru": "https://www.wireguard.com/install/", "en": "https://www.wireguard.com/install/"}},
+   {"proto": "openvpn", "level": "package"},
+   {"proto": "ikev2", "level": "package"},
+   {"proto": "ocserv", "level": "package"},
+   {"proto": "l2tp", "level": "package"},
+   {"proto": "sstp", "level": "package"},
+   {
+    "proto": "socks5",
+    "level": "native",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {"proto": "pptp", "level": "package"},
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ],
+  "keenetic": [
+   {
+    "proto": "awg2",
+    "level": "native",
+    "min": {"ru": "KeeneticOS 5.1.1+", "en": "KeeneticOS 5.1.1+"},
+    "guide": {"ru": "https://anten-ka.com/guides/no36/", "en": "https://docs.amnezia.org/documentation/instructions/keenetic-os-awg/"},
+    "note": {
+     "ru": "На 5.0.8 и старше импорт падает с «invalid H1 value» — выдайте AmneziaWG 1.5 или WireGuard",
+     "en": "On 5.0.8 and older the import fails with «invalid H1 value» — issue AmneziaWG 1.5 or WireGuard"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №5", "en": "Guide No. 5"}, "url": "https://anten-ka.com/guides/no5/"},
+     {"label": {"ru": "Amnezia: Keenetic", "en": "Amnezia: Keenetic"}, "url": "https://docs.amnezia.org/documentation/instructions/keenetic-os-awg/"}
+    ]
+   },
+   {
+    "proto": "awg3",
+    "level": "native",
+    "min": {"ru": "KeeneticOS 5.2 Alpha 11+ (канал разработчика) или AWG Manager", "en": "KeeneticOS 5.2 Alpha 11+ (developer channel) or AWG Manager"},
+    "guide": {"ru": "https://anten-ka.com/guides/no40/", "en": "https://awgm.hoaxisr.ru/install/"},
+    "note": {
+     "ru": "AmneziaWG 3.1 на Keenetic/Netcraze — только на KeeneticOS 5.2 Alpha 11+ из канала разработчика или через AWG Manager (Entware, USB-флешка); на основном канале 5.1 выдайте AmneziaWG 2.0",
+     "en": "AmneziaWG 3.1 on Keenetic/Netcraze — only on KeeneticOS 5.2 Alpha 11+ of the developer channel or through AWG Manager (Entware, a USB stick); on the main channel 5.1 issue AmneziaWG 2.0"
+    },
+    "links": [
+     {"label": {"ru": "Тестовая сборка NDMS", "en": "Test build of NDMS"}, "url": "https://support.netcraze.ru/ultra/nc-1812/ru/25158.html"},
+     {"label": {"ru": "AWG Manager — установка", "en": "AWG Manager — install"}, "url": "https://awgm.hoaxisr.ru/install/"},
+     {"label": {"ru": "Amnezia: Keenetic", "en": "Amnezia: Keenetic"}, "url": "https://docs.amnezia.org/documentation/instructions/keenetic-os-awg/"}
+    ]
+   },
+   {
+    "proto": "wg",
+    "level": "native",
+    "guide": {"ru": "https://support.netcraze.ru/ultra/nc-1812/ru/16937-wireguard-vpn.html", "en": "https://support.keenetic.com/titan/kn-1811/en/16937-wireguard-vpn.html"}
+   },
+   {
+    "proto": "vless",
+    "level": "package",
+    "min": {"ru": "USB-флешка и Entware", "en": "A USB stick and Entware"},
+    "guide": {"ru": "https://anten-ka.com/guides/no8/", "en": "https://github.com/jameszeroX/XKeen"},
+    "note": {
+     "ru": "Штатно KeeneticOS VLESS не умеет: нужна USB-флешка, Entware и XKeen — для опытных. Проще поставить VLESS на телефон или ПК",
+     "en": "KeeneticOS has no VLESS of its own: it takes a USB stick, Entware and XKeen — for the experienced. Simpler: VLESS on the phone or computer"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №27", "en": "Guide No. 27"}, "url": "https://anten-ka.com/guides/no27/"},
+     {"label": {"ru": "Инструкция №33", "en": "Guide No. 33"}, "url": "https://anten-ka.com/guides/no33/"},
+     {"label": {"ru": "XKeen", "en": "XKeen"}, "url": "https://github.com/jameszeroX/XKeen"}
+    ]
+   },
+   {
+    "proto": "awg1",
+    "level": "native",
+    "min": {"ru": "KeeneticOS 4.2+", "en": "KeeneticOS 4.2+"},
+    "guide": {"ru": "https://anten-ka.com/guides/no5/", "en": "https://docs.amnezia.org/documentation/instructions/keenetic-os-awg/"}
+   },
+   {
+    "proto": "openvpn",
+    "level": "native",
+    "guide": {
+     "ru": "https://support.netcraze.ru/ultra/nc-1812/ru/17194-openvpn-client-and-server.html",
+     "en": "https://support.keenetic.com/titan/kn-1811/en/17194-openvpn-client-and-server.html"
+    }
+   },
+   {"proto": "l2tp", "level": "native", "guide": {"ru": "https://anten-ka.com/guides/no6/", "en": "https://support.keenetic.com/titan/kn-1811/en/16933-vpn-types.html"}},
+   {"proto": "ikev2", "level": "native", "note": {"ru": "Нужен сертификат центра Kaskad в IKE-клиенте; если роутер его не принимает — L2TP/IPsec или AmneziaWG", "en": "Needs the Kaskad CA certificate in the IKE client; if the router doesn’t accept it — L2TP/IPsec or AmneziaWG"}, "unverified": true},
+   {"proto": "sstp", "level": "native"},
+   {"proto": "ocserv", "level": "native"},
+   {
+    "proto": "socks5",
+    "level": "native",
+    "note": {
+     "ru": "Компонент «Клиент прокси»: Интернет → Другие подключения → Прокси-подключения",
+     "en": "The «Proxy client» component: Internet → Other connections → Proxy connections"
+    },
+    "unverified": true
+   },
+   {"proto": "pptp", "level": "native"},
+   {"proto": "hy2", "level": "none", "note": {"ru": "Выдача Hysteria2 роутерам — после стенда: кандидат — XKeen через Entware (не проверено). Сейчас — AmneziaWG или WireGuard", "en": "Hysteria2 for routers comes after the stand: the candidate is XKeen through Entware (not checked). For now — AmneziaWG or WireGuard"}}
+  ],
+  "mikrotik": [
+   {
+    "proto": "wg",
+    "level": "native",
+    "min": {"ru": "RouterOS 7.1+ (импорт строкой — 7.19+)", "en": "RouterOS 7.1+ (import by string — 7.19+)"},
+    "guide": {"ru": "https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard", "en": "https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard"}
+   },
+   {
+    "proto": "awg3",
+    "level": "workaround",
+    "min": {"ru": "RouterOS 7 с пакетом container (инструкция контейнера — под 7.20+)", "en": "RouterOS 7 with the container package (the container's guide is for 7.20+)"},
+    "guide": {"ru": "https://anten-ka.com/guides/no31/", "en": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+    "note": {
+     "ru": "Через контейнер: RouterOS 7, пакет container, процессор ARM/ARM64/x86 (не MIPS), USB-накопитель. Примет ли контейнер наш .conf без своих PostUp/PostDown — не проверено",
+     "en": "Through a container: RouterOS 7, the container package, an ARM/ARM64/x86 CPU (not MIPS), a USB drive. Whether the container takes our .conf without its own PostUp/PostDown is not verified"
+    },
+    "links": [
+     {"label": {"ru": "wiktorbgu/amneziawg-mikrotik (GitHub)", "en": "wiktorbgu/amneziawg-mikrotik (GitHub)"}, "url": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+     {"label": {"ru": "Образ на Docker Hub", "en": "Image on Docker Hub"}, "url": "https://hub.docker.com/r/wiktorbgu/amneziawg-mikrotik"},
+     {"label": {"ru": "amneziawg-mikrotik-c", "en": "amneziawg-mikrotik-c"}, "url": "https://github.com/timbrs/amneziawg-mikrotik-c"},
+     {"label": {"ru": "Container (MikroTik)", "en": "Container (MikroTik)"}, "url": "https://help.mikrotik.com/docs/spaces/ROS/pages/84901929/Container"}
+    ],
+    "unverified": true
+   },
+   {
+    "proto": "vless",
+    "level": "workaround",
+    "min": {"ru": "RouterOS 7 с пакетом container (инструкция контейнера — под 7.20+)", "en": "RouterOS 7 with the container package (the container's guide is for 7.20+)"},
+    "guide": {"ru": "https://anten-ka.com/guides/no30/", "en": "https://github.com/wiktorbgu/mihomo-mikrotik"},
+    "note": {
+     "ru": "В RouterOS нет VLESS — только контейнер (Mihomo или sing-box), для опытных: пакет container, ARM/ARM64/x86 (не MIPS), USB-накопитель",
+     "en": "RouterOS has no VLESS — only a container (Mihomo or sing-box), for the experienced: the container package, ARM/ARM64/x86 (not MIPS), a USB drive"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №32", "en": "Guide No. 32"}, "url": "https://anten-ka.com/guides/no32/"},
+     {"label": {"ru": "wiktorbgu/mihomo-mikrotik", "en": "wiktorbgu/mihomo-mikrotik"}, "url": "https://hub.docker.com/r/wiktorbgu/mihomo-mikrotik"},
+     {
+      "label": {"ru": "wiktorbgu/vless-sing-box-tunnel-mikrotik", "en": "wiktorbgu/vless-sing-box-tunnel-mikrotik"},
+      "url": "https://hub.docker.com/r/wiktorbgu/vless-sing-box-tunnel-mikrotik"
+     },
+     {"label": {"ru": "Container (MikroTik)", "en": "Container (MikroTik)"}, "url": "https://help.mikrotik.com/docs/spaces/ROS/pages/84901929/Container"}
+    ]
+   },
+   {
+    "proto": "awg2",
+    "level": "workaround",
+    "min": {"ru": "RouterOS 7 с пакетом container (инструкция контейнера — под 7.20+)", "en": "RouterOS 7 with the container package (the container's guide is for 7.20+)"},
+    "guide": {"ru": "https://anten-ka.com/guides/no31/", "en": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+    "note": {
+     "ru": "Через контейнер: RouterOS 7, пакет container, процессор ARM/ARM64/x86 (не MIPS), USB-накопитель. Примет ли контейнер наш .conf без своих PostUp/PostDown — не проверено",
+     "en": "Through a container: RouterOS 7, the container package, an ARM/ARM64/x86 CPU (not MIPS), a USB drive. Whether the container takes our .conf without its own PostUp/PostDown is not verified"
+    },
+    "links": [
+     {"label": {"ru": "wiktorbgu/amneziawg-mikrotik (GitHub)", "en": "wiktorbgu/amneziawg-mikrotik (GitHub)"}, "url": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+     {"label": {"ru": "Образ на Docker Hub", "en": "Image on Docker Hub"}, "url": "https://hub.docker.com/r/wiktorbgu/amneziawg-mikrotik"},
+     {"label": {"ru": "amneziawg-mikrotik-c", "en": "amneziawg-mikrotik-c"}, "url": "https://github.com/timbrs/amneziawg-mikrotik-c"},
+     {"label": {"ru": "Container (MikroTik)", "en": "Container (MikroTik)"}, "url": "https://help.mikrotik.com/docs/spaces/ROS/pages/84901929/Container"}
+    ],
+    "unverified": true
+   },
+   {
+    "proto": "awg1",
+    "level": "workaround",
+    "min": {"ru": "RouterOS 7 с пакетом container (инструкция контейнера — под 7.20+)", "en": "RouterOS 7 with the container package (the container's guide is for 7.20+)"},
+    "guide": {"ru": "https://anten-ka.com/guides/no31/", "en": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+    "note": {
+     "ru": "Через контейнер: RouterOS 7, пакет container, процессор ARM/ARM64/x86 (не MIPS), USB-накопитель. Примет ли контейнер наш .conf без своих PostUp/PostDown — не проверено",
+     "en": "Through a container: RouterOS 7, the container package, an ARM/ARM64/x86 CPU (not MIPS), a USB drive. Whether the container takes our .conf without its own PostUp/PostDown is not verified"
+    },
+    "links": [
+     {"label": {"ru": "wiktorbgu/amneziawg-mikrotik (GitHub)", "en": "wiktorbgu/amneziawg-mikrotik (GitHub)"}, "url": "https://github.com/wiktorbgu/amneziawg-mikrotik"},
+     {"label": {"ru": "Образ на Docker Hub", "en": "Image on Docker Hub"}, "url": "https://hub.docker.com/r/wiktorbgu/amneziawg-mikrotik"},
+     {
+      "label": {"ru": "amneziawg-proxy-mikrotik (только 1.x)", "en": "amneziawg-proxy-mikrotik (1.x only)"},
+      "url": "https://hub.docker.com/r/wiktorbgu/amneziawg-proxy-mikrotik"
+     },
+     {"label": {"ru": "amneziawg-mikrotik-c", "en": "amneziawg-mikrotik-c"}, "url": "https://github.com/timbrs/amneziawg-mikrotik-c"},
+     {"label": {"ru": "Container (MikroTik)", "en": "Container (MikroTik)"}, "url": "https://help.mikrotik.com/docs/spaces/ROS/pages/84901929/Container"}
+    ],
+    "unverified": true
+   },
+   {
+    "proto": "openvpn",
+    "level": "native",
+    "guide": {"ru": "https://help.mikrotik.com/docs/spaces/ROS/pages/2031655/OpenVPN", "en": "https://help.mikrotik.com/docs/spaces/ROS/pages/2031655/OpenVPN"}
+   },
+   {
+    "proto": "l2tp",
+    "level": "native",
+    "guide": {"ru": "https://help.mikrotik.com/docs/spaces/ROS/pages/2031631/L2TP", "en": "https://help.mikrotik.com/docs/spaces/ROS/pages/2031631/L2TP"}
+   },
+   {"proto": "sstp", "level": "native"},
+   {"proto": "ikev2", "level": "native"},
+   {"proto": "pptp", "level": "native"},
+   {"proto": "ocserv", "level": "none", "note": {"ru": "В RouterOS нет клиента OpenConnect", "en": "RouterOS has no OpenConnect client"}},
+   {"proto": "socks5", "level": "none", "note": {"ru": "В RouterOS только SOCKS-сервер, клиента нет", "en": "RouterOS has only a SOCKS server, no client"}},
+   {"proto": "hy2", "level": "none", "note": {"ru": "Выдача Hysteria2 роутерам — после стенда: только контейнер RouterOS (не проверено). Сейчас — WireGuard", "en": "Hysteria2 for routers comes after the stand: a RouterOS container only (not checked). For now — WireGuard"}}
+  ],
+  "openwrt": [
+   {
+    "proto": "awg3",
+    "level": "package",
+    "min": {"ru": "OpenWrt 24.10 или 25.12 (на 23.05 — максимум 2.0)", "en": "OpenWrt 24.10 or 25.12 (on 23.05 — 2.0 at most)"},
+    "guide": {"ru": "https://anten-ka.com/guides/no25/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "В OpenWrt нет официального пакета AmneziaWG — ставится сборка сообщества 2Grey/awg-openwrt",
+     "en": "OpenWrt has no official AmneziaWG package — the community build 2Grey/awg-openwrt is installed"
+    },
+    "links": [
+     {"label": {"ru": "2Grey/awg-openwrt", "en": "2Grey/awg-openwrt"}, "url": "https://github.com/2Grey/awg-openwrt"},
+     {"label": {"ru": "Amnezia: OpenWrt", "en": "Amnezia: OpenWrt"}, "url": "https://docs.amnezia.org/documentation/instructions/openwrt-os-awg/"}
+    ]
+   },
+   {
+    "proto": "vless",
+    "level": "package",
+    "min": {"ru": "OpenWrt 24.10+", "en": "OpenWrt 24.10+"},
+    "guide": {"ru": "https://anten-ka.com/guides/no26/", "en": "https://podkop.net/docs/install/"},
+    "note": {
+     "ru": "Ссылки с XHTTP podkop понимает только со сборкой podkop-engine r11+; мало флеш-памяти — может не поместиться",
+     "en": "podkop takes XHTTP links only with the podkop-engine r11+ build; little flash memory — it may not fit"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №9", "en": "Guide No. 9"}, "url": "https://anten-ka.com/guides/no9/"},
+     {"label": {"ru": "Инструкция №12", "en": "Guide No. 12"}, "url": "https://anten-ka.com/guides/no12/"},
+     {"label": {"ru": "Инструкция №22", "en": "Guide No. 22"}, "url": "https://anten-ka.com/guides/no22/"}
+    ]
+   },
+   {
+    "proto": "awg2",
+    "level": "package",
+    "guide": {"ru": "https://anten-ka.com/guides/no25/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "В OpenWrt нет официального пакета AmneziaWG — ставится сборка сообщества 2Grey/awg-openwrt",
+     "en": "OpenWrt has no official AmneziaWG package — the community build 2Grey/awg-openwrt is installed"
+    },
+    "links": [
+     {"label": {"ru": "2Grey/awg-openwrt", "en": "2Grey/awg-openwrt"}, "url": "https://github.com/2Grey/awg-openwrt"},
+     {"label": {"ru": "Amnezia: OpenWrt", "en": "Amnezia: OpenWrt"}, "url": "https://docs.amnezia.org/documentation/instructions/openwrt-os-awg/"}
+    ]
+   },
+   {
+    "proto": "wg",
+    "level": "package",
+    "guide": {"ru": "https://openwrt.org/docs/guide-user/services/vpn/wireguard/client", "en": "https://openwrt.org/docs/guide-user/services/vpn/wireguard/client"}
+   },
+   {
+    "proto": "awg1",
+    "level": "package",
+    "guide": {"ru": "https://anten-ka.com/guides/no25/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "В OpenWrt нет официального пакета AmneziaWG — ставится сборка сообщества 2Grey/awg-openwrt",
+     "en": "OpenWrt has no official AmneziaWG package — the community build 2Grey/awg-openwrt is installed"
+    },
+    "links": [
+     {"label": {"ru": "2Grey/awg-openwrt", "en": "2Grey/awg-openwrt"}, "url": "https://github.com/2Grey/awg-openwrt"},
+     {"label": {"ru": "Amnezia: OpenWrt", "en": "Amnezia: OpenWrt"}, "url": "https://docs.amnezia.org/documentation/instructions/openwrt-os-awg/"}
+    ]
+   },
+   {
+    "proto": "openvpn",
+    "level": "package",
+    "guide": {"ru": "https://openwrt.org/docs/guide-user/services/vpn/openvpn/client-luci", "en": "https://openwrt.org/docs/guide-user/services/vpn/openvpn/client-luci"}
+   },
+   {
+    "proto": "ocserv",
+    "level": "package",
+    "guide": {"ru": "https://openwrt.org/docs/guide-user/services/vpn/openconnect/client", "en": "https://openwrt.org/docs/guide-user/services/vpn/openconnect/client"}
+   },
+   {"proto": "socks5", "level": "package", "guide": {"ru": "https://podkop.net/docs/install/", "en": "https://podkop.net/docs/install/"}},
+   {
+    "proto": "pptp",
+    "level": "package",
+    "guide": {"ru": "https://openwrt.org/docs/guide-user/services/vpn/start", "en": "https://openwrt.org/docs/guide-user/services/vpn/start"}
+   },
+   {
+    "proto": "l2tp",
+    "level": "package",
+    "guide": {"ru": "https://openwrt.org/docs/guide-user/services/vpn/start", "en": "https://openwrt.org/docs/guide-user/services/vpn/start"},
+    "note": {"ru": "L2TP/IPsec на OpenWrt — xl2tpd вместе со strongSwan, настраивать сложно", "en": "L2TP/IPsec on OpenWrt — xl2tpd with strongSwan, hard to set up"}
+   },
+   {"proto": "ikev2", "level": "none", "note": {"ru": "Пакет strongSwan есть, но клиента в LuCI нет", "en": "The strongSwan package exists, but LuCI has no client"}},
+   {"proto": "sstp", "level": "none", "note": {"ru": "Пакет sstp-client есть, но клиента в LuCI нет", "en": "The sstp-client package exists, but LuCI has no client"}},
+   {"proto": "hy2", "level": "none", "note": {"ru": "Выдача Hysteria2 роутерам — после стенда: кандидаты podkop, HomeProxy, Passwall2 (не проверено). Сейчас — VLESS или AmneziaWG", "en": "Hysteria2 for routers comes after the stand: candidates podkop, HomeProxy, Passwall2 (not checked). For now — VLESS or AmneziaWG"}}
+  ],
+  "tplink": [
+   {
+    "proto": "wg",
+    "level": "native",
+    "min": {"ru": "Только часть моделей (Дополнительные настройки → VPN-клиент)", "en": "Only some models (Advanced → VPN Client)"},
+    "guide": {"ru": "https://www.tp-link.com/en/support/faq/3772/", "en": "https://www.tp-link.com/en/support/faq/3772/"},
+    "note": {"ru": "Из файла удалите строки MTU и IPv6 — иначе роутер его не примет", "en": "Remove the MTU and IPv6 lines from the file — otherwise the router rejects it"},
+    "unverified": true
+   },
+   {
+    "proto": "openvpn",
+    "level": "native",
+    "min": {"ru": "Модели с пунктом «VPN-клиент»", "en": "Models with «VPN Client»"},
+    "guide": {"ru": "https://www.tp-link.com/uy/support/faq/3135/", "en": "https://www.tp-link.com/uy/support/faq/3135/"}
+   },
+   {"proto": "l2tp", "level": "native", "guide": {"ru": "https://anten-ka.com/guides/no15/", "en": "https://www.tp-link.com/uy/support/faq/3135/"}},
+   {"proto": "pptp", "level": "native", "guide": {"ru": "https://www.tp-link.com/uy/support/faq/3135/", "en": "https://www.tp-link.com/uy/support/faq/3135/"}},
+   {
+    "proto": "awg3",
+    "level": "none",
+    "note": {
+     "ru": "На прошивке TP-Link этого нет — выдайте WireGuard или OpenVPN, либо ставьте приложение на устройства; перешивка на OpenWrt — если модель поддерживается",
+     "en": "The TP-Link firmware has none — issue WireGuard or OpenVPN, or install the app on the devices; reflashing to OpenWrt — if the model is supported"
+    }
+   },
+   {
+    "proto": "awg2",
+    "level": "none",
+    "note": {
+     "ru": "На прошивке TP-Link этого нет — выдайте WireGuard или OpenVPN, либо ставьте приложение на устройства; перешивка на OpenWrt — если модель поддерживается",
+     "en": "The TP-Link firmware has none — issue WireGuard or OpenVPN, or install the app on the devices; reflashing to OpenWrt — if the model is supported"
+    }
+   },
+   {
+    "proto": "vless",
+    "level": "none",
+    "note": {
+     "ru": "На прошивке TP-Link этого нет — выдайте WireGuard или OpenVPN, либо ставьте приложение на устройства; перешивка на OpenWrt — если модель поддерживается",
+     "en": "The TP-Link firmware has none — issue WireGuard or OpenVPN, or install the app on the devices; reflashing to OpenWrt — if the model is supported"
+    }
+   },
+   {
+    "proto": "awg1",
+    "level": "none",
+    "note": {
+     "ru": "На прошивке TP-Link этого нет — выдайте WireGuard или OpenVPN, либо ставьте приложение на устройства; перешивка на OpenWrt — если модель поддерживается",
+     "en": "The TP-Link firmware has none — issue WireGuard or OpenVPN, or install the app on the devices; reflashing to OpenWrt — if the model is supported"
+    }
+   },
+   {"proto": "ocserv", "level": "none"},
+   {"proto": "ikev2", "level": "none"},
+   {"proto": "sstp", "level": "none"},
+   {"proto": "socks5", "level": "none"},
+   {"proto": "hy2", "level": "none"}
+  ],
+  "huawei": [
+   {
+    "proto": "l2tp",
+    "level": "native",
+    "min": {"ru": "Только без IPsec (L2TP без шифрования)", "en": "Without IPsec only (L2TP without encryption)"},
+    "guide": {"ru": "https://consumer.huawei.com/en/support/content/en-us15806366/", "en": "https://consumer.huawei.com/en/support/content/en-us15806366/"},
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "pptp",
+    "level": "native",
+    "guide": {"ru": "https://consumer.huawei.com/en/support/content/en-us15806366/", "en": "https://consumer.huawei.com/en/support/content/en-us15806366/"},
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "awg3",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "vless",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "awg2",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "wg",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "awg1",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "openvpn",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "ikev2",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "sstp",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "ocserv",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {
+    "proto": "socks5",
+    "level": "none",
+    "note": {
+     "ru": "Роутер Huawei умеет только L2TP без шифрования и PPTP — трафик по пути не защищён. Надёжнее — приложение AmneziaWG или VLESS на устройствах",
+     "en": "A Huawei router has only L2TP without encryption and PPTP — the traffic is not protected on the way. Safer: the AmneziaWG or VLESS app on the devices"
+    }
+   },
+   {"proto": "hy2", "level": "none"}
+  ],
+  "xiaomi": [
+   {
+    "proto": "l2tp",
+    "level": "native",
+    "guide": {"ru": "https://www.mi.com/global/support/faq/details/KA-541457/", "en": "https://www.mi.com/global/support/faq/details/KA-541457/"},
+    "note": {"ru": "IPsec в прошивке не заявлен — может понадобиться L2TP без шифрования", "en": "The firmware declares no IPsec — L2TP without encryption may be needed"},
+    "unverified": true
+   },
+   {
+    "proto": "pptp",
+    "level": "native",
+    "guide": {"ru": "https://www.mi.com/global/support/faq/details/KA-541457/", "en": "https://www.mi.com/global/support/faq/details/KA-541457/"}
+   },
+   {
+    "proto": "awg3",
+    "level": "workaround",
+    "guide": {"ru": "https://anten-ka.com/guides/no12/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "На стоковой прошивке Xiaomi нет — после перепрошивки на OpenWrt (AX3000T, Redmi AX6000 и др.), для опытных, есть риск «окирпичить» роутер",
+     "en": "The stock Xiaomi firmware has none — after reflashing to OpenWrt (AX3000T, Redmi AX6000 and others), for the experienced, the router may be bricked"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №9", "en": "Guide No. 9"}, "url": "https://anten-ka.com/guides/no9/"},
+     {"label": {"ru": "Инструкция №25", "en": "Guide No. 25"}, "url": "https://anten-ka.com/guides/no25/"}
+    ]
+   },
+   {
+    "proto": "vless",
+    "level": "workaround",
+    "guide": {"ru": "https://anten-ka.com/guides/no12/", "en": "https://podkop.net/docs/install/"},
+    "note": {
+     "ru": "На стоковой прошивке Xiaomi нет — после перепрошивки на OpenWrt (AX3000T, Redmi AX6000 и др.), для опытных, есть риск «окирпичить» роутер",
+     "en": "The stock Xiaomi firmware has none — after reflashing to OpenWrt (AX3000T, Redmi AX6000 and others), for the experienced, the router may be bricked"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №9", "en": "Guide No. 9"}, "url": "https://anten-ka.com/guides/no9/"},
+     {"label": {"ru": "Инструкция №26", "en": "Guide No. 26"}, "url": "https://anten-ka.com/guides/no26/"}
+    ]
+   },
+   {
+    "proto": "awg2",
+    "level": "workaround",
+    "guide": {"ru": "https://anten-ka.com/guides/no12/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "На стоковой прошивке Xiaomi нет — после перепрошивки на OpenWrt (AX3000T, Redmi AX6000 и др.), для опытных, есть риск «окирпичить» роутер",
+     "en": "The stock Xiaomi firmware has none — after reflashing to OpenWrt (AX3000T, Redmi AX6000 and others), for the experienced, the router may be bricked"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №9", "en": "Guide No. 9"}, "url": "https://anten-ka.com/guides/no9/"},
+     {"label": {"ru": "Инструкция №25", "en": "Guide No. 25"}, "url": "https://anten-ka.com/guides/no25/"}
+    ]
+   },
+   {
+    "proto": "wg",
+    "level": "workaround",
+    "guide": {"ru": "https://anten-ka.com/guides/no12/", "en": "https://openwrt.org/docs/guide-user/services/vpn/wireguard/client"},
+    "note": {
+     "ru": "На стоковой прошивке Xiaomi нет — после перепрошивки на OpenWrt (AX3000T, Redmi AX6000 и др.), для опытных, есть риск «окирпичить» роутер",
+     "en": "The stock Xiaomi firmware has none — after reflashing to OpenWrt (AX3000T, Redmi AX6000 and others), for the experienced, the router may be bricked"
+    }
+   },
+   {
+    "proto": "awg1",
+    "level": "workaround",
+    "guide": {"ru": "https://anten-ka.com/guides/no12/", "en": "https://github.com/2Grey/awg-openwrt"},
+    "note": {
+     "ru": "На стоковой прошивке Xiaomi нет — после перепрошивки на OpenWrt (AX3000T, Redmi AX6000 и др.), для опытных, есть риск «окирпичить» роутер",
+     "en": "The stock Xiaomi firmware has none — after reflashing to OpenWrt (AX3000T, Redmi AX6000 and others), for the experienced, the router may be bricked"
+    },
+    "links": [
+     {"label": {"ru": "Инструкция №9", "en": "Guide No. 9"}, "url": "https://anten-ka.com/guides/no9/"},
+     {"label": {"ru": "Инструкция №25", "en": "Guide No. 25"}, "url": "https://anten-ka.com/guides/no25/"}
+    ]
+   },
+   {"proto": "openvpn", "level": "none", "note": {"ru": "Стоковая прошивка Xiaomi умеет только PPTP и L2TP", "en": "The stock Xiaomi firmware has only PPTP and L2TP"}},
+   {"proto": "ikev2", "level": "none", "note": {"ru": "Стоковая прошивка Xiaomi умеет только PPTP и L2TP", "en": "The stock Xiaomi firmware has only PPTP and L2TP"}},
+   {"proto": "sstp", "level": "none", "note": {"ru": "Стоковая прошивка Xiaomi умеет только PPTP и L2TP", "en": "The stock Xiaomi firmware has only PPTP and L2TP"}},
+   {"proto": "ocserv", "level": "none", "note": {"ru": "Стоковая прошивка Xiaomi умеет только PPTP и L2TP", "en": "The stock Xiaomi firmware has only PPTP and L2TP"}},
+   {"proto": "socks5", "level": "none", "note": {"ru": "Стоковая прошивка Xiaomi умеет только PPTP и L2TP", "en": "The stock Xiaomi firmware has only PPTP and L2TP"}},
+   {"proto": "hy2", "level": "none"}
+  ],
+  "asus": [
+   {
+    "proto": "wg",
+    "level": "native",
+    "min": {"ru": "Прошивка 3.0.0.4.388.23000+, часть моделей (VPN Fusion)", "en": "Firmware 3.0.0.4.388.23000+, some models (VPN Fusion)"},
+    "guide": {"ru": "https://www.asus.com/us/support/faq/1048282/", "en": "https://www.asus.com/us/support/faq/1048282/"},
+    "note": {"ru": "Параметры AmneziaWG штатная прошивка не понимает", "en": "The stock firmware does not take the AmneziaWG parameters"}
+   },
+   {"proto": "openvpn", "level": "native", "guide": {"ru": "https://www.asus.com/us/support/faq/1048506/", "en": "https://www.asus.com/us/support/faq/1048506/"}},
+   {
+    "proto": "awg3",
+    "level": "workaround",
+    "min": {"ru": "Прошивка Asuswrt-Merlin, USB-флешка и Entware", "en": "Asuswrt-Merlin firmware, a USB stick and Entware"},
+    "guide": {"ru": "https://github.com/william-aqn/asuswrt-merlin-amneziawg", "en": "https://github.com/william-aqn/asuswrt-merlin-amneziawg"},
+    "note": {
+     "ru": "Только на прошивке Asuswrt-Merlin с USB-флешкой и Entware (аддоны сообщества) — для опытных",
+     "en": "Only on Asuswrt-Merlin firmware with a USB stick and Entware (community add-ons) — for the experienced"
+    }
+   },
+   {
+    "proto": "vless",
+    "level": "workaround",
+    "min": {"ru": "Прошивка Asuswrt-Merlin, USB-флешка и Entware", "en": "Asuswrt-Merlin firmware, a USB stick and Entware"},
+    "guide": {"ru": "https://github.com/DanielLavrushin/asuswrt-merlin-xrayui", "en": "https://github.com/DanielLavrushin/asuswrt-merlin-xrayui"},
+    "note": {
+     "ru": "Только на прошивке Asuswrt-Merlin с USB-флешкой и Entware (аддоны сообщества) — для опытных",
+     "en": "Only on Asuswrt-Merlin firmware with a USB stick and Entware (community add-ons) — for the experienced"
+    }
+   },
+   {
+    "proto": "awg2",
+    "level": "workaround",
+    "min": {"ru": "Прошивка Asuswrt-Merlin, USB-флешка и Entware", "en": "Asuswrt-Merlin firmware, a USB stick and Entware"},
+    "guide": {"ru": "https://github.com/william-aqn/asuswrt-merlin-amneziawg", "en": "https://github.com/william-aqn/asuswrt-merlin-amneziawg"},
+    "note": {
+     "ru": "Только на прошивке Asuswrt-Merlin с USB-флешкой и Entware (аддоны сообщества) — для опытных",
+     "en": "Only on Asuswrt-Merlin firmware with a USB stick and Entware (community add-ons) — for the experienced"
+    }
+   },
+   {
+    "proto": "awg1",
+    "level": "workaround",
+    "min": {"ru": "Прошивка Asuswrt-Merlin, USB-флешка и Entware", "en": "Asuswrt-Merlin firmware, a USB stick and Entware"},
+    "guide": {"ru": "https://github.com/william-aqn/asuswrt-merlin-amneziawg", "en": "https://github.com/william-aqn/asuswrt-merlin-amneziawg"},
+    "note": {
+     "ru": "Только на прошивке Asuswrt-Merlin с USB-флешкой и Entware (аддоны сообщества) — для опытных",
+     "en": "Only on Asuswrt-Merlin firmware with a USB stick and Entware (community add-ons) — for the experienced"
+    }
+   },
+   {
+    "proto": "l2tp",
+    "level": "native",
+    "min": {"ru": "Без IPsec (L2TP без шифрования)", "en": "Without IPsec (L2TP without encryption)"},
+    "guide": {"ru": "https://www.asus.com/us/support/faq/1048506/", "en": "https://www.asus.com/us/support/faq/1048506/"}
+   },
+   {"proto": "pptp", "level": "native", "guide": {"ru": "https://www.asus.com/us/support/faq/1048506/", "en": "https://www.asus.com/us/support/faq/1048506/"}},
+   {"proto": "ocserv", "level": "none"},
+   {
+    "proto": "ikev2",
+    "level": "none",
+    "note": {"ru": "В VPN Fusion нет клиента IKEv2 — проверьте на своей модели", "en": "VPN Fusion has no IKEv2 client — check your model"},
+    "unverified": true
+   },
+   {"proto": "sstp", "level": "none"},
+   {"proto": "socks5", "level": "none"},
+   {"proto": "hy2", "level": "none"}
+  ],
+  "other": [
+   {"proto": "awg3", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "vless", "level": "app"},
+   {"proto": "awg2", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "wg", "level": "app"},
+   {"proto": "awg1", "level": "app", "guide": {"ru": "https://anten-ka.com/guides/no37/", "en": "https://anten-ka.com/guides/no37/"}},
+   {"proto": "openvpn", "level": "app"},
+   {
+    "proto": "socks5",
+    "level": "app",
+    "note": {"ru": "Для Telegram: ссылка tg:// открывается в самом Telegram", "en": "For Telegram: the tg:// link opens in Telegram itself"}
+   },
+   {"proto": "ikev2", "level": "none"},
+   {"proto": "l2tp", "level": "none"},
+   {"proto": "ocserv", "level": "none"},
+   {"proto": "sstp", "level": "none"},
+   {"proto": "pptp", "level": "none"},
+   {"proto": "hy2", "level": "app", "unverified": true}
+  ]
+ }
+}

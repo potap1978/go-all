@@ -1,0 +1,27 @@
+{
+  "crossToSettings": true,
+  "crossToUsers": true,
+  "historyBack": true,
+  "sharedTheme": true,
+  "sharedLanguage": true,
+  "quotaToast": "Quota for mama: 50 GB\nCounted over all time",
+  "reissueToast": "Key for profile 3.1 reissued\nThe new key is here in the card",
+  "port52123": true,
+  "port443": true,
+  "phoneQr": {
+    "top": 266,
+    "bottom": 486
+  },
+  "miniSettings": {
+    "theme": "dark",
+    "height": 748
+  },
+  "miniUser": true,
+  "errors": [],
+  "legacySettingsDeepLink": {
+    "screen": "login-code-expired",
+    "lang": "en",
+    "redirect": "Panel.dc.html",
+    "checked": true
+  }
+}

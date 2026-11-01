@@ -1,0 +1,14 @@
+{
+ "gw_in_socks5.own": "SOCKS5 has its own password, not the device’s shared one (SOCKS5 sends it in plain text). If the device was set up earlier with the shared password, replace it with this one.",
+ "gw_in_socks5.made.password": "SOCKS5 password of {device}",
+ "gw_in_socks5.log.applied": "applied; accounts: {accounts}{created}",
+ "gw_in_socks5.idle": "no devices use the SOCKS5 protocol — the port opens with the first one",
+ "gw_in_socks5.link_note": "For apps with a SOCKS5 proxy setting; traffic follows the device’s route.",
+ "gw_in_socks5.rec.tg": "SOCKS5 — proxy for Telegram",
+ "gw_in_socks5.tg_note": "Open the link on a device with Telegram — the proxy is added automatically.",
+ "gw_in_socks5.tg_browser": "In a browser: {url}",
+ "gw_in_socks5.udp_on": "UDP through the proxy: yes.",
+ "gw_in_socks5.udp_lists": "UDP skips the “Russian sites direct” rules and the user’s lists — all of it follows the user’s route.",
+ "gw_in_socks5.udp_off": "UDP through the proxy: no.",
+ "gw_in_socks5.udp_mixed": "UDP through the proxy: closed — the SOCKS5 users have different routes. UDP works when they all have one route."
+}

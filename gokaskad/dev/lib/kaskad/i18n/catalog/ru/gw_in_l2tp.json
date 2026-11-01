@@ -1,0 +1,12 @@
+{
+ "gw_in_l2tp.plain_warning": "L2TP без IPsec включён: такие подключения не шифруются — только для роутеров, которые не умеют IPsec.",
+ "gw_in_l2tp.off_both": "L2TP не принимает подключений: выключены и IPsec, и L2TP без шифрования (inbounds.l2tp.ipsec / plain).",
+ "gw_in_l2tp.err.off": "Протокол L2TP выключен или не принимает подключений (нет ни IPsec, ни L2TP без шифрования).",
+ "gw_in_l2tp.err.no_psk": "Общий ключ L2TP/IPsec ещё не создан: kaskadctl gw apply.",
+ "gw_in_l2tp.apple_ipsec_off": "Встроенный клиент Apple умеет только L2TP/IPsec, а IPsec на узле выключен.",
+ "gw_in_l2tp.type_psk": "L2TP/IPsec с общим ключом",
+ "gw_in_l2tp.type_psk_or_plain": "L2TP/IPsec с общим ключом (или L2TP без IPsec)",
+ "gw_in_l2tp.type_plain": "L2TP без IPsec",
+ "gw_in_l2tp.label.psk": "Общий ключ IPsec (PSK)",
+ "gw_in_l2tp.err809": "Ошибка 809 за NAT: перезагрузите компьютер — скрипт уже записал AssumeUDPEncapsulationContextOnSendRule=2."
+}

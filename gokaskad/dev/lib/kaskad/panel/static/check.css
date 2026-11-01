@@ -1,0 +1,187 @@
+/* Kaskad 3 — «Обзор › Проверка сервера» (UI-C, 3.3.7.7): вид по макету Claude Design «Проверка сервера r1» 23.10
+   (node-score/export-2026-10-23-check-r1, css/check.css). Сервер сравнивается только со своей историей: без балла
+   0–1000, поясов, звезды и выводов. Цвета — токены; смысловые цвета — только у дней (gx-day--*) и у подтверждённых
+   отметок (gx-mk--dn / --up). Линия звена — spark.js (KaskadSpark.make, своя отрисовка), SVG — атрибутами (CSP).
+   Размеры --cl-w, --cl-h, --ct-row — переменные (через CSSOM можно менять). Подключается после charts.css. */
+
+.gx-chk { container: gxchk / inline-size; --ct-row: 30px; --cl-w: 150px; --cl-h: 20px; display: grid; gap: 18px; min-width: 0; align-content: start; }
+
+/* ── шапка: «в целом», когда проверено, повтор, следующая, отметки · справа «Проверить сейчас», «Поделиться» ── */
+.gx-chk__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px 32px; min-width: 0; }
+.gx-chk__main { display: grid; gap: 8px; min-width: 0; flex: 1 1 420px; }
+.gx-chk__k { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.gx-chk__s { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.gx-chk__u { font-size: var(--fs-sm); line-height: 1.125rem; font-weight: 500; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.gx-chk__side { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.gx-chk__btns { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.gx-chk__last { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0; border: 0; background: none; color: var(--accent-text); font: 500 var(--fs-sm)/1.125rem var(--font); cursor: pointer; }
+.gx-chk__last[aria-expanded="true"] > svg { transform: rotate(180deg); }
+.gx-chk__last:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
+.gx-chklast { display: grid; gap: 4px; padding: 10px 12px; border-radius: var(--r-field); background: var(--tile-bg); font-size: .75rem; line-height: 1rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+/* ── «в целом»: относительное число без шкалы ── */
+.gx-rel { display: flex; align-items: flex-end; gap: 8px 28px; flex-wrap: wrap; min-width: 0; }
+.gx-rel__v { display: flex; align-items: baseline; gap: 10px; flex: 0 1 auto; min-width: 0; }   /* сжимается до строки: «Сравнивать пока не с чем: …» переносится (стенд it1 Н-4) */
+.gx-rel__n { font: 600 3.5rem/3.5rem var(--font-head); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--foreground); }
+.gx-rel__n.is-grey { color: var(--text-3); }
+.gx-rel__u { font: 500 var(--fs-lg)/1.375rem var(--font); color: var(--text-2); }
+.gx-rel__b { display: grid; gap: 2px; padding-bottom: 5px; min-width: 0; flex: 1 1 200px; }
+.gx-rel__s { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+.gx-rel__mk { font-size: var(--fs-sm); line-height: 1.125rem; text-wrap: pretty; }
+.gx-rel__none { font: 600 var(--fs-h3)/1.625rem var(--font-head); text-wrap: pretty; min-width: 0; overflow-wrap: break-word; }
+.gx-rel--sm .gx-rel__n { font-size: 2.125rem; line-height: 2.25rem; }
+.gx-rel--sm { gap: 4px 18px; }
+
+/* ── таблица звеньев: строка 30 (26–32), как К1 «Средне» ── */
+/* последняя колонка 60 px: «Замеров» (12 px, 500) — 51 px, в 48 обрезался до «Замер…» (REV-3377-final П-1) */
+.gx-ct { --cols: 112px 120px 112px 84px minmax(0, 1fr) var(--cl-w) 60px; background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-tile); min-width: 0; }
+.gx-ct__h, .gx-ct__r { display: grid; grid-template-columns: var(--cols); column-gap: 12px; align-items: center; padding: 0 12px; min-width: 0; }
+.gx-ct__h { height: 32px; color: var(--text-2); font: 500 .75rem/1rem var(--font); white-space: nowrap; border-bottom: 1px solid var(--separator); }
+.gx-ct__h > span { overflow: hidden; text-overflow: ellipsis; }
+.gx-ct__h > .gx-ct__end { text-align: right; }
+.gx-ct__r { position: relative; height: var(--ct-row); box-shadow: inset 0 1px 0 var(--separator); font: 400 var(--fs-sm)/1.125rem var(--font); font-variant-numeric: tabular-nums; }
+.gx-ct__h + .gx-ct__r { box-shadow: none; }
+.gx-ct__r:hover { background: var(--surface-hover); }
+.gx-ct__r:last-child { border-radius: 0 0 var(--r-tile) var(--r-tile); }
+.gx-ct__r.is-dim .gx-ct__v, .gx-ct__r.is-dim .gx-ct__rel, .gx-ct__r.is-dim .gx-ct__v > span { color: var(--text-3); }
+.gx-ct__c { min-width: 0; position: relative; display: flex; align-items: center; gap: 6px; }
+.gx-ct__n { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-ct__v { display: flex; align-items: baseline; gap: 4px; min-width: 0; white-space: nowrap; overflow: hidden; }
+.gx-ct__v > b { font: 500 .8125rem/1.125rem var(--mono); }
+.gx-ct__v > span { font-size: .75rem; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; }
+.gx-ct__us > b { font-weight: 400; color: var(--text-2); }
+.gx-ct__rel { font: 500 .8125rem/1.125rem var(--mono); justify-self: end; }
+.gx-ct__l { display: flex; align-items: center; min-width: 0; }
+.gx-ct__nb { font: 400 .78125rem/1.125rem var(--mono); color: var(--text-2); justify-self: end; }
+/* узкое место (планшет, ПК с подменю уже 820): колонки уже, линия 120 */
+/* узкая карточка (ширина самой карточки, а не окна: рядом меню второго уровня): колонки уже; ещё уже — список, как на телефоне */
+@container gxchk (max-width: 860px) { .gx-ct { --cl-w: 100px; --cols: 100px 108px 108px 76px minmax(0, 1fr) var(--cl-w) 60px; } .gx-ct__h, .gx-ct__r { column-gap: 8px; } }
+.gx-mct.gx-mct--alt { display: none; }
+@container gxchk (max-width: 700px) { .gx-ct { display: none; } .gx-mct.gx-mct--alt { display: grid; } }
+
+/* ── отметка: цвет — только у подтверждённой ▲/▼ ── */
+.gx-mk { display: inline-block; min-width: 0; max-width: 100%; font-size: .78125rem; line-height: 1rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-mk--dn { color: var(--warning-text); font-weight: 500; }
+.gx-mk--up { color: var(--success-text); font-weight: 500; }
+.gx-mk--wait { color: var(--text-2); }
+
+/* ── линия звена за 30 дней (ячейка KaskadSpark): коридор «обычно», точки проверок и проб, «сейчас» — точкой справа ── */
+.gx-spark.gx-cl, .gx-cl { position: relative; display: block; flex: none; width: var(--cl-w); height: var(--cl-h); }
+.gx-cl > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.gx-cl__band { fill: var(--neutral-soft); }
+.gx-cl__l { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.gx-cl__nd { fill: none; stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 1 2.5; stroke-linecap: round; }
+.gx-cl__pt { fill: var(--text-2); }
+.gx-cl__dot { fill: var(--foreground); }
+.gx-cl__dot--dn { fill: var(--warning); }
+.gx-cl__dot--up { fill: var(--success); }
+.gx-spark.gx-cl--ph, .gx-cl--ph { --cl-w: 100%; --cl-h: 24px; width: 100%; }
+
+/* ── полоса 30 дней: цвет — по событиям, причина словами ── */
+.gx-days { position: relative; display: grid; gap: 10px; padding: 14px 16px 12px; background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-tile); min-width: 0; }
+.gx-days__h { display: flex; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; }
+.gx-days__t { font: 600 var(--fs)/1.25rem var(--font); }
+.gx-days__s { font-size: var(--fs-sm); color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-days__h > .gx-legend { margin-left: auto; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.gx-days__h > .gx-legend > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.gx-days__h > .gx-legend i { display: block; width: 10px; height: 10px; border-radius: 3px; background: var(--success); }
+.gx-days__h > .gx-legend i.is-warn { background: var(--warning); }
+.gx-days__h > .gx-legend i.is-bad { background: var(--danger); }
+.gx-days__h > .gx-legend i.is-off { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border); }
+.gx-days__row { position: relative; display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); gap: 4px; }
+.gx-day { position: relative; height: 28px; min-width: 0; padding: 0; border: 0; border-radius: 6px; background: var(--success); cursor: pointer; }
+.gx-day--warn { background: var(--warning); }
+.gx-day--fail { background: var(--danger); }
+.gx-day--none { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--border); }
+.gx-day.is-test::after { content: ""; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: var(--card-bg); }
+.gx-day[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 3.5px var(--foreground); }
+.gx-day:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.gx-days__ax { display: flex; justify-content: space-between; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); }
+/* узкое место: 15 в ряд, два ряда */
+@container gxchk (max-width: 600px) { .gx-days__row { grid-template-columns: repeat(15, minmax(0, 1fr)); } .gx-days__ax > span:not(:first-child):not(:last-child) { display: none; } }
+/* телефон: 10 в ряд, 3 ряда — шаг ≈ 33 px (WCAG 2.5.8: цель 24 px с промежутком; при 15 в ряд шаг ≈ 22 — мало,
+   REV-ns-p4b З-4); подсказка — во всю ширину над рядом */
+.gx-days--ph .gx-days__row { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
+.gx-days--ph .gx-day { height: 32px; }
+/* общий минимум кнопки телефона (44 × 44) здесь не нужен: шаг дня ≈ 33 px — цель 24 px с промежутком (WCAG 2.5.8) */
+[data-hero][data-device="phone"] .gx-day { height: 32px; min-height: 32px; min-width: 0; }
+.gx-daytip { position: absolute; z-index: 8; bottom: calc(100% + 10px); width: 330px; box-sizing: border-box; transform: translateX(-50%); display: grid; gap: 6px; padding: 10px 12px; border-radius: var(--r-field); background: var(--surface-raised); box-shadow: var(--popover-shadow), 0 0 0 1px var(--border); font: 400 .78125rem/1.0625rem var(--font); color: var(--foreground); text-align: left; pointer-events: none; }
+.gx-daytip[hidden] { display: none; }
+.gx-daytip.is-pin { pointer-events: auto; }
+.gx-daytip--r { transform: translateX(calc(-100% + 14px)); }
+.gx-daytip--l { transform: translateX(-14px); }
+.gx-days--ph .gx-daytip { width: auto; left: 0; right: 0; transform: none; }
+.gx-daytip__d { display: flex; align-items: center; gap: 8px; min-height: 16px; font: 500 .75rem/1rem var(--mono); color: var(--text-2); }
+.gx-daytip__d > i { width: 10px; height: 10px; flex: none; border-radius: 3px; background: var(--success); }
+.gx-daytip__d > i.is-warn { background: var(--warning); }
+.gx-daytip__d > i.is-fail { background: var(--danger); }
+.gx-daytip__d > i.is-none { background: var(--surface-3); }
+.gx-daytip__d > span { flex: 1; min-width: 0; }
+.gx-daytip__x { margin: -6px -6px -6px 0; }
+.gx-daytip__r { font-weight: 500; font-size: .8125rem; line-height: 1.125rem; text-wrap: pretty; }
+.gx-daytip__m { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; margin: 0; font-variant-numeric: tabular-nums; }
+.gx-daytip__k { color: var(--text-2); white-space: nowrap; }
+.gx-daytip .gx-nw { white-space: nowrap; }
+.gx-daytip__a { display: flex; gap: 8px; }
+
+/* ── телефон: строки звеньев свёрнуты, линия — под строкой во всю ширину ── */
+.gx-mct { display: grid; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); min-width: 0; }
+.gx-mct__r { display: grid; gap: 4px; padding: 9px 14px 10px; box-shadow: inset 0 1px 0 var(--separator); min-width: 0; }
+.gx-mct__r:first-child { box-shadow: none; }
+.gx-mct__r.is-dim .gx-mct__v, .gx-mct__r.is-dim .gx-mct__rel { color: var(--text-3); }
+.gx-mct__top { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.gx-mct__n { flex: 1; min-width: 0; font: 500 var(--fs)/1.25rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-mct__v { font: 500 .8125rem/1.125rem var(--mono); white-space: nowrap; }
+.gx-mct__v > span { font: 400 .75rem var(--font); color: var(--text-2); }
+.gx-mct__rel { min-width: 36px; font: 500 .8125rem/1.125rem var(--mono); text-align: right; }
+.gx-mct__s { display: flex; gap: 8px; justify-content: space-between; font-size: .78125rem; line-height: 1rem; color: var(--text-2); min-width: 0; }
+.gx-mct__s > span:first-child { white-space: nowrap; }
+[data-device="phone"] .gx-rel__n { font-size: 2.75rem; line-height: 2.75rem; }
+[data-device="phone"] .gx-rel { gap: 6px; }
+[data-device="phone"] .gx-chk__side, [data-device="phone"] .gx-chk__btns { width: 100%; }
+[data-device="phone"] .gx-chk__btns { display: grid; justify-items: start; }
+.kk-mbtn { height: 44px; }
+
+/* ── история: «от обычного» у строки ── */
+.gx-hrow__rel { flex: none; display: grid; justify-items: end; gap: 0; text-align: right; }
+.gx-hrow__rel > b { font: 600 .9375rem/1.25rem var(--mono); }
+.gx-hrow__rel > span { font-size: .71875rem; line-height: .875rem; color: var(--text-2); white-space: nowrap; }
+
+/* ── «Настройки › Проверка сервера»: порог отметок ▲/▼ (UI-C) ── */
+.kk-hcpct { display: grid; gap: 6px; max-width: 360px; }
+.kk-hcpct > .gx-hint { margin: 0; }
+
+/* ── «Поделиться» (C10; макет r1): окно 900 — превью 380 слева, настройки справа; уже 700 (планшет, лист телефона) —
+   одной колонкой, превью 326 сверху. Размер холста — только классами (CSP), пиксели холста — атрибутами width/height ── */
+.gx-sharebox { container: gxshare / inline-size; min-width: 0; }
+.gx-share { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 20px 28px; align-items: start; min-width: 0; }
+.gx-share__pv { display: grid; gap: 8px; justify-items: center; min-width: 0; }
+.gx-share__cv { display: block; width: 380px; max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 0 0 1px var(--border); background: var(--surface-2); }
+.gx-share__cap, .gx-share__k, .gx-share__note { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.gx-share__note { font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.gx-share__set { display: grid; gap: 14px; min-width: 0; }
+.gx-share__f { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.gx-share__row { display: flex; flex-wrap: wrap; gap: 12px 20px; min-width: 0; }
+.gx-share__checks { gap: 0; }
+.gx-share__checks .gx-check__i { padding: 6px 0; }
+.gx-check__i:not([aria-checked="true"]) .gx-box .gi { visibility: hidden; }
+.gx-check__i[disabled] { cursor: not-allowed; color: var(--text-3); }
+.gx-check__i:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
+.gx-share__ct { display: grid; gap: 1px; min-width: 0; }
+.gx-share__ct > small { font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.gx-share__priv { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border-radius: var(--r-field); background: var(--tile-bg); font-size: var(--fs-sm); line-height: 1.125rem; text-wrap: pretty; }
+.gx-share__priv > svg { flex: none; margin-top: 1px; color: var(--text-2); }
+.gx-share__btns { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.gx-share__done { display: flex; align-items: center; gap: 8px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.gx-share__done > svg { flex: none; color: var(--success-text); }
+.gx-share__msg { font-size: var(--fs-sm); line-height: 1.125rem; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.gx-share__first { display: grid; gap: 10px; justify-items: start; padding: 4px 0 8px; }
+.gx-share__ft { font: 600 var(--fs-h3)/1.625rem var(--font-head); }
+.gx-prog { appearance: none; -webkit-appearance: none; display: block; width: 100%; height: 6px; border: 0; border-radius: 3px; background: var(--surface-3); color: var(--accent); overflow: hidden; }
+.gx-prog::-webkit-progress-bar { background: var(--surface-3); border-radius: 3px; }
+.gx-prog::-webkit-progress-value { background: var(--accent); border-radius: 3px; }
+.gx-prog::-moz-progress-bar { background: var(--accent); border-radius: 3px; }
+@container gxshare (max-width: 700px) {
+  .gx-share { grid-template-columns: minmax(0, 1fr); }
+  .gx-share__cv { width: 326px; }
+}

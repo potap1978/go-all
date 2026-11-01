@@ -1,0 +1,17 @@
+{
+  "states": 285,
+  "checks": 570,
+  "errors": [],
+  "external": [],
+  "empty": [],
+  "small": [],
+  "overflow": [],
+  "untranslated": [
+    {
+      "s": "settings-template-empty",
+      "text": [
+        "Nothing found for “космос”"
+      ]
+    }
+  ]
+}

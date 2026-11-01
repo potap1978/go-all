@@ -1,0 +1,735 @@
+Package: fio
+Architecture: amd64
+Version: 3.28-1
+Priority: optional
+Section: universe/utils
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Martin Steigerwald <martin.steigerwald@proact.de>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 7453
+Depends: libaio1 (>= 0.3.93), libc6 (>= 2.34), libgfapi0 (>= 9.4), libibverbs1 (>= 1.1.6), libnuma1 (>= 2.0.11), libpmem1 (>= 1.5), libpmemblk1 (>= 1.4), librados2 (>= 0.79), librbd1 (>= 10.1.0), librdmacm1 (>= 1.0.15), zlib1g (>= 1:1.1.4), init-system-helpers (>= 1.51), python3
+Suggests: gnuplot, gfio, python-scipy
+Filename: pool/universe/f/fio/fio_3.28-1_amd64.deb
+Size: 4046768
+MD5sum: 5377cf9f2b428ec9bb2ffd912974edea
+SHA1: 69d49967e6566c2270b982ae810e54358bc9906b
+SHA256: 3507f4c7f41f807a0fa9388519171e64ae33b435c753b3bb9f61466d8d7c79d3
+SHA512: befe061edd656015f73d84b9e3ad812d25755ffee9663585c5a7e41998fdf664ee8d1a8d27245d9ed0d9013524fc25e8abbc40f6b1426dea34c6ea4c853edc82
+Homepage: https://github.com/axboe/fio
+Description-en: flexible I/O tester
+ fio is a tool that will spawn a number of threads or processes doing a
+ particular type of I/O action as specified by the user. fio takes a
+ number of global parameters, each inherited by the thread unless
+ otherwise parameters given to them overriding that setting is given.
+ The typical use of fio is to write a job file matching the I/O load
+ one wants to simulate.
+ .
+ This package contains the command line version of fio and all additional
+ command line tools. The package gfio contains the GTK+ based gui frontend
+ for fio.
+Description-md5: f30ba0e0abc22f20ad53eb90c2693fe2
+
+Package: libboost-iostreams1.74.0
+Architecture: amd64
+Version: 1.74.0-14ubuntu3
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: boost1.74
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian Boost Team <team+boost@tracker.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 2137
+Depends: libbz2-1.0, libc6 (>= 2.33), libgcc-s1 (>= 3.3.1), liblzma5 (>= 5.2.2), libstdc++6 (>= 5.2), libzstd1 (>= 1.4.0), zlib1g (>= 1:1.1.4)
+Filename: pool/main/b/boost1.74/libboost-iostreams1.74.0_1.74.0-14ubuntu3_amd64.deb
+Size: 245050
+MD5sum: b98f4f7b008b8d500ebd04f8f4384786
+SHA1: 29d5ae6445c816aee3f519e34e56bb88b038713a
+SHA256: 144d169144544d103beba7da13b6d21d6bf4335d58e753aa91bf654b4b8f39ca
+SHA512: 37bf734ed05e24f44e8d5fff8d47db8a6bc06f2b5acd552205bf2b71c1d109eca14438fd86585beab0148db841ceb86dd2b616904143c538ed4a3c319c7bd0f1
+Homepage: http://www.boost.org/libs/iostreams/
+Description-en: Boost.Iostreams Library
+ This package forms part of the Boost C++ Libraries collection.
+ .
+ Boost.Iostreams are a collection of concepts and a set of templates
+ which turn models of these concepts into C++ standard library streams
+ and stream buffers.
+Description-md5: 3c388d3a296c3c5ceb93d6073902d96e
+Task: samba-server, ubuntu-desktop, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-raspi, kubuntu-desktop, kubuntu-full, xubuntu-desktop, lubuntu-desktop, ubuntustudio-desktop, ubuntukylin-desktop, ubuntu-mate-desktop, ubuntu-budgie-desktop, ubuntu-budgie-desktop-raspi
+
+Package: libboost-thread1.74.0
+Architecture: amd64
+Version: 1.74.0-14ubuntu3
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: boost1.74
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian Boost Team <team+boost@tracker.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 2177
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.3.1), libstdc++6 (>= 5.2)
+Filename: pool/main/b/boost1.74/libboost-thread1.74.0_1.74.0-14ubuntu3_amd64.deb
+Size: 261992
+MD5sum: dcd15b0fc5faf3df9eca1d4a6042c6bf
+SHA1: 522483c77b87da548b127bcea309e289035bbb6f
+SHA256: 9a85e6397b9f6d22c76576cf134b3e9b88cdb81a87b64da3f8bd52fcc5c01b70
+SHA512: e65a520a51afb3a0e556767dcc376fd7d0e70af652387e27c1c1c039bd359b15c2789fc55bd63b8034c77abcb854bb8b6553be6a92197c7f5d29845cbc0f4f1e
+Homepage: http://www.boost.org/libs/thread/
+Description-en: portable C++ multi-threading
+ This package forms part of the Boost C++ Libraries collection.
+ .
+ Toolkit for writing C++ programs that execute as multiple,
+ asynchronous, independent, threads-of-execution. Each thread has its
+ own machine state including program instruction counter and
+ registers.
+Description-md5: d19954bb99722597efd2b9b392158287
+Task: samba-server, ubuntu-desktop, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-default-languages, ubuntu-desktop-raspi, kubuntu-desktop, kubuntu-full, xubuntu-desktop, lubuntu-desktop, ubuntustudio-desktop, ubuntukylin-desktop, ubuntu-mate-desktop, ubuntu-budgie-desktop, ubuntu-budgie-desktop-raspi
+
+Package: libdaxctl1
+Architecture: amd64
+Version: 72.1-1
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: ndctl
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Adam Borowski <kilobyte@angband.pl>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 70
+Depends: libc6 (>= 2.33), libkmod2 (>= 5~), libuuid1 (>= 2.16)
+Filename: pool/main/n/ndctl/libdaxctl1_72.1-1_amd64.deb
+Size: 19806
+MD5sum: 1b342a894fb797151b52a172d92f4697
+SHA1: 33408886322f23f5078c108f2ef3d635c4068bbb
+SHA256: acf0237b4953751a0618c5479ee8220c2bc2b356f7551ee5bc70c7e9946228d9
+SHA512: 755d51b67d91bbd078fa8970703d85b79da435320c4f7d00981464928d0c7a9e3af7bb36c196d129823b98e2e42e2dc0e7ce68771410e6001e1b66df819a2c83
+Homepage: https://github.com/pmem/ndctl
+Description-en: Utility library for managing the device DAX subsystem
+ "DAX" are file system extensions to bypass the page cache and block layer to
+ mmap persistent memory, from a PMEM block device, directly into a process
+ address space.
+ .
+ This package contains a utility library used by applications to manage the
+ device DAX subsystem in the Linux kernel.
+Description-md5: 44c269b2e614e26ce7422da331a94574
+Task: ubuntu-desktop-raspi
+
+Package: libgfapi0
+Source: glusterfs
+Priority: optional
+Section: libs
+Installed-Size: 238
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 10.1-1ubuntu0.2
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libacl1 (>= 2.2.23), libc6 (>= 2.14), libgfrpc0 (>= 10.1), libgfxdr0 (>= 10.1), libglusterfs0 (>= 10.1), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Filename: pool/main/g/glusterfs/libgfapi0_10.1-1ubuntu0.2_amd64.deb
+Size: 77332
+MD5sum: 62297d565fc87c119a3973df959eaf53
+SHA1: 65551b096f1dbfa631e34d3239345dd663abe6f3
+SHA256: 2b6ed9a088237022ce64f386b7af4df70551bf2dd920618cd69346a16037e749
+SHA512: 6be20e9044c9684cb4f7d4cbf954cb67069e77f0e92f3295f9746304e3b5e849a2e942dc66e0cce23c3c93fd40d9fe29549d4dd285b7d2bcb6110ab58c5c92c7
+Homepage: https://www.gluster.org/
+Description-en: GlusterFS gfapi shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfapi.
+Description-md5: edffee8ca1e4977be0a0d6b9f001a84c
+Multi-Arch: same
+Original-Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: libgfrpc0
+Source: glusterfs
+Priority: optional
+Section: libs
+Installed-Size: 275
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 10.1-1ubuntu0.2
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.34), libgfxdr0 (>= 10.1), libglusterfs0 (>= 10.1), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Filename: pool/main/g/glusterfs/libgfrpc0_10.1-1ubuntu0.2_amd64.deb
+Size: 47100
+MD5sum: dc6959ed50b740e4b296be7efecd1287
+SHA1: 23e378e72b7b1b1f191a086f872c250c642c5385
+SHA256: a0b6783229c30a80075baee2eeb54331aac3b89663399481fcafee6b696a519a
+SHA512: 9fec14269d8d3b19aa3a021f4b8c07cae5b3cd9100eb307c9af3a289eb8e00e2523b3cd3218d8250e57eacb15361e3bc91b285b07b2a4a93afcf3349ed9a945f
+Homepage: https://www.gluster.org/
+Description-en: GlusterFS libgfrpc shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfrpc.
+Description-md5: d47fa58e2d0da397c0a3c33911dff007
+Multi-Arch: same
+Original-Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: libgfxdr0
+Source: glusterfs
+Priority: optional
+Section: libs
+Installed-Size: 113
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 10.1-1ubuntu0.2
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.4), libtirpc3 (>= 1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Filename: pool/main/g/glusterfs/libgfxdr0_10.1-1ubuntu0.2_amd64.deb
+Size: 22280
+MD5sum: f92ebc914cf4133e268e25fe3cbb0e0f
+SHA1: 15e4cb02fc5bf0c933eefd90b972f5caaef3c2f9
+SHA256: 7841b557a37ff0aba8c79bb6134d29982a74c8c624f51c9a1b043974f0b2fd46
+SHA512: 815819939e99c8eaf09d5685359162fdd1c734697b190c7bf4e6e0a4e1411913b7116725d473fce7df5c110c9a2d42c3b5070788d46c4cb90bb1c3f9fcc8010f
+Homepage: https://www.gluster.org/
+Description-en: GlusterFS libgfxdr shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libgfxdr.
+Description-md5: 59ddba6c67b08fc59cb4cedf967b0942
+Multi-Arch: same
+Original-Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: libglusterfs0
+Source: glusterfs
+Priority: optional
+Section: libs
+Installed-Size: 949
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 10.1-1ubuntu0.2
+Replaces: glusterfs-common (<< 5.2-2)
+Depends: libc6 (>= 2.34), libssl3 (>= 3.0.0~~alpha1), libuuid1 (>= 2.16), zlib1g (>= 1:1.1.4)
+Breaks: glusterfs-common (<< 5.2-2)
+Filename: pool/main/g/glusterfs/libglusterfs0_10.1-1ubuntu0.2_amd64.deb
+Size: 286740
+MD5sum: 16e806323d4ceb9a6df35f086413e291
+SHA1: 23d024d76fb51cb73d5d5e0c707757003ff3a9ad
+SHA256: 1bd06268c3f1729a948151a593c8f3659137ee20c971e524e838d0e1e424e06f
+SHA512: 8ec7b725227d758f2dc2fb09ec8a92f64524dbddb3cb8a09ef5501692ce2330bdfe28eb7ef31f8c7070dcaaca8201231aead3372313404b3b643ae48353f176e
+Homepage: https://www.gluster.org/
+Description-en: GlusterFS shared library
+ GlusterFS is a clustered file-system capable of scaling to several
+ petabytes. It aggregates various storage bricks over Infiniband RDMA
+ or TCP/IP interconnect into one large parallel network file
+ system. GlusterFS is one of the most sophisticated file system in
+ terms of features and extensibility. It borrows a powerful concept
+ called Translators from GNU Hurd kernel. Much of the code in GlusterFS
+ is in userspace and easily manageable.
+ .
+ This package contains libglusterfs.
+Description-md5: e193712a1326598b9106f58e985f3ef9
+Multi-Arch: same
+Original-Maintainer: Patrick Matthäi <pmatthaei@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: libibverbs1
+Architecture: amd64
+Version: 39.0-1
+Multi-Arch: same
+Priority: extra
+Section: libs
+Source: rdma-core
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Benjamin Drung <benjamin.drung@ionos.com>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 198
+Depends: adduser, libc6 (>= 2.34), libnl-3-200 (>= 3.2.7), libnl-route-3-200 (>= 3.2.7)
+Recommends: ibverbs-providers
+Breaks: ibverbs-providers (<< 34~)
+Filename: pool/main/r/rdma-core/libibverbs1_39.0-1_amd64.deb
+Size: 69304
+MD5sum: 8a223d8853f7e9f583e91ef13d43a4f9
+SHA1: 0deba5ee89d2851283ec1f9afc26427b14bc53c5
+SHA256: 4926967621a9be88934d012f3cf5a1cb52a1ea0a99fd13b0f0a6fe27891e35dc
+SHA512: 1265f0a737762a150df5d68ea7b38b8f2018a0a8c9a8d6558700f77af5e5f95ae42dbd454e9d3c001344ddf38a7b9099e9e2510cfcb46efc2dd66b6b597970d3
+Homepage: https://github.com/linux-rdma/rdma-core
+Description-en: Library for direct userspace use of RDMA (InfiniBand/iWARP)
+ libibverbs is a library that allows userspace processes to use RDMA
+ "verbs" as described in the InfiniBand Architecture Specification and
+ the RDMA Protocol Verbs Specification.  iWARP ethernet NICs support
+ RDMA over hardware-offloaded TCP/IP, while InfiniBand is a
+ high-throughput, low-latency networking technology.  InfiniBand host
+ channel adapters (HCAs) and iWARP NICs commonly support direct
+ hardware access from userspace (kernel bypass), and libibverbs
+ supports this when available.
+ .
+ For this library to be useful, a device-specific plug-in module
+ should also be installed.
+ .
+ This package contains the shared library.
+Description-md5: 8cdb9c883867c94335417ed5085d7667
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: libluajit-5.1-2
+Source: luajit
+Priority: optional
+Section: universe/interpreters
+Installed-Size: 551
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 2.1.0~beta3+dfsg-6ubuntu0.1
+Depends: libluajit-5.1-common (= 2.1.0~beta3+dfsg-6ubuntu0.1), libc6 (>= 2.34), libgcc-s1 (>= 3.3)
+Filename: pool/universe/l/luajit/libluajit-5.1-2_2.1.0~beta3+dfsg-6ubuntu0.1_amd64.deb
+Size: 255790
+MD5sum: 292fc38a5345591e8b5caf120643fa5b
+SHA1: f026138365e323779cdb8042fd23d6acad168e97
+SHA256: 6da782a03320555016f0d74a0ec76f3f2845e188b21c640b130dfb804e527228
+SHA512: 2d03a0fff53e1a6d29fb5cb1e67004e66d1ac606d78872e963f56ddb728eda6b6e33566255eb1207d494114858f1b8f1f9cc84de5da74114980acdd63835c6c5
+Homepage: http://luajit.org
+Description-en: Just in time compiler for Lua - library version
+ LuaJIT implements the full set of language features defined by Lua 5.1. The
+ virtual machine (VM) is API- and ABI-compatible to the standard Lua interpreter
+ and can be deployed as a drop-in replacement.
+ .
+ This package contains an embeddable version of LuaJIT that can be used as a
+ replacement of the standard liblua-5.1 shared library.
+Description-md5: 0e3967cc6a80ad8e644afcbfb38fdf19
+Multi-Arch: same
+Original-Maintainer: Enrico Tassi <gareuselesinge@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: ubuntustudio-video
+
+Package: libluajit-5.1-common
+Source: luajit
+Priority: optional
+Section: universe/interpreters
+Installed-Size: 206
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: all
+Version: 2.1.0~beta3+dfsg-6ubuntu0.1
+Filename: pool/universe/l/luajit/libluajit-5.1-common_2.1.0~beta3+dfsg-6ubuntu0.1_all.deb
+Size: 46596
+MD5sum: 83a147a084f12845cfa736e9348ea172
+SHA1: 862a3617cdc1d201b12e2fbe0d80aebc07173a16
+SHA256: 9733c3a9c8b6ac2770cecca73adab924238f21e612e17978ff1f85d0066689d4
+SHA512: 6ef2aef7eb1722efb889c6f5fede8d4b5eeddaa86b70d77a2404a587c40674b6518a006442174ad7084bc35a9fdba61a009f361231cf08cf2eaaebfe647916a6
+Homepage: http://luajit.org
+Description-en: Just in time compiler for Lua - common files
+ This package contains files needed by the LuaJIT interpreter/jitter as well
+ by its embeddable (i.e. library) version.
+Description-md5: e81863fc0e192bfb068911ecbcd28827
+Multi-Arch: foreign
+Original-Maintainer: Enrico Tassi <gareuselesinge@debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: ubuntustudio-video
+
+Package: libmysqlclient21
+Source: mysql-8.0
+Priority: optional
+Section: libs
+Installed-Size: 6733
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 8.0.46-0ubuntu0.22.04.4
+Depends: mysql-common (>= 5.5), libc6 (>= 2.34), libgcc-s1 (>= 3.4), libssl3 (>= 3.0.0~~alpha1), libstdc++6 (>= 11), libzstd1 (>= 1.4.0)
+Filename: pool/main/m/mysql-8.0/libmysqlclient21_8.0.46-0ubuntu0.22.04.4_amd64.deb
+Size: 1336180
+MD5sum: bfbdffc76379f9958524221530c40764
+SHA1: f7e46bba828695c4e5d02096b6b950e99a2e7537
+SHA256: ad7b6f491ca0f41fe9651ff03b39576c12d08d57417b575cc3b36a3fc493b815
+SHA512: 61a4e2428a9fcdeb8cc0f17a85378e97949526c7af8785791f8a0fe432548c7d6beef15bd024ce8f4a7574cfd0073a5611fd24c94ae9d221131635e0d597e8ee
+Homepage: http://dev.mysql.com/
+Description-en: MySQL database client library
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the client library.
+Description-md5: 49de807663510f5f2afd3e71efe199f1
+Multi-Arch: same
+Original-Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: ubuntustudio-video, ubuntustudio-photography, ubuntustudio-graphics, ubuntustudio-publishing, ubuntukylin-desktop
+
+Package: libndctl6
+Architecture: amd64
+Version: 72.1-1
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: ndctl
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Adam Borowski <kilobyte@angband.pl>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 190
+Depends: libc6 (>= 2.33), libdaxctl1 (>= 72), libkmod2 (>= 5~), libudev1 (>= 183), libuuid1 (>= 2.16)
+Filename: pool/main/n/ndctl/libndctl6_72.1-1_amd64.deb
+Size: 57676
+MD5sum: 6ad5bb8e8d5886b66cb4f85e1aa91f85
+SHA1: eedb9745f46dcf7826c8e4151e47927ecddcb04e
+SHA256: 32c064c1760dff9fcaacae1d1774960e3c86c16384c0da243a2173b75b9d6fce
+SHA512: 8c1ed7410f9b5d05bd50d5b1ac9908c462e456c6c8a4064a210026d39f9df11e5af84c1c4534ca860dd61b3f187b24d7e37f8d2808a49d3e35c10ef2d2ed3cd9
+Homepage: https://github.com/pmem/ndctl
+Description-en: Utility library for managing the libnvdimm subsystem
+ The nvdimm subsystem defines a kernel device model and control message
+ interface for platform NVDIMM resources like those defined by the ACPI 6+ NFIT
+ (NVDIMM Firmware Interface Table).
+ .
+ This package contains a utility library for managing the libnvdimm
+ (non-volatile memory device) sub-system in the Linux kernel.
+Description-md5: be101c95ae8ae0ae3c6321dc3c812536
+Task: ubuntu-desktop-raspi
+
+Package: libnl-route-3-200
+Architecture: amd64
+Version: 3.5.0-0.1
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: libnl3
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Heiko Stuebner <mmind@debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 583
+Depends: libnl-3-200 (= 3.5.0-0.1), libc6 (>= 2.34)
+Filename: pool/main/libn/libnl3/libnl-route-3-200_3.5.0-0.1_amd64.deb
+Size: 179554
+MD5sum: 35802fcca0e6f3a0b4c95547fdbb7bf5
+SHA1: 3b232941802e68be9c8d3fb529da18078cc9f479
+SHA256: 781291056f30ff840fa99c7c23731836355852889c87f2d530a910e5b4e33abe
+SHA512: 8c8b19c2e9ef86ec11b188a9e99f771b63bde9f4a51b090d757c8d860355637dd1e4a6b83548a1772e4ae5a1d6257f1e958923cf130566e58c0db40767ecd574
+Homepage: http://www.infradead.org/~tgr/libnl/
+Description-en: library for dealing with netlink sockets - route interface
+ This is a library for applications dealing with netlink sockets.
+ The library provides an interface for raw netlink messaging and various
+ netlink family specific interfaces.
+ .
+ API to the configuration interfaces of the NETLINK_ROUTE family.
+Description-md5: 00e1d8b59623c24502ade39580e576f8
+Task: ubuntu-desktop-minimal, samba-server, ubuntu-desktop, ubuntu-desktop-raspi, ubuntu-desktop-raspi, ubuntu-server-raspi, kubuntu-desktop, xubuntu-core, xubuntu-desktop, lubuntu-desktop, ubuntustudio-desktop-core, ubuntustudio-desktop, ubuntukylin-desktop, ubuntu-mate-core, ubuntu-mate-desktop, ubuntu-budgie-desktop, ubuntu-budgie-desktop-raspi, ubuntu-budgie-desktop-raspi
+
+Package: libpmem1
+Architecture: amd64
+Version: 1.11.1-3build1
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: pmdk
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Adam Borowski <kilobyte@angband.pl>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 357
+Depends: libc6 (>= 2.34), libdaxctl1 (>= 64), libndctl6 (>= 64)
+Filename: pool/main/p/pmdk/libpmem1_1.11.1-3build1_amd64.deb
+Size: 81392
+MD5sum: 7065dbc42e3a5e6b210a3b85e9a24bd2
+SHA1: 352d3ecbc83cfab6aeb1bf887c600c64ee413e83
+SHA256: 6824ba30ec4bc8a84ab81a3cd3332666db4570031ab276f3e169dead28a98a93
+SHA512: d18d086e8a8fec43cc176c817c4f81d892538c6f1777dffe5953a7b0f776bde91045da153c488e628fd9e04bab654a59de1bbdd575d632abafac6174368c8f02
+Homepage: https://pmem.io/pmdk/
+Description-en: Persistent Memory low level support library, v1 runtime
+ libpmem provides low level persistent memory support.  In particular, support
+ for the persistent memory instructions for flushing changes to pmem is
+ provided.
+ .
+ This library is provided for software which tracks every store to pmem and
+ needs to flush those changes to durability.  Most developers will find higher
+ level libraries like libpmemobj to be much more convenient.
+ .
+ This package provides binary runtime for version 1 of the API.
+Description-md5: 73d7d685c14a96e83a0950f1fdc74bbc
+Task: ubuntu-desktop-raspi
+
+Package: libpmemblk1
+Architecture: amd64
+Version: 1.11.1-3build1
+Multi-Arch: same
+Priority: optional
+Section: universe/libs
+Source: pmdk
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Adam Borowski <kilobyte@angband.pl>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 177
+Depends: libpmem1 (= 1.11.1-3build1), libc6 (>= 2.34), libdaxctl1 (>= 64), libndctl6 (>= 64)
+Filename: pool/universe/p/pmdk/libpmemblk1_1.11.1-3build1_amd64.deb
+Size: 65616
+MD5sum: 1f33fcb9b15c6bb5b1c7e16972213089
+SHA1: d2f464b5baaf75c804d724da53890bb5b53d88a8
+SHA256: 42751a545efd24ea2ead3254b53b6055b4a15ad96226fee3b423d1e4b1d3b929
+SHA512: f62480be0af36100b7078099951ba66b47f4c13b8c9204ee5cf8bd13b63af7309f6c4bfce0c8178c580a62e88682acd7292138717c138ab5bf30bc2bc47c038a
+Homepage: https://pmem.io/pmdk/
+Description-en: Persistent Memory block array support library
+ libpmemblk implements a pmem-resident array of blocks, all the same size, where
+ a block is updated atomically with respect to power failure or program
+ interruption (no torn blocks).
+ .
+ This library is provided for cases requiring large arrays of objects at least
+ 512 bytes each.  Most developers will find higher level libraries like
+ libpmemobj to be more generally useful.
+Description-md5: 3873d4fafd81a68a50d94cab692b4040
+
+Package: libpmemobj1
+Architecture: amd64
+Version: 1.11.1-3build1
+Multi-Arch: same
+Priority: optional
+Section: libs
+Source: pmdk
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Adam Borowski <kilobyte@angband.pl>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 325
+Depends: libpmem1 (= 1.11.1-3build1), libc6 (>= 2.34), libdaxctl1 (>= 64), libndctl6 (>= 64)
+Filename: pool/main/p/pmdk/libpmemobj1_1.11.1-3build1_amd64.deb
+Size: 123994
+MD5sum: ecd79426bf8d8f97994564f5ddc0ab22
+SHA1: c617705b8f651b015f8ab7abbd2f4c361575f859
+SHA256: 404e05b4cac9639172b2af5ab8c3dee863f561cebe158720b880ae8a5001e934
+SHA512: fd302d19b34614f1a8649c2efd43cd22e319f28a649dd2f263c35efe8c8dffcecc246b393042f61e6b4241e987ea45e579c0e6a37a257a325aeb5bf05f3d06d9
+Homepage: https://pmem.io/pmdk/
+Description-en: Persistent Memory object store support library
+ libpmemobj turns a persistent memory file into a flexible object store,
+ supporting transactions, memory management, locking, lists, and a number of
+ other features.
+Description-md5: 7ba84bd5e05127b370be21b770e51e73
+Task: ubuntu-desktop-raspi
+
+Package: libpq5
+Source: postgresql-14
+Priority: optional
+Section: libs
+Installed-Size: 432
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 14.24-0ubuntu0.22.04.1
+Depends: libc6 (>= 2.33), libgssapi-krb5-2 (>= 1.17), libldap-2.5-0 (>= 2.5.4), libssl3 (>= 3.0.0~~alpha1)
+Filename: pool/main/p/postgresql-14/libpq5_14.24-0ubuntu0.22.04.1_amd64.deb
+Size: 157116
+MD5sum: 08c655c91fcdea7b4b094446692da4e3
+SHA1: 906933b2f2bab1d8ab41ffca559784f5f3dfc747
+SHA256: 79f9af127350c5bbf4c1722ebc4aa7d31ae4fd71b0404e501f7a76ed65709e0d
+SHA512: 2d036d6959d47cb3495f95be2f9883f7280e9c7eefec3318973b355afcbfb54cd960226b75231468a14e879b874f25220ea750dd84aa67570136a0283bfa2ad2
+Homepage: http://www.postgresql.org/
+Description-en: PostgreSQL C client library
+ libpq is a C library that enables user programs to communicate with
+ the PostgreSQL database server.  The server can be on another machine
+ and accessed through TCP/IP.  This version of libpq is compatible
+ with servers from PostgreSQL 8.2 or later.
+ .
+ This package contains the run-time library, needed by packages using
+ libpq.
+ .
+ PostgreSQL is an object-relational SQL database management system.
+Description-md5: 4109d08c168c8058d09c0cc8bf8b18b1
+Multi-Arch: same
+Original-Maintainer: Debian PostgreSQL Maintainers <team+postgresql@tracker.debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: postgresql-server, ubuntustudio-video, ubuntustudio-photography, ubuntustudio-graphics, ubuntustudio-publishing, ubuntukylin-desktop
+
+Package: librados2
+Source: ceph
+Priority: optional
+Section: libs
+Installed-Size: 14201
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 17.2.9-0ubuntu0.22.04.4
+Replaces: librados, librados1
+Depends: libblkid1 (>= 2.17.2), libboost-iostreams1.74.0 (>= 1.74.0), libboost-thread1.74.0 (>= 1.74.0), libc6 (>= 2.34), libgcc-s1 (>= 3.4), libibverbs1 (>= 1.1.6), librdmacm1 (>= 1.0.15), libssl3 (>= 3.0.0~~alpha1), libstdc++6 (>= 12), libudev1 (>= 183)
+Conflicts: librados, librados1
+Filename: pool/main/c/ceph/librados2_17.2.9-0ubuntu0.22.04.4_amd64.deb
+Size: 3602622
+MD5sum: a95c09d1ecd15a6ef9f3e9088f67a0b2
+SHA1: 8462145b80301fa0b3005cca1edf7af1e497525d
+SHA256: 015d52270b1204b9134fa39c912c8d8da4c3dadea616daaced181f0080c8622e
+SHA512: 68bfc6e894790a827cf73c259c51fc64a3afe4caed473a72a4fb66762c93f7b71dafe635752575196224a3915302498c560212ab988fd6f436724605bd77538e
+Homepage: http://ceph.com/
+Description-en: RADOS distributed object store client library
+ RADOS is a reliable, autonomic distributed object storage cluster
+ developed as part of the Ceph distributed storage system.  This is a
+ shared library allowing applications to access the distributed object
+ store using a simple file-like interface.
+Description-md5: 42d0f393b45b7f226597be77c6f81917
+Original-Maintainer: Ceph Packaging Team <team+ceph@tracker.debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: librbd1
+Source: ceph
+Priority: optional
+Section: libs
+Installed-Size: 14358
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 17.2.9-0ubuntu0.22.04.4
+Depends: librados2 (= 17.2.9-0ubuntu0.22.04.4), libaio1 (>= 0.3.93), libc6 (>= 2.34), libcryptsetup12 (>= 2:2.4), libgcc-s1 (>= 3.4), libnuma1 (>= 2.0.11), libpmem1 (>= 1.4), libpmemobj1 (>= 1.8), libssl3 (>= 3.0.0~~alpha1), libstdc++6 (>= 12), libuuid1 (>= 2.16)
+Filename: pool/main/c/ceph/librbd1_17.2.9-0ubuntu0.22.04.4_amd64.deb
+Size: 3557720
+MD5sum: b66ff7885def8aa4cec6f748dc0cc2ce
+SHA1: 9e771d2777f54014ee5e40c782e1d7e07e8cefab
+SHA256: f9b8d53121f6584ef8ffcdc3e608ccd25a46b50c18236d7f108453d06e4a0462
+SHA512: 205d1603f00aebc45f92e15508a0ca4d8e20ace55df47ce9a76e70b26b19019c0c83c88eb440ae8e122cc640f7ad124f2fcf7317bbc40a7dfb04bd85ea9d49ab
+Homepage: http://ceph.com/
+Description-en: RADOS block device client library
+ RBD is a block device striped across multiple distributed objects
+ in RADOS, a reliable, autonomic distributed object storage cluster
+ developed as part of the Ceph distributed storage system.  This is a
+ shared library allowing applications to manage these block devices.
+Description-md5: 3b39955e1c12f7ad8d4c44efcc8ec188
+Original-Maintainer: Ceph Packaging Team <team+ceph@tracker.debian.org>
+Origin: Ubuntu
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Task: ubuntu-desktop-raspi
+
+Package: librdmacm1
+Architecture: amd64
+Version: 39.0-1
+Multi-Arch: same
+Priority: extra
+Section: libs
+Source: rdma-core
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Benjamin Drung <benjamin.drung@ionos.com>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 209
+Depends: libc6 (>= 2.34), libibverbs1 (>= 31), libnl-3-200 (>= 3.2.7)
+Filename: pool/main/r/rdma-core/librdmacm1_39.0-1_amd64.deb
+Size: 71226
+MD5sum: ed35a9e8e42b107bbe4c331683bbf8f7
+SHA1: afb47367dfe3457f5b25de3e948cb322644a8eaf
+SHA256: 0d842f1cb86345b8611153a448b3253fd490e7fa88c436055ef8af2f715b792f
+SHA512: 5195f91db58e5dda8adbf690ec5c133f81a3b89b5455f70f11521f145512e01c5d7c14bb32e1bce826d440c816abd3a58dd1a5439e0764351398394697f4d7f2
+Homepage: https://github.com/linux-rdma/rdma-core
+Description-en: Library for managing RDMA connections
+ librdmacm is a library that allows applications to set up reliable
+ connected and unreliable datagram transfers when using RDMA adapters.
+ It provides a transport-neutral interface in the sense that the same
+ code can be used for both InfiniBand and iWARP adapters.  The
+ interface is based on sockets, but adapted for queue pair (QP) based
+ semantics: communication must use a specific RDMA device, and data
+ transfers are message-based.
+ .
+ librdmacm only provides communication management (connection setup
+ and tear-down) and works in conjunction with the verbs interface
+ provided by libibverbs, which provides the interface used to actually
+ transfer data.
+ .
+ This package contains the shared library.
+Description-md5: dc9d0886ecf59fc604b978f8125cf804
+Task: samba-server, ubuntu-desktop-raspi, ubuntukylin-desktop
+
+Package: mysql-common
+Architecture: all
+Version: 5.8+1.0.8
+Multi-Arch: foreign
+Priority: optional
+Section: database
+Source: mysql-defaults (1.0.8)
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian MySQL Maintainers <pkg-mysql-maint@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 34
+Provides: mysql-common-5.6
+Conflicts: mariadb-server-5.5, mysql-common-5.6, mysql-server-5.5, percona-xtradb-cluster-common-5.5
+Breaks: mariadb-common (<< 10.0.20-3~)
+Replaces: mariadb-server-5.5, mysql-common-5.6, mysql-server-5.5, percona-xtradb-cluster-common-5.5
+Filename: pool/main/m/mysql-defaults/mysql-common_5.8+1.0.8_all.deb
+Size: 7212
+MD5sum: 9844a102d264bb4f2457cc2eee5779d6
+SHA1: ee85608995ef784ba95f2f345e9b3a42ff514b26
+SHA256: 1e4e9c090c71333a6f83c2d3021866e77a21df914cd2af40bf2892054f97ed35
+SHA512: ccf5140192e080ec156d8061a505abf42d1d7964e9fba47bcad8460903a2443baffcdfaa38093658eb9307196f91b2b5f47ae1d03e0c28b6b32554e201598bf7
+Description-en: MySQL database common files, e.g. /etc/mysql/my.cnf
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes files needed by all versions of the client library,
+ e.g. /etc/mysql/my.cnf.
+Description-md5: 562d254c602f89e4390e28f6362283c8
+Task: lamp-server, ubuntustudio-video, ubuntustudio-photography, ubuntustudio-graphics, ubuntustudio-publishing, ubuntukylin-desktop
+
+Package: sysbench
+Architecture: amd64
+Version: 1.0.20+ds-2
+Priority: extra
+Section: universe/misc
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Jeroen Ploemen <jcfp@debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 355
+Depends: libaio1 (>= 0.3.93), libc6 (>= 2.34), libluajit-5.1-2 (>= 2.0.4+dfsg), libmysqlclient21 (>= 8.0.11), libpq5
+Filename: pool/universe/s/sysbench/sysbench_1.0.20+ds-2_amd64.deb
+Size: 120122
+MD5sum: 7b2373f25a99ee58e7603bd182e831bc
+SHA1: 6a6487132fdc148c2829de8be5ce47a61554a0e3
+SHA256: 0a18e23d679417305ffd7206dcd75bfc933a606cc01a0052de6b311e95de5251
+SHA512: a038f7e103ece8a74a45d94cd527ee596602dc604c95b84ee6139c2339e408a583e690ec664af074f633e8ecd1dffcbedfea5a17aae33bf2c4f965cf1af88a99
+Homepage: https://github.com/akopytov/sysbench
+Description-en: multi-threaded benchmark tool for database systems
+ SysBench is a modular, scriptable and multi-threaded benchmark tool based on
+ LuaJIT. It is most frequently used for database benchmarks, but can also be
+ used to create arbitrarily complex workloads that do not involve a database
+ server.
+ .
+ The idea of this benchmark suite is to quickly get an impression about system
+ performance without setting up complex database benchmarks or even without
+ installing a database at all.
+ .
+ Current features allow one to test the following system parameters:
+ .
+  * file I/O performance
+  * scheduler performance
+  * memory allocation and transfer speed
+  * POSIX threads implementation performance
+  * database server performance (OLTP benchmark)
+ .
+ Primarily written for MySQL server benchmarking, SysBench will be further
+ extended to support multiple database backends, distributed benchmarks and
+ third-party plug-in modules.
+Description-md5: f113fb69f045f8b51395ef969a654607
+

@@ -1,0 +1,10 @@
+{
+ "gw_hooks.bad_action": "the hook action must be up or down, not {action}",
+ "gw_hooks.bad_identity": "invalid client name {identity}",
+ "gw_hooks.bad_ip": "a client IPv4 address is needed, not {ip}",
+ "gw_hooks.bad_kind": "unknown inbound {kind}",
+ "gw_hooks.log.unknown_client": "GW hook: {kind} connected an unknown client {identity} ({ip}) — the address isn’t let through",
+ "gw_hooks.outside_base": "address {ip} is outside the gateway network {base}",
+ "gw_hooks.outside_subnet": "address {ip} isn’t in the subnet of the {kind} inbound ({subnet})",
+ "gw_hooks.log.ru_failed": "GW hook: the Russian sets of {ip} were not written — the address stays closed until the next round of the gateway"
+}

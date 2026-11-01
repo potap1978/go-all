@@ -1,0 +1,51 @@
+# ── веб-панель: подменю ─────────────────────────────────────────────
+webui_menu_install	Установить / обновить панель	Install / update the panel
+webui_menu_access	Показать адрес и токен	Show address and token
+webui_menu_restart	Перезапустить панель	Restart the panel
+webui_menu_newpath	Новый секретный путь панели	New secret panel path
+webui_menu_remove	Снять панель	Remove the panel
+webui_remove_ask	Снять веб-панель? Адрес и токен сохранятся для повторной установки.	Remove the web panel? The address and token are kept for reinstall.
+# ── веб-панель: установка ───────────────────────────────────────────
+webui_need_python	Нужен python3 — на целевых образах Ubuntu он есть всегда	python3 is required — every target Ubuntu image ships it
+webui_src_missing	Файлы панели не найдены: %s	Panel files not found: %s
+webui_no_free_port	Не нашлось свободного порта для панели	No free port available for the panel
+webui_path_failed	Не удалось сгенерировать секретный путь	Failed to generate a secret path
+webui_copy_failed	Не удалось разложить файлы панели в %s	Failed to copy panel files into %s
+webui_token_failed	Не удалось создать токен аварийного входа	Failed to create the emergency access token
+webui_unit_failed	Не удалось записать systemd-юнит панели	Failed to write the panel systemd unit
+webui_start_failed	Служба панели не запустилась — journalctl -u godns-web	Panel service failed to start — journalctl -u godns-web
+webui_no_cert_warn	Домена и сертификата ещё нет: панель доступна только через SSH-туннель	No domain or certificate yet: the panel is reachable only via SSH tunnel
+webui_installed_ok	Веб-панель установлена и запущена	Web panel installed and running
+webui_removed	Веб-панель снята: служба остановлена, юнит и файлы удалены	Web panel removed: service stopped, unit and files deleted
+webui_not_installed	Панель не установлена	Panel is not installed
+webui_restarted	Панель перезапущена	Panel restarted
+webui_restart_failed	Панель не перезапустилась — journalctl -u godns-web	Panel failed to restart — journalctl -u godns-web
+webui_panel_newpath_ok	Новый адрес панели: %s	New panel address: %s
+# ── веб-панель: доступ ──────────────────────────────────────────────
+webui_access_title	Веб-панель — как войти	Web panel — how to sign in
+webui_access_url	Адрес	Address
+webui_access_url_none	появится после выбора домена и установки панели	appears after a domain is chosen and the panel installed
+webui_access_tunnel	SSH-туннель	SSH tunnel
+webui_access_local	Локально	Local
+webui_access_code_hint	Из браузера по адресу: код входа придёт в Telegram админам бота (5 минут, одноразовый)	From a browser at the address: a sign-in code goes to the bot admins in Telegram (5 minutes, single-use)
+webui_access_miniapp_hint	Из мини-аппа Telegram вход по подписи — код не нужен	From the Telegram mini app the signature signs you in — no code needed
+webui_state_on	работает	running
+webui_state_off	установлена, но не работает	installed but not running
+webui_state_not_installed	не установлена	not installed
+# ── веб-панель: файрвол и проверки аргументов ───────────────────────
+webui_bad_port	Порт: нужно число от 1 до 65535	Port: expected a number from 1 to 65535
+webui_ports_equal	Порты DoH и DoT не могут совпадать	DoH and DoT ports cannot be the same
+webui_bad_arg	Недопустимый аргумент	Invalid argument
+webui_bad_policy	Политика: roundrobin или fastest	Policy: roundrobin or fastest
+webui_no_upstreams	Нужен хотя бы один апстрим	At least one upstream is required
+webui_unknown_upstream	Неизвестный апстрим: %s	Unknown upstream: %s
+webui_app_updating	Обновляю код панели…	Updating panel code…
+webui_app_updated	Код панели обновлён, панель перезапущена.	Panel code updated, panel restarted.
+webui_app_update_failed	Не удалось обновить код панели — работает прежний.	Could not update panel code — the previous one keeps running.
+webui_bridge_unknown	bridge: неизвестное действие: %s	bridge: unknown action: %s
+webui_newpath_word	СМЕНИТЬ	CHANGE
+webui_newpath_warn	Адрес панели сменится — прежняя ссылка перестанет открываться. Наберите	The panel address will change — the old link stops working. Type
+# ── веб-панель: свои апстримы (мост панели и фасад бота) ─────────────
+webui_custom_unknown	Своего апстрима с таким id нет: %s	There is no own upstream with this id: %s
+webui_custom_need_ack	Открытый DNS к публичному адресу без подтверждения не добавляется	Plain DNS to a public address is not added without confirmation
+webui_custom_enable_hint	В рабочий набор не включён. Включить: в панели — отметить в наборе и «Применить»; по SSH — «Пересобрать набор апстримов».	Not in the active set. To enable: in the panel — tick it in the set and “Apply”; over SSH — “Rebuild the upstream set”.

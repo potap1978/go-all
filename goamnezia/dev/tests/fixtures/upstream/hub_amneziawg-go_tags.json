@@ -1,0 +1,76 @@
+{
+ "count": 5,
+ "next": null,
+ "results": [
+  {
+   "name": "latest",
+   "digest": "sha256:51a5cfd1994656822d7e1e2325e3e8ed58d94d42d958a65b06cc9cdbb95d2f45",
+   "tag_last_pushed": "2026-09-15T12:00:00Z",
+   "last_updated": "2026-09-15T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:e7e1bca36c29e0763fbbeab6d40d066622568d682590d925f2e8fd6303048b49",
+     "size": 12345678
+    }
+   ]
+  },
+  {
+   "name": "3.2.20260915",
+   "digest": "sha256:51a5cfd1994656822d7e1e2325e3e8ed58d94d42d958a65b06cc9cdbb95d2f45",
+   "tag_last_pushed": "2026-09-15T12:00:00Z",
+   "last_updated": "2026-09-15T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:e7e1bca36c29e0763fbbeab6d40d066622568d682590d925f2e8fd6303048b49",
+     "size": 12345678
+    }
+   ]
+  },
+  {
+   "name": "3.1.20260828",
+   "digest": "sha256:cbafc02b8373a83f428272db6d8001b37bc02e6211cbd8c0cb4e2e3759b12b72",
+   "tag_last_pushed": "2026-08-28T12:00:00Z",
+   "last_updated": "2026-08-28T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:c68009d33df3aef4654db72bf1a7880cfa0a631fe866c50d9ae3dd34ddd7c13a",
+     "size": 12345678
+    }
+   ]
+  },
+  {
+   "name": "0.2.19",
+   "digest": "sha256:f0140a0a28247cb42cb3d63a66134802af69326ac60f90a3fad6beb3ac70839c",
+   "tag_last_pushed": "2025-12-01T12:00:00Z",
+   "last_updated": "2025-12-01T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:3c25f568ac89dfd82e15a8c6b681285cbdf801df7397b5fc67d108272b77c61c",
+     "size": 12345678
+    }
+   ]
+  },
+  {
+   "name": "v0.2.12",
+   "digest": "sha256:e79060530d240a927ae191fa89a92e98102ec522c79bc19589c6dd0777462bf3",
+   "tag_last_pushed": "2024-05-01T12:00:00Z",
+   "last_updated": "2024-05-01T12:00:00Z",
+   "images": [
+    {
+     "architecture": "amd64",
+     "os": "linux",
+     "digest": "sha256:82c5a4c4ad6de5768784ef50c2e39edf9a7147f9c66a6b7a4168a7441562db39",
+     "size": 12345678
+    }
+   ]
+  }
+ ]
+}

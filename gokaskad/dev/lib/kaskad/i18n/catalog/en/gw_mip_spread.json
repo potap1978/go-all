@@ -1,0 +1,22 @@
+{
+ "gw_mip_spread.line": "{ip} — {names}",
+ "gw_mip_spread.more": "{names} and {n} more",
+ "gw_mip_spread.preview": "Spread the exits over the addresses (exits — {n}): {lines}. The exits with their own address stay as they are; the sites still see the addresses of the exits.",
+ "gw_mip_spread.done": "Done: exits — {n}, spread over the addresses: {lines}. To give an exit the route address back: {back}.",
+ "gw_mip_spread.nothing": "Nothing to spread: every exit has an address of its own already. To spread them anew, first give the exits the route address back: {back}.",
+ "gw_mip_spread.nothing_skipped": "Nothing to spread: the exits without an address of their own can’t be spread now.",
+ "gw_mip_spread.no_exits": "Nothing to spread: there are no exits yet.",
+ "gw_mip_spread.back": "the panel → “Server addresses” → “by the system’s route” at the exit",
+ "gw_mip_spread.back_out": "the panel → “Server addresses”: first turn “For exits” on for the route address {ip}, then “by the system’s route” at the exit",
+ "gw_mip_spread.skipped": "Unchanged: {lines}.",
+ "gw_mip_spread.skip_line": "“{name}” — {why}",
+ "gw_mip_spread.why.family": "the key leads to an IPv6: the exit connects from the IPv6 route address",
+ "gw_mip_spread.why.no_leg": "the AmneziaWG leg has no settings with the address of the exit server yet",
+ "gw_mip_spread.why.same_endpoint": "another AmneziaWG leg to the same server is pinned to an address that is not among the addresses “for exits” with a working route, and two legs to one server can only share one address",
+ "gw_mip_spread.why.route": "from no address “for exits” does an answer leave through the gateway of the route address — such an address does not suit an AmneziaWG exit",
+ "gw_mip_spread.err.one": "Nowhere to spread: the server has fewer than two addresses “for exits” now ({ips}). Add an address to the server or turn “For exits” on for another one. To reset the choice: {back}.",
+ "gw_mip_spread.lock.exits": "the exits {names} will connect from {ip}",
+ "gw_mip_spread.lock.awg": "the AmneziaWG legs {names} will reconnect from the new address — a few seconds without a connection through them",
+ "gw_mip_spread.lock.sites": "the sites still see the addresses of the exits: only the address the server connects to the exits from changes",
+ "gw_mip_spread.log.done": "Server addresses: the exits spread over the addresses — {lines}"
+}

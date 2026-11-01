@@ -1,0 +1,4 @@
+{
+ "tz.bad": "The time zone must be a name of the zone database, e.g. Europe/Moscow (got “{value}”).",
+ "tz.missing": "The time zone “{value}” is not in the zone database of the server."
+}

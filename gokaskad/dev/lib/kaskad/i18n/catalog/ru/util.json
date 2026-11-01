@@ -1,0 +1,6 @@
+{
+ "util.bytes": "{n} байт|{n} байта|{n} байт",
+ "util.redact.bot_token": "токен бота скрыт",
+ "util.redact.github": "ключ GitHub скрыт",
+ "util.redact.hidden": "скрыт"
+}

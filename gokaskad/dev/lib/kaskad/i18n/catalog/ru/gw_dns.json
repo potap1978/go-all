@@ -1,0 +1,17 @@
+{
+ "gw_dns.and": " и ",
+ "gw_dns.conf_refused": "dnsmasq не принял конфиг: {error}",
+ "gw_dns.down": "DNS шлюза ({unit}) не запускается: {why}",
+ "gw_dns.log.moved": "GW repair: {detail} — перевёл DNS шлюза на порт {port}",
+ "gw_dns.no_dnsmasq": "Нет dnsmasq: kaskadctl gw enable ставит пакет {package}.",
+ "gw_dns.no_dnsmasq_short": "Нет dnsmasq (пакет {package}).",
+ "gw_dns.not_started": "DNS шлюза ({unit}) не запустился: {why} — клиенты шлюза остались без DNS",
+ "gw_dns.note_old": "dnsmasq {version} старше 2.89: ответы AAAA не убираются — клиенты с IPv6 своей сети могут ходить мимо туннеля",
+ "gw_dns.part.config": "конфиг",
+ "gw_dns.part.unit": "служба",
+ "gw_dns.port_busy": "порт {port} на {ip} занят: {holders} — освободите его",
+ "gw_dns.probe_busy": "порт {port} (DNS шлюза) занят: {holders} — DNS шлюза не запустится, пока его не освободить",
+ "gw_dns.process_unknown": "неизвестный процесс",
+ "gw_dns.stale": "DNS шлюза в прежнем виде ({what}): запросы клиентов идут на порт {port}, а dnsmasq может слушать 53",
+ "gw_dns.version_unknown": "неизвестной версии"
+}

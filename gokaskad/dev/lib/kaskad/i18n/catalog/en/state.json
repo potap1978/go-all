@@ -1,0 +1,18 @@
+{
+ "state.bad_engine": "{path}: unknown forwarding engine {engine}",
+ "state.bad_ip": "an IPv4 address like 203.0.113.5 is needed, not {value}",
+ "state.bad_origin": "unknown forward source {origin}",
+ "state.bad_port": "{what} must be a number 1–65535, not {value}",
+ "state.bad_proto": "protocol must be tcp or udp, not {value}",
+ "state.bad_schema": "{path}: schema {schema} is not supported by this version (needs {need})",
+ "state.broken": "{path} is damaged: {error}",
+ "state.fwd_not_object": "a forward record must be an object: {value}",
+ "state.fwd_twice": "{path}: forward {fwd} is recorded twice",
+ "state.ip_not_allowed": "can’t forward to address {ip}",
+ "state.locked": "Kaskad is already changing something ({lock} is busy). Try again in a minute.",
+ "state.nested_lock": "Kaskad code error: the state lock ({lock}) is taken again by the one already holding it. Report it to the developers — retrying will not help.",
+ "state.not_object": "{path}: a JSON object was expected",
+ "state.port": "port",
+ "state.port_in": "incoming port",
+ "state.port_to": "destination port"
+}

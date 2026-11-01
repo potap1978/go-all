@@ -1,0 +1,17 @@
+{
+ "gw_inlog.err.no_units": "{title} has no services to restart.",
+ "gw_inlog.err.not_on": "{title} is not installed or is turned off — nothing to restart.",
+ "gw_inlog.human.addr": "The address the service wants to use does not belong to this server — check the address and the network.",
+ "gw_inlog.human.busy": "Port {port}/{proto} is already taken by another program — free it or change the protocol’s port.",
+ "gw_inlog.human.busy_any": "The protocol’s port is already taken by another program — free it or change the port.",
+ "gw_inlog.human.cert": "The certificate did not fit or was not found — issue it again.",
+ "gw_inlog.human.cert_domain": "The certificate did not fit. Press “Apply settings”. If that does not help, renew the domain certificate: Settings → Domain and site → “Renew”.",
+ "gw_inlog.human.cert_self": "The certificate did not fit. Press “Apply settings” — the server writes it again from its settings. It is the same certificate: the devices keep their keys.",
+ "gw_inlog.human.closed": "Settings were given out more than {minutes} minutes ago and nobody has connected — the port is most likely closed at the hosting provider.",
+ "gw_inlog.human.config": "The protocol’s settings have an error — reinstall it.",
+ "gw_inlog.human.denied": "The service lacks permission for a file or a port.",
+ "gw_inlog.human.device": "The protocol’s network device was not created — the service could not find it.",
+ "gw_inlog.human.file": "The service is missing a file it needs — reinstall the protocol.",
+ "gw_inlog.human.kmod": "The kernel module did not load — after a kernel update it has to be installed again.",
+ "gw_inlog.human.kmod_awg": "The AmneziaWG kernel module did not load — after a kernel update it has to be rebuilt."
+}

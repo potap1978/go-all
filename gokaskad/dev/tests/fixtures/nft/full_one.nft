@@ -1,0 +1,22 @@
+table ip kaskad
+delete table ip kaskad
+table ip kaskad {
+	counter fwd_tcp_443 {
+		packets 0 bytes 0
+	}
+	chain fwd_pre {
+		type nat hook prerouting priority -101; policy accept;
+		fib daddr type local iifname != "lo" jump fwd_dnat
+	}
+	chain fwd_dnat {
+		tcp dport 443 ct mark set ct mark or 0x4b000000 dnat to 203.0.113.5:443 comment "kaskad:443:tcp"
+	}
+	chain fwd_count {
+		type filter hook forward priority -5; policy accept;
+		meta l4proto tcp ct original proto-dst 443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_443" return
+	}
+	chain fwd_post {
+		type nat hook postrouting priority 101; policy accept;
+		ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade
+	}
+}

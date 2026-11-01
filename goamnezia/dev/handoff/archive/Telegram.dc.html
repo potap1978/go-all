@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2563eb"/><text x="50" y="62" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="#fff" text-anchor="middle">GA</text></svg></template>
+<x-dc>
+<helmet><link rel="stylesheet" href="../heroui-tokens.css"><script src="../ga-icons.js"></script><style>a{color:inherit}a:hover{opacity:.8}</style></helmet>
+<div data-hero="" data-theme="{{ th }}" data-tint="{{ ap.tint }}" data-density="balanced" data-btn="{{ ap.btn }}" data-cards="{{ ap.cards }}" data-fs="m" data-device="phone" data-motion="{{ motionAttr }}" style="--accent:{{ accent }};--accent-foreground:{{ accentFg }};--radius:{{ radiusPx }};height:100%;min-height:100%;display:flex;flex-direction:column;background:var(--background);color:var(--foreground);font:400 15px/1.45 var(--font);-webkit-font-smoothing:antialiased;overflow:hidden">
+
+<sc-if value="{{ isMini }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:52px;padding:0 12px;background:{{ tgHeadBg }};color:{{ tgHeadFg }};border-bottom:1px solid {{ tgHeadBd }}">
+    <button type="button" style="justify-self:start;display:inline-flex;align-items:center;gap:4px;height:36px;padding:0 8px;border:0;border-radius:var(--r-btn);background:transparent;color:{{ tgLink }};font:500 15px var(--font);cursor:pointer"><iconify-icon icon="gravity-ui:xmark" width="16" height="16"></iconify-icon>Закрыть</button>
+    <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:7px;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 9px/1 var(--font)">GA</span><div style="display:grid;line-height:1.15"><b style="font:600 14px var(--font)">goAmnezia Pro</b><span style="font-size:11px;color:{{ tgHintC }}">мини-приложение</span></div></div>
+    <button type="button" aria-label="Меню мини-приложения" style="justify-self:end;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:{{ tgLink }};cursor:pointer"><iconify-icon icon="gravity-ui:ellipsis" width="20" height="20"></iconify-icon></button>
+  </div>
+  <div style="flex:1;min-height:0;position:relative"><dc-import name="Panel" device="phone" tg="{{ true }}" tg-colors="{{ tgColors }}" persist="{{ persistV }}" theme="{{ miniTheme }}" preset="{{ presetV }}" screen="{{ miniScreen }}" hint-size="100%,780px" style="position:absolute;inset:0"></dc-import></div>
+</sc-if>
+
+<sc-if value="{{ isBot }}" hint-placeholder-val="{{ true }}">
+  <header style="flex:none;display:flex;align-items:center;gap:10px;height:58px;padding:0 10px;background:var(--overlay);border-bottom:1px solid var(--separator)">
+    <button type="button" aria-label="Назад" style="width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--accent-soft-foreground);cursor:pointer"><iconify-icon icon="gravity-ui:chevron-left" width="20" height="20"></iconify-icon></button>
+    <span style="width:38px;height:38px;flex:none;border-radius:50%;background:var(--brand-grad);color:#fff;display:grid;place-items:center;font:800 12px/1 var(--font)">GA</span>
+    <div style="flex:1;min-width:0;display:grid;line-height:1.2"><b style="font:600 15px var(--font)">goAmnezia · vpn.example.ru</b><span style="font-size:12px;color:var(--muted)">{{ botStatus }}</span></div>
+    <button type="button" aria-label="Ещё" style="width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:var(--r-btn);background:transparent;color:var(--muted);cursor:pointer"><iconify-icon icon="gravity-ui:ellipsis-vertical" width="18" height="18"></iconify-icon></button>
+  </header>
+  <div style="flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column-reverse;background:var(--background-secondary)">
+   <div style="display:grid;gap:10px;padding:14px 10px 12px">
+    <div style="justify-self:center;padding:3px 10px;border-radius:999px;background:color-mix(in oklab,var(--foreground) 7%,transparent);font:500 12px var(--font);color:var(--muted)">Сегодня</div>
+    <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2">
+      <div style="display:grid;gap:5px;justify-items:{{ m.align }};animation:hero-in-up .22s var(--ease)">
+        <div style="max-width:{{ m.maxW }};display:grid;gap:8px;padding:{{ m.pad }};border-radius:{{ m.r }};background:{{ m.bg }};color:{{ m.fg }};box-shadow:{{ m.sh }}">
+          <sc-if value="{{ m.hasQr }}" hint-placeholder-val="{{ false }}"><div style="width:220px;aspect-ratio:1;padding:10px;border-radius:calc(var(--r-field) - 2px);background:#fff">{{ m.qr }}</div></sc-if>
+          <sc-if value="{{ m.hasFile }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;flex:none;border-radius:50%;background:var(--accent);color:var(--accent-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="18" height="18"></iconify-icon></span><span style="display:grid;line-height:1.25"><b style="font:500 14px var(--mono)">{{ m.file }}</b><span style="font-size:12px;color:var(--muted)">412 байт</span></span></div></sc-if>
+          <div style="display:grid;gap:2px">
+            <sc-for list="{{ m.lines }}" as="l" hint-placeholder-count="3"><div style="display:flex;gap:8px;align-items:baseline;font:{{ l.fw }} {{ l.fs }}/1.4 var(--font);color:{{ l.c }};min-height:{{ l.mh }};overflow-wrap:anywhere"><sc-if value="{{ l.hasDot }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;flex:none;border-radius:50%;background:{{ l.dot }};transform:translateY(-1px)"></span></sc-if><span>{{ l.t }}</span></div></sc-for>
+          </div>
+          <span style="justify-self:end;margin-top:-4px;font-size:11px;color:{{ m.timeC }};font-variant-numeric:tabular-nums">{{ m.time }}</span>
+        </div>
+        <sc-if value="{{ m.hasKb }}" hint-placeholder-val="{{ false }}">
+          <div style="width:{{ m.kbW }};display:grid;gap:5px">
+            <sc-for list="{{ m.kb }}" as="row" hint-placeholder-count="2">
+              <div style="display:grid;grid-template-columns:{{ row.cols }};gap:5px">
+                <sc-for list="{{ row.btns }}" as="b" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ b.go }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 10px;border:0;border-radius:var(--r-field);background:{{ b.bg }};color:{{ b.fg }};box-shadow:var(--card-sh);font:500 14px/18px var(--font);cursor:pointer;min-width:0;transition:background var(--dur)" style-active="transform:scale(.97)"><sc-if value="{{ b.hasIcon }}" hint-placeholder-val="{{ false }}"><iconify-icon icon="{{ b.icon }}" width="15" height="15" style="flex:none"></iconify-icon></sc-if><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.label }}</span></button>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+   </div>
+  </div>
+  <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 10px 14px;background:var(--overlay);border-top:1px solid var(--separator)">
+    <button type="button" onClick="{{ goMenu }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--accent);color:var(--accent-foreground);font:500 14px var(--font);cursor:pointer;flex:none" style-active="transform:scale(.97)"><iconify-icon icon="gravity-ui:bars" width="15" height="15"></iconify-icon>Меню</button>
+    <input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onDraftKey }}" placeholder="{{ draftPh }}" aria-label="Сообщение" style="flex:1;min-width:0;height:40px;padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--foreground);font:400 16px var(--font);outline:none">
+    <button type="button" onClick="{{ send }}" aria-label="Отправить" style="width:40px;height:40px;flex:none;display:grid;place-items:center;border:0;border-radius:50%;background:{{ sendBg }};color:{{ sendFg }};cursor:pointer;transition:background var(--dur)"><iconify-icon icon="gravity-ui:paper-plane" width="17" height="17"></iconify-icon></button>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bot&quot;,&quot;miniapp&quot;],&quot;default&quot;:&quot;bot&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scene&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;start&quot;,&quot;users&quot;,&quot;user&quot;,&quot;qr&quot;,&quot;share&quot;,&quot;confirm&quot;],&quot;default&quot;:&quot;start&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;overview&quot;,&quot;users&quot;,&quot;user&quot;,&quot;profiles&quot;,&quot;settings&quot;,&quot;appearance&quot;],&quot;default&quot;:&quot;overview&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;system&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ga&quot;,&quot;hero&quot;,&quot;lavender&quot;,&quot;mint&quot;,&quot;graphite&quot;,&quot;paper&quot;],&quot;default&quot;:&quot;ga&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;tgScheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;day&quot;,&quot;night&quot;,&quot;off&quot;],&quot;default&quot;:&quot;day&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;persist&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { ap: null, view: null, extra: [], draft: '', await: null, t0: 12 * 60 + 4 };
+  KEY = 'goamnezia-appearance-v1';
+  presets() { return { ga: { accent: 'ga', tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow' }, hero: { accent: 'blue', tint: 'neutral', radius: 8, btn: 'pill', cards: 'border' }, lavender: { accent: 'lavender', tint: 'cool', radius: 10, btn: 'pill', cards: 'shadow' }, mint: { accent: 'mint', tint: 'neutral', radius: 12, btn: 'round', cards: 'flat' }, graphite: { accent: 'graphite', tint: 'neutral', radius: 4, btn: 'round', cards: 'border' }, paper: { accent: 'coral', tint: 'warm', radius: 6, btn: 'round', cards: 'flat' } }; }
+  accents(th, hue) { const W = 'oklch(0.9911 0 0)', E = 'oklch(0.2103 0.0059 285.89)'; return { ga: ['oklch(0.6 0.13 222)', W], blue: ['oklch(0.6204 0.195 253.83)', W], sky: ['oklch(0.72 0.13 228)', E], lavender: ['oklch(0.6 0.19 293)', W], mint: ['oklch(0.74 0.15 163)', E], coral: ['oklch(0.64 0.19 33)', W], graphite: th === 'dark' ? ['oklch(0.95 0 0)', E] : ['oklch(0.24 0.006 286)', W], custom: [`oklch(0.63 0.17 ${hue})`, W] }; }
+  buildAp() {
+    const p = this.props; let ap = { theme: 'light', accent: 'ga', hue: 200, tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow', motion: true };
+    if (p.persist !== false) { try { const s = JSON.parse(localStorage.getItem(this.KEY) || 'null'); if (s) ap = { ...ap, ...s }; } catch (e) {} }
+    if (p.preset && this.presets()[p.preset]) ap = { ...ap, ...this.presets()[p.preset] };
+    if (p.theme) ap.theme = p.theme; return ap;
+  }
+  initFor(scene) {
+    const m = { start: ['menu', []], users: ['users', []], user: ['user', []], qr: ['user', [{ k: 'qr' }]], share: ['user', [{ k: 'share' }]], confirm: ['user', [{ k: 'confirm' }]] };
+    const [view, extra] = m[scene] || m.start;
+    return { view, extra, await: scene === 'confirm' ? 'del' : null, draft: '' };
+  }
+  componentDidMount() { this.setState({ ap: this.buildAp(), ...this.initFor(this.props.scene) }); }
+  componentDidUpdate(pp) { if (pp.scene !== this.props.scene) this.setState(this.initFor(this.props.scene)); if (pp.theme !== this.props.theme || pp.preset !== this.props.preset) this.setState({ ap: this.buildAp() }); }
+  qr(seed) {
+    this._q = this._q || {};
+    if (!this._q[seed]) {
+      let s = seed * 9301 + 49297; const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+      const n = 29; let r = ''; const inF = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+      for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!inF(x, y) && rnd() > .52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+      const f = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+      this._q[seed] = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 33 33" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><g fill="#18181b">${r}${f(0, 0)}${f(n - 7, 0)}${f(0, n - 7)}</g></svg>`);
+    }
+    return React.createElement('img', { src: this._q[seed], alt: 'QR-код ключа', style: { width: '100%', height: '100%', display: 'block', imageRendering: 'pixelated' } });
+  }
+  push(k, extra) { this.setState(s => ({ extra: [...s.extra, { k, ...extra }] })); }
+  renderVals() {
+    const st = this.state, p = this.props, ap = st.ap || this.buildAp();
+    let th = ap.theme; if (th === 'system') th = (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    const [accent, accentFg] = this.accents(th, ap.hue)[ap.accent] || this.accents(th, 0).ga;
+    const view = st.view || this.initFor(p.scene).view;
+    const extra = st.view ? st.extra : this.initFor(p.scene).extra;
+    const L = (t, o = {}) => ({ t, fw: o.b ? 600 : o.h ? 600 : 400, fs: o.h ? '16px' : o.s ? '13px' : '15px', c: o.m ? 'var(--muted)' : o.warn ? 'var(--warning-soft-foreground)' : o.bad ? 'var(--danger-soft-foreground)' : 'inherit', hasDot: !!o.dot, dot: o.dot, mh: o.sp ? '8px' : '0' });
+    const B = (label, go, o = {}) => ({ label, go, icon: o.icon, hasIcon: !!o.icon, bg: o.p ? 'var(--accent)' : o.d ? 'var(--danger-soft)' : 'var(--card-bg)', fg: o.p ? 'var(--accent-foreground)' : o.d ? 'var(--danger-soft-foreground)' : 'var(--foreground)' });
+    const R = (...btns) => ({ cols: `repeat(${btns.length},minmax(0,1fr))`, btns });
+    const set = v => () => this.setState({ view: v, extra: [], await: null });
+    const toast = (k) => () => this.push(k);
+    const views = {
+      menu: { lines: [L('Сервер vpn.example.ru', { h: 1 }), L('Работает 18 дн · версия 0.4.4', { m: 1, s: 1 }), L('', { sp: 1 }), L('На связи 4 из 14 человек', { dot: 'var(--success)' }), L('Трафик за 30 дней: 182,4 ГБ', { dot: 'var(--accent)' }), L('AmneziaWG 1.5 остановлен в 11:52', { dot: 'var(--warning)', warn: 1 })],
+        kb: [R(B('Перезапустить 1.5', toast('restart'), { p: 1, icon: 'gravity-ui:arrow-rotate-right' })), R(B('Люди', set('users'), { icon: 'gravity-ui:persons' }), B('Протоколы', set('profiles'), { icon: 'gravity-ui:shield-check' })), R(B('Бэкап', toast('backup'), { icon: 'gravity-ui:database' }), B('Открыть панель', () => {}, { icon: 'gravity-ui:arrow-up-right-from-square' }))] },
+      users: { lines: [L('Люди · 14', { h: 1 }), L('● на связи  ○ не на связи  ⏳ срок истёк  ▮ лимит', { m: 1, s: 1 })],
+        kb: [R(B('● admin', set('user')), B('● mama', set('user'))), R(B('○ sergey', set('user')), B('● katya', set('user'))), R(B('⏳ olga', set('user')), B('▮ ivan', set('user'))), R(B('‹ 1 из 2', () => {}), B('Дальше ›', () => {})), R(B('Добавить', toast('add'), { p: 1, icon: 'gravity-ui:plus' }), B('‹ Меню', set('menu')))] },
+      profiles: { lines: [L('Протоколы', { h: 1 }), L('AmneziaWG 3.1 · UDP 48213 · 9 человек', { dot: 'var(--success)' }), L('AmneziaWG 2.0 · обновляется, 61%', { dot: 'var(--accent)' }), L('AmneziaWG 1.5 · остановлен', { dot: 'var(--warning)', warn: 1 })],
+        kb: [R(B('Перезапустить 1.5', toast('restart'), { p: 1, icon: 'gravity-ui:arrow-rotate-right' })), R(B('‹ Меню', set('menu')))] },
+      user: { lines: [L('mama', { h: 1 }), L('На связи · 3 мин назад', { dot: 'var(--success)' }), L('Трафик 12,3 из 50 ГБ · доступ до 01.11.2026', { m: 1, s: 1 }), L('Профили: AmneziaWG 3.1 и 2.0', { m: 1, s: 1 })],
+        kb: [R(B('QR 3.1', toast('qr'), { p: 1, icon: 'gravity-ui:qr-code' }), B('Файл .conf', toast('file'), { icon: 'gravity-ui:arrow-down-to-line' })), R(B('Временная ссылка', toast('share'), { icon: 'gravity-ui:link' }), B('Страница', () => {}, { icon: 'gravity-ui:arrow-up-right-from-square' })), R(B('Выключить', toast('off')), B('Удалить', () => { this.push('confirm'); this.setState({ await: 'del' }); }, { d: 1 })), R(B('‹ Люди', set('users')))] }
+    };
+    const t = i => { const m = st.t0 + i; return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}`; };
+    const bot = (lines, o = {}) => ({ from: 'bot', lines, ...o });
+    const X = {
+      qr: () => bot([L('Ключ mama · AmneziaWG 3.1', { b: 1 }), L('Отсканируйте в AmneziaVPN или AmneziaWG: «Добавить» → «QR-код»', { m: 1, s: 1 })], { qr: 1 }),
+      file: () => bot([L('Импортируйте файл в AmneziaWG: «+» → «Из файла»', { m: 1, s: 1 })], { file: 'mama-awg31.conf' }),
+      share: () => bot([L('Временная ссылка на 10 минут', { b: 1 }), L('https://vpn.example.ru/s/Q7mX2p9KfL4v/mama-awg20.conf', { s: 1 }), L('Работает один раз и без пароля. Отправьте её только mama.', { warn: 1, s: 1 })]),
+      restart: () => bot([L('AmneziaWG 1.5 перезапущен', { dot: 'var(--success)', b: 1 }), L('Контейнер отвечает, 3 человека снова могут подключиться', { m: 1, s: 1 })]),
+      backup: () => bot([L('Бэкап создан · 24 МБ', { dot: 'var(--success)', b: 1 }), L('Хранится на сервере, последние 7 копий', { m: 1, s: 1 })]),
+      add: () => bot([L('Как назвать нового человека?', { b: 1 }), L('Отправьте имя латиницей, например guest-1', { m: 1, s: 1 })]),
+      off: () => bot([L('mama выключена', { dot: 'var(--muted)', b: 1 }), L('Ключи не работают, пока не включите обратно', { m: 1, s: 1 })]),
+      confirm: () => bot([L('Удалить mama?', { h: 1 }), L('Ключи во всех профилях перестанут работать сразу. Вернуть можно только из бэкапа.', { s: 1 }), L('', { sp: 1 }), L('Чтобы подтвердить, отправьте имя сообщением: mama', { b: 1, bad: 1, s: 1 }), L('Отмена — /cancel', { m: 1, s: 1 })]),
+      user: e => ({ from: 'me', lines: [L(e.text)] }),
+      deleted: () => bot([L('mama удалена', { dot: 'var(--danger)', b: 1 }), L('Бэкап перед удалением сохранён', { m: 1, s: 1 })]),
+      wrong: () => bot([L('Имя не совпало, ничего не удалено', { warn: 1, b: 1 }), L('Отправьте mama или /cancel', { m: 1, s: 1 })]),
+      cancel: () => bot([L('Отменено', { b: 1 })])
+    };
+    const vv = views[view];
+    const raw = [{ from: 'me', lines: [L('/start')] }, bot(vv.lines, { kb: vv.kb, live: 1 }), ...extra.map(e => X[e.k](e))];
+    const msgs = raw.map((m, i) => {
+      const me = m.from === 'me', media = !!m.qr;
+      return { align: me ? 'end' : 'start', maxW: media ? '244px' : me ? '78%' : '88%', pad: media ? '6px 6px 8px' : '9px 12px', r: me ? '18px 18px 6px 18px' : '18px 18px 18px 6px', bg: me ? 'var(--accent)' : 'var(--overlay)', fg: me ? 'var(--accent-foreground)' : 'var(--foreground)', sh: me ? 'none' : 'var(--surface-shadow)',
+        lines: m.lines, time: t(i), timeC: me ? 'color-mix(in oklab,var(--accent-foreground) 70%,transparent)' : 'var(--muted)',
+        hasQr: media, qr: media ? this.qr(31) : null, hasFile: !!m.file, file: m.file, hasKb: !!m.kb, kb: m.kb || [], kbW: 'min(88%, 340px)' };
+    });
+    const sendMsg = () => {
+      const text = st.draft.trim(); if (!text) return;
+      const add = [{ k: 'user', text }];
+      if (st.await === 'del') add.push({ k: text === 'mama' ? 'deleted' : text === '/cancel' ? 'cancel' : 'wrong' });
+      else if (text === '/start' || text === '/menu') { this.setState({ view: 'menu', extra: [], draft: '', await: null }); return; }
+      this.setState(s => ({ extra: [...s.extra, ...add], draft: '', await: s.await === 'del' && text !== 'mama' && text !== '/cancel' ? 'del' : null }));
+    };
+    const hasDraft = !!st.draft.trim();
+    return {
+      ap, th, accent, accentFg, radiusPx: ap.radius + 'px', motionAttr: ap.motion ? 'on' : 'off',
+      isMini: p.view === 'miniapp', ...(() => { const TP = { day: { bg_color: '#ffffff', secondary_bg_color: '#f0f2f5', text_color: '#000000', hint_color: '#8e8e93', link_color: '#2481cc', button_color: '#2481cc', button_text_color: '#ffffff' }, night: { bg_color: '#212d3b', secondary_bg_color: '#151e27', text_color: '#ffffff', hint_color: '#7d8b99', link_color: '#62bcf9', button_color: '#5288c1', button_text_color: '#ffffff' } }; const useTg = (p.tgScheme || 'day') !== 'off'; const c = TP[p.tgScheme === 'night' ? 'night' : 'day']; const live = (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.themeParams && window.Telegram.WebApp.themeParams.bg_color) ? window.Telegram.WebApp.themeParams : c; return useTg ? { tgColors: live, miniTheme: 'telegram', tgHeadBg: live.bg_color, tgHeadFg: live.text_color, tgHeadBd: 'rgba(127,127,127,.18)', tgLink: live.link_color || live.button_color, tgHintC: live.hint_color } : { tgColors: null, miniTheme: th, tgHeadBg: 'var(--background)', tgHeadFg: 'var(--foreground)', tgHeadBd: 'var(--separator)', tgLink: 'var(--accent-soft-foreground)', tgHintC: 'var(--muted)' }; })(), isBot: p.view !== 'miniapp', persistV: p.persist !== false, presetV: p.preset || 'ga', miniScreen: p.screen || 'overview',
+      botStatus: st.await === 'del' ? 'ждёт подтверждения' : 'бот', msgs,
+      goMenu: set('menu'), draft: st.draft, onDraft: e => this.setState({ draft: e.target.value }), onDraftKey: e => { if (e.key === 'Enter') sendMsg(); }, send: sendMsg,
+      draftPh: st.await === 'del' ? 'Имя для подтверждения' : 'Сообщение', sendBg: hasDraft ? 'var(--accent)' : 'var(--default)', sendFg: hasDraft ? 'var(--accent-foreground)' : 'var(--muted)'
+    };
+  }
+}
+</script>
+</body>
+</html>

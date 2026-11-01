@@ -1,0 +1,384 @@
+/* Kaskad — people.css: «Люди и устройства» на компьютере — таблица К1 (UI-4; Claude Design People r1, HANDOFF «Сетка
+   колонок К1»). Общий блок строк с раскрытием и плотности — xt.css / xt.js; здесь — только то, что относится к «Людям»:
+   сетка колонок, строка фильтров, переключатель плотности в ней и пункт меню со значением справа (openMenu, it.k). */
+
+/* пункт меню со значением справа («Маршрут — по умолчанию», «id — u-…»; app.js openMenu) */
+.gx-menu__item > .gx-menu__k { flex: none; max-width: 150px; overflow: hidden; text-overflow: ellipsis; color: var(--text-3); font-size: .78125rem; }
+.gx-menu__item > .gx-menu__k--mono { font-family: var(--mono); }
+
+.kk-pp__dn > button { padding: 0 10px; }
+/* Строка над списком (эталон 23.10, People Activity r1): поиск слева 260, плотность значками справа, «Человек» —
+   всегда коротко (полное «Добавить человека» — в подписи кнопки для диктора). Фильтры переезжают в подменю (UI-A1). */
+.kk-pp__bar > .gx-usearch { order: -1; flex: 0 1 260px; width: 260px; max-width: 260px; }
+.kk-pp__bar .kk-wl { display: none; }
+.kk-pp__bar .kk-ws { display: inline; }
+@media (max-width: 1279.98px) { .kk-pp__dn .gx-dn__t { display: none; } .kk-pp__dn > button { padding: 0 8px; } }
+/* пока фильтры — сегментом в этой же строке (до подменю UI-A1): на окне до 1600 плотность — только значками, строка одна */
+@media (max-width: 1599.98px) { .kk-pp__bar:has(> .gx-segwrap-host) .gx-dn__t { display: none; } .kk-pp__bar:has(> .gx-segwrap-host) .kk-pp__dn > button { padding: 0 8px; } }
+
+/* ── Сетка «Пользователей» — круг 1, Д2 вариант Б r3 (владелец 28.10; Claude Design export-2026-10-28-it1-d2r3, HANDOFF
+   «it1 · Пользователи и Протоколы» › «Вариант Б — отличия», «Б · r3 — что поправлено»): переключатель (пауза) ·
+   пользователь · активность · в сети · протоколы · маршрут · действия; таблица 916 на 1440 — прежняя. Имя — постоянной
+   ширины: «Средне» 208, «Крупно» 240, «Строка» 171; есть метки у имени (kk-pp-mk) — 248 / 270 (r3: 308 / 270; отступление
+   — 308 в «Средне» оставляет линии 106 px, и «Маршрут» на 1440 сворачивался бы сам; метка у имени короче словом и с
+   многоточием, полный текст — в подсказке). Линия — вся свободная ширина (minmax(…, 1fr)): «Средне» ≈ 206 × 24, «Крупно»
+   ≈ 192 × 40, «Строка» ≈ 98 × 16. «Средне»: 32 208 1fr 72 104 122 92, зазор 10; «Крупно»: 40 240 1fr 72 104 84 104, зазор
+   10 («Маршрут» до двух строк); «Строка» (две колонки): 32 171 1fr 70 50, зазор 6, поля 6 — без «Протоколов», «Маршрута»
+   и счётчика у имени. Колонки «Состояние» нет: метка — у имени. Линия уже --cc-min (120, «Строка» 64: узкое окно, крупный
+   текст) — «Маршрут», затем «Протоколы» сворачиваются сами (xt.js cc.auto); свёрнутый столбец — 24 (xt.js, CSSOM).
+   Было: 01b (24.10). Ширины колонок с текстом — в rem (Т3 №17: на «крупнее» растут с текстом, линия держит предел, лишнее
+   сворачивается само); колонки значков — в px. */
+#part-people { max-width: 2000px; }
+.gx-xt--k1 { --xt-gap: 10px; --pnw: 13rem; --cc-min: 120; }
+.gx-xt--k1.kk-pp-mk { --pnw: 15.5rem; }
+.gx-xt--k1 > * { --cols: 32px minmax(7.5rem, var(--pnw)) minmax(var(--actm, 0px), 1fr) 4.5rem var(--ppw, 6.5rem) var(--prw, 7.625rem) 92px; }
+.kk-dn--lg .gx-xt--k1 { --pnw: 15rem; }
+.kk-dn--lg .gx-xt--k1.kk-pp-mk { --pnw: 16.875rem; }
+.kk-dn--lg .gx-xt--k1 > * { --cols: 40px minmax(8.75rem, var(--pnw)) minmax(var(--actm, 0px), 1fr) 4.5rem var(--ppw, 6.5rem) var(--prw, 5.25rem) 104px; }
+.kk-dn--row .gx-xt--k1 { --xt-gap: 6px; --pnw: 10.6875rem; --cc-min: 64; }
+.kk-dn--row .gx-xt--k1 > * { --cols: 32px minmax(6.875rem, var(--pnw)) minmax(var(--actm, 0px), 1fr) 4.375rem 50px; }
+.kk-dn--row .gx-xt--k1 .gx-xt__r, .kk-dn--row .gx-xt--k1 .gx-xt__h { padding-inline: 6px; }
+.kk-dn--row .gx-xt--k1 .gx-xt__nl > .kk-ucp { display: none; }
+/* «Крупно»: «Маршрут» — до двух строк (строка и так двухэтажная) */
+.kk-dn--lg .gx-xt--k1 .kk-rt > .gx-xt__t { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.125rem; }
+/* свернуть больше нечего, а линия уже предела --cc-min (120, «Строка» — 64; xt.js is-cc-tight) — линия берёт его за счёт
+   имени (до предела имени); число устройств у имени не показано (оно же — в «В сети») */
+.gx-xt--k1.is-cc-tight { --actm: calc(var(--cc-min) * 1px); }
+/* T-it1b Н-2: «Протоколы» и «Маршрут» развёрнуты вручную (xt.js keep) — сворачивать нечего, а сетка шире таблицы:
+   линию держит --actm; сжимается «Маршрут» (до 0, многоточие). Имя — не уже первого слова (xt.js --nm1, не больше 10rem),
+   «Протоколы» — не уже первой плашки (xt.js --pw1, не больше 6,5rem), и 2,5rem под неё отложены до имени (REV-it1-pol П-1:
+   развернули «Протоколы» — протокол читается); оба — не больше того, что оставляют постоянные колонки (--tfix: значки,
+   линия, «В сети», действия, зазоры, поля строки 8 + 12; 100cqw — ширина таблицы, контейнер xt); первая плашка видна
+   всегда — не влезает, сжимается с многоточием (xt.js is-fit), без переноса посреди слова. Свободное сверх этого —
+   поровну имени, «Протоколам» и «Маршруту». Свёрнутый — 24 px (CSSOM) как был */
+.gx-xt--k1.is-cc-tight { --tfix: calc(32px + var(--actm) + 4.5rem + 92px + 6 * var(--xt-gap) + 20px); }
+.kk-dn--lg .gx-xt--k1.is-cc-tight { --tfix: calc(40px + var(--actm) + 4.5rem + 104px + 6 * var(--xt-gap) + 20px); }
+.gx-xt--k1.is-cc-tight > * { --tnm: max(0px, min(var(--nm1, 7.5rem), 10rem, 100cqw - var(--tfix) - min(var(--pw1, 0px), 2.5rem)));
+  --tpw: max(0px, min(var(--pw1, 0px), 6.5rem, 100cqw - var(--tfix) - var(--tnm)));
+  --cols: 32px minmax(var(--tnm), var(--pnw)) minmax(var(--actm, 0px), 1fr) 4.5rem minmax(var(--tpw), var(--ppw, 6.5rem)) minmax(0, var(--prw, 7.625rem)) 92px; }
+.kk-dn--lg .gx-xt--k1.is-cc-tight > * { --cols: 40px minmax(var(--tnm), var(--pnw)) minmax(var(--actm, 0px), 1fr) 4.5rem minmax(var(--tpw), var(--ppw, 6.5rem)) minmax(0, var(--prw, 5.25rem)) 104px; }
+.gx-xt--k1.is-cc-tight .gx-xt__nl > .kk-ucp { display: none; }
+/* REV-it1-pol П-1: и кружок с буквой у имени не показан — его место нужно первому слову имени и первой плашке */
+.gx-xt--k1.is-cc-tight .gx-xt__x > .gx-xt__av { display: none; }
+/* …и линия дерева (xt.css .gx-xt--tree) идёт не из центра скрытого кружка (посреди имени), а от видимого начала строки:
+   левым краем по левому краю имени (там, где был кружок), на 3 px ниже блока имени (--av — половина его высоты: имя,
+   у «Крупно» — и платформы под ним; в rem — за шагом «A A A»). Значки устройств остаются на месте — отвод --tw длиннее
+   ровно на сдвиг линии: конец отвода там же, где без сжатия (--tx + --tw обычного вида) */
+.gx-xt--k1.gx-xt--tree.is-cc-tight { --tx: 73px; --av: max(.625rem, 10px); --tw: 26px; }
+.kk-dn--lg .gx-xt--k1.gx-xt--tree.is-cc-tight { --tx: 85px; --av: calc(1.25rem + 1px); --tw: 44px; }
+.kk-dn--row .gx-xt--k1.gx-xt--tree.is-cc-tight { --tx: 65px; --av: max(.5625rem, 10px); --tw: 22px; }
+/* …и метка у имени — точкой её цвета (слово и причина — в подсказке) */
+.gx-xt--k1.is-cc-tight .gx-xt__nl > .gx-chip { min-width: 0; padding-inline: 5px; font-size: 0; }
+.gx-xt--k1.is-cc-tight .gx-xt__nl > .gx-chip::before { display: inline-block; margin: 0; vertical-align: 0; }
+.gx-xt--k1.is-cc-tight .gx-xt__nl > .gx-chip[data-row]::after { content: none; }
+/* широкая таблица (окна 2000–2560): имя шире; свободное — линии (1 доля), «Протоколам» (0,6 — плашки без «+N») и
+   «Маршруту» (0,5 — имя целиком) */
+@container xt (min-width: 1500px) {
+  .gx-xt--k1 > * { --pnw: 15rem; --ppw: minmax(6.5rem, .6fr); --prw: minmax(7.625rem, .5fr); }
+  .gx-xt--k1.kk-pp-mk > * { --pnw: 17.5rem; }
+  .kk-dn--lg .gx-xt--k1 > * { --pnw: 16.25rem; --ppw: minmax(6.5rem, .6fr); --prw: minmax(7.625rem, .5fr); }
+  .kk-dn--lg .gx-xt--k1.kk-pp-mk > * { --pnw: 18.125rem; }
+}
+@container xt (max-width: 859.98px) {
+  /* «Строка» на узкой таблице — одной колонкой: две половины не вмещают имя, линию и «В сети» */
+  .kk-dn--row .gx-xt--k1 .gx-xt__cols { grid-template-columns: minmax(0, 1fr); }
+  .kk-dn--row .gx-xt--k1 .gx-xt__cols::before { display: none; }
+  .kk-dn--row .gx-xt--k1 .gx-xt__hw { grid-template-columns: minmax(0, 1fr); }
+  .kk-dn--row .gx-xt--k1 .gx-xt__hw > .gx-xt__h + .gx-xt__h { display: none; }
+  .kk-dn--row .gx-xt--k1 .gx-xt__col + .gx-xt__col > .gx-xt__g:first-child > .gx-xt__r:first-child { box-shadow: inset 0 1px 0 var(--separator); }
+}
+/* «В сети» (kk-on2): точки по устройствам и «N из M»; у устройства — одна точка (время — в подсказке) */
+.kk-on2 { gap: 6px; }
+.kk-on2__d { flex: none; display: inline-flex; gap: 3px; }
+.kk-on2 .gx-dot { width: 8px; height: 8px; }
+/* «Маршрут» (kk-rt): имя группы или выхода (r3: без значка — ширина отдана линии); у устройства без своего маршрута —
+   маршрут пользователя тише */
+.gx-xt__t.kk-rt--inh { color: var(--text-3); }
+/* «Активность» (kk-act1): линия на всю ширину ячейки, высота по плотности (Д2 Б r3: 24 / 40 / 16); объёма рядом нет (№21) */
+.gx-xt__c.kk-act1 { display: block; overflow: visible; }
+.kk-act1 > .kk-sp1 { --spark-w: 100%; --spark-h: 24px; }
+.kk-dn--lg .kk-act1 > .kk-sp1 { --spark-h: 40px; }
+.kk-dn--row .kk-act1 > .kk-sp1 { --spark-h: 16px; }
+.gx-xt__c.kk-act1 > .gx-xt__t, .gx-xt__c.kk-act1 > .kk-act__off { display: block; line-height: var(--xt-row); }
+/* №16: шрифт строк +1 px во всех плотностях (ширина таблицы прежняя); шапка 13; кнопки «Средне» 28, «Крупно» 32 × 32 (№19) */
+.gx-xt--k1 .gx-xt__h { font-size: .8125rem; }
+.kk-dn--md .gx-xt--k1 { --xt-row: 32px; }
+.gx-xt--k1 .gx-xt__r { font-size: .875rem; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__r { font-size: .9375rem; }
+.kk-dn--md .gx-xt--k1 .ga-btn--xs, .kk-dn--md .gx-xt--k1 .gx-xt__slot { width: 28px; height: 28px; }
+.kk-dn--lg .gx-xt--k1 .ga-btn--xs .gx-ico, .kk-dn--lg .gx-xt--k1 .ga-btn--xs svg { width: 18px; height: 18px; }
+.gx-xt--k1 .gx-xt__acts { gap: 2px; }
+.kk-dn--row .gx-xt--k1 .gx-xt__slot { display: none; }
+.gx-xt--k1 .gx-xt__nl > .gx-chip { flex: none; }
+.kk-dn--row .gx-xt__c.is-dot > .gx-xt__t { display: none; }
+.gx-xt__fd { flex: none; display: inline-grid; color: var(--text-3); }
+/* «Крупно»: «в сети» — одной строкой (маршрут переносится, как в эталоне); протоколы — две строки плашек, затем «+N» */
+.kk-dn--lg .gx-xt--k1 .gx-xt__c:has(> .gx-dot) { white-space: nowrap; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__slots { --slot-rows: 2; flex-wrap: wrap; row-gap: 4px; align-content: center; }
+/* «доступа нет» (подсказки нет): на узкой таблице колонка 64–70 — второй строкой, а не обрезано (строка «Крупно» высокая) */
+.kk-dn--lg .gx-xt--k1 .gx-xt__tags > .gx-xt__mut { flex: 0 1 auto; min-width: 0; white-space: normal; line-height: 1rem; }
+
+/* ── Строки 01b (HANDOFF «Отступ устройства», «Линия дерева», «Узел», «Шрифты», «Высоты строк»): дерево — xt.css
+   .gx-xt--tree; здесь — его X под сетку «Пользователей»: --tx — центр аватара от левого края строки (отступ 8 + переключатель
+   + зазор + шеврон 14 + зазор кнопки + половина аватара), --xt-ind — значок устройства под началом имени пользователя.
+   Высоты: пользователь / устройство — «Средне» 26 / 34, «Крупно» 68 / 64, «Строка» 28 / 32; после последнего +4 (xt.css) */
+.gx-xt--k1.gx-xt--tree { --tx: 83px; --av: 11px; --trad: 8px; --tw: 16px; --xt-ind: 52px; }
+.kk-dn--lg .gx-xt--k1.gx-xt--tree { --tx: 102px; --av: 18px; --trad: 10px; --tw: 27px; --xt-ind: 74px; }
+.kk-dn--row .gx-xt--k1.gx-xt--tree { --tx: 74px; --av: 10px; --trad: 6px; --tw: 13px; --xt-ind: 46px; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__x--sub { padding-left: var(--xt-ind); }
+.kk-dn--lg .gx-xt--k1 .gx-xt__addb { padding-left: calc(var(--xt-ind) + 44px); }
+.kk-dn--md .gx-xt--k1 .gx-xt__r--sub { height: 40px; }
+.kk-dn--row .gx-xt--k1 .gx-xt__r--sub { height: 32px; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__r { height: auto; min-height: var(--xt-row); padding-top: 6px; padding-bottom: 6px; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__r--sub { min-height: 64px; padding-top: 3px; padding-bottom: 3px; }
+/* №16 (+1 px): имя пользователя — Onest 500 16/20 («Крупно» 17/22, «Строка» 15/18); было 15 / 16 / 14 */
+.gx-xt--k1 .gx-xt__x:not(.gx-xt__x--sub) .gx-xt__n { font: 500 1rem/1.25rem var(--font); }
+.kk-dn--lg .gx-xt--k1 .gx-xt__x:not(.gx-xt__x--sub) .gx-xt__n { font-size: 1.0625rem; line-height: 1.375rem; }
+.kk-dn--row .gx-xt--k1 .gx-xt__x:not(.gx-xt__x--sub) .gx-xt__n { font-size: .9375rem; line-height: 1.125rem; }
+/* устройство — мельче и тише: 400 14/17 (15/20, 13,5/16); платформа — строкой под именем, 12,5/15 (13,5/18; в «Строке»
+   её нет) --text-3; «Крупно» — и у пользователя платформы устройств второй строкой (было 13/16 · 11,5/14) */
+.gx-xt--k1 .gx-xt__x--sub .gx-xt__nb { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 0; align-content: center; align-items: center; }
+.gx-xt--k1 .gx-xt__x--sub .gx-xt__nl { grid-column: 1 / -1; grid-row: 1; }
+.gx-xt--k1 .gx-xt__x--sub .gx-xt__n { font: 400 .875rem/1.0625rem var(--font); }
+.gx-xt--k1 .gx-xt__x--sub .gx-xt__os { grid-column: 1; grid-row: 2; min-width: 0; color: var(--text-3); font: 400 .78125rem/.9375rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__x--sub .gx-xt__n { font-size: .9375rem; line-height: 1.25rem; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__os { grid-column: 1 / -1; color: var(--text-3); font: 400 .84375rem/1.125rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-dn--row .gx-xt--k1 .gx-xt__x--sub .gx-xt__n { font-size: .84375rem; line-height: 1rem; }
+.kk-dn--row .gx-xt--k1 .gx-xt__x--sub .gx-xt__os { display: none; }
+.gx-xt--k1 .gx-xt__dev svg { width: 14px; height: 14px; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__dev svg { width: 16px; height: 16px; }
+/* «Крупно»: имя и метки первой строкой, платформы — второй; отступ устройства съедает только колонку имени */
+.kk-dn--lg .gx-xt--k1 .gx-xt__x { width: 100%; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__nb { flex: 1 1 auto; grid-template-columns: minmax(0, 1fr); align-items: center; }
+.kk-dn--lg .gx-xt--k1 .gx-xt__nl { grid-column: 1 / -1; }
+.kk-dn--row .gx-xt--k1 .gx-xt__x { width: 100%; gap: 6px; padding-right: 2px; }
+
+/* счётчик устройств у имени пользователя (HANDOFF «Счётчик устройств»): 18 («Крупно» 22), 600 11,5; у раскрытого — ярче */
+.kk-ucp { flex: none; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--text-2); font: 600 .71875rem/1.125rem var(--font); text-align: center; font-variant-numeric: tabular-nums; }
+.gx-xt__x[aria-expanded="true"] .kk-ucp { background: var(--surface-3); color: var(--foreground); }
+.kk-dn--lg .kk-ucp { height: 22px; min-width: 22px; padding: 0 7px; font-size: .78125rem; line-height: 1.375rem; }
+
+/* ── «Активность»: ячейка («Средне»), вторая строка («Крупно»), у имени («Строка»); линия — spark.js, charts.css ── */
+.gx-xt__c.kk-act { overflow: visible; gap: 8px; }
+/* .kk-nrow в styles.css — другой блок (перенос строк); ячейки таблицы не переносятся: линия «по ячейке» иначе выталкивает
+   объём на вторую строку, значок маршрута — под текст */
+.gx-xt__c.kk-nrow { flex-wrap: nowrap; }
+/* объём за сутки рядом с линией («Средне», таблица ≥ 1500; «Выходы» — линия 140 с таблицы 1400) — фиксированной ширины
+   (колонка не растёт по подписи): --act-vw — по самой длинной («нет трафика», «1023,9 МБ»; EN «no traffic»); у
+   «Пользователей» — 72 и 12 px рядом с линией 96 (01b, HANDOFF «Линия активности») */
+.gx-xt { --act-vw: 76px; }
+.kk-act__v { display: none; flex: none; width: var(--act-vw); overflow: hidden; text-overflow: ellipsis; text-align: right; font: 400 .78125rem/1rem var(--font); color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kk-act__off { color: var(--text-3); font-size: .78125rem; white-space: nowrap; }
+.kk-actl { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kk-actl__t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78125rem; line-height: 1rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-xt__r:has(.gx-sptip) { z-index: 4; }
+
+/* «Люди»: обёртка списка (класс плотности), список и имя человека — по ним находят строки проверки и переход ?focus= */
+.kk-pp__body, .kk-ppl { min-width: 0; }
+.kk-pname { cursor: inherit; }
+
+/* ── «График» активности (Г1–Г3, Т4; app.js openActGraph): окно 880, на телефоне — лист снизу ── */
+.gx-dlg--act .gx-dlg__body { gap: 12px; padding-top: 0; }
+.kk-gr { display: grid; gap: 12px; min-width: 0; }
+.kk-gr__lead { display: contents; }
+.kk-gr__back { display: contents; }
+.kk-gr__bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.kk-gr__bar > .gx-legend { margin-left: auto; flex-wrap: nowrap; }
+.kk-gr__sum { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; font-size: var(--fs-sm); color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kk-gr__sum > * { white-space: nowrap; }
+.kk-gr__sum > b { font: 600 var(--fs-h3)/1.5rem var(--font-head); color: var(--foreground); }
+.kk-gr__sum > .gx-chip { align-self: center; }
+.kk-gr__cap { font: 600 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); margin-top: 6px; }
+.gx-bsheet--act { max-height: calc(100% - 52px); overflow: auto; }
+.gx-bsheet--act .kk-gr { padding: 0 8px 12px; }
+.gx-bsheet--act .kk-gr__bar > .gx-segwrap, .gx-bsheet--act .kk-gr__bar .gx-seg { width: 100%; }
+.gx-bsheet--act .kk-gr__bar .gx-seg > button { flex: 1 1 0; }
+.gx-bsheet--act .kk-gr__bar > .gx-legend { order: 3; margin-left: 0; }
+.gx-bsheet--act .gx-actd__r { grid-template-columns: 24px minmax(0, 1fr) 64px 16px; height: 52px; }
+.gx-bsheet--act .gx-actd__bar, .gx-bsheet--act .gx-actd__p, .gx-bsheet--act .gx-actd__on { display: none; }
+
+/* ── Телефон 390 и планшет 768 (UI-B 23.10; эталон Т1–Т4, HANDOFF «768 — список касанием 44 1fr 84 44»): строка
+   человека — кнопка (аватар, имя с меткой, «объём за сутки · маршрут», «N из M») и «⋯»; лист человека и устройства ── */
+.kk-prow { position: relative; display: flex; align-items: center; min-width: 0; min-height: var(--mrow, 60px); padding-right: 6px; }
+/* 01b: человек и его устройства — группа .kk-pg; разделитель — между группами (не между устройствами) */
+.kk-pg { position: relative; }
+.kk-pg + .kk-pg::before { content: ""; position: absolute; z-index: 1; top: 0; left: 66px; right: 0; height: 1px; background: var(--separator); }
+.kk-prow__main { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 12px; align-self: stretch; padding: 8px 4px 8px 14px; border: 0; border-radius: 0; background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.kk-prow__main:hover { background: var(--surface-hover); }
+.kk-prow__main:focus-visible { outline-offset: -2px; }
+.kk-prow__b { flex: 1 1 auto; min-width: 0; display: grid; gap: 1px; }
+.kk-prow__t { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kk-prow__n { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 var(--fs)/1.25rem var(--font); }
+/* метка у имени — сжимается первой (многоточием, полный текст — в подсказке метки), имя остаётся целым */
+.kk-prow__t > .gx-chip { flex: 0 100 auto; min-width: 36px; }
+.kk-prow__s { min-width: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-prow__on { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kk-prow__on.is-on { color: var(--success-text); }
+.kk-prow.is-off .kk-prow__n, .kk-prow.is-off .kk-av { opacity: .55; }
+/* переход ?focus= (с карты, из поиска): строка коротко подсвечена — как строка телефона .gx-mrow (mobile.css) */
+.kk-prow.is-flash { background: var(--accent-soft); }
+.kk-prow__more { flex: none; }
+/* телефон: общее правило касания (components.css: button flex-shrink 0, min-width 44) не должно раздвигать строку */
+.kk-plist .kk-prow > button.kk-prow__main { flex-shrink: 1; min-width: 0; }
+/* планшет 768: строка 52, аватар 32 (HANDOFF: список касанием 44 · 1fr · 84 · 44) */
+.kk-ptab { display: grid; gap: 10px; min-width: 0; }
+.kk-ptab .kk-prow { min-height: 52px; }
+.kk-ptab .kk-prow__main { padding-top: 6px; padding-bottom: 6px; }
+.kk-ptab .kk-av--40 { width: 32px; height: 32px; font-size: .75rem; }
+.kk-ptab .kk-prow__on { min-width: 72px; justify-content: flex-end; }
+.kk-ptab .kk-pg + .kk-pg::before { left: 58px; }
+/* лист человека и устройства (Т2, Т3): линия во всю ширину × 32, ось, итог, «График» */
+.kk-msp { display: grid; gap: 6px; padding: 4px 8px 0; }
+.kk-msp__off { margin: 0; color: var(--text-2); font-size: var(--fs-sm); }
+.kk-msp__sum { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kk-msp__sum > b { color: var(--foreground); font-weight: 600; }
+.kk-msp__btn { padding: 4px 8px; }
+.kk-msp__btn > .ga-btn { width: 100%; height: 44px; }
+.kk-msp__ic { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: var(--r-field); background: var(--surface-2); color: var(--text-2); }
+.gx-spark__ax { display: flex; justify-content: space-between; font: 400 .6875rem/.875rem var(--mono); color: var(--text-3); }
+.gx-mrow__sp { display: flex; align-items: center; gap: 8px; padding-top: 4px; }
+.gx-mrow__sp > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-sm); color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+/* ── Метки состояния в узкой колонке (116, узкая таблица 96, «Строка» 80) и у имени на телефоне: длинная («идёт напрямую», «все
+   выключены») — многоточием внутри метки, полный текст — в её подсказке; край колонки текст не срезает ── */
+.gx-xt__st > .gx-chip, .kk-prow__t > .gx-chip { display: block; overflow: hidden; text-overflow: ellipsis; line-height: 1.25rem; }
+.gx-xt__st > .gx-chip { flex-shrink: 1; min-width: 0; }
+/* «идёт напрямую» в плотной метке — 117 px при колонке 116 (HANDOFF — под «ключ не выдан»): поля метки 7 вместо 8 */
+.gx-xt--k1 .gx-xt__st > .gx-chip { padding-inline: 7px; }
+.gx-xt__st > .gx-chip::before, .kk-prow__t > .gx-chip::before { display: inline-block; margin-right: 6px; vertical-align: 1px; }
+/* телефон (3.3.7.15 Д1, П2 r2): метка у имени — короче словом, как в таблице (data-row: «напрямую», «удалён», «выключены») */
+.kk-prow__t > .gx-chip[data-row] > .kk-stf { display: none; }
+.kk-prow__t > .gx-chip[data-row]::after { content: attr(data-row); }
+/* «Строка» (01b, HANDOFF «Сетки»): метка «Состояния» плотнее — 11,5 px, поля 6, колонка 80; длинные — короче словом
+   (stChip: «напрямую», «выключены», «удалён»), полный текст — в подсказке. Точки у метки здесь нет (отступление от
+   эталона): метки панели длиннее его «нет ключа» — «нет выхода», «выключено» с точкой 84 px и в 80 не входят, а цвет
+   метки и так говорит о тоне; ширина отдана имени (устройства в «Строке» и так узкие) */
+.kk-dn--row .gx-xt--k1 .gx-xt__st > .gx-chip { padding-inline: 6px; font-size: .71875rem; }
+.kk-dn--row .gx-xt--k1 .gx-xt__st > .gx-chip::before { display: none; }
+/* Д2 вариант Б: метка — у имени (колонки «Состояние» нет). Короче словом во всех плотностях («напрямую», «выключены»,
+   «удалён»; полный текст и причина — в подсказке). r3: метка не сжимается, имя — многоточием (полное — в подсказке);
+   на совсем узкой колонке метка не шире «колонка − 4 знака», дальше — многоточием внутри метки */
+.gx-xt--k1 .gx-xt__nl > .gx-chip { display: block; flex: none; max-width: calc(100% - 4em); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.25rem; padding-inline: 7px; }
+.gx-xt--k1 .gx-xt__nl > .gx-chip::before { display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.gx-xt--k1 .gx-xt__nl { overflow: hidden; }
+.gx-xt--k1 .gx-chip[data-row] > .kk-stf { display: none; }
+.gx-xt--k1 .gx-chip[data-row]::after { content: attr(data-row); }
+.kk-dn--row .gx-xt--k1 .gx-xt__nl > .gx-chip { padding-inline: 6px; font-size: .71875rem; }
+.kk-dn--row .gx-xt--k1 .gx-xt__nl > .gx-chip::before { display: none; }
+
+/* ── Телефон 390 и планшет 768 — строки 01b (HANDOFF «Телефон»): метка числа устройств у имени; «N из M» со стрелкой —
+   раскрыть устройства (цель касания ≥ 44); устройства — значок на плитке 32 (--surface-2), имя 14/20 и платформа 12,5/16
+   --text-3 в две строки, состояние словом; строка 56. Дерево — тот же блок xt.css (.gx-xt__tr): линия 2 px от центра
+   аватара (x 34; планшет — аватар 32, x 30), отвод до плитки, последний узел скруглён 10 */
+.kk-plist { --tx: 34px; --av: 20px; --tl: 2px; --tc: var(--border); --tch: var(--text-3); --trad: 10px; --tw: 29px; }
+.kk-ptab .kk-plist { --tx: 30px; --av: 16px; --tw: 29px; }
+.kk-pg.is-open > .kk-prow > .gx-xt__tr--u, .kk-mdev > .gx-xt__tr--d { display: block; }
+.kk-pg.is-open .kk-ucp { background: var(--surface-3); color: var(--foreground); }
+.kk-prow__t > .kk-ucp { flex: none; }
+.kk-prow__exp { flex: none; align-self: stretch; display: inline-flex; align-items: center; gap: 4px; min-width: 44px; padding: 0 4px 0 8px; border: 0; border-radius: var(--r-tag); background: none; color: inherit; font: inherit; cursor: pointer; }
+.kk-prow__exp:hover { background: var(--surface-hover); }
+.kk-prow__exp:focus-visible { outline-offset: -2px; }
+.kk-prow__chev { color: var(--text-3); transform: rotate(-90deg); transition: transform var(--dur) var(--ease); }
+.kk-prow__exp[aria-expanded="true"] .kk-prow__chev { transform: none; color: var(--foreground); }
+.kk-plist .kk-prow > button.kk-prow__exp { flex-shrink: 0; }
+.kk-mdev { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 6px 12px 6px 66px; border: 0; border-radius: 0; background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.kk-ptab .kk-mdev { padding-left: 62px; }
+.kk-mdev:hover { background: var(--surface-hover); }
+.kk-mdev:focus-visible { outline-offset: -2px; }
+.kk-pdevs > .kk-mdev:last-child { margin-bottom: 6px; }
+.kk-mdev__ic { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: var(--r-tag); background: var(--surface-2); color: var(--text-2); }
+.kk-mdev__b { flex: 1 1 auto; min-width: 0; display: grid; }
+.kk-mdev__n { font: 400 .875rem/1.25rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-mdev__os { font: 400 .78125rem/1rem var(--font); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-mdev.is-off .kk-mdev__n, .kk-mdev.is-off .kk-mdev__ic { opacity: .55; }
+.kk-prow__on.is-mut { color: var(--text-3); }
+/* Д2 вариант Б, Т1 (телефон, планшет): вторая строка пользователя — линия на всю ширину, точки устройств и «N из M»;
+   справа — «Выдать настройки» (QR) и раскрытие; у устройства — только точка «в сети» (слово — в подсказке) */
+.kk-prow__sp { display: flex; align-items: center; gap: 8px; min-width: 0; padding-top: 4px; }
+.kk-prow__sp > .gx-spark.kk-sp1 { flex: 1 1 0; width: auto; min-width: 40px; height: 20px; }
+.kk-prow__sp > .kk-act__off { flex: 1 1 auto; min-width: 0; color: var(--text-3); font-size: .78125rem; line-height: 1.25rem; }
+.kk-prow__sp > .kk-on2__d { flex: none; display: inline-flex; gap: 3px; }
+.kk-prow__sp .gx-dot { width: 8px; height: 8px; }
+.kk-prow__n2 { flex: none; font-size: .78125rem; line-height: 1rem; color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kk-prow > .kk-prow__qr { flex: none; align-self: center; }
+/* Т3: справа QR · раскрытие · «⋯» — узко (36 / 32), чтобы метка у имени не обрезалась до точки; касание — вся высота строки */
+.kk-plist .kk-prow > .kk-prow__qr, .kk-plist .kk-prow > .kk-prow__more { width: 36px; min-width: 36px; padding: 0; }
+.kk-plist .kk-prow > button.kk-prow__exp { min-width: 32px; padding: 0 4px; justify-content: center; }
+.kk-mdev__on { padding-right: 4px; }
+/* общее правило касания телефона ([data-device=phone] button: min-height 44, components.css) строже .kk-mdev — строка
+   устройства 56 по HANDOFF */
+.kk-plist .kk-pdevs > .kk-mdev { min-width: 0; min-height: 56px; }
+/* имя не сжимается, пока есть куда сжаться метке (иначе доля пикселя от сжатия уже даёт многоточие: «Ма…»); длинное —
+   не шире строки за вычетом метки числа (18 + 8) и края метки состояния (36 + 8) */
+.kk-prow__t > .kk-prow__n { flex-shrink: 0; max-width: 100%; }
+.kk-prow__t:has(> .gx-chip) > .kk-prow__n { max-width: calc(100% - 44px); }
+.kk-prow__t:has(> .kk-ucp) > .kk-prow__n { max-width: calc(100% - 26px); }
+.kk-prow__t:has(> .gx-chip):has(> .kk-ucp) > .kk-prow__n { max-width: calc(100% - 70px); }
+
+/* ── Т3 «Выдать настройки» (Д2 Б r3, О5 / О6): одно окно, вкладки «Подписка» (рекомендуем) / «Статический ключ»;
+   устройство — плашками над вкладкой; «Подписка» — три колонки: приложение · ссылка · включите VPN (на 1440×900 —
+   без прокрутки); «Статический ключ» — give.js как был ── */
+.kk-iss .gx-dlg__body { display: grid; gap: 16px; }
+.kk-ktab { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: calc(var(--r-field) + 4px); background: var(--surface-2); }
+.kk-ktab > button { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 0 10px; min-height: 56px; padding: 8px 12px; border: 0; border-radius: var(--r-field); background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.kk-ktab > button:hover:not([aria-selected="true"]) { background: color-mix(in oklab, var(--segment) 45%, transparent); }
+.kk-ktab > button[aria-selected="true"] { background: var(--segment); box-shadow: var(--segment-shadow); }
+.kk-ktab > button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-ktab__ic { width: 32px; height: 32px; border-radius: var(--r-tag); display: grid; place-items: center; background: var(--surface-3); color: var(--text-2); }
+.kk-ktab > button[aria-selected="true"] .kk-ktab__ic { background: var(--accent); color: var(--accent-foreground); }
+.kk-ktab__b { display: grid; gap: 1px; min-width: 0; }
+.kk-ktab__b > b { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font: 600 .9375rem/1.25rem var(--font); }
+.kk-ktab__b > span { font-size: .78125rem; line-height: 1rem; color: var(--text-2); text-wrap: pretty; }
+.kk-iss__tb { display: grid; gap: 16px; min-width: 0; }
+.kk-iss__pick { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px 12px; align-items: center; }
+.kk-iss__pick > span { font-size: .78125rem; color: var(--text-2); }
+.kk-iss__chips, .kk-iss__plats { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+/* вкладка «Подписка» (О5 / t4): ряд «Платформа», строка «Протокол», три колонки; список приложений — give.js (o.only) */
+.kk-iss__sub { display: grid; gap: 12px; min-width: 0; }
+.kk-iss__sub > .kk-iss__body--sub { margin-top: 6px; }
+.kk-iss__pick[hidden] { display: none; }
+.kk-iss__pick > .kk-iss__all { margin: 0; }
+.kk-iss__apps { min-width: 0; }
+.kk-iss__apps .gs-apps:first-child { margin-top: 0; }
+.kk-iss__chips > button, .kk-iss__plats > button { height: 30px; max-width: 100%; padding: 0 12px; border: 0; border-radius: var(--r-btn); background: var(--surface-2); color: var(--foreground); font: 500 .8125rem/1.875rem var(--font); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-iss__chips > button[aria-pressed="true"], .kk-iss__plats > button[aria-checked="true"] { background: var(--accent-soft); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent-text); }
+.kk-iss__chips > button:focus-visible, .kk-iss__plats > button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-iss__body { min-width: 0; }
+.kk-qr { flex: none; }
+/* колонка 1 шире (T-it1b п.4): строка приложения в одну линию — имя, «рекомендуем», магазин, QR */
+.kk-iss__body--sub { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr) minmax(0, .9fr); gap: 18px 20px; align-items: start; }
+.kk-iss__sh { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 0 10px; align-items: center; margin-bottom: 10px; }
+.kk-iss__n { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); font: 600 .75rem/1 var(--font-head); }
+.kk-iss__sh > b { font: 600 .9375rem/1.25rem var(--font-head); }
+.kk-iss__sh > span:last-child:not(.kk-iss__n) { grid-column: 2; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kk-iss__all, .kk-iss__apps-t { margin: 0 0 8px; font-size: .8125rem; line-height: 1.1875rem; color: var(--text-2); text-wrap: pretty; }
+.kk-iss__all { color: var(--foreground); }
+.kk-iss__key { display: grid; gap: 8px; justify-items: center; padding: 12px; border-radius: var(--r-tile); background: var(--tile-bg); min-width: 0; }
+.kk-iss__key > p { margin: 0; justify-self: stretch; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kk-iss__key > .gx-al { justify-self: stretch; }
+.kk-iss__key > .ga-btn { justify-self: stretch; }
+.kk-subk { display: grid; justify-items: center; align-content: center; gap: 8px; width: 176px; height: 176px; box-sizing: border-box; padding: 16px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--text-3); text-align: center; font-size: .78125rem; line-height: 1.0625rem; color: var(--text-2); }
+.kk-subk > .gi { color: var(--text-3); }
+/* окно «Ссылка для приложений»: приложения подписки — тем же блоком, что вкладка «Подписка» (app.js subApps) */
+.kk-sb__apps { display: grid; gap: 10px; min-width: 0; }
+.kk-sb__h { font-size: .9375rem; font-weight: 600; }
+.kk-qr--on { width: 176px; height: 176px; padding: 8px; box-sizing: border-box; border-radius: 12px; background: #fff; display: grid; place-items: center; }
+.kk-qr--on > .gx-qrart, .kk-qr--on svg { width: 100%; height: 100%; }
+.kk-subu { justify-self: stretch; display: block; padding: 6px 10px; border-radius: var(--r-tag); background: var(--surface-2); font: 500 .75rem/1rem var(--mono); color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-iss__kb { display: flex; gap: 6px; justify-self: stretch; }
+.kk-iss__kb > .ga-btn { flex: 1; min-width: 0; }
+.kk-iss__kb > .ga-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-text); }
+.kk-iss__ol { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: .8125rem; color: var(--foreground); }
+.kk-iss__ol > li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; align-items: center; min-height: 44px; padding: 6px 10px; border-radius: var(--r-field); background: var(--tile-bg); }
+.kk-iss__ol > li > i { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-3); font: 600 .71875rem/1 var(--font-head); font-style: normal; color: var(--text-2); }
+.kk-iss__ol > li > span { line-height: 1.125rem; text-wrap: pretty; }
+@media (max-width: 899.98px) { .kk-iss__body--sub { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .kk-iss__body--sub > .kk-iss__steps { grid-column: 1 / -1; } }
+[data-device="phone"] .kk-ktab > button { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 6px; padding: 10px; }
+[data-device="phone"] .kk-ktab__ic { width: 28px; height: 28px; }
+[data-device="phone"] .kk-iss__pick { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+[data-device="phone"] .kk-iss__chips, [data-device="phone"] .kk-iss__plats { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+[data-device="phone"] .kk-iss__chips > button, [data-device="phone"] .kk-iss__plats > button { height: 36px; flex: none; }
+[data-device="phone"] .kk-iss__body--sub { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+[data-device="phone"] .kk-iss__body--sub > .kk-iss__steps { grid-column: auto; }
+[data-device="phone"] .kk-iss__kb > .ga-btn { height: 44px; }
+[data-device="phone"] .kk-ktab__b > span { display: none; }                 /* пояснения вкладок — длинные для 390 */

@@ -1,0 +1,83 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libaio1t64 libboost-iostreams1.83.0 libboost-thread1.83.0 libcryptsetup12
+  libdaxctl1 libfmt10 libgfapi0 libgfrpc0 libgfxdr0 libglusterfs0 libibverbs1
+  libldap2 libluajit-5.1-2 libluajit-5.1-common libmariadb3 libnbd0 libndctl6
+  libnfs14 libnl-3-200 libnl-route-3-200 libpmem1 libpq5 librados2 librbd1
+  librdmacm1t64 libsasl2-2 libsasl2-modules-db mariadb-common mysql-common
+Suggested packages:
+  fio-examples gnuplot
+Recommended packages:
+  ibverbs-providers libldap-common libsasl2-modules
+The following NEW packages will be installed:
+  fio libaio1t64 libboost-iostreams1.83.0 libboost-thread1.83.0
+  libcryptsetup12 libdaxctl1 libfmt10 libgfapi0 libgfrpc0 libgfxdr0
+  libglusterfs0 libibverbs1 libldap2 libluajit-5.1-2 libluajit-5.1-common
+  libmariadb3 libnbd0 libndctl6 libnfs14 libnl-3-200 libnl-route-3-200
+  libpmem1 libpq5 librados2 librbd1 librdmacm1t64 libsasl2-2
+  libsasl2-modules-db mariadb-common mysql-common sysbench
+0 upgraded, 31 newly installed, 0 to remove and 91 not upgraded.
+Inst libaio1t64 (0.3.113-8+b1 Debian:13.7/stable [amd64])
+Inst libgfxdr0 (11.1-6 Debian:13.7/stable [amd64])
+Inst libglusterfs0 (11.1-6 Debian:13.7/stable [amd64])
+Inst libgfrpc0 (11.1-6 Debian:13.7/stable [amd64])
+Inst libgfapi0 (11.1-6 Debian:13.7/stable [amd64])
+Inst libnl-3-200 (3.7.0-2 Debian:13.7/stable [amd64])
+Inst libnl-route-3-200 (3.7.0-2 Debian:13.7/stable [amd64])
+Inst libibverbs1 (56.1-1 Debian:13.7/stable [amd64])
+Inst libnbd0 (1.22.2-1+b1 Debian:13.7/stable [amd64])
+Inst libnfs14 (5.0.2-1+deb13u1 Debian:13.7/stable [amd64])
+Inst libdaxctl1 (81-1 Debian:13.7/stable [amd64])
+Inst libndctl6 (81-1 Debian:13.7/stable [amd64])
+Inst libpmem1 (1.13.1-1.1+b1 Debian:13.7/stable [amd64])
+Inst libboost-iostreams1.83.0 (1.83.0-4.2 Debian:13.7/stable [amd64])
+Inst libboost-thread1.83.0 (1.83.0-4.2 Debian:13.7/stable [amd64])
+Inst libfmt10 (10.1.1+ds1-4 Debian:13.7/stable [amd64])
+Inst librdmacm1t64 (56.1-1 Debian:13.7/stable [amd64])
+Inst librados2 (18.2.7+ds-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libcryptsetup12 (2:2.7.5-2 Debian:13.7/stable [amd64])
+Inst librbd1 (18.2.7+ds-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst fio (3.39-1 Debian:13.7/stable [amd64])
+Inst libsasl2-modules-db (2.1.28+dfsg1-9 Debian:13.7/stable [amd64])
+Inst libsasl2-2 (2.1.28+dfsg1-9 Debian:13.7/stable [amd64])
+Inst libldap2 (2.6.10+dfsg-1 Debian:13.7/stable [amd64])
+Inst libluajit-5.1-common (2.1.0+openresty20250117-2 Debian:13.7/stable [all])
+Inst libluajit-5.1-2 (2.1.0+openresty20250117-2 Debian:13.7/stable [amd64])
+Inst mysql-common (5.8+1.1.1 Debian:13.7/stable [all])
+Inst mariadb-common (1:11.8.6-0+deb13u1 Debian:13.7/stable [all])
+Inst libmariadb3 (1:11.8.6-0+deb13u1 Debian:13.7/stable [amd64])
+Inst libpq5 (17.11-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst sysbench (1.0.20+ds-7 Debian:13.7/stable [amd64])
+Conf libaio1t64 (0.3.113-8+b1 Debian:13.7/stable [amd64])
+Conf libgfxdr0 (11.1-6 Debian:13.7/stable [amd64])
+Conf libglusterfs0 (11.1-6 Debian:13.7/stable [amd64])
+Conf libgfrpc0 (11.1-6 Debian:13.7/stable [amd64])
+Conf libgfapi0 (11.1-6 Debian:13.7/stable [amd64])
+Conf libnl-3-200 (3.7.0-2 Debian:13.7/stable [amd64])
+Conf libnl-route-3-200 (3.7.0-2 Debian:13.7/stable [amd64])
+Conf libibverbs1 (56.1-1 Debian:13.7/stable [amd64])
+Conf libnbd0 (1.22.2-1+b1 Debian:13.7/stable [amd64])
+Conf libnfs14 (5.0.2-1+deb13u1 Debian:13.7/stable [amd64])
+Conf libdaxctl1 (81-1 Debian:13.7/stable [amd64])
+Conf libndctl6 (81-1 Debian:13.7/stable [amd64])
+Conf libpmem1 (1.13.1-1.1+b1 Debian:13.7/stable [amd64])
+Conf libboost-iostreams1.83.0 (1.83.0-4.2 Debian:13.7/stable [amd64])
+Conf libboost-thread1.83.0 (1.83.0-4.2 Debian:13.7/stable [amd64])
+Conf libfmt10 (10.1.1+ds1-4 Debian:13.7/stable [amd64])
+Conf librdmacm1t64 (56.1-1 Debian:13.7/stable [amd64])
+Conf librados2 (18.2.7+ds-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libcryptsetup12 (2:2.7.5-2 Debian:13.7/stable [amd64])
+Conf librbd1 (18.2.7+ds-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf fio (3.39-1 Debian:13.7/stable [amd64])
+Conf libsasl2-modules-db (2.1.28+dfsg1-9 Debian:13.7/stable [amd64])
+Conf libsasl2-2 (2.1.28+dfsg1-9 Debian:13.7/stable [amd64])
+Conf libldap2 (2.6.10+dfsg-1 Debian:13.7/stable [amd64])
+Conf libluajit-5.1-common (2.1.0+openresty20250117-2 Debian:13.7/stable [all])
+Conf libluajit-5.1-2 (2.1.0+openresty20250117-2 Debian:13.7/stable [amd64])
+Conf mysql-common (5.8+1.1.1 Debian:13.7/stable [all])
+Conf mariadb-common (1:11.8.6-0+deb13u1 Debian:13.7/stable [all])
+Conf libmariadb3 (1:11.8.6-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libpq5 (17.11-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf sysbench (1.0.20+ds-7 Debian:13.7/stable [amd64])

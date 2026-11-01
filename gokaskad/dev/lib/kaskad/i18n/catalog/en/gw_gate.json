@@ -1,0 +1,5 @@
+{
+ "gw_gate.comment": "Kaskad 3: a gateway inbound does not start without the gateway part in the nftables table (fail-closed).",
+ "gw_gate.comment_owner": "This file is written by kaskadctl.",
+ "gw_gate.start_line": "Kaskad: inbound {iface} start #{n} since boot, {u} s after it"
+}

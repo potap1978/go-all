@@ -1,0 +1,102 @@
+/* Kaskad · «От вашего устройства до сервера» r1 — замер канала из браузера (BC5; SPEC-browser-channel §6, §10).
+   Источник — макет Claude Design export-2026-10-24-browser-speed-r1, css/speed.css; перенесено без изменений, кроме
+   отмеченного «панель:». Своя карточка на «Проверка сервера › Сейчас», под карточкой проверки сервера (pages/speed.js).
+   Подключается после check.css. Только токены; новых цветов нет. SVG — атрибутами, без style (CSP).
+   Перестройка — по ширине карточки (container query «spd»), а не окна. */
+
+
+.gx-spd { container: spd / inline-size; }
+.gx-spd h3, .gx-spd p, .gx-spd ol, .gx-spd figure { margin: 0; }
+.gx-spd .gx-card__sub { max-width: 72ch; }
+.gx-spd .gx-card__tt { flex: 1 1 auto; min-width: 0; }
+.gx-spd__when { font-size: var(--fs-sm); color: var(--text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ── старт: кнопка · цена · строки про VPN ── */
+.gx-spd__go { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.gx-spd__price { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-spd__vpn { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; max-width: 72ch; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; }
+
+/* панель: части go DS, которых в панели ещё нет (gx-card__sub, gx-tile__u), и крупная цифра плитки как в go DS */
+.gx-spd .gx-card__sub { color: var(--text-2); font-size: var(--fs-sm); line-height: 1.45; text-wrap: pretty; }
+.gx-spd .gx-tile__u { color: var(--text-2); font: 400 var(--fs-sm) var(--font); margin-left: 4px; }
+.gx-spd .gx-tile__v--big { font-size: 1.375rem; line-height: 1.75rem; }
+/* панель: подпись сообщения — абзацы (несколько пометок подряд) */
+.gx-spd .gx-al__text { margin: 0; }
+.gx-spd .gx-al__text + .gx-al__text { margin-top: 4px; }
+/* панель: стрелка «История» — chevron-down, раскрыто — повёрнута (chevron-up в наборе значков нет) */
+.gx-spd__tog[aria-expanded="true"] .gi { transform: rotate(180deg); }
+
+/* ── сетка: слева итог или ход, справа график ── */
+.gx-spd__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+.gx-spd__l { display: grid; gap: 12px; align-content: start; min-width: 0; }
+
+/* ход: фазы словами, текущая скорость крупно */
+.gx-spd__ph { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-3); }
+.gx-spd__ph > .is-done { color: var(--text-2); }
+.gx-spd__ph > .is-cur { color: var(--foreground); font-weight: 500; }
+.gx-spd__now { display: grid; gap: 2px; }
+.gx-spd__nowk { font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.gx-spd__nowv { display: flex; align-items: baseline; gap: 8px; }
+.gx-spd__nowv > b { font: 600 3rem/3.25rem var(--font-head); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.gx-spd__nowv > span { font: 500 var(--fs-lg)/1.375rem var(--font); color: var(--text-2); }
+.gx-spd__done { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.gx-spd__done b { font-weight: 500; color: var(--foreground); }
+.gx-spd__stop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+
+/* итог: плитка 2 × 2 (gx-tiles--2) + строка «Под нагрузкой» */
+.gx-tiles--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gx-spd .gx-tile__v--big { white-space: nowrap; }
+.gx-spd__load { margin: 0; font-size: var(--fs); line-height: 1.25rem; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.gx-spd__load > span { color: var(--text-2); }
+.gx-spd__load > b { font-weight: 600; }
+.gx-spd__load--why { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.gx-spd__warn { margin: 0; padding-top: 14px; border-top: 1px solid var(--separator); max-width: 96ch; font-size: var(--fs-sm); line-height: 1.5; color: var(--text-2); text-wrap: pretty; }
+
+/* ── график скорости по времени: тонкая линия на сетке графиков (grid.css, Claude Design «Сетка на графиках r1» Ск1):
+   деления 1-2-5 и «Мбит/с» над колонкой чисел, вертикальные линии — границы фаз, подписи фаз — по центру фазы ── */
+.gx-spd__chart { display: grid; gap: 6px; margin: 0; min-width: 0; }
+.gx-spd__chart > .gx-grid { --grid-h: 180px; }
+.gx-spd__line { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.gx-spd__line--live { stroke: var(--accent); }
+.gx-spd__chart .gx-grid__x > .is-done { color: var(--text-2); }
+.gx-spd__chart .gx-grid__x > .is-cur { color: var(--foreground); font-weight: 500; }
+
+/* ── «История на этом устройстве»: до 30 записей строкой ── */
+.gx-spd__hist { display: grid; gap: 8px; justify-items: start; }
+.gx-spdh { justify-self: stretch; border-radius: var(--r-tile); background: var(--tile-bg); overflow: hidden; font-variant-numeric: tabular-nums; }
+.gx-spdh__h, .gx-spdh__r { display: grid; grid-template-columns: 148px repeat(4, minmax(0, 1fr)); column-gap: 12px; align-items: center; padding: 0 14px; }
+.gx-spdh__h { padding-block: 8px; font: 500 .75rem/1rem var(--font); color: var(--text-2); border-bottom: 1px solid var(--separator); }
+.gx-spdh__h > span { text-align: right; }
+.gx-spdh__h small { display: block; font-weight: 400; color: var(--text-3); }
+.gx-spdh__r { min-height: 30px; box-shadow: inset 0 1px 0 var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; }
+.gx-spdh__h + .gx-spdh__r { box-shadow: none; }
+.gx-spdh__r > span { text-align: right; font: 400 .8125rem/1.125rem var(--mono); }
+.gx-spdh__d { display: flex; gap: 8px; text-align: left !important; font-family: var(--font) !important; }
+.gx-spdh__d > b { font: 500 .8125rem/1.125rem var(--mono); }
+.gx-spdh__d > small { font-size: var(--fs-sm); color: var(--text-2); }
+.gx-spdh__nil { color: var(--text-3); }
+
+/* ── ширина карточки ── */
+@container spd (min-width: 820px) {
+  .gx-spd__grid { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 28px; }
+  .gx-spdh { max-width: 860px; }
+}
+@container spd (max-width: 520px) {
+  .gx-spd .gx-card__acts { width: 100%; margin-left: 0; justify-content: space-between; }
+  .gx-spd__go > .ga-btn, .gx-spd__stop > .ga-btn { flex: 1 1 100%; }       /* панель: «Проверить», «Остановить» во всю ширину */
+  .gx-spd__stop > .ga-kbd { display: none; }                                  /* панель: на телефоне Esc нет */
+  .gx-spd__nowv > b { font-size: 2.5rem; line-height: 2.75rem; }
+  .gx-spd__chart > .gx-grid { --grid-h: 160px; }
+  .gx-spdh { margin-inline: calc(var(--card-p) * -1 + 8px); }
+  .gx-spdh__h, .gx-spdh__r { grid-template-columns: 50px repeat(4, minmax(0, 1fr)); column-gap: 6px; padding: 0 8px; }
+  .gx-spdh__h > span { overflow-wrap: anywhere; }
+  .gx-spdh__r { min-height: 40px; }
+  .gx-spdh__d { display: grid; gap: 0; }
+  .gx-spdh__d > small { font-size: .75rem; line-height: 1rem; }
+}
+
+/* ── место на «Сейчас»: своя карточка под проверкой сервера, отступ больше обычного ──
+   панель: стопка «Сейчас» — .gx-now (components.css, gap --sp-4), в макете kk-now (gap --sp-5 + --sp-3 = 32 px) */
+.gx-now > .gx-spd { margin-top: var(--sp-4); }
+
+@media (prefers-reduced-motion: reduce) { .gx-spd__line { transition: none; } }

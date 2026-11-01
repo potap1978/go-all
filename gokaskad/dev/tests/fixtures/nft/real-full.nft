@@ -1,0 +1,27 @@
+table ip kaskad
+delete table ip kaskad
+table ip kaskad {
+	counter fwd_udp_5353 {
+		packets 0 bytes 0
+	}
+	counter fwd_tcp_8081 {
+		packets 0 bytes 0
+	}
+	chain fwd_pre {
+		type nat hook prerouting priority -101; policy accept;
+		fib daddr type local iifname != "lo" jump fwd_dnat
+	}
+	chain fwd_dnat {
+		udp dport 5353 ct mark set ct mark or 0x4b000000 dnat to 10.99.0.2:5353 comment "kaskad:5353:udp"
+		tcp dport 8081 ct mark set ct mark or 0x4b000000 dnat to 10.99.0.2:8080 comment "kaskad:8081:tcp"
+	}
+	chain fwd_count {
+		type filter hook forward priority -5; policy accept;
+		meta l4proto udp ct original proto-dst 5353 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_udp_5353" return
+		meta l4proto tcp ct original proto-dst 8081 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_8081" return
+	}
+	chain fwd_post {
+		type nat hook postrouting priority 101; policy accept;
+		ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade
+	}
+}

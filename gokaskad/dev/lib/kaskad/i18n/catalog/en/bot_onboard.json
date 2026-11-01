@@ -1,0 +1,10 @@
+{
+ "bot_onboard.bad_chat": "Chat ID must be a number (a group’s starts with a minus).",
+ "bot_onboard.bad_format": "This doesn’t look like a bot token from @BotFather (it looks like 123456789:AA…).",
+ "bot_onboard.bad_token": "Telegram didn’t accept the token — check it with @BotFather.",
+ "bot_onboard.net": "No connection to Telegram through the bot proxy: {error}",
+ "bot_onboard.net_no_exit": "Couldn’t reach Telegram — add an exit first.",
+ "bot_onboard.no_token": "Paste the bot token from @BotFather.",
+ "bot_onboard.telegram": "Telegram returned an error: {error}",
+ "bot_onboard.test_message": "✅ Kaskad: bot connected in the panel. This is a test message."
+}

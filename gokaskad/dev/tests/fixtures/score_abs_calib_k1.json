@@ -1,0 +1,558 @@
+{
+ "version": "abs-0.5-k1",
+ "date": "2026-10-28",
+ "source": "k3/stand/logs/K-it1-calib.md (К1 круга 1); MSK-1 — волна 1 B9 (k3/stand/data/b9)",
+ "rule": "на ядро (cpu_1t, chacha_1t, aes_1t, mem_bw): 900 = медиана lucky_ded1, 100/500/700 = якоря исследования × (900 / якорь 900 исследования), у chacha_1t и aes_1t 100 — как в исследовании; cpu_mt: 500 = медиана base_1vcpu, 700 = медиана good_2vcpu, 900 = 700 × 3, 100 = 500 / 6 (отношения исследования); округление до 2 значащих цифр; остальные тесты — якоря исследования",
+ "research_anchors": {
+  "net_down": [
+   30,
+   300,
+   600,
+   1500
+  ],
+  "net_up": [
+   20,
+   200,
+   500,
+   1200
+  ],
+  "rtt": [
+   120,
+   25,
+   10,
+   3
+  ],
+  "loss": [
+   5,
+   0.5,
+   0.1,
+   0.01
+  ],
+  "jitter": [
+   30,
+   3,
+   1,
+   0.3
+  ],
+  "dns": [
+   300,
+   40,
+   15,
+   5
+  ],
+  "cpu_1t": [
+   250,
+   1000,
+   1500,
+   2500
+  ],
+  "cpu_mt": [
+   250,
+   1500,
+   4000,
+   12000
+  ],
+  "chacha_1t": [
+   150,
+   700,
+   1200,
+   2200
+  ],
+  "aes_1t": [
+   300,
+   2000,
+   3500,
+   6000
+  ],
+  "steal_p95": [
+   20,
+   3,
+   1,
+   0.2
+  ],
+  "cpu_cv": [
+   30,
+   8,
+   4,
+   1.5
+  ],
+  "cpu_sustain": [
+   0.5,
+   0.9,
+   0.95,
+   0.98
+  ],
+  "cpu_canary_cv": [
+   40,
+   10,
+   5,
+   2
+  ],
+  "net_cv": [
+   60,
+   25,
+   12,
+   5
+  ],
+  "mem_gb": [
+   0.5,
+   2,
+   4,
+   16
+  ],
+  "mem_bw": [
+   1500,
+   6000,
+   10000,
+   18000
+  ],
+  "disk_rr": [
+   1000,
+   15000,
+   40000,
+   120000
+  ],
+  "disk_rw": [
+   500,
+   8000,
+   25000,
+   80000
+  ],
+  "disk_fsync": [
+   20,
+   2,
+   0.8,
+   0.2
+  ]
+ },
+ "machines": {
+  "base_1vcpu": {
+   "class": "базовый (500 на все ядра)",
+   "hoster": "Aeza",
+   "tariff": "MSKs-1: общий, 1 vCPU, 2 ГБ, 30 ГБ",
+   "city": "Москва",
+   "dates": "2026-10-28",
+   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+   "nproc": 1,
+   "runs": [
+    {
+     "ts": 1793138115,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6583.0999,
+      "chacha_1t": 1867.4988,
+      "cpu_1t": 5458.5,
+      "cpu_cv": 2.8469,
+      "cpu_mt": 5478.27,
+      "cpu_sustain": 0.9916,
+      "disk_fsync": 0.3445,
+      "disk_rr": 10098.5606,
+      "disk_rw": 10098.8703,
+      "disk_seq": 3215.7589,
+      "mem_bw": 29331.37,
+      "mem_gb": 2.064,
+      "net_down": 694.912,
+      "net_up": 9121.213,
+      "now_loss": 0.0,
+      "now_rtt": 19.553
+     }
+    },
+    {
+     "ts": 1793139007,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6475.9185,
+      "chacha_1t": 1822.4527,
+      "cpu_1t": 5341.56,
+      "cpu_cv": 4.3591,
+      "cpu_mt": 5113.71,
+      "cpu_sustain": 0.9934,
+      "disk_fsync": 0.3416,
+      "disk_rr": 10098.6704,
+      "disk_rw": 9722.5387,
+      "disk_seq": 3722.9585,
+      "mem_bw": 32647.61,
+      "mem_gb": 2.064,
+      "net_down": 1096.084,
+      "net_up": 9160.36,
+      "now_loss": 0.0,
+      "now_rtt": 19.633
+     }
+    },
+    {
+     "ts": 1793139907,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6689.3044,
+      "chacha_1t": 1856.1984,
+      "cpu_1t": 5504.12,
+      "cpu_cv": 11.8116,
+      "cpu_mt": 5438.49,
+      "cpu_sustain": 1.0032,
+      "disk_fsync": 0.3408,
+      "disk_rr": 9998.1008,
+      "disk_rw": 10097.0612,
+      "disk_seq": 3704.0879,
+      "mem_bw": 30495.67,
+      "mem_gb": 2.064,
+      "net_down": 738.459,
+      "net_up": 9261.023,
+      "now_loss": 0.0,
+      "now_rtt": 19.513
+     }
+    },
+    {
+     "ts": 1793140807,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6683.389,
+      "chacha_1t": 1790.745,
+      "cpu_1t": 5625.83,
+      "cpu_cv": 12.1935,
+      "cpu_mt": 5001.01,
+      "cpu_sustain": 0.9533,
+      "disk_fsync": 0.3049,
+      "disk_rr": 10097.9608,
+      "disk_rw": 10095.9712,
+      "disk_seq": 2928.7162,
+      "mem_bw": 33976.72,
+      "mem_gb": 2.064,
+      "net_down": 650.664,
+      "net_up": 9210.692,
+      "now_loss": 0.0,
+      "now_rtt": 19.542
+     }
+    },
+    {
+     "ts": 1793141707,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6626.2995,
+      "chacha_1t": 1921.1336,
+      "cpu_1t": 5650.84,
+      "cpu_cv": 7.4483,
+      "cpu_mt": 5445.87,
+      "cpu_sustain": 0.9825,
+      "disk_fsync": 0.2847,
+      "disk_rr": 10098.7704,
+      "disk_rw": 10081.7673,
+      "disk_seq": 3894.1119,
+      "mem_bw": 34227.89,
+      "mem_gb": 2.064,
+      "net_down": 696.718,
+      "now_loss": 0.0,
+      "now_rtt": 19.465
+     }
+    },
+    {
+     "ts": 1793142607,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6590.4831,
+      "chacha_1t": 1840.6011,
+      "cpu_1t": 5593.86,
+      "cpu_cv": 3.5089,
+      "cpu_mt": 5486.97,
+      "cpu_sustain": 1.0172,
+      "disk_fsync": 0.303,
+      "disk_rr": 10098.7605,
+      "disk_rw": 10022.491,
+      "disk_seq": 3994.4854,
+      "mem_bw": 34121.01,
+      "mem_gb": 2.064,
+      "net_down": 1027.467,
+      "net_up": 9267.734,
+      "now_loss": 0.0,
+      "now_rtt": 19.581
+     }
+    },
+    {
+     "ts": 1793143507,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6744.1594,
+      "chacha_1t": 1949.89,
+      "cpu_1t": 5603.54,
+      "cpu_cv": 3.0076,
+      "cpu_mt": 5538.43,
+      "cpu_sustain": 0.9872,
+      "disk_fsync": 0.3245,
+      "disk_rr": 10097.9608,
+      "disk_rw": 9699.3902,
+      "disk_seq": 3942.4864,
+      "mem_bw": 34230.18,
+      "mem_gb": 2.064,
+      "net_down": 719.318,
+      "net_up": 9401.952,
+      "now_loss": 0.0,
+      "now_rtt": 19.466
+     }
+    },
+    {
+     "ts": 1793144407,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6573.5673,
+      "chacha_1t": 1950.6139,
+      "cpu_1t": 5605.49,
+      "cpu_cv": 2.9256,
+      "cpu_mt": 5701.08,
+      "cpu_sustain": 1.0175,
+      "disk_fsync": 0.3933,
+      "disk_rr": 9958.3292,
+      "disk_rw": 10088.6645,
+      "disk_seq": 4466.4599,
+      "mem_bw": 35146.36,
+      "mem_gb": 2.064,
+      "net_down": 1032.027,
+      "net_up": 8724.152,
+      "now_loss": 0.0,
+      "now_rtt": 19.463
+     }
+    }
+   ]
+  },
+  "good_2vcpu": {
+   "class": "хороший (700 на все ядра)",
+   "hoster": "Aeza",
+   "tariff": "MSKs-2: общий, 2 vCPU, 4 ГБ, 60 ГБ",
+   "city": "Москва",
+   "dates": "2026-10-28",
+   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+   "nproc": 2,
+   "runs": [
+    {
+     "ts": 1793138295,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6090.4766,
+      "chacha_1t": 1767.6955,
+      "cpu_1t": 5403.8,
+      "cpu_cv": 2.1448,
+      "cpu_mt": 9580.12,
+      "cpu_sustain": 1.0236,
+      "disk_fsync": 0.4109,
+      "disk_rr": 10095.8521,
+      "disk_rw": 10092.9535,
+      "disk_seq": 3402.3681,
+      "mem_bw": 33775.54,
+      "mem_gb": 4.106,
+      "net_down": 1060.554,
+      "net_up": 9187.203,
+      "now_loss": 0.0,
+      "now_rtt": 2.681
+     }
+    },
+    {
+     "ts": 1793139188,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6491.4533,
+      "chacha_1t": 1776.6884,
+      "cpu_1t": 5564.67,
+      "cpu_cv": 1.8903,
+      "cpu_mt": 10854.64,
+      "cpu_sustain": 0.9878,
+      "disk_fsync": 0.5537,
+      "disk_rr": 10099.0703,
+      "disk_rw": 10097.1514,
+      "disk_seq": 3568.4293,
+      "mem_bw": 34648.88,
+      "mem_gb": 4.106,
+      "net_down": 1428.689,
+      "net_up": 9160.36,
+      "now_loss": 0.0,
+      "now_rtt": 2.665
+     }
+    },
+    {
+     "ts": 1793140088,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6052.1508,
+      "chacha_1t": 1701.8075,
+      "cpu_1t": 5435.0,
+      "cpu_cv": 1.5649,
+      "cpu_mt": 10360.48,
+      "cpu_sustain": 1.011,
+      "disk_fsync": 0.5137,
+      "disk_rr": 10097.561,
+      "disk_rw": 10094.3623,
+      "disk_seq": 3084.2937,
+      "mem_bw": 33989.16,
+      "mem_gb": 4.106,
+      "net_down": 1463.157,
+      "net_up": 8724.152,
+      "now_loss": 0.0,
+      "now_rtt": 2.661
+     }
+    },
+    {
+     "ts": 1793140988,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6423.1911,
+      "chacha_1t": 1881.7073,
+      "cpu_1t": 5584.16,
+      "cpu_cv": 2.4712,
+      "cpu_mt": 10560.67,
+      "cpu_sustain": 1.0004,
+      "disk_fsync": 0.5266,
+      "disk_rr": 10098.9703,
+      "disk_rw": 10098.4705,
+      "disk_seq": 3257.9032,
+      "mem_bw": 33292.44,
+      "mem_gb": 4.106,
+      "net_down": 737.615,
+      "net_up": 9254.312,
+      "now_loss": 0.0,
+      "now_rtt": 2.656
+     }
+    },
+    {
+     "ts": 1793141888,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6617.5658,
+      "chacha_1t": 1899.1662,
+      "cpu_1t": 5611.77,
+      "cpu_cv": 1.4916,
+      "cpu_mt": 10836.25,
+      "cpu_sustain": 0.9999,
+      "disk_fsync": 0.4004,
+      "disk_rr": 10099.4702,
+      "disk_rw": 10098.3705,
+      "disk_seq": 4017.1301,
+      "mem_bw": 33506.91,
+      "mem_gb": 4.106,
+      "net_down": 1267.873,
+      "net_up": 3457.093,
+      "now_loss": 0.0,
+      "now_rtt": 2.677
+     }
+    },
+    {
+     "ts": 1793142789,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6643.1396,
+      "chacha_1t": 1897.6951,
+      "cpu_1t": 5656.98,
+      "cpu_cv": 2.1972,
+      "cpu_mt": 11248.86,
+      "cpu_sustain": 0.9931,
+      "disk_fsync": 0.3567,
+      "disk_rr": 10099.0703,
+      "disk_rw": 10098.3607,
+      "disk_seq": 4306.2695,
+      "mem_bw": 35318.76,
+      "mem_gb": 4.106,
+      "net_down": 710.655,
+      "net_up": 9281.156,
+      "now_loss": 0.0,
+      "now_rtt": 2.655
+     }
+    },
+    {
+     "ts": 1793143689,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6904.2601,
+      "chacha_1t": 1876.8154,
+      "cpu_1t": 5707.71,
+      "cpu_cv": 1.0964,
+      "cpu_mt": 11082.85,
+      "cpu_sustain": 0.9982,
+      "disk_fsync": 0.3191,
+      "disk_rr": 10099.0604,
+      "disk_rw": 10098.3705,
+      "disk_seq": 3889.0197,
+      "mem_bw": 34663.16,
+      "mem_gb": 4.106,
+      "net_down": 1032.542,
+      "net_up": 9321.421,
+      "now_loss": 0.0,
+      "now_rtt": 2.625
+     }
+    },
+    {
+     "ts": 1793144588,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 6863.3462,
+      "chacha_1t": 1874.4904,
+      "cpu_1t": 5790.34,
+      "cpu_cv": 2.2047,
+      "cpu_mt": 11299.16,
+      "cpu_sustain": 0.972,
+      "disk_fsync": 0.259,
+      "disk_rr": 10098.1607,
+      "disk_rw": 10097.0709,
+      "disk_seq": 4827.7269,
+      "mem_bw": 35022.6,
+      "mem_gb": 4.106,
+      "net_down": 1049.636,
+      "net_up": 9388.53,
+      "now_loss": 0.0,
+      "now_rtt": 2.608
+     }
+    }
+   ]
+  },
+  "lucky_ded1": {
+   "class": "повезло (900 на ядро)",
+   "hoster": "Aeza",
+   "tariff": "MSK-1: выделенное ядро, 1 vCPU, 2 ГБ, 30 ГБ",
+   "city": "Москва",
+   "dates": "2026-10-20, 2026-10-23",
+   "cpu": "AMD Ryzen 9 9950X 16-Core Processor",
+   "nproc": 1,
+   "runs": [
+    {
+     "ts": 1792445975,
+     "status": "partial",
+     "vals": {
+      "mem_gb": 2.064,
+      "cpu_1t": 6083.17,
+      "now_loss": 0.0,
+      "now_rtt": 3.888,
+      "dns": 32.5229,
+      "cpu_mt": 6018.42,
+      "chacha_1t": 2026.2505,
+      "aes_1t": 6640.4521,
+      "mem_bw": 36541.76,
+      "disk_rr": 29996.3004,
+      "disk_rw": 30393.5072,
+      "disk_fsync": 0.3831,
+      "disk_seq": 3026.8433,
+      "net_down": 1486.916,
+      "cpu_cv": 1.6569,
+      "cpu_sustain": 0.9769
+     }
+    },
+    {
+     "ts": 1792777216,
+     "status": "partial",
+     "vals": {
+      "aes_1t": 7190.3679,
+      "chacha_1t": 1957.1071,
+      "cpu_1t": 6014.89,
+      "cpu_cv": 7.4452,
+      "cpu_mt": 5940.68,
+      "cpu_sustain": 0.9863,
+      "disk_fsync": 0.1484,
+      "disk_rr": 30336.1664,
+      "disk_rw": 30386.4611,
+      "disk_seq": 4549.0712,
+      "dns": 38.2764,
+      "mem_bw": 34355.48,
+      "mem_gb": 2.064,
+      "net_down": 2210.684,
+      "now_loss": 0.0,
+      "now_rtt": 3.639
+     }
+    }
+   ]
+  }
+ }
+}

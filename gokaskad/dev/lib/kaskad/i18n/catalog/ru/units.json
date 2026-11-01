@@ -1,0 +1,4 @@
+{
+ "units.code": "код {rc}",
+ "units.write_failed": "не удалось записать {path}: {error}"
+}

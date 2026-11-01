@@ -1,0 +1,12 @@
+#!/bin/bash
+set -o pipefail
+
+# ══════════════════════════════════════════════════════════════
+#  KASKAD PRO v2.11 — Cascading VPN / Proxy Manager
+#  Telegram Bot · Live Ping · Monitoring · Alerts · GeoIP · System Stats
+#  Channel: https://www.youtube.com/@antenkaru
+# ══════════════════════════════════════════════════════════════
+
+KASKAD_VERSION="2.13"
+KASKAD_DIR="/etc/kaskad"
+KASKAD_CONF="$KASKAD_DIR/config"

@@ -1,0 +1,2 @@
+iperf3: unrecognized option '--forceflush'
+Usage: iperf3 [-s|-c host] [options]

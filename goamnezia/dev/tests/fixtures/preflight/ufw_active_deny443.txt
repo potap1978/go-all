@@ -1,0 +1,7 @@
+Status: active
+
+To                         Action      From
+--                         ------      ----
+443/tcp                    DENY        Anywhere
+80,443/tcp                 ALLOW       Anywhere
+22                         LIMIT       Anywhere

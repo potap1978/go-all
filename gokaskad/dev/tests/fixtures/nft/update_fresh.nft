@@ -1,0 +1,17 @@
+add table ip kaskad
+add chain ip kaskad fwd_pre { type nat hook prerouting priority -101; policy accept; }
+add chain ip kaskad fwd_dnat
+add chain ip kaskad fwd_count { type filter hook forward priority -5; policy accept; }
+add chain ip kaskad fwd_post { type nat hook postrouting priority 101; policy accept; }
+flush chain ip kaskad fwd_pre
+flush chain ip kaskad fwd_dnat
+flush chain ip kaskad fwd_count
+flush chain ip kaskad fwd_post
+add counter ip kaskad fwd_tcp_443
+add counter ip kaskad fwd_udp_51820
+add rule ip kaskad fwd_pre fib daddr type local iifname != "lo" jump fwd_dnat
+add rule ip kaskad fwd_dnat tcp dport 443 ct mark set ct mark or 0x4b000000 dnat to 203.0.113.5:443 comment "kaskad:443:tcp"
+add rule ip kaskad fwd_dnat udp dport 51820 ct mark set ct mark or 0x4b000000 dnat to 198.51.100.7:51820 comment "kaskad:51820:udp"
+add rule ip kaskad fwd_count meta l4proto tcp ct original proto-dst 443 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_tcp_443" return
+add rule ip kaskad fwd_count meta l4proto udp ct original proto-dst 51820 ct status dnat ct mark set ct mark or 0x4b000000 counter name "fwd_udp_51820" return
+add rule ip kaskad fwd_post ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade

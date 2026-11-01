@@ -1,0 +1,5 @@
+{
+ "gw_tls.apply_only": "The TLS certificate is created only by kaskadctl gw apply.",
+ "gw_tls.made": "TLS certificate for {host}",
+ "gw_tls.made_node": "TLS certificate for the server"
+}

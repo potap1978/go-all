@@ -1,0 +1,6 @@
+#!/bin/bash
+set -o pipefail
+
+# KASKAD PRO v2.3 (test stub: only the lines migrate scan reads)
+KASKAD_VERSION="2.3"
+KASKAD_DIR="/etc/kaskad"

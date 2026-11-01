@@ -1,0 +1,111 @@
+{
+ "plan": {
+  "elems": {
+   "10.77.1.10": 258,
+   "10.77.1.11": 258,
+   "10.77.1.12": 769,
+   "10.77.3.10": 258
+  },
+  "rd": [
+   "10.77.1.10"
+  ],
+  "uid": 990,
+  "vless": [
+   [
+    769,
+    12401
+   ]
+  ]
+ },
+ "rules": [
+  [
+   "gw_pre",
+   [
+    "ct direction reply ct mark and 0xffff != 0x0 meta mark set meta mark or 0x10000",
+    "iifname \"lo\" return",
+    "iifname \"kgw-*\" ip saddr != @gw_nets drop",
+    "iifname \"kgw-*\" fib saddr . iif oif missing drop",
+    "ip saddr 10.77.1.0/24 iifname != \"kgw-wg\" drop",
+    "ip saddr 10.77.3.0/24 iifname != \"kgw-awg2\" drop",
+    "ip daddr @gw_nets iifname != \"kgw-*\" meta ipsec missing drop",
+    "ip saddr != @gw_nets return",
+    "ip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport 53 ct mark set ct mark or 0x4b000000 return",
+    "ip daddr 10.77.0.1 icmp type echo-request ct mark set ct mark or 0x4b000000 return",
+    "ip saddr != @gw_live drop",
+    "fib daddr type local meta mark set 0x202 ct mark set ct mark or 0x202 return",
+    "ip daddr @gw_nets return",
+    "ct state established,related ct mark and 0xffff == 0x200 meta l4proto udp meta mark set 0x200 tproxy to 127.0.0.1:12345 accept",
+    "ct state established,related ct mark and 0xffff == 0x301 meta l4proto udp meta mark set 0x301 tproxy to 127.0.0.1:12401 accept",
+    "ct state established,related meta mark set ct mark and 0xffff return",
+    "meta mark set 0x2ff",
+    "meta mark set ip saddr map @gw_route",
+    "ip saddr @gw_rd ip daddr . meta l4proto @gw_ru ip daddr != @gw_force meta mark != 0x2ff meta mark set 0x201",
+    "ip saddr @gw_rd ip daddr @gw_ru_dns ip daddr != @gw_force meta mark != 0x2ff meta mark set 0x201",
+    "ct mark set meta mark or 0x4b000000",
+    "meta mark 0x200 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12345",
+    "meta mark 0x301 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12401"
+   ]
+  ],
+  [
+   "gw_fwd",
+   [
+    "ip saddr @gw_nets meta mark 0x2ff drop",
+    "ip saddr @gw_nets ct mark and 0xffff == 0x2ff drop",
+    "ip saddr @gw_nets ct mark and 0xffff == 0x200 drop",
+    "ip saddr @gw_nets ct mark and 0xff00 == 0x300 drop",
+    "ip saddr @gw_nets ct mark and 0xff00 == 0x100 oifname != \"kawg*\" drop",
+    "ip saddr @gw_nets ip daddr != @gw_nets ct mark and 0xffff == 0x0 drop",
+    "ip daddr 10.77.0.1 drop",
+    "ip saddr @gw_nets ip daddr @gw_nets drop",
+    "ip saddr @gw_nets ip daddr @gw_priv ct mark and 0xffff != 0x202 drop",
+    "ip saddr @gw_nets tcp flags syn tcp option maxseg size set rt mtu",
+    "iifname \"kgw-wg\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240",
+    "oifname \"kgw-wg\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240",
+    "iifname \"kgw-awg2\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240",
+    "oifname \"kgw-awg2\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240",
+    "iifname \"kawg*\" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192",
+    "oifname \"kawg*\" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192"
+   ]
+  ],
+  [
+   "gw_out",
+   [
+    "meta mark and 0xffffff00 == 0x100 oifname != \"kawg*\" drop",
+    "meta skuid 990 ip daddr 127.0.0.0/8 ct direction original meta l4proto { tcp, udp } th dport != 53 drop"
+   ]
+  ],
+  [
+   "gw_post",
+   [
+    "ip saddr @gw_nets oifname != \"lo\" ip daddr != @gw_nets masquerade"
+   ]
+  ],
+  [
+   "gw_dns",
+   [
+    "ip saddr @gw_nets ip daddr 10.77.0.1 udp dport 53 dnat to 10.77.0.1:5354",
+    "ip saddr @gw_nets ip daddr 10.77.0.1 tcp dport 53 dnat to 10.77.0.1:5354"
+   ]
+  ]
+ ],
+ "sets": [
+  "gw_nets",
+  "gw_ru",
+  "gw_live",
+  "gw_priv",
+  "gw_ru_dns",
+  "gw_force",
+  "gw_rd",
+  "gw_ru_ver"
+ ],
+ "specs": {
+  "gw_force": "type ipv4_addr; flags timeout; timeout 6h;",
+  "gw_live": "type ipv4_addr;",
+  "gw_nets": "type ipv4_addr; flags interval;",
+  "gw_priv": "type ipv4_addr; flags interval;",
+  "gw_rd": "type ipv4_addr;",
+  "gw_ru": "type ipv4_addr . inet_proto; flags interval;",
+  "gw_ru_dns": "type ipv4_addr; flags timeout; timeout 6h;",
+  "gw_ru_ver": "type ipv4_addr;"
+ }
+}

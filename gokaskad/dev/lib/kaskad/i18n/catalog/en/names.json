@@ -1,0 +1,19 @@
+{
+ "names.err.char": "{what}: the character {char} is not allowed. Control and invisible characters and the vertical bar are not allowed.",
+ "names.err.empty": "{what}: empty. Use 1 to {max} characters.",
+ "names.err.invisible": "{what}: no visible character.",
+ "names.err.long": "{what}: longer than {max} characters ({n}).",
+ "names.err.private": "{what}: the character {char} is from the private use area of Unicode — other devices show it differently or not at all. Remove it.",
+ "names.err.type": "{what}: must be text.",
+ "names.err.unassigned": "{what}: the character {char} is unknown to this system (not in its version of Unicode). Remove or replace it.",
+ "names.what.device": "Device name",
+ "names.what.exit": "Exit name",
+ "names.what.forward": "Forward name",
+ "names.what.group": "Group name",
+ "names.what.inbound": "Protocol label",
+ "names.what.level": "Level name",
+ "names.what.name": "Name",
+ "names.what.server": "Server name",
+ "names.what.sub": "Subscription name",
+ "names.what.user": "User name"
+}

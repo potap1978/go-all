@@ -1,0 +1,523 @@
+/* Kaskad 3.3.3 — общие компоненты ux.js: AgentKey, TelegramBot, ProtocolCard (+ журнал), ShareMenu, ExitsInput.
+   Размеры и цвета — k3/design/ux-333/export-2026-10-12/HANDOFF-ux-333.md §0–5; токены — tokens.css панели (у мастера те
+   же имена): s1 → --surface, s2 → --surface-2, s3 → --surface-3, bd → --border, sep → --separator, fld → --field-background,
+   ac/acf/acs/act → --accent/--accent-foreground/--accent-soft/--accent-text, ok/wa/er → --success/--warning/--danger (+ -soft, -text).
+   Новых токенов нет. Телефон — ширина < 768 px (как tokens.css). */
+
+.ux-fold, .ux-pc, .ux-ei, .ux-share, .ux-logroot { font-family: var(--font); color: var(--foreground); }
+.ux-fold *, .ux-pc *, .ux-ei *, .ux-share *, .ux-logroot * { box-sizing: border-box; }
+.ux-fold :focus-visible, .ux-pc :focus-visible, .ux-ei :focus-visible, .ux-share :focus-visible, .ux-logroot :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.ux-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.ux-ic { display: inline-flex; flex: none; align-items: center; justify-content: center; }
+.ux-mono, .ux-fold code, .ux-ei code { font-family: var(--mono); font-weight: 500; }
+.ux-fold code, .ux-ei code { font-size: .78125rem; padding: 1px 6px; border-radius: 6px; background: var(--surface-3); }
+.ux-tx2 { color: var(--text-2); }
+.ux-tx3 { color: var(--text-3); }
+.ux-small { font-size: .8125rem; line-height: 1.5; }
+.ux-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.ux-row--end { align-items: flex-end; }
+.ux-spacer { flex: 1 1 auto; }
+.ux-link { border: 0; background: none; padding: 0; color: var(--accent-text); font: 500 .875rem/1.4 var(--font); cursor: pointer; text-align: left; }
+.ux-link:hover { text-decoration: underline; }
+a.ux-link, .ux-fold a:not(.ux-btn), .ux-ei a { color: var(--accent-text); }
+
+/* ── кнопки ─────────────────────────────────────────────────────────────── */
+.ux-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 16px; border: 0; border-radius: 999px;
+  background: var(--surface-3); color: var(--foreground); font: 500 .875rem/1 var(--font); white-space: nowrap; cursor: pointer; text-decoration: none; flex: none; max-width: 100%;
+  transition: background var(--dur, .16s); }
+.ux-btn:hover:not([disabled]) { background: var(--surface-3-hover, var(--border)); }
+.ux-btn[disabled] { opacity: var(--disabled-opacity, .4); cursor: not-allowed; }
+.ux-btn--primary { background: var(--accent); color: var(--accent-foreground); font-weight: 600; }
+.ux-btn--primary:hover:not([disabled]) { background: var(--accent-hover, var(--accent)); }
+.ux-btn--lg { height: 44px; padding: 0 22px; font-size: .9375rem; }
+.ux-btn--sm { height: 32px; padding: 0 12px; font-size: .84375rem; }
+.ux-btn--icon { width: 36px; padding: 0; }
+.ux-btn--sm.ux-btn--icon { width: 32px; }
+.ux-btn--ghost { background: transparent; }
+.ux-btn--ghost:hover:not([disabled]) { background: var(--surface-2); }
+.ux-btn--danger { background: var(--danger-strong, var(--danger)); color: #fff; font-weight: 600; }
+.ux-btn--danger:hover:not([disabled]) { background: color-mix(in oklab, var(--danger-strong, var(--danger)) 90%, black); }
+.ux-copy { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px 0 12px; border: 0; border-radius: 999px; background: var(--surface-3);
+  color: var(--foreground); font: 500 .84375rem/1 var(--font); cursor: pointer; flex: none; white-space: nowrap; }
+.ux-copy:hover { background: var(--border); }
+.ux-copy.is-done { color: var(--success-text); }
+.ux-copy--icon { width: 24px; height: 24px; padding: 0; justify-content: center; background: transparent; color: var(--text-2); border-radius: 6px; }
+.ux-copy--icon:hover { background: var(--surface-3); color: var(--foreground); }
+.ux-x { width: 36px; height: 36px; flex: none; border: 0; border-radius: 999px; background: transparent; color: var(--text-2); display: inline-grid; place-items: center; cursor: pointer; }
+.ux-x:hover { background: var(--surface-3); color: var(--foreground); }
+
+/* ── статус-чип, спиннер, треугольник ───────────────────────────────────── */
+.ux-chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; font: 500 .78125rem/1 var(--font); white-space: nowrap; flex: none; }
+.ux-chip__dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+.ux-chip--ok { background: var(--success-soft); color: var(--success-text); }
+.ux-chip--wait { background: var(--accent-soft); color: var(--accent-text); }
+.ux-chip--warn { background: var(--warning-soft); color: var(--warning-text); }
+.ux-chip--err { background: var(--danger-soft); color: var(--danger-text); }
+.ux-chip--off { background: var(--surface-2); color: var(--text-2); }
+.ux-chip--off .ux-chip__dot { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.ux-spin { width: 12px; height: 12px; flex: none; border-radius: 50%; border: 2px solid var(--accent); border-right-color: transparent; animation: ux-spin .8s linear infinite; display: inline-block; }
+.ux-spin--sm { width: 11px; height: 11px; }
+@keyframes ux-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ux-spin { animation-duration: 2.4s; } }
+.ux-triw { position: relative; display: inline-flex; vertical-align: middle; }
+.ux-tri { width: 22px; height: 22px; padding: 0; border: 0; background: transparent; cursor: pointer; display: inline-grid; place-items: center; color: var(--warning-icon, var(--warning)); border-radius: 6px; }
+.ux-tip { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 30; width: max-content; max-width: min(300px, calc(100vw - 32px));
+  padding: 10px 12px; border-radius: 12px; background: var(--surface-raised, var(--surface-3)); border: 1px solid var(--border); box-shadow: var(--popover-shadow, 0 14px 36px rgba(0,0,0,.45));
+  font: 400 .8125rem/1.45 var(--font); color: var(--foreground); text-align: left; white-space: normal; }
+.ux-tip--r { left: auto; right: 0; transform: none; white-space: pre-line; font-family: var(--mono); font-size: .78125rem; }
+.ux-dotted { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: help; text-decoration: underline dotted; text-underline-offset: 3px; }
+
+/* ── вкладки-сегменты, шаги, блок кода ──────────────────────────────────── */
+.ux-tabs { display: inline-flex; flex-wrap: wrap; align-self: flex-start; gap: 4px; padding: 4px; border-radius: 14px; background: var(--surface-2); max-width: 100%; }
+.ux-tab { height: 34px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: var(--text-2); font: 500 .875rem/1 var(--font); cursor: pointer; white-space: nowrap; }
+.ux-tab.is-on { background: var(--surface); color: var(--foreground); box-shadow: var(--segment-shadow, none); }
+.ux-steps { display: flex; flex-direction: column; gap: 24px; max-width: 820px; }
+.ux-step { display: flex; gap: 12px; align-items: flex-start; }
+.ux-num { width: 28px; height: 28px; flex: none; border-radius: 999px; display: grid; place-items: center; font: 600 .875rem/1.75rem var(--font-head); background: var(--accent-soft); color: var(--accent-text); }
+.ux-num.is-done { background: var(--success-soft); color: var(--success-text); }
+.ux-step__b { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.ux-step__t { display: flex; align-items: center; gap: 6px; font: 600 1.0625rem/1.75rem var(--font-head); }
+.ux-step__s { font-size: .84375rem; line-height: 1.5; color: var(--text-2); text-wrap: pretty; }
+.ux-code { border-radius: 16px; background: var(--field-background); border: 1px solid var(--border); overflow: hidden; min-width: 0; }
+.ux-code__h { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 6px 7px 6px 16px; border-bottom: 1px solid var(--separator); }
+.ux-code__cap { flex: 1; min-width: 0; font-size: .8125rem; color: var(--text-2); overflow-wrap: anywhere; }
+.ux-code__pre { margin: 0; max-height: 300px; overflow: auto; padding: 12px 16px; font: 400 .78125rem/1.7 var(--mono); color: var(--foreground); white-space: pre-wrap; overflow-wrap: anywhere; }
+.ux-note { display: flex; gap: 10px; align-items: flex-start; font-size: .875rem; line-height: 1.5; color: var(--text-2); }
+.ux-note .ux-ic { color: var(--accent-text); padding-top: 1px; }
+.ux-live { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; min-height: 24px; font-size: .875rem; line-height: 1.5; }
+.ux-okdot { width: 22px; height: 22px; flex: none; border-radius: 999px; background: var(--success); color: #06240f; display: grid; place-items: center; }
+.ux-oktx { color: var(--success-text); display: inline-flex; }
+.ux-errtx { color: var(--danger-text); font-size: .84375rem; line-height: 1.5; }
+.ux-netwhy { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.ux-warntx { color: var(--warning-text); font-size: .84375rem; line-height: 1.5; }
+.ux-bad { padding: 10px 14px; border-radius: 12px; background: var(--danger-soft); color: var(--danger-text); font-size: .84375rem; }
+
+/* ── поля ───────────────────────────────────────────────────────────────── */
+.ux-in, .ux-area { width: 100%; border: 1.5px solid var(--border); border-radius: 12px; background: var(--field-background); color: var(--foreground);
+  font: 400 .9375rem/1.4 var(--font); transition: border-color var(--dur, .16s); }
+.ux-in { height: 44px; padding: 0 14px; }
+.ux-in.ux-mono { font: 500 .875rem/1 var(--mono); }
+.ux-in--token { max-width: 560px; }
+.ux-in--id { max-width: 280px; }
+.ux-area { display: block; padding: 12px 16px; resize: vertical; font: 500 .8125rem/1.55 var(--mono); }
+.ux-area--key { min-height: 68px; }
+.ux-area--exit { min-height: 84px; border-radius: 14px; font-size: .875rem; }
+.ux-in::placeholder, .ux-area::placeholder { color: var(--text-3); }
+.ux-in:focus, .ux-area:focus { outline: none; border-color: var(--accent); }
+.ux-in.is-ok, .ux-area.is-ok { border-color: color-mix(in oklab, var(--success) 55%, var(--border)); }
+.ux-in.is-warn, .ux-area.is-warn { border-color: var(--warning); }
+.ux-in.is-bad, .ux-area.is-bad { border-color: var(--danger); }
+.ux-area.is-drop { border-style: dashed; border-color: var(--accent); background: var(--accent-soft); }
+.ux-area[disabled] { opacity: .7; }
+.ux-msg { font-size: .84375rem; line-height: 1.5; }
+.ux-msg:empty { display: none; }
+.ux-msg.is-warn { color: var(--warning-text); }
+.ux-msg.is-bad { color: var(--danger-text); }
+.ux-lab { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px; font-size: .875rem; font-weight: 500; }
+.ux-paste { display: flex; flex-direction: column; gap: 10px; }
+
+/* ── раскрывающаяся карточка (AgentKey, TelegramBot) ────────────────────── */
+.ux-fold { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--surface-shadow, none); min-width: 0; }
+.ux-fold.is-open { border-color: color-mix(in oklab, var(--accent) 45%, var(--border)); }
+.ux-fold__head { width: 100%; display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; padding: 20px 24px; border: 0; background: transparent; color: var(--foreground); text-align: left; cursor: pointer; border-radius: 20px; font: inherit; }
+.ux-fold__ic { width: 40px; height: 40px; flex: none; border-radius: 12px; background: var(--accent-soft); color: var(--accent-text); display: grid; place-items: center; }
+.ux-fold__tt { flex: 1 1 220px; min-width: 0; }
+.ux-fold__title { display: block; font: 600 1.0625rem/1.3 var(--font-head); }
+.ux-fold__sub { display: block; font-size: .875rem; line-height: 1.45; color: var(--text-2); }
+.ux-fold__chip { display: inline-flex; flex: none; }
+.ux-fold__chev { color: var(--text-3); display: flex; flex: none; transform: rotate(-90deg); transition: transform .2s; }
+.ux-fold.is-open .ux-fold__chev { transform: rotate(0); }
+.ux-fold__body { padding: 20px 24px 24px; border-top: 1px solid var(--separator); }
+.ux-added { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 10px 8px 10px 12px; border-radius: 14px; background: var(--success-soft); }
+.ux-added__ok { width: 26px; height: 26px; flex: none; border-radius: 999px; background: var(--success); color: #06240f; display: grid; place-items: center; }
+.ux-added__b { flex: 1 1 220px; min-width: 0; }
+.ux-added__t { font-weight: 600; overflow-wrap: anywhere; }
+.ux-added__fp { font-size: .75rem; line-height: 1.5; color: var(--text-2); word-break: break-all; }
+/* вопрос перед удалением ключа (R-333 З1″): не зелёная «добавлен», а плашка опасного действия */
+.ux-added.is-ask { background: var(--danger-soft); }
+.ux-added.is-ask .ux-confirm { padding: 0 4px 2px; }
+.ux-ask { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.ux-phrase, .ux-cmdchip { display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 4px 0 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); color: var(--foreground); font-size: .84375rem; max-width: 100%; }
+.ux-cmdchip { height: 36px; background: var(--field-background); font-size: .875rem; }
+.ux-warnbar { display: flex; gap: 10px 12px; align-items: center; flex-wrap: wrap; padding: 12px 12px 12px 14px; border-radius: 14px; background: var(--warning-soft); font-size: .875rem; line-height: 1.5; }
+.ux-warnbar > .ux-ic { color: var(--warning-icon, var(--warning)); }
+.ux-warnbar__t { flex: 1 1 260px; min-width: 0; }
+
+/* ── ProtocolCard ───────────────────────────────────────────────────────── */
+.ux-pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.ux-pc { grid-row: span 4; display: grid; grid-template-rows: subgrid; row-gap: 14px; padding: 20px; border-radius: 20px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--surface-shadow, none); min-width: 0; }
+@supports not (grid-template-rows: subgrid) { .ux-pc { grid-row: auto; display: flex; flex-direction: column; } .ux-pc__acts { margin-top: auto; } }
+.ux-pc__head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; min-width: 0; }
+.ux-pc__ic { width: 40px; height: 40px; flex: none; border-radius: 999px; background: var(--warning-soft); color: var(--warning-text); display: grid; place-items: center; }
+.ux-pc__ic.is-on { background: var(--success-soft); color: var(--success-text); }
+.ux-pc.is-off .ux-pc__ic { background: var(--surface-2); color: var(--text-2); }
+.ux-pc__tt { flex: 1 1 130px; min-width: 0; }
+.ux-pc__name { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.ux-pc__title { margin: 0; font: 600 1.0625rem/1.5rem var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.ux-pc__eng { font-size: .78125rem; line-height: 1.4; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ux-pc__desc { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.ux-pc__d { font-size: .84375rem; line-height: 1.5; color: var(--text-2); }
+.ux-reason { padding: 12px 14px; border-radius: 14px; font-size: .84375rem; line-height: 1.5; }
+.ux-reason--err { background: var(--danger-soft); }
+.ux-reason--warn { background: var(--warning-soft); }
+.ux-reason__l1 { font-weight: 600; color: var(--foreground); overflow-wrap: anywhere; }
+.ux-reason__l2 { color: var(--text-2); overflow-wrap: anywhere; margin-top: 2px; }
+.ux-reason__l3 { color: var(--danger-text); margin-top: 6px; }
+/* UI-1 F02: строка журнала — не больше двух строк, целиком в подсказке */
+.ux-reason__l2--log { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; font-size: .78125rem; }
+/* UI-1 F01: подробности входа — свёрнуты, общий «Подробнее» для любого протокола */
+.ux-pc__more { min-width: 0; }
+.ux-pc__more > summary.ux-pc__moret--warn { display: flex; width: 100%; }
+.ux-pc__moret--warn > .ux-pc__warn { flex: 1 1 auto; }
+.ux-pc__moreL { flex: none; }
+.ux-pc__warn { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: .8125rem; font-weight: 400; line-height: 1.125rem; color: var(--text-2); }
+.ux-pc__warn > .ux-ic { flex: none; display: inline-flex; color: var(--warning-text); }
+.ux-pc__warnT { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ux-pc__warnN { flex: none; font-size: .75rem; font-weight: 600; color: var(--text-3); }
+.ux-pc__more > summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; cursor: pointer; font-size: .84375rem; font-weight: 600; color: var(--accent-text); border-radius: 8px; }
+.ux-pc__more > summary::-webkit-details-marker { display: none; }
+.ux-pc__more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ux-pc__more > summary svg { transition: transform .15s; }
+.ux-pc__more[open] > summary svg { transform: rotate(180deg); }
+.ux-pc__more[open] { display: flex; flex-direction: column; gap: 10px; }
+.ux-pc__nums { display: grid; gap: 6px; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); align-self: start; }
+.ux-kv { display: flex; justify-content: space-between; gap: 12px; font-size: .84375rem; }
+.ux-kv > span:first-child { color: var(--text-2); }
+.ux-kv > b, .ux-kv .ux-mono { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ux-pc__acts { align-self: start; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px solid var(--separator); min-width: 0; }
+.ux-pc__btns { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; flex: 1 1 0; }
+/* UI-2: «⋯» — всегда в первой строке справа; не помещаются кнопки — переносятся внутри своей группы (живой узел: «⋯» уезжал
+   на вторую строку у карточек с двумя кнопками, и низ карточек ряда был разной высоты) */
+.ux-pc__acts > .ux-menuw { align-self: flex-start; }
+.ux-confirm { flex: 1 1 100%; display: flex; flex-direction: column; gap: 10px; font-size: .84375rem; line-height: 1.5; }
+.ux-confirm .ux-row { justify-content: flex-end; }
+
+/* UI-3 ч.2: свёрнутые карточки (список компьютера) — шапка-кнопка ≈ 72 px. Круг 2 (З1): раскрытая остаётся на своём месте
+   в ряду, её тело — полосой .ux-pc--drawer на всю ширину сразу после ряда (KaskadUX.foldGrid, порядок — в DOM, без dense) */
+.ux-pgrid--fold { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px 16px; }
+.ux-pc--fold { grid-row: auto; display: flex; flex-direction: column; gap: 0; padding: 0; border-radius: 16px; }
+.ux-pc--fold.is-open, .ux-pc--drawer { border-color: color-mix(in oklab, var(--accent) 45%, var(--border)); }
+.ux-pc--drawer { position: relative; grid-row: auto; grid-column: 1 / -1; display: block; padding: 0; border-radius: 16px; }
+/* уголок над полосой — под шапкой своей карточки (колонка — из раскладки) */
+.ux-pc--drawer::before { content: ""; position: absolute; top: -7px; left: calc((var(--ux-col, 0) + .5) * 100% / var(--ux-cols, 1) - 6px); width: 12px; height: 12px;
+  background: var(--surface); border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--border)); border-right: 0; border-bottom: 0; transform: rotate(45deg); }
+.ux-pc--drawer > .ux-pc__body { padding: 20px 24px 24px; }
+.ux-pc__tog { flex-wrap: nowrap; gap: 10px; padding: 14px 16px; border-radius: 16px; cursor: pointer; }
+.ux-pc__tog:hover { background: var(--surface-2); }
+/* П1: в раскрытой числа — плитками в теле, в шапке их нет */
+.ux-pc--fold.is-open .ux-pc__sum { display: none; }
+.ux-pc__tog:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ux-pc__tog .ux-pc__tt { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+.ux-pc__l1, .ux-pc__l2 { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ux-pc__l1 > .ux-pc__name { flex: 1 1 auto; }
+.ux-pc__l2 > .ux-pc__eng { flex: 0 1 auto; min-width: 48px; }
+.ux-pc__l2 > .ux-pc__sum { margin-left: auto; }
+.ux-pc__tog > .ux-pc__ic { width: 36px; height: 36px; }
+.ux-pc__sum { flex: none; font-size: .78125rem; font-family: var(--font); line-height: 1.4; color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ux-pc__flag { flex: none; display: inline-flex; color: var(--warning-text); }
+.ux-pc__chev { color: var(--text-3); display: flex; flex: none; transition: transform .2s; }
+.ux-pc--fold.is-open .ux-pc__chev { transform: rotate(180deg); }
+.ux-pc__hint { min-width: 0; font-size: var(--fs-xs); line-height: 1rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ux-pc__hint--rec { color: var(--accent-text); }
+.ux-pc--fold.is-open .ux-pc__hint { display: none; }
+.ux-pc__alert { display: flex; align-items: center; gap: 6px; min-width: 0; margin: -4px 16px 14px 62px; font-size: .8125rem; line-height: 1.125rem; color: var(--danger-text); }
+.ux-pc__alert > .ux-ic { flex: none; display: inline-flex; }
+.ux-pc__alertT { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ux-pc__body { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px 24px; padding: 4px 20px 20px 62px; }
+.ux-pc__main { flex: 1 1 420px; min-width: 0; }
+.ux-pc__main > .ux-pc__desc { gap: 12px; }
+.ux-pc__body > .ux-pc__nums { flex: 0 1 300px; min-width: 220px; }
+.ux-pc__body > .ux-pc__acts { flex: 1 1 100%; }
+@media (prefers-reduced-motion: reduce) { .ux-pc__chev { transition: none; } }
+/* узкая карточка (3 в ряд на 1440): числа — своей строкой под движком, иначе движок срезался до «я…» */
+.ux-pc--fold { container-type: inline-size; }
+@container (max-width: 459px) {
+  .ux-pc__l2 { flex-direction: column; align-items: flex-start; gap: 0; }
+  .ux-pc__l2 > .ux-pc__eng { max-width: 100%; }
+  .ux-pc__l2 > .ux-pc__sum { margin-left: 0; }
+}
+
+/* ── меню «⋯» и «Поделиться» ────────────────────────────────────────────── */
+.ux-menuw { position: relative; display: inline-flex; }
+.ux-menu { position: absolute; z-index: 40; top: calc(100% + 6px); left: 0; width: 300px; max-width: calc(100vw - 48px); padding: 6px; border-radius: 16px;
+  background: var(--surface-2); border: 1px solid var(--border); box-shadow: 0 14px 36px rgba(0,0,0,.5); display: flex; flex-direction: column; gap: 2px; }
+[data-theme="light"] .ux-menu { box-shadow: var(--popover-shadow, 0 14px 36px rgba(0,0,0,.18)); }
+.ux-menu--up { top: auto; bottom: calc(100% + 6px); }
+.ux-menu--r { left: auto; right: 0; }
+.ux-mi { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--foreground); font: 500 .875rem/1.35 var(--font); text-align: left; cursor: pointer; width: 100%; }
+.ux-mi:hover, .ux-mi:focus-visible { background: var(--surface-3); }
+.ux-mi--danger { color: var(--danger-text); }
+.ux-mi--danger:hover { background: var(--danger-soft); }
+.ux-mi--sw { align-items: flex-start; }
+.ux-mi__b { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ux-mi__s { font-weight: 400; font-size: .8125rem; color: var(--text-2); }
+.ux-sw { width: 40px; height: 24px; flex: none; border-radius: 999px; background: var(--surface-3); position: relative; transition: background .16s; margin-top: 2px; }
+.ux-sw__k { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--foreground); transition: transform .16s; }
+.ux-sw.is-on { background: var(--accent); }
+.ux-sw.is-on .ux-sw__k { transform: translateX(16px); background: var(--accent-foreground); }
+
+.ux-share__btn { height: 40px; }
+.ux-share__btn.is-open { background: var(--border); }
+.ux-share__chev { display: inline-flex; transition: transform .2s; }
+.ux-share__btn.is-open .ux-share__chev { transform: rotate(180deg); }
+.ux-share__menu { width: 380px; max-width: calc(100vw - 32px); left: auto; right: 0; }
+.ux-smi { display: flex; gap: 12px; align-items: flex-start; padding: 10px; border: 0; border-radius: 10px; background: transparent; color: var(--foreground); text-align: left; cursor: pointer; font: inherit; width: 100%; }
+.ux-smi:hover, .ux-smi:focus-visible { background: var(--surface-3); }
+.ux-smi__ic { width: 36px; height: 36px; flex: none; border-radius: 10px; background: var(--accent-soft); color: var(--accent-text); display: grid; place-items: center; }
+.ux-smi__b { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ux-smi__b b { font-weight: 600; font-size: .875rem; }
+.ux-smi__s { font-size: .8125rem; line-height: 1.4; color: var(--text-2); }
+.ux-share__v { padding: 6px 8px 10px; display: flex; flex-direction: column; gap: 10px; }
+.ux-share__vh { display: flex; align-items: center; gap: 8px; }
+.ux-share__vt { font: 600 .9375rem/1.3 var(--font-head); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ux-share__lv { display: flex; flex-direction: column; gap: 10px; }
+.ux-share__load { display: flex; gap: 8px; align-items: center; color: var(--text-2); font-size: .84375rem; }
+.ux-share__link { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.ux-share__url { flex: 1; min-width: 0; height: 36px; line-height: 2.25rem; padding: 0 12px; border-radius: 10px; background: var(--field-background); border: 1px solid var(--border); font-size: .8125rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── журнал справа ──────────────────────────────────────────────────────── */
+.ux-logroot { position: fixed; inset: 0; z-index: 900; }
+.ux-log__back { position: absolute; inset: 0; background: rgba(4,8,16,.55); }
+.ux-log { position: absolute; top: 0; right: 0; bottom: 0; width: 560px; max-width: 100%; background: var(--surface); border-left: 1px solid var(--border);
+  box-shadow: -20px 0 60px rgba(0,0,0,.4); display: flex; flex-direction: column; animation: ux-slide .2s ease-out; }
+@keyframes ux-slide { from { transform: translateX(40px); opacity: .4; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ux-log { animation: none; } }
+.ux-log__h { display: flex; align-items: flex-start; gap: 8px; padding: 20px 16px 16px 20px; border-bottom: 1px solid var(--separator); }
+.ux-log__tt { flex: 1; min-width: 0; }
+.ux-log__title { font: 600 1.125rem/1.3 var(--font-head); overflow-wrap: anywhere; }
+.ux-log__sub { font-size: .8125rem; color: var(--text-2); overflow-wrap: anywhere; }
+.ux-log__sub code { font-family: var(--mono); font-size: .75rem; }
+.ux-log__why { padding: 12px 20px; font-size: .84375rem; line-height: 1.5; color: var(--text-2); border-bottom: 1px solid var(--separator); }
+.ux-log__body { flex: 1; overflow: auto; padding: 12px 16px 24px 20px; font-size: .75rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ux-log__l { padding: 0 4px; border-radius: 4px; }
+.ux-log__l.is-err { background: var(--danger-soft); color: var(--danger-text); }
+
+/* ── ExitsInput ─────────────────────────────────────────────────────────── */
+.ux-ei { display: flex; flex-direction: column; gap: 12px; padding: 20px 24px; border-radius: 20px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--surface-shadow, none); min-width: 0; }
+.ux-ei__label { font: 600 1.0625rem/1.4 var(--font-head); }
+.ux-ei__hint { font-size: .84375rem; line-height: 1.7; color: var(--text-2); margin-top: -8px; }
+.ux-ei__row { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; }
+.ux-ei__state { flex: 1 1 240px; min-width: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .875rem; line-height: 1.5; min-height: 24px; }
+.ux-ei__btns { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.ux-okc { width: 20px; height: 20px; flex: none; border-radius: 999px; background: var(--success-soft); color: var(--success-text); display: grid; place-items: center; }
+.ux-ei__explain:empty { display: none; }
+.ux-ei__ex { border-top: 1px solid var(--border); padding-top: 14px; font-size: .875rem; line-height: 1.55; display: flex; flex-direction: column; gap: 8px; }
+.ux-ei__ex p { margin: 0; }
+.ux-ei__explain > .ux-link + .ux-ei__ex { margin-top: 10px; }
+.ux-ei__path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ux-pathchip { display: inline-flex; align-items: center; height: 26px; padding: 0 8px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border); font: 500 .8125rem/1 var(--font); white-space: nowrap; }
+.ux-chev { color: var(--text-3); display: inline-flex; }
+.ux-build { display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-radius: 14px; background: var(--accent-soft); font-size: .84375rem; line-height: 1.5; }
+/* «Нет сервера за рубежом?» (KaskadUX.noServer, №45): в мастере — под вариантами этапа 3, в панели — в пояснении ExitsInput */
+.ux-ns { display: flex; flex-direction: column; gap: 8px; min-width: 0; font-family: var(--font); font-size: .875rem; line-height: 1.55; color: var(--text-2); }
+.ux-ns > p { margin: 0; }
+.ux-ns > p > b { font-weight: 600; color: var(--foreground); }
+.ux-ns > p > a { color: var(--accent-text); white-space: nowrap; }
+.ux-ns :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.ux-ns__hosts { display: flex; flex-wrap: wrap; gap: 8px; }
+.ux-ns__host { height: auto; min-height: 32px; flex-wrap: wrap; justify-content: flex-start; text-align: left; white-space: normal; gap: 4px; }
+.ux-ns__r { font-weight: 400; color: var(--text-2); }
+.ux-ei__list { display: flex; flex-direction: column; gap: 6px; }
+.ux-ei__list:empty { display: none; }
+.ux-ei__banner:empty { display: none; }
+.ux-ei__lt { font: 600 .8125rem/1.4 var(--font); color: var(--text-3); }
+.ux-ei__item { display: flex; align-items: center; gap: 10px; padding: 8px 6px 8px 10px; border-radius: 14px; background: var(--surface-2); min-width: 0; }
+.ux-ei__ic { width: 36px; height: 36px; flex: none; border-radius: 10px; background: var(--surface-3); color: var(--text-2); display: grid; place-items: center; }
+.ux-ei__b { flex: 1; min-width: 0; }
+.ux-ei__t { font-size: .875rem; line-height: 1.45; overflow-wrap: anywhere; }
+.ux-ei__t > .ux-link { margin-left: 8px; font-size: .84375rem; }        /* «Проверить ещё раз» — не вплотную к словам статуса */
+.ux-ei__m { font-size: .8125rem; color: var(--text-3); overflow-wrap: anywhere; }   /* адрес целиком, переносом (320 px: без многоточия) */
+.ux-ei__m.ux-mono { font-size: .75rem; }
+.ux-st { display: inline-flex; align-items: center; gap: 6px; }
+.ux-st--ok { color: var(--success-text); }
+.ux-st--wait { color: var(--text-2); }
+.ux-st--warn { color: var(--warning-text); }
+.ux-st--err { color: var(--danger-text); }
+
+/* ── телефон ────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .ux-fold__head { padding: 16px; }
+  .ux-fold__body { padding: 16px 16px 20px; }
+  .ux-fold__chip { order: 3; margin-left: 54px; }
+  .ux-step { gap: 10px; }
+  .ux-ei { padding: 16px; }
+  .ux-ei__btns { width: 100%; margin-left: 0; }
+  .ux-ei__btns > .ux-btn { flex: 1 1 auto; }
+  .ux-pgrid, .ux-pgrid--fold { grid-template-columns: minmax(0, 1fr); }
+  .ux-pc__alert { margin-left: 16px; }
+  .ux-pc__body { padding-left: 16px; }
+  .ux-share { flex: 1 1 auto; }
+  .ux-share__btn { width: 100%; }
+  .ux-share__menu { position: fixed; left: 16px; right: 16px; top: auto; bottom: 16px; width: auto; max-width: none; }
+  .ux-log { width: 100%; }
+}
+
+/* ── «Протоколы», вариант Б r3 (круг 1 Т3: №11, №12, №14, №15; Claude Design export-2026-10-28-it1-d2r3, css/it1-d2b.css)
+   Схема «Устройства → Сервер → Выходы» (.kb2-card), установленные — список строк (.kb2-pl; строка — ProtocolCard o.row),
+   «Можно установить» — две колонки (.kb2-av), окно установки — выбор порта (.kb2-pp). Раскладка — по ширине самого вида
+   (container .kb2): компьютер, узкий список (без колонки «Для чего») и телефон (схема сверху вниз). Рамки «только для
+   выходов», стрелки и пустые точки — --text-3 (решение дизайнера 10) */
+.kb2 { display: grid; gap: 16px; align-content: start; min-width: 0; container: kb2 / inline-size; }
+.kb2-card { display: grid; gap: 12px; padding: 16px 18px; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); min-width: 0; }
+.kb2-h { display: flex; align-items: baseline; gap: 4px 10px; flex-wrap: wrap; min-width: 0; }
+.kb2-h > h2 { margin: 0; font: 600 var(--fs-h3)/1.5rem var(--font-head); }
+.kb2-h__s { flex: 1 1 240px; min-width: 0; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); }
+.kb2-h > .kk-psecbar__b { margin-left: auto; align-self: center; }
+.kb2-flow { display: grid; grid-template-columns: 150px minmax(0, 1fr) 150px minmax(0, 1fr) 150px; align-items: center; gap: 0 10px; }
+.kb2-node { display: grid; justify-items: center; gap: 6px; min-width: 0; padding: 14px 10px; border-radius: var(--r-tile); background: var(--tile-bg); text-align: center; }
+.kb2-node__ic { width: 40px; height: 40px; border-radius: var(--r-field); display: grid; place-items: center; background: var(--surface-3); color: var(--text-2); }
+.kb2-node--mid .kb2-node__ic { background: var(--accent); color: var(--accent-foreground); }
+.kb2-node > b { font: 600 var(--fs)/1.125rem var(--font); }
+.kb2-node > small { max-width: 100%; font-size: .75rem; line-height: .9375rem; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb2-lane { display: grid; gap: 8px; min-width: 0; }
+.kb2-arr { position: relative; height: 2px; background: var(--text-3); border-radius: 1px; margin-right: 6px; }
+.kb2-arr::after { content: ""; position: absolute; right: -6px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--text-3); border-right: 0; }
+.kb2-lane__t { font: 500 .75rem/1rem var(--font); color: var(--text-2); text-align: center; }
+.kb2-lane__no { font-size: .8125rem; line-height: 1.5rem; color: var(--text-3); }
+.kb2-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; min-width: 0; }
+.kb2-chip { display: inline-flex; align-items: center; min-height: 24px; padding: 0 9px; border-radius: var(--r-pill); background: var(--surface-3); color: var(--foreground); font: 500 .78125rem/1.5rem var(--font); white-space: nowrap; }
+.kb2-chip.is-both { background: var(--accent-soft); color: var(--accent-text); }
+.kb2-chip.is-only { background: none; color: var(--text-2); border: 1px dashed var(--text-3); line-height: 1.375rem; box-sizing: border-box; }
+.kb2-lg { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .78125rem; line-height: 1rem; color: var(--text-2); }
+.kb2-lg > span { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.kb2-lg i { flex: none; width: 18px; height: 10px; border-radius: 5px; background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-text); }
+.kb2-lg i.is-only { background: none; box-shadow: none; border: 1px dashed var(--text-3); box-sizing: border-box; }
+
+/* установленные — строки списка; колонки — в rem: «Размер текста» растит их вместе с текстом */
+.kb2-pl { display: grid; min-width: 0; border-radius: var(--r-tile); background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); overflow: hidden; container: kb2pl / inline-size; }
+.kb2-pl__hd, .kb2-pl__r { display: grid; grid-template-columns: 2.25rem 13.75rem minmax(0, 1fr) 7.5rem 12.5rem 1.5rem; align-items: center; gap: 14px; padding: 0 16px; }
+.kb2-pl__hd { min-height: 34px; font: 500 .78125rem/1rem var(--font); color: var(--text-2); border-bottom: 1px solid var(--separator); }
+/* подписи — с колонки имени: пустых ячеек под значок и стрелку нет (пустой узел в сетке с gap — лишний зазор) */
+.kb2-pl__hd > :first-child { grid-column: 2; }
+.ux-pc.ux-pc--row { display: block; grid-row: auto; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; min-width: 0; }
+.kb2-pl__g + .kb2-pl__g { border-top: 1px solid var(--separator); }
+.kb2-pl__g.is-open { background: color-mix(in oklab, var(--surface-2) 45%, transparent); }
+.ux-pc--row .kb2-pl__r { width: 100%; min-height: 58px; padding-top: 8px; padding-bottom: 8px; border: 0; border-radius: 0; background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; }
+.ux-pc--row .kb2-pl__r:hover { background: var(--surface-hover); }
+.ux-pc--row .kb2-pl__r:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+.ux-pc--row .kb2-pl__ic { width: 2.25rem; height: 2.25rem; border-radius: var(--r-field); }
+.kb2-pl__n { display: grid; gap: 2px; min-width: 0; }
+.kb2-pl__t { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.kb2-pl__t > b { min-width: 0; font: 600 .9375rem/1.25rem var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb2-st { display: inline-flex; align-items: center; gap: 6px; min-width: 0; font-size: .78125rem; line-height: 1rem; white-space: nowrap; color: var(--text-2); }
+.kb2-st::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.kb2-st--ok { color: var(--success-text); }
+.kb2-st--warn { color: var(--warning-text); }
+.kb2-st--err { color: var(--danger-text); }
+.kb2-dv { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.kb2-dv__t { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb2-pips { display: inline-flex; flex: none; gap: 4px; }
+.kb2-pips > i { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.kb2-pips > i.is-on { background: var(--success); box-shadow: none; }
+.kb2-dvbar { flex: none; width: 96px; height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
+.kb2-dvbar > i { display: block; height: 100%; background: var(--success); }
+.kb2-port { display: grid; min-width: 0; }
+.kb2-port > .ux-mono { font: 500 .8125rem/1.125rem var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb2-port > small { font: 400 .75rem/1rem var(--font); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb2-rl { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.kb2-role { display: inline-flex; align-items: center; gap: 4px; min-height: 20px; padding: 0 7px 0 5px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--text-2); font: 500 .75rem/1.25rem var(--font); white-space: nowrap; }
+.kb2-role--x { background: var(--accent-soft); color: var(--accent-text); }
+.kb2-pl__chev { justify-self: end; transition: transform var(--dur) var(--ease); }
+.kb2-pl__g.is-open .kb2-pl__chev { transform: rotate(180deg); color: var(--foreground); }
+.ux-pc--row .kb2-pl__al { margin: -6px 16px 10px calc(2.25rem + 30px); }
+.ux-pc--row .ux-pc__hint { display: block; }
+/* раскрытая (№12): строка описания и строка кнопок; удалить — справа, подтверждение — полосой на месте */
+.ux-pc--row .kb2-pl__b { display: grid; gap: 10px; padding: 0 16px 14px calc(2.25rem + 30px); }
+.ux-pc--row .kb2-pl__b > .ux-pc__desc { gap: 10px; }
+.ux-pc--row .ux-pc__d { font-size: var(--fs-sm); line-height: 1.1875rem; color: var(--text-2); text-wrap: pretty; }
+.kb2-pl__meta { display: none; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); }
+.kb2-pl__meta.is-multi { display: flex; }
+.kb2-pl__meta.is-multi > .kb2-rl { display: none; }
+.ux-pc--row .ux-pc__acts { padding-top: 0; border-top: 0; gap: 6px; }
+.ux-pc--row .ux-pc__btns { gap: 6px; }
+.ux-btn--swr { gap: 8px; padding-left: 8px; }
+/* узкий телефон на «крупнее» (360, K3_FONT=l): длинная подпись переключателя строки («Всегда самоподписанный») не шире
+   ряда — переносится внутри кнопки, кнопка растёт по высоте (детектор textcut, inbounds [open] 360) */
+.ux-pc--row .ux-pc__btns > .ux-btn { max-width: 100%; min-width: 0; }
+.ux-pc--row .ux-pc__btns > .ux-btn > span:not(.ux-sw) { min-width: 0; white-space: normal; text-align: start; overflow-wrap: anywhere; }
+.ux-pc--row .ux-pc__btns > .ux-btn--swr { height: auto; min-height: 32px; padding-block: 6px; line-height: 1.125rem; }
+.ux-btn--swr > .ux-sw { width: 30px; height: 18px; margin-top: 0; }
+.ux-btn--swr > .ux-sw .ux-sw__k { top: 2px; left: 2px; width: 14px; height: 14px; }
+.ux-btn--swr > .ux-sw.is-on .ux-sw__k { transform: translateX(12px); }
+.ux-pc__del { color: var(--danger-text); }
+.ux-pc__del:hover:not([disabled]) { background: var(--danger-soft); }
+.ux-confirm--row { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border-radius: var(--r-field); background: var(--danger-soft); }
+.ux-confirm--row > .ux-confirm__t { flex: 1 1 320px; min-width: 0; color: var(--foreground); text-wrap: pretty; }
+.ux-confirm--row .ux-btn { height: 32px; padding: 0 12px; }
+/* №12: подробности протокола (сертификат, смена портов, ключи Reality…) — строкой «подпись · значение», а не столбиком:
+   раскрытая строка не растягивается в пустую ленту */
+@container kb2pl (min-width: 560px) {
+  .ux-pc--row .gx-kv--stack { grid-template-columns: minmax(7.5rem, max-content) minmax(0, 1fr) max-content; }
+  .ux-pc--row .gx-kv--stack .gx-kv__k { grid-column: auto; }
+  .ux-pc--row .gx-kv--stack .gx-kv__k, .ux-pc--row .gx-kv--stack .gx-kv__v, .ux-pc--row .gx-kv--stack .gx-kv__end { padding-top: 6px; padding-bottom: 6px; border-top: 1px solid var(--separator); }
+  .ux-pc--row .gx-kv--stack .gx-kv__v { padding-left: var(--sp-4); }
+  .ux-pc--row .gx-kv--stack .gx-kv__row:first-child > * { border-top: 0; }
+}
+@container kb2pl (max-width: 899px) {
+  /* имя — уже (самое длинное «AmneziaWG 3.1 ⚠» ≈ 8,5rem): «N из M на связи» с точками помещается от 768 */
+  .kb2-pl__hd, .kb2-pl__r { grid-template-columns: 2.25rem minmax(0, 11rem) minmax(0, 1fr) 7.5rem 1.5rem; }
+  .kb2-pl__hd > :nth-child(4), .ux-pc--row .kb2-pl__r > .kb2-rl { display: none; }
+  .kb2-pl__meta { display: flex; }
+  .kb2-pl__meta > .kb2-pl__mk { display: none; }
+  .kb2-pl__meta.is-multi > .kb2-pl__mk, .kb2-pl__meta.is-multi > .kb2-rl { display: inline; }
+  .kb2-pl__meta.is-multi > .kb2-rl { display: flex; }
+}
+@container kb2pl (max-width: 559px) {
+  .kb2-pl__hd { display: none; }
+  .ux-pc--row .kb2-pl__r { grid-template-columns: 2.25rem minmax(0, 1fr) 1.25rem; row-gap: 6px; padding: 10px 14px; }
+  .ux-pc--row .kb2-pl__r > .kb2-dv { grid-column: 2; grid-row: 2; }
+  .ux-pc--row .kb2-pl__r > .kb2-port { display: none; }
+  .ux-pc--row .kb2-pl__chev { grid-column: 3; grid-row: 1; }
+  .ux-pc--row .kb2-pl__al { margin: -4px 14px 10px; }
+  .ux-pc--row .kb2-pl__b { padding: 0 14px 14px; }
+  .kb2-pl__meta > .kb2-pl__mk { display: block; }            /* строкой: «Порт: 443/tcp» — пробел после двоеточия не съедается */
+  .kb2-pl__meta > .kb2-rl { display: flex; }
+  .ux-pc--row .ux-pc__acts .ux-btn { height: 44px; }
+  .ux-pc__del { width: 100%; justify-content: flex-start; }
+  .ux-confirm--row .ux-btn { height: 44px; flex: 1 1 auto; }
+}
+/* «Можно установить» — в две колонки (телефон — в одну); метка «и для выходов» у имени */
+.kk-igrid.kb2-av { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+.kb2-av .kk-irow__t { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kk-irow__tn { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb2-av .kk-irow__t > .kb2-role { flex: none; }
+.kb2-n { font-weight: 500; color: var(--text-3); }
+/* схема на узком виде и телефоне — сверху вниз (Т2) */
+@container kb2 (max-width: 819px) {
+  .kb2-flow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .kb2-node { grid-template-columns: 40px minmax(0, 1fr); justify-items: start; align-items: center; text-align: left; gap: 0 12px; }
+  .kb2-node > .kb2-node__ic { grid-row: span 2; }
+  .kb2-arr { display: none; }
+  .kb2-lane { padding: 4px 0 4px 18px; border-left: 2px solid var(--text-3); margin-left: 19px; }
+  .kb2-lane__t { text-align: left; }
+  .kb2-chips { justify-content: flex-start; }
+}
+@container kb2 (max-width: 719px) {
+  .kk-igrid.kb2-av { grid-template-columns: minmax(0, 1fr); }
+  .kb2-card { padding: 14px; }
+}
+
+/* окно установки (№14, О1–О4, Т3): порт — выбором из вариантов, у каждого — свободен ли он */
+.kb2-pp { display: grid; gap: 6px; min-width: 0; }
+.kb2-pp__wait { margin: 0; font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); }
+.kb2-pp__r { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 8px 12px; border-radius: var(--r-field); background: var(--tile-bg); cursor: pointer; }
+.kb2-pp__r.is-sel { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-text); }
+.kb2-pp__r.is-dis { cursor: default; }
+.kb2-pp__r.is-dis .kb2-pp__b > b { color: var(--text-2); }
+.kb2-pp__r.is-bad { background: var(--danger-soft); box-shadow: inset 0 0 0 1px var(--danger); }
+.kb2-pp__rad { appearance: none; -webkit-appearance: none; width: 16px; height: 16px; margin: 0; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--text-3); cursor: inherit; }
+.kb2-pp__rad:checked { box-shadow: inset 0 0 0 5px var(--accent-text); }
+.kb2-pp__r.is-bad .kb2-pp__rad:checked { box-shadow: inset 0 0 0 5px var(--danger); }
+.kb2-pp__rad:focus-visible { outline: none; box-shadow: inset 0 0 0 1.5px var(--text-3), var(--focus-ring); }
+.kb2-pp__rad:checked:focus-visible { box-shadow: inset 0 0 0 5px var(--accent-text), var(--focus-ring); }
+.kb2-pp__b { display: grid; gap: 2px; min-width: 0; cursor: inherit; }
+.kb2-pp__b > b { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; font: 500 var(--fs)/1.25rem var(--font); }
+.kb2-pp__b > b > code { font: 600 .9375rem/1.25rem var(--mono); white-space: nowrap; }
+.kb2-pp__s { font-size: .78125rem; line-height: 1rem; color: var(--text-2); overflow-wrap: anywhere; }
+.kb2-pp__s.is-ok { color: var(--success-text); }
+.kb2-pp__s.is-bad { color: var(--danger-text); }
+.gx-input.kb2-pp__in { width: 96px; min-width: 0; }
+@media (max-width: 767px) {
+  .kb2-pp__r { min-height: 56px; }
+  .kb2-pp__b > b { display: grid; }
+}

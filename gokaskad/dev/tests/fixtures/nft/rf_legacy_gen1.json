@@ -1,0 +1,554 @@
+{
+ "dnsmasq": [
+  "# Kaskad: правила RoscomVPN — блок 4, всегда через выход 22, напрямую 10 (доменов)",
+  "address=/ad.mail.ru/",
+  "address=/alt-ad.mail.ru/",
+  "address=/telemetry.example/",
+  "address=/vortex.data.microsoft.com/",
+  "max-cache-ttl=600",
+  "nftset=/browserleaks.com/4#ip#kaskad#gw_force",
+  "nftset=/checkip.amazonaws.com/4#ip#kaskad#gw_force",
+  "nftset=/dnsleaktest.com/4#ip#kaskad#gw_force",
+  "nftset=/github.com/4#ip#kaskad#gw_force",
+  "nftset=/googlevideo.com/4#ip#kaskad#gw_force",
+  "nftset=/icanhazip.com/4#ip#kaskad#gw_force",
+  "nftset=/ifconfig.co/4#ip#kaskad#gw_force",
+  "nftset=/ifconfig.me/4#ip#kaskad#gw_force",
+  "nftset=/ip-api.com/4#ip#kaskad#gw_force",
+  "nftset=/ip.sb/4#ip#kaskad#gw_force",
+  "nftset=/ipapi.is/4#ip#kaskad#gw_force",
+  "nftset=/ipify.org/4#ip#kaskad#gw_force",
+  "nftset=/ipinfo.io/4#ip#kaskad#gw_force",
+  "nftset=/myip.com/4#ip#kaskad#gw_force",
+  "nftset=/openai.com/4#ip#kaskad#gw_force",
+  "nftset=/play.google.com/4#ip#kaskad#gw_force",
+  "nftset=/t.me/4#ip#kaskad#gw_force",
+  "nftset=/telegram.org/4#ip#kaskad#gw_force",
+  "nftset=/whatismyipaddress.com/4#ip#kaskad#gw_force",
+  "nftset=/whoer.net/4#ip#kaskad#gw_force",
+  "nftset=/youtube.com/4#ip#kaskad#gw_force",
+  "nftset=/ytimg.com/4#ip#kaskad#gw_force",
+  "nftset=/2ip.ru/4#ip#kaskad#gw_ru_dns",
+  "nftset=/apple.com/4#ip#kaskad#gw_ru_dns",
+  "nftset=/gosuslugi.ru/4#ip#kaskad#gw_ru_dns",
+  "nftset=/lan/4#ip#kaskad#gw_ru_dns",
+  "nftset=/localhost/4#ip#kaskad#gw_ru_dns",
+  "nftset=/microsoft.com/4#ip#kaskad#gw_ru_dns",
+  "nftset=/sber.ru/4#ip#kaskad#gw_ru_dns",
+  "nftset=/vk.com/4#ip#kaskad#gw_ru_dns",
+  "nftset=/www.mos.ru/4#ip#kaskad#gw_ru_dns",
+  "nftset=/yandex.ru/4#ip#kaskad#gw_ru_dns"
+ ],
+ "nft": "table ip kaskad\ndelete table ip kaskad\ntable ip kaskad {\n\tchain fwd_pre {\n\t\ttype nat hook prerouting priority -101; policy accept;\n\t\tfib daddr type local iifname != \"lo\" jump fwd_dnat\n\t}\n\tchain fwd_dnat {\n\t}\n\tchain fwd_count {\n\t\ttype filter hook forward priority -5; policy accept;\n\t}\n\tchain fwd_post {\n\t\ttype nat hook postrouting priority 101; policy accept;\n\t\tct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade\n\t}\n\tset gw_nets {\n\t\ttype ipv4_addr\n\t\tflags interval\n\t\telements = { 10.77.0.0/16 }\n\t}\n\tset gw_ru {\n\t\ttype ipv4_addr . inet_proto\n\t\tflags interval\n\t}\n\tset gw_live {\n\t\ttype ipv4_addr\n\t\telements = { 10.77.1.10, 10.77.1.11, 10.77.1.12, 10.77.3.10 }\n\t}\n\tset gw_priv {\n\t\ttype ipv4_addr\n\t\tflags interval\n\t\telements = { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/3 }\n\t}\n\tset gw_ru_dns {\n\t\ttype ipv4_addr\n\t\tflags timeout\n\t\ttimeout 6h\n\t}\n\tset gw_force {\n\t\ttype ipv4_addr\n\t\tflags timeout\n\t\ttimeout 6h\n\t}\n\tset gw_rd {\n\t\ttype ipv4_addr\n\t\telements = { 10.77.1.10, 10.77.1.12 }\n\t}\n\tset gw_ru_ver {\n\t\ttype ipv4_addr\n\t}\n\tset gw_ruonly {\n\t\ttype ipv4_addr\n\t}\n\tset gw_xports {\n\t\ttype inet_service\n\t\telements = { 10851, 10852, 10854, 12699, 12701 }\n\t}\n\tmap gw_route {\n\t\ttype ipv4_addr : mark\n\t\telements = { 10.77.1.10 : 0x102, 10.77.1.11 : 0x102, 10.77.1.12 : 0x301, 10.77.3.10 : 0x102 }\n\t}\n\tchain gw_pre {\n\t\ttype filter hook prerouting priority -150; policy accept;\n\t\tct direction reply ct mark and 0xffff != 0x0 meta mark set meta mark or 0x10000\n\t\tiifname \"lo\" return\n\t\tiifname \"kgw-*\" ip saddr != @gw_nets drop\n\t\tiifname \"kgw-*\" fib saddr . iif oif missing drop\n\t\tip saddr 10.77.1.0/24 iifname != \"kgw-wg\" drop\n\t\tip saddr 10.77.3.0/24 iifname != \"kgw-awg2\" drop\n\t\tip daddr @gw_nets iifname != \"kgw-*\" meta ipsec missing drop\n\t\tip saddr != @gw_nets return\n\t\tip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport 53 ct mark set ct mark or 0x4b000000 return\n\t\tip daddr 10.77.0.1 icmp type echo-request ct mark set ct mark or 0x4b000000 return\n\t\tip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport { 5354, 5364 } drop\n\t\tip saddr != @gw_live drop\n\t\tip saddr @gw_ruonly fib daddr type local drop\n\t\tfib daddr type local meta mark set 0x202 ct mark set ct mark or 0x202 return\n\t\tip daddr @gw_nets return\n\t\tct state established,related ct mark and 0xffff == 0x200 meta l4proto udp meta mark set 0x200 tproxy to 127.0.0.1:12345 accept\n\t\tct state established,related ct mark and 0xffff == 0x301 meta l4proto udp meta mark set 0x301 tproxy to 127.0.0.1:12401 accept\n\t\tct state established,related meta mark set ct mark and 0xffff return\n\t\tmeta mark set 0x2ff\n\t\tmeta mark set ip saddr map @gw_route\n\t\tmeta mark 0x2fe meta mark set 0x2ff\n\t\tip saddr @gw_rd ip daddr . meta l4proto @gw_ru ip daddr != @gw_force meta mark set 0x201\n\t\tip saddr @gw_rd ip daddr @gw_ru_dns ip daddr != @gw_force meta mark set 0x201\n\t\tct mark set meta mark or 0x4b000000\n\t\tmeta mark 0x200 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12345\n\t\tmeta mark 0x301 meta l4proto { tcp, udp } tproxy to 127.0.0.1:12401\n\t}\n\tchain gw_fwd {\n\t\ttype filter hook forward priority -4; policy accept;\n\t\tip saddr @gw_nets meta mark 0x2ff drop\n\t\tip saddr @gw_nets ct mark and 0xffff == 0x2ff drop\n\t\tip saddr @gw_nets ct mark and 0xffff == 0x200 drop\n\t\tip saddr @gw_nets ct mark and 0xff00 == 0x300 drop\n\t\tip saddr @gw_nets ct mark and 0xff00 == 0x100 oifname != \"kawg*\" drop\n\t\tip saddr @gw_nets ip daddr != @gw_nets ct mark and 0xffff == 0x0 drop\n\t\tip saddr @gw_nets ct mark and 0xffff == 0x2fe drop\n\t\tip daddr 10.77.0.1 drop\n\t\tip saddr @gw_nets ip daddr @gw_nets drop\n\t\tip saddr @gw_nets ip daddr @gw_priv ct mark and 0xffff != 0x202 drop\n\t\tip saddr @gw_nets tcp flags syn tcp option maxseg size set rt mtu\n\t\tiifname \"kgw-wg\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240\n\t\toifname \"kgw-wg\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240\n\t\tiifname \"kgw-awg2\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240\n\t\toifname \"kgw-awg2\" tcp flags syn tcp option maxseg size > 1240 tcp option maxseg size set 1240\n\t\tiifname \"kawg*\" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192\n\t\toifname \"kawg*\" tcp flags syn tcp option maxseg size > 1192 tcp option maxseg size set 1192\n\t}\n\tchain gw_out {\n\t\ttype filter hook output priority -4; policy accept;\n\t\tmeta mark and 0xffffff00 == 0x100 oifname != \"kawg*\" drop\n\t\tip daddr 127.0.0.1 tcp dport @gw_xports meta skuid != 0 reject\n\t}\n\tchain gw_post {\n\t\ttype nat hook postrouting priority 100; policy accept;\n\t\tip saddr @gw_nets oifname != \"lo\" ip daddr != @gw_nets masquerade\n\t}\n\tchain gw_dns {\n\t\ttype nat hook prerouting priority -102; policy accept;\n\t\tip saddr @gw_nets ip daddr 10.77.0.1 meta l4proto { tcp, udp } th dport 53 meta mark set ip saddr map @gw_route\n\t\tip saddr @gw_nets ip daddr 10.77.0.1 meta mark 0x201 udp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5364\n\t\tip saddr @gw_nets ip daddr 10.77.0.1 meta mark 0x201 tcp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5364\n\t\tip saddr @gw_nets ip daddr 10.77.0.1 udp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5354\n\t\tip saddr @gw_nets ip daddr 10.77.0.1 tcp dport 53 meta mark set 0x0 dnat to 10.77.0.1:5354\n\t}\n}\ntable ip6 kaskad6\ndelete table ip6 kaskad6\ntable ip6 kaskad6 {\n\tchain gw_fwd6 {\n\t\ttype filter hook forward priority -4; policy accept;\n\t\tiifname \"kgw-wg\" drop\n\t\tiifname \"kgw-awg2\" drop\n\t}\n\tchain gw_out6 {\n\t\ttype filter hook output priority -4; policy accept;\n\t}\n}\n",
+ "xray": {
+  "api": {
+   "services": [
+    "StatsService",
+    "HandlerService",
+    "RoutingService"
+   ],
+   "tag": "gw-stats"
+  },
+  "dns": {
+   "disableFallbackIfMatch": true,
+   "queryStrategy": "UseIPv4",
+   "servers": [
+    {
+     "address": "localhost",
+     "domains": [
+      "full:cp.cloudflare.com"
+     ],
+     "skipFallback": true
+    },
+    "1.1.1.1",
+    "1.0.0.1"
+   ],
+   "tag": "gw-dns-int"
+  },
+  "inbounds": [
+   {
+    "listen": "127.0.0.1",
+    "port": 12345,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12401,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "followRedirect": true,
+     "network": "tcp,udp"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "tproxy": "tproxy"
+     }
+    },
+    "tag": "tproxy-e-c9be99c61e"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10853,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "1.1.1.1",
+     "network": "tcp,udp",
+     "port": 53
+    },
+    "tag": "dns-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10852,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "127.0.0.1"
+    },
+    "tag": "metrics-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 10854,
+    "protocol": "dokodemo-door",
+    "settings": {
+     "address": "127.0.0.1"
+    },
+    "tag": "stats-in"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12699,
+    "protocol": "socks",
+    "settings": {
+     "auth": "noauth",
+     "udp": false
+    },
+    "tag": "pool-socks"
+   },
+   {
+    "listen": "127.0.0.1",
+    "port": 12701,
+    "protocol": "socks",
+    "settings": {
+     "auth": "noauth",
+     "udp": false
+    },
+    "tag": "probe-e-c9be99c61e"
+   },
+   {
+    "listen": "0.0.0.0",
+    "port": 1080,
+    "protocol": "socks",
+    "settings": {
+     "accounts": [],
+     "auth": "password",
+     "udp": true
+    },
+    "tag": "socks-in"
+   }
+  ],
+  "log": {
+   "access": "none",
+   "loglevel": "warning"
+  },
+  "metrics": {
+   "tag": "metrics"
+  },
+  "observatory": {
+   "enableConcurrency": true,
+   "probeInterval": "10s",
+   "probeURL": "http://cp.cloudflare.com/generate_204",
+   "subjectSelector": [
+    "gx-"
+   ]
+  },
+  "outbounds": [
+   {
+    "protocol": "vless",
+    "settings": {
+     "vnext": [
+      {
+       "address": "198.51.100.20",
+       "port": 443,
+       "users": [
+        {
+         "encryption": "none",
+         "flow": "xtls-rprx-vision",
+         "id": "11111111-2222-3333-4444-555555555555"
+        }
+       ]
+      }
+     ]
+    },
+    "streamSettings": {
+     "network": "tcp",
+     "realitySettings": {
+      "fingerprint": "chrome",
+      "publicKey": "8FXcm8haAt5zxGJFC6-71alFTj_LhAL5hbOx7QBE6lc",
+      "serverName": "www.microsoft.com",
+      "shortId": "80cd0a54",
+      "spiderX": "/"
+     },
+     "security": "reality",
+     "sockopt": {
+      "domainStrategy": "ForceIPv4",
+      "tcpKeepAliveIdle": 100,
+      "tcpKeepAliveInterval": 15,
+      "tcpMaxSeg": 1000,
+      "tcpNoDelay": true
+     },
+     "tcpSettings": {
+      "header": {
+       "type": "none"
+      }
+     }
+    },
+    "tag": "gx-e-c9be99c61e"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "streamSettings": {
+     "sockopt": {
+      "mark": 258,
+      "tcpMaxSeg": 1160,
+      "tcpNoDelay": true
+     }
+    },
+    "tag": "gx-e-4e4aa1c7e5"
+   },
+   {
+    "protocol": "freedom",
+    "settings": {
+     "domainStrategy": "UseIPv4"
+    },
+    "tag": "direct"
+   },
+   {
+    "protocol": "blackhole",
+    "tag": "fail-block"
+   },
+   {
+    "protocol": "blackhole",
+    "tag": "block"
+   }
+  ],
+  "policy": {
+   "levels": {
+    "0": {
+     "connIdle": 300,
+     "downlinkOnly": 5,
+     "handshake": 4,
+     "uplinkOnly": 2
+    }
+   },
+   "system": {
+    "statsOutboundDownlink": true,
+    "statsOutboundUplink": true
+   }
+  },
+  "routing": {
+   "balancers": [
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-all"
+    },
+    {
+     "fallbackTag": "block",
+     "selector": [
+      "gx-"
+     ],
+     "strategy": {
+      "type": "leastPing"
+     },
+     "tag": "gw-vless"
+    }
+   ],
+   "domainStrategy": "IPOnDemand",
+   "rules": [
+    {
+     "inboundTag": [
+      "stats-in"
+     ],
+     "outboundTag": "gw-stats",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "metrics-in"
+     ],
+     "outboundTag": "metrics",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "gw-dns-int"
+     ],
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "dns-in"
+     ],
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-in",
+      "pool-socks",
+      "socks-in"
+     ],
+     "ip": [
+      "0.0.0.0/8",
+      "10.0.0.0/8",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "169.254.0.0/16",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "224.0.0.0/3",
+      "::1/128",
+      "fc00::/7",
+      "fe80::/10",
+      "64:ff9b::/96",
+      "::/128"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "domain": [
+      "full:localhost"
+     ],
+     "inboundTag": [
+      "tproxy-in",
+      "pool-socks",
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-c9be99c61e",
+      "probe-e-c9be99c61e"
+     ],
+     "ip": [
+      "0.0.0.0/8",
+      "10.0.0.0/8",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "169.254.0.0/16",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "224.0.0.0/3",
+      "::1/128",
+      "fc00::/7",
+      "fe80::/10",
+      "64:ff9b::/96",
+      "::/128"
+     ],
+     "outboundTag": "block",
+     "ruleTag": "px-e-c9be99c61e-a63d2006ab-0",
+     "type": "field"
+    },
+    {
+     "domain": [
+      "full:localhost"
+     ],
+     "inboundTag": [
+      "tproxy-e-c9be99c61e",
+      "probe-e-c9be99c61e"
+     ],
+     "outboundTag": "block",
+     "ruleTag": "px-e-c9be99c61e-a63d2006ab-1",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "tproxy-e-c9be99c61e",
+      "probe-e-c9be99c61e"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "ruleTag": "px-e-c9be99c61e-a63d2006ab-2",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-all",
+     "inboundTag": [
+      "pool-socks"
+     ],
+     "type": "field"
+    },
+    {
+     "domain": [
+      "ext:roscomvpn-geosite.dat:category-ads",
+      "ext:roscomvpn-geosite.dat:win-spy"
+     ],
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "domain": [
+      "ext:roscomvpn-geosite.dat:youtube",
+      "ext:roscomvpn-geosite.dat:telegram",
+      "ext:roscomvpn-geosite.dat:github",
+      "ext:roscomvpn-geosite.dat:google-play",
+      "ext:roscomvpn-geosite.dat:category-geoblock-ru",
+      "domain:ifconfig.me",
+      "domain:ifconfig.co",
+      "domain:ipify.org",
+      "domain:icanhazip.com",
+      "domain:checkip.amazonaws.com",
+      "domain:ip.sb",
+      "domain:ipapi.is",
+      "domain:ipinfo.io",
+      "domain:ip-api.com",
+      "domain:myip.com",
+      "domain:whatismyipaddress.com",
+      "domain:browserleaks.com",
+      "domain:whoer.net",
+      "domain:dnsleaktest.com"
+     ],
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "gx-e-4e4aa1c7e5",
+     "type": "field",
+     "user": [
+      "telefon-0001"
+     ]
+    },
+    {
+     "domain": [
+      "ext:roscomvpn-geosite.dat:youtube",
+      "ext:roscomvpn-geosite.dat:telegram",
+      "ext:roscomvpn-geosite.dat:github",
+      "ext:roscomvpn-geosite.dat:google-play",
+      "ext:roscomvpn-geosite.dat:category-geoblock-ru",
+      "domain:ifconfig.me",
+      "domain:ifconfig.co",
+      "domain:ipify.org",
+      "domain:icanhazip.com",
+      "domain:checkip.amazonaws.com",
+      "domain:ip.sb",
+      "domain:ipapi.is",
+      "domain:ipinfo.io",
+      "domain:ip-api.com",
+      "domain:myip.com",
+      "domain:whatismyipaddress.com",
+      "domain:browserleaks.com",
+      "domain:whoer.net",
+      "domain:dnsleaktest.com"
+     ],
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "type": "field",
+     "user": [
+      "noutbuk-0003"
+     ]
+    },
+    {
+     "domain": [
+      "ext:roscomvpn-geosite.dat:private",
+      "ext:roscomvpn-geosite.dat:category-ru",
+      "ext:roscomvpn-geosite.dat:whitelist",
+      "ext:roscomvpn-geosite.dat:apple",
+      "ext:roscomvpn-geosite.dat:microsoft"
+     ],
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "direct",
+     "type": "field",
+     "user": [
+      "noutbuk-0003",
+      "telefon-0001"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "ip": [
+      "ext:roscomvpn-geoip.dat:direct"
+     ],
+     "outboundTag": "direct",
+     "type": "field",
+     "user": [
+      "noutbuk-0003",
+      "telefon-0001"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "gx-e-4e4aa1c7e5",
+     "type": "field",
+     "user": [
+      "router-0002",
+      "telefon-0001"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "gx-e-c9be99c61e",
+     "type": "field",
+     "user": [
+      "noutbuk-0003"
+     ]
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "inboundTag": [
+      "socks-in"
+     ],
+     "outboundTag": "block",
+     "type": "field"
+    },
+    {
+     "balancerTag": "gw-vless",
+     "inboundTag": [
+      "tproxy-in"
+     ],
+     "type": "field"
+    }
+   ]
+  },
+  "stats": {}
+ }
+}

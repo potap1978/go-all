@@ -1,0 +1,172 @@
+/* Kaskad — xt.css: «строка списка с раскрытием» gx-xt и плотность «Крупно · Средне · Строка» (UI-4; Claude Design
+   People r1 К1, css/people.css и HANDOFF «Сетка колонок К1»). Общий блок для «Людей», «Выходов» и «Пробросов»; разметка и
+   поведение — xt.js. Токены: --xt-row (строка: 26 / 68 / 28), --xt-gap, --xt-ind (отступ подстроки). Сетка колонок и
+   правила конкретного списка — в его файле (people.css — «Люди»). */
+
+[data-hero] { --xt-row: 26px; --xt-gap: 12px; --xt-ind: 22px; }
+
+/* ── Плотность (класс на обёртке списка) ── */
+.kk-dn--lg { --xt-row: 68px; }
+.kk-dn--md { --xt-row: 26px; }
+.kk-dn--row { --xt-row: 28px; }
+.kk-dn--md .kk-lg, .kk-dn--row .kk-lg { display: none; }
+.kk-dn--lg .kk-nlg { display: none; }
+.kk-dn--row .kk-nrow { display: none; }
+.kk-dn--md .kk-nmd { display: none; }
+.kk-dn--lg .gx-xt__r--sub { height: 52px; }
+.kk-dn--lg .gx-xt__av.kk-av { width: 36px; height: 36px; font-size: .8125rem; }
+.kk-dn--lg .gx-xt__dev { width: 32px; height: 32px; border-radius: var(--r-tag); background: var(--surface-2); }
+.kk-dn--lg .gx-xt__nb { display: grid; gap: 2px; }
+.kk-dn--lg .gx-xt__x { gap: 12px; }
+.kk-dn--lg .gx-xt__x--sub { padding-left: 30px; }
+.kk-dn--lg .gx-xt__c { white-space: normal; }
+.kk-dn--lg .ga-btn--xs, .kk-dn--lg .gx-xt__slot { width: 32px; height: 32px; }
+.kk-dn--lg .gx-xt__r { font-size: var(--fs); }
+.kk-dn--row .gx-xt__av.kk-av { width: 20px; height: 20px; font-size: .5625rem; }
+/* «Строка» — две колонки сверху вниз (эталон 23.10, А3): XT.cols кладёт первую половину групп в левую колонку, вторую —
+   в правую; раскрытие растит свою колонку, подстроки — под своим человеком, люди между колонками не перескакивают
+   (REV-ui4 З-2). В «Крупно» и «Средне» обёртки колонок не видны — один столбец */
+.gx-xt__cols, .gx-xt__col { display: contents; }
+.kk-dn--row .gx-xt__cols { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.kk-dn--row .gx-xt__cols::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--separator); pointer-events: none; }
+.kk-dn--row .gx-xt__col { display: block; min-width: 0; }
+.kk-dn--row .gx-xt:not(.gx-xt--tree) .gx-xt__g.is-open > .gx-xt__r, .kk-dn--row .gx-xt:not(.gx-xt--tree) .gx-xt__g.is-open > .gx-xt__sub { background: color-mix(in oklab, var(--surface-2) 55%, var(--card-bg)); }
+.kk-dn--row .gx-xt__list > .gx-xt__cols:first-child > .gx-xt__col > .gx-xt__g:first-child > .gx-xt__r:first-child { box-shadow: none; }
+
+/* ── gx-xt ── */
+.gx-xt { --cols: 32px minmax(0, 1fr); position: relative; container: xt / inline-size; background: var(--card-bg); border: 1px solid var(--card-bd); box-shadow: var(--card-sh); border-radius: var(--r-tile); }
+.gx-xt__hw { position: sticky; top: 0; z-index: 3; display: grid; grid-template-columns: minmax(0, 1fr); background: var(--card-bg); border-bottom: 1px solid var(--separator); border-radius: var(--r-tile) var(--r-tile) 0 0; }
+.gx-xt__hw > .gx-xt__h + .gx-xt__h { display: none; }
+.kk-dn--row .gx-xt__hw { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.kk-dn--row .gx-xt__hw > .gx-xt__h + .gx-xt__h { display: grid; border-left: 1px solid var(--separator); }
+.gx-xt__h, .gx-xt__r { display: grid; grid-template-columns: var(--cols); column-gap: var(--xt-gap); align-items: center; padding: 0 12px 0 8px; min-width: 0; }
+.gx-xt__h { height: 32px; color: var(--text-2); font: 500 .75rem/1rem var(--font); white-space: nowrap; }
+.gx-xt__h > span { overflow: hidden; text-overflow: ellipsis; }
+.gx-xt__h > .gx-xt__end { text-align: right; }
+.kk-dn--row .gx-xt__h > .gx-xt__end { visibility: hidden; }
+.gx-xt__r { position: relative; height: var(--xt-row); box-shadow: inset 0 1px 0 var(--separator); font: 400 var(--fs-sm)/1.125rem var(--font); font-variant-numeric: tabular-nums; cursor: pointer; transition: box-shadow var(--dur) var(--ease); }
+.gx-xt__list > .gx-xt__g:first-child > .gx-xt__r:first-child,
+.gx-xt__list > .gx-xt__cols:first-child > .gx-xt__col:first-child > .gx-xt__g:first-child > .gx-xt__r:first-child { box-shadow: none; }
+.gx-xt__r:hover { background: var(--surface-hover); }
+.gx-xt:not(.gx-xt--tree) .gx-xt__g.is-open { background: color-mix(in oklab, var(--surface-2) 55%, transparent); }
+.gx-xt__r--sub, .gx-xt__r--add { cursor: default; }
+.gx-xt__r.is-flash { box-shadow: inset 0 0 0 2px var(--accent); }
+.gx-xt__r:focus:not(:focus-visible) { outline: none; }
+.gx-xt__r.is-off > .gx-xt__c, .gx-xt__r.is-off .gx-xt__n, .gx-xt__r.is-off .gx-xt__av, .gx-xt__r.is-off .gx-xt__dev, .gx-xt__r.is-off .gx-xt__os { opacity: .55; }
+.gx-xt__c { min-width: 0; display: flex; align-items: center; gap: 6px; color: var(--text-2); white-space: nowrap; overflow: hidden; }
+.gx-xt__c > .gx-xt__t { overflow: hidden; text-overflow: ellipsis; }
+.gx-xt__mut { color: var(--text-3); }
+.gx-xt__x { min-width: 0; height: 100%; display: flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--foreground); font: inherit; text-align: left; cursor: pointer; border-radius: var(--r-tag); }
+.gx-xt__x:focus-visible { outline-offset: -2px; }
+.gx-xt__x--sub { cursor: default; padding-left: var(--xt-ind); }
+.gx-xt__chev { color: var(--text-3); transform: rotate(-90deg); transition: transform var(--dur) var(--ease); }
+.gx-xt__x[aria-expanded="true"] .gx-xt__chev { transform: none; color: var(--foreground); }
+.gx-xt__av.kk-av { width: 22px; height: 22px; font: 600 .59375rem/1 var(--font-head); letter-spacing: .02em; }
+.gx-xt__dev { width: 22px; height: 22px; flex: none; display: grid; place-items: center; color: var(--text-2); }
+.gx-xt__nb { min-width: 0; display: flex; align-items: center; gap: 8px; }
+.gx-xt__nl { min-width: 0; display: flex; align-items: center; gap: 8px; }
+.gx-xt__n { min-width: 0; flex: 0 1 auto; font: 500 var(--fs)/1.25rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gx-xt__x--sub .gx-xt__n { font-weight: 400; }
+.gx-xt__os { flex: 0 1 auto; min-width: 0; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: var(--fs-sm); }
+.gx-xt__sub2 { font-size: .78125rem; line-height: 1rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* метка проблемы не сжимается: при длинном имени первым обрезается имя (полное — в подсказке) */
+.gx-xt__nl > .gx-chip { flex: none; }
+.gx-xt__nl > .gx-xt__n { flex: 0 1 auto; min-width: 2.5em; }
+/* колонка «Состояние»: одна метка, не сжимается; ячейка не приглушается у выключенных (метка и есть причина) */
+.gx-xt__st { min-width: 0; display: flex; align-items: center; overflow: hidden; }
+.gx-xt__st > .gx-chip { flex: none; }
+.gx-xt__tags { display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; }
+.gx-xt__tags > .gx-chip, .gx-xt__tags > .gx-xt__mut { flex: none; }
+/* плашки в ячейке (xt.js XT.slots): одним порядком, плотно слева, не сжимаются; лишние — в «+N». max-width: none —
+   иначе .gx-chip (max-width: 100 %) в узкой ячейке ужималась, XT.fitCap мерил ужатую и оставлял её с обрезанным словом */
+.gx-xt__slots { flex: 1 1 0; display: flex; align-items: center; gap: 4px; min-width: 0; overflow: hidden; }
+.gx-xt__slots > [data-si] { flex: none; max-width: none; }
+/* единственная видимая плашка уже ячейки (xt.js fitSlots) — сжимается с многоточием, точка остаётся; строка в rem, как
+   у меток people.css (.gx-xt__st > .gx-chip): текст панели идёт за шагом «A A A» (Т3 №17) */
+.gx-xt__slots > .is-fit { display: block; flex: 0 1 auto; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; line-height: 1.25rem; }
+.gx-xt__slots > .is-fit::before { display: inline-block; margin-right: 6px; vertical-align: 1px; }
+.gx-xt__slots > .gx-chip { padding: 0 6px; }
+.gx-xt__slots > .is-cut { display: none; }
+.gx-xt__more { flex: none; padding: 0 2px; color: var(--text-3); font-size: .75rem; line-height: 1.25rem; cursor: default; }
+.gx-xt__more[hidden] { display: none; }
+.gx-xt__acts { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.gx-xt__slot { width: 24px; height: 24px; flex: none; }
+.gx-xt__addb { grid-column: 2 / -1; display: flex; align-items: center; gap: 12px; padding-left: calc(var(--xt-ind) + 30px); color: var(--text-3); }
+.kk-dn--lg .gx-xt__addb { padding-left: 74px; }
+.gx-xt__empty { padding: 72px 16px 80px; }
+.gx-dot { width: 7px; height: 7px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.gx-dot--on { background: var(--success); box-shadow: none; }
+
+/* ── Дерево «строка → подстроки» (.gx-xt--tree; Claude Design «Строки пользователей», финал 01b «Мягкая линия,
+   скруглённый последний узел», 24.10). Линия --tl от центра аватара строки (--tx от левого края строки; начинается на 3 px
+   ниже аватара: --av — его половина) вниз через подстроки без разрыва; отвод той же линии (--tw) — к значку подстроки;
+   последний узел — угол со скруглением --trad. Подстрока начинается под началом имени строки (--xt-ind). Подложки у
+   раскрытой группы и разделителей между подстроками нет — вложенность показывает только дерево. Наведение на подстроку —
+   её ветка (от аватара до её узла) цветом --tch. Числа под сетку списка — в его файле (people.css). */
+.gx-xt--tree { --tx: 83px; --av: 11px; --tl: 2px; --tc: var(--border); --tch: var(--text-3); --trad: 8px; --tw: 16px; }
+.gx-xt__tr { display: none; position: absolute; left: calc(var(--tx) - var(--tl) / 2); top: 0; bottom: 0; width: 0; border-left: var(--tl) solid var(--tc); pointer-events: none; }
+.gx-xt__g.is-open > .gx-xt__r .gx-xt__tr--u, .gx-xt__r--sub .gx-xt__tr--d { display: block; }
+.gx-xt__tr--u { top: calc(50% + var(--av) + 3px); }
+.gx-xt__tr--d::after { content: ""; position: absolute; left: calc(var(--tl) * -1); top: calc(50% - var(--tl) / 2); width: calc(var(--tw) + var(--tl)); border-top: var(--tl) solid var(--th, var(--tc)); }
+.gx-xt__tr--end { box-sizing: border-box; bottom: auto; height: calc(50% + var(--tl) / 2); width: calc(var(--tw) + var(--tl)); border-bottom: var(--tl) solid var(--tc); border-bottom-left-radius: var(--trad); }
+.gx-xt__tr--end::after { display: none; }
+.gx-xt--tree .gx-xt__sub > .gx-xt__r:not(.is-flash) { box-shadow: none; }
+.gx-xt--tree .gx-xt__sub > .gx-xt__r:hover { background: none; }
+.gx-xt--tree .gx-xt__sub > .gx-xt__r:last-child { margin-bottom: 4px; }
+/* ветка под курсором: отвод и верх своей линии, линии подстрок выше и отрезок от аватара */
+.gx-xt--tree .gx-xt__r--sub:hover .gx-xt__tr { --th: var(--tch); }
+.gx-xt--tree .gx-xt__r--sub:hover .gx-xt__tr--d::before { content: ""; position: absolute; left: calc(var(--tl) * -1); top: 0; height: calc(50% + var(--tl) / 2); border-left: var(--tl) solid var(--tch); }
+.gx-xt--tree .gx-xt__r--sub:hover .gx-xt__tr--end { border-color: var(--tch); }
+.gx-xt--tree .gx-xt__r--sub:has(~ .gx-xt__r--sub:hover) .gx-xt__tr,
+.gx-xt--tree .gx-xt__g:has(.gx-xt__r--sub:hover) > .gx-xt__r .gx-xt__tr--u { border-left-color: var(--tch); }
+
+/* маленький переключатель строки */
+.gx-xt__sw { width: 32px; height: 24px; display: grid; place-items: center; padding: 0; border: 0; background: none; cursor: pointer; border-radius: var(--r-pill); }
+.gx-track--sm { width: 28px; height: 16px; }
+.gx-track--sm::after { top: 2px; left: 2px; width: 12px; height: 12px; }
+[aria-checked="true"] > .gx-track--sm::after { transform: translateX(12px); }
+.gx-xt__sw[disabled] { opacity: var(--disabled-opacity); cursor: not-allowed; }
+
+/* кнопка-значок 24 для строк таблицы */
+.ga-btn.ga-btn--xs { width: 24px; height: 24px; min-width: 0; padding: 0; border-radius: var(--r-tag); gap: 0; }
+.ga-btn--ghost.ga-btn--xs { color: var(--text-2); }
+.ga-btn--ghost.ga-btn--xs:hover:not([disabled]) { background: var(--surface-3); color: var(--foreground); }
+.ga-btn--xs[aria-expanded="true"] { background: var(--surface-3); color: var(--foreground); }
+.ga-btn--xs[disabled] { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.ga-btn--xs.is-main { color: var(--accent-text); }
+.gx-xt .gx-chip--app.gx-chip--tiny { height: 20px; }
+
+.gx-hit { background: var(--accent-soft); color: inherit; border-radius: 3px; box-shadow: 0 0 0 1px var(--accent-soft); }
+
+/* переключатель плотности — сегмент с выбором (role=radio) */
+.gx-seg > button[aria-checked="true"] { background: var(--segment); box-shadow: var(--segment-shadow); color: var(--foreground); }
+/* значок плотности перед словом (эталон 23.10: «плотность значками»); слово прячет стиль списка на узком окне */
+.gx-dn > button { display: inline-flex; align-items: center; gap: 6px; }
+.gx-dn__ic { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Сворачиваемые столбцы (круг 1 №25, решение 12; Claude Design it1 Д3 В1–В2, HANDOFF «Сворачивание столбцов gx-xt»):
+   заголовок — кнопка gx-xt__hc (наведение и фокус — подложка и значок «свернуть», подсказка gx-xt__tip); свёрнутый
+   (is-cc) — полоска 24 px во всю высоту таблицы: в шапке значок «развернуть», ячейки gx-xt__c--cc без содержимого.
+   Ширина 24 — в --cols через CSSOM (xt.js ccFit), освободившееся уходит в 1fr имени. На телефоне таблицы нет.
+   display у .gx-xt__hc — одним классом: столбцы, спрятанные плотностью (.kk-dn--lg .kk-nlg) и шириной, прячутся и в шапке. ── */
+.gx-xt__h > .gx-xt__hf { min-width: 0; overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.gx-xt__hc { position: relative; min-width: 0; height: 32px; display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; margin: 0 -6px; padding: 0 6px; border: 0; border-radius: var(--r-tag); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.gx-xt__h > .gx-xt__hc:hover { background: var(--surface-2); color: var(--foreground); }
+.gx-xt__h > .gx-xt__hc:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.gx-xt__hl { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* значок «свернуть» не занимает ширину подписи (узкий «Отклик» не обрезается): поверх, у правого края, виден на наведении */
+.gx-xt__hi { position: absolute; right: 2px; top: 8px; flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; color: var(--text-3); opacity: 0; transition: opacity var(--dur) var(--ease); }
+.gx-xt__hc:hover > .gx-xt__hi, .gx-xt__hc:focus-visible > .gx-xt__hi { opacity: 1; }
+.gx-xt__h > .gx-xt__hc.is-cc { justify-content: center; width: 100%; margin: 0; padding: 0; border-radius: var(--r-tag) var(--r-tag) 0 0; background: var(--surface-2); color: var(--text-2); }
+.gx-xt__h > .gx-xt__hc.is-cc:hover { background: var(--surface-3); color: var(--foreground); }
+.gx-xt__hc.is-cc > .gx-xt__hl { display: none; }
+.gx-xt__hc.is-cc > .gx-xt__hi { position: static; margin: 0; opacity: 1; color: inherit; }
+.gx-xt__hc:hover > .gx-xt__hl, .gx-xt__hc:focus-visible > .gx-xt__hl { padding-right: 16px; }
+.gx-xt__c--cc { align-self: stretch; background: var(--surface-2); }
+.gx-xt__c--cc > * { display: none !important; }
+.gx-xt__r:hover > .gx-xt__c--cc { background: var(--surface-3); }
+.gx-xt__tip { display: none; position: absolute; z-index: 8; top: calc(100% + 6px); left: 0; width: max-content; max-width: 280px; padding: 6px 10px; border-radius: 6px; background: var(--surface-raised); box-shadow: var(--popover-shadow), 0 0 0 1px var(--border); font: 400 .78125rem/1.0625rem var(--font); color: var(--foreground); white-space: normal; text-align: left; text-wrap: pretty; pointer-events: none; }
+.gx-xt__hc:hover > .gx-xt__tip, .gx-xt__hc:focus-visible > .gx-xt__tip { display: block; }
+.gx-xt__hc.is-cc > .gx-xt__tip { left: auto; right: -6px; }
+@media (hover: none) { .gx-xt__hc:hover > .gx-xt__tip { display: none; } }
+@media (prefers-reduced-motion: reduce) { .gx-xt__hi { transition: none; } }

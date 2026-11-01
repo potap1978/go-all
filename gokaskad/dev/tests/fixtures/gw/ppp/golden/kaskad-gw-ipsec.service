@@ -1,0 +1,15 @@
+[Unit]
+Description=Kaskad 3 gateway: strongSwan (L2TP/IPsec, IKEv2)
+After=network-online.target kaskad-net.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/sbin/charon-systemd
+ExecStartPost=-/usr/sbin/swanctl --load-all --noprompt
+ExecReload=/usr/sbin/swanctl --load-all --noprompt
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

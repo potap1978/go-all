@@ -1,0 +1,10 @@
+{
+ "boot.kind.compat_missing": "iptables compatibility rule",
+ "boot.kind.drift": "device routes in the nftables table",
+ "boot.kind.gw_compat_in": "gateway compatibility rule for UFW",
+ "boot.kind.gw_ip6": "gateway IPv6 table",
+ "boot.kind.gw_routing": "gateway routing",
+ "boot.kind.gw_rp_filter": "rp_filter of the gateway interfaces",
+ "boot.kind.ip_forward": "packet forwarding",
+ "boot.summary": "{prefix} after a reboot: gateway rules restored ({parts})"
+}

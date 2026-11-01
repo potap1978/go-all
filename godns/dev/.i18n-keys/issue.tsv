@@ -1,0 +1,57 @@
+issue_title	Выпуск нового сертификата	Issue a new certificate
+issue_intro	Сертификата по известным путям нет. Можно выпустить свой.	No certificate at the known paths. goDNS Pro can issue one via Let's Encrypt.
+issue_intro_have	Сертификат на этот домен уже есть — goDNS Pro его не тронет. Обычно выпускать новый не нужно.	There is already a certificate for this domain — goDNS Pro will not touch it. Issuing a new one is usually unnecessary.
+issue_no_ip	Не удалось определить IP сервера.	Could not determine the server IP.
+issue_server_ip	IP этого сервера: %s	This server's IP: %s
+issue_ask_domain	Домен для сертификата:	Domain for the certificate:
+issue_ask_domain_sug	Домен для сертификата [%s]:	Domain for the certificate [%s]:
+issue_domain_required	Домен обязателен.	A domain is required.
+issue_domain_bad	'%s' не похож на домен.	'%s' does not look like a domain.
+issue_lineage_exists	Для '%s' сертификат уже существует — goDNS Pro его не перезапишет.	A certificate for '%s' already exists — goDNS Pro will not overwrite it.
+issue_lineage_hint	Вернитесь на шаг назад и выберите его, либо укажите другой домен.	Go back a step and pick it, or use another domain (a dns.… subdomain).
+issue_try_other_domain	Ввести другой домен?	Enter a different domain?
+issue_dns_ok	%s резолвится в %s — верно.	%s resolves to %s — correct.
+issue_dns_none	%s пока не резолвится.	%s does not resolve yet.
+issue_dns_mismatch	%s резолвится в %s, а нужен %s.	%s resolves to %s, but %s is required.
+issue_dns_hint	Заведите A-запись: %s → %s, и дождитесь распространения.	Create an A record: %s → %s, then wait for it to propagate.
+issue_dns_recheck	Проверить ещё раз	Check again
+issue_dns_ignore	Всё равно продолжить	Continue anyway
+issue_dns_abort	Отмена	Cancel
+issue_dns_ignored	Продолжаю без подтверждённого DNS — Let's Encrypt, скорее всего, откажет.	Continuing without confirmed DNS — Let's Encrypt will most likely refuse.
+issue_ask_email	Почта для уведомлений об истечении (Enter — пропустить):	Email for expiry notices (Enter to skip):
+issue_email_bad	Адрес выглядит некорректно — продолжаю без почты.	That address looks invalid — continuing without email.
+issue_email_none	Без почты: писем об истечении не будет.	No email: you will not get expiry notices.
+issue_certbot_present	certbot уже установлен.	certbot is already installed.
+issue_certbot_installing	Ставлю certbot…	Installing certbot…
+issue_certbot_ok	certbot установлен.	certbot installed.
+issue_certbot_failed	Не удалось установить certbot.	Could not install certbot.
+issue_ch_standalone	Порт 80 свободен — проверка пройдёт напрямую.	Port 80 is free — the challenge will run standalone.
+issue_ch_port80_busy	Порт 80 занят: %s	Port 80 is busy: %s
+issue_ch_webroot_ok	Проверочный файл отдаётся из %s — используем этот путь.	The challenge file is served from %s — using that webroot.
+issue_ch_webroot_failed	Ни один webroot не отдал проверочный файл.	No webroot served the challenge file.
+issue_ch_stop_ask	Можно кратко остановить %s на время выпуска.	%s can be stopped briefly while the certificate is issued.
+issue_ch_stop_confirm	Остановить на время выпуска?	Stop it during issuance?
+issue_ch_none	Не нашлось способа пройти проверку ACME.	No way to pass the ACME challenge was found.
+issue_stopping	Останавливаю %s…	Stopping %s…
+issue_restart_failed	Не удалось поднять %s обратно — проверьте вручную!	Could not start %s again — check it manually!
+issue_dryrun	Пробный прогон (не тратит лимиты Let's Encrypt)	Dry run (does not consume Let's Encrypt limits)
+issue_dryrun_ok	Пробный прогон прошёл.	Dry run succeeded.
+issue_dryrun_failed	Пробный прогон не прошёл — настоящий выпуск не начинаю.	Dry run failed — not attempting the real issuance.
+issue_issuing	Выпускаю сертификат для %s	Issuing a certificate for %s
+issue_failed	Выпуск не удался.	Issuance failed.
+issue_no_files	certbot отчитался об успехе, но %s не появился.	certbot reported success, but %s did not appear.
+issue_ok	Сертификат для %s выпущен.	Certificate for %s issued.
+issue_log_at	Полный лог: %s	Full log: %s
+issue_autorenew_warn	Сертификат выпущен, но автопродление настроить не удалось.	The certificate was issued, but auto-renewal could not be set up.
+issue_timer_ok	Автопродление включено (certbot.timer).	Auto-renewal enabled (certbot.timer).
+issue_timer_failed	Не удалось включить certbot.timer.	Could not enable certbot.timer.
+issue_timer_absent	certbot.timer не найден.	certbot.timer not found.
+issue_cron_ok	Автопродление добавлено в cron.	Auto-renewal added to cron.
+issue_renew_dryrun_ok	Продление проверено вхолостую — работает.	Renewal verified with a dry run — it works.
+issue_renew_dryrun_warn	Холостое продление не прошло — проверьте certbot renew --dry-run вручную.	The renewal dry run failed — check certbot renew --dry-run manually.
+issue_certbot_updating	Обновление списка пакетов	Updating the package list
+issue_renew_check	Проверка автопродления вхолостую	Dry-running the renewal
+issue_renew_ok	Продление пройдёт само — порт освобождать не придётся	Renewal will work on its own — no port needs freeing
+issue_renew_broken	Продление САМО не пройдёт: порт 80 снова занят (%s)	Renewal will NOT work on its own: port 80 is busy again (%s)
+issue_renew_broken_why	Сертификат выпущен способом standalone — ему нужен свободный :80, а мы освобождали его только на время выпуска.	The certificate was issued in standalone mode — it needs port 80 free, and we freed it only for the issuance.
+issue_renew_broken_fix	Через 60 дней продление упадёт. Переведите домен на webroot вашего веб-сервера или добавьте свои pre/post-хуки certbot.	In 60 days renewal will fail. Move the domain to your web server's webroot, or add your own certbot pre/post hooks.

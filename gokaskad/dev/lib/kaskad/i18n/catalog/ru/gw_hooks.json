@@ -1,0 +1,10 @@
+{
+ "gw_hooks.bad_action": "действие хука — up или down, а не {action}",
+ "gw_hooks.bad_identity": "недопустимое имя клиента {identity}",
+ "gw_hooks.bad_ip": "нужен IPv4-адрес клиента, а не {ip}",
+ "gw_hooks.bad_kind": "неизвестный вход {kind}",
+ "gw_hooks.log.unknown_client": "GW hook: {kind} подключил неизвестного клиента {identity} ({ip}) — адрес не пропущен",
+ "gw_hooks.outside_base": "адрес {ip} вне сети шлюза {base}",
+ "gw_hooks.outside_subnet": "адрес {ip} не из подсети входа {kind} ({subnet})",
+ "gw_hooks.log.ru_failed": "GW hook: российские наборы адреса {ip} не записаны — адрес закрыт до следующего хода шлюза"
+}

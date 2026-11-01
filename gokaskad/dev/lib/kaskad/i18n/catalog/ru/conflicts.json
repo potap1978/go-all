@@ -1,0 +1,19 @@
+{
+ "conflicts.cause.docker_dnat": "его публикует контейнер Docker (→ {to})",
+ "conflicts.cause.docker_proxy": "его публикует контейнер Docker (docker-proxy)",
+ "conflicts.cause.foreign_dnat": "в iptables есть чужой {target} на этот порт (→ {to})",
+ "conflicts.cause.gateway": "его занимает протокол шлюза {title}",
+ "conflicts.cause.listener": "его слушает {procs}",
+ "conflicts.cause.site_cert": "через него Let's Encrypt проверяет домен {domain}",
+ "conflicts.cause.site_page": "на нём открыт сайт Kaskad",
+ "conflicts.cause.ssh_listen": "здесь слушает SSH-сервер ({procs})",
+ "conflicts.cause.ssh_session": "через него идёт ваше текущее SSH-подключение",
+ "conflicts.effect.foreign_dnat": "проброс Kaskad его перекроет",
+ "conflicts.effect.gateway": "проброс заберёт его клиентов",
+ "conflicts.effect.listener": "подключения к нему снаружи перестанут доходить",
+ "conflicts.effect.site_cert": "сертификат домена перестанет продлеваться",
+ "conflicts.effect.site_page": "сайт перестанет открываться",
+ "conflicts.effect.ssh": "проброс отрежет вход на этот сервер",
+ "conflicts.message": "Порт {port}/{proto} занят: {details}. Добавить всё равно — с --force.",
+ "conflicts.procs_unnamed": "служба без имени процесса (например, WireGuard в ядре)"
+}

@@ -1,0 +1,7 @@
+{
+ "ipt.list_failed": "couldn’t read iptables rules (table {table}): {error}",
+ "ipt.no_value": "no value for {opt}",
+ "ipt.save_failed": "iptables-save failed: {error}",
+ "ipt.unclosed_quotes": "unclosed quotes ({error})",
+ "ipt.unparsed": "(not parsed: {error})"
+}

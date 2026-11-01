@@ -1,0 +1,242 @@
+/* Kaskad — «Настройки › Сервер › Адреса» (часть «Адреса сервера»). Подключается после stream.css 3.3.7.14.
+   Только новые классы kk-adr-*; токены — существующие (tokens.css 3.3.7.14). Готовое (gx-card, gx-seg, gx-sw, gx-kv,
+   gx-chip, gx-al, gx-dlg, gx-impact, gx-mrow, gx-mlist, gx-msec, gx-mhero, ga-btn) не меняется.
+   Доли полос и места узлов схемы в панели ставит app.js через CSSOM (style-src 'self'); в макете — атрибутом style.
+   Пороги — @container kkpart (ширина части), как у остальных частей. Макет: «Kaskad Адреса сервера r1». */
+
+/* ── Часть: «Адреса», затем «Выдача» и «Выход». Часть ≥ 1360 — «Адреса» слева, «Выдача» и «Выход» справа ── */
+.kk-adr { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); align-items: start; min-width: 0; }
+.kk-adr__side { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); align-content: start; min-width: 0; }
+@container kkpart (min-width: 1360px) { .kk-adr { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+.kk-adr-cap { margin: 0; font: 500 .75rem/1rem var(--font); color: var(--text-3); }
+
+/* ── Полоса ролей: колонка на адрес, в ней четыре дорожки — приём · выдача IPv6 · выход · панель ── */
+.kk-adr-map { display: flex; align-items: stretch; min-width: 0; }
+.kk-adr-map__lg, .kk-adr-map__c { display: grid; grid-template-rows: 22px repeat(4, 18px) 22px auto; row-gap: 4px; }
+.kk-adr-map__lg { flex: none; padding-right: 12px; font-size: .75rem; line-height: 1.125rem; color: var(--text-2); }
+.kk-adr-map__lg > span { white-space: nowrap; align-self: center; }
+.kk-adr-map__c { position: relative; flex: 1 1 0; min-width: 0; padding: 0 4px 6px; border: 0; border-radius: var(--r-tag); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background var(--dur) var(--ease); }
+.kk-adr-map__c:hover { background: var(--surface-hover); }
+.kk-adr-map__c:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-adr-map__c.is-cur { background: var(--surface-2); }
+.kk-adr-map__c.is-g { margin-left: 14px; }
+.kk-adr-map__gh { font: 500 .75rem/1.375rem var(--font); color: var(--text-3); white-space: nowrap; overflow: visible; }
+.kk-adr-map__x { display: block; align-self: center; height: 8px; border-radius: var(--r-pill); background: var(--surface-3); }
+.kk-adr-map__x.is-on { background: var(--accent); }
+.kk-adr-map__x.is-warn { background: var(--warning); }
+.kk-adr-map__x.is-bad { background: none; box-shadow: inset 0 0 0 1.5px var(--danger); }
+.kk-adr-map__x.is-na { position: relative; border-radius: 0; background: none; }
+.kk-adr-map__x.is-na::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px dashed var(--border); }
+.kk-adr-map__ip, .kk-adr-map__ips { align-self: center; min-width: 0; font: 400 .75rem/1rem var(--mono); color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-adr-map__ips { display: none; }
+.kk-adr-map__c.is-gone .kk-adr-map__ip, .kk-adr-map__c.is-gone .kk-adr-map__ips { color: var(--text-3); }
+/* срок жизни IPv6: сплошная — статический, пунктир — авто (SLAAC), доля — «устаревает» */
+.kk-adr-life { display: grid; gap: 3px; align-self: start; min-width: 0; }
+.kk-adr-life__b { display: block; height: 3px; border-radius: 2px; background: var(--text-3); overflow: hidden; }
+.kk-adr-life.is-dyn .kk-adr-life__b { height: 0; border-top: 2px dashed var(--text-3); border-radius: 0; background: none; }
+.kk-adr-life.is-dep .kk-adr-life__b { background: var(--surface-3); }
+.kk-adr-life.is-dep .kk-adr-life__b > i { display: block; height: 100%; background: var(--warning); }
+.kk-adr-life__t, .kk-adr-life__ts { font-size: .6875rem; line-height: .875rem; color: var(--text-2); text-wrap: pretty; }
+.kk-adr-life__ts { display: none; }
+.kk-adr-life.is-dep .kk-adr-life__t, .kk-adr-life.is-dep .kk-adr-life__ts { color: var(--warning-text); }
+/* условные знаки под полосой */
+.kk-adr-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.kk-adr-key > span { display: inline-flex; align-items: center; gap: 6px; }
+.kk-adr-key .kk-adr-map__x { width: 16px; }
+@container kkpart (max-width: 619.98px) {
+  .kk-adr-map__lg { padding-right: 8px; }
+  .kk-adr-map__c { padding-inline: 2px; }
+  .kk-adr-map__c.is-g { margin-left: 8px; }
+  .kk-adr-life__t { display: none; }
+  .kk-adr-life__ts { display: block; }
+}
+
+/* ── Список адресов: одна строка на адрес, колонки общие (subgrid) — огонёк · адрес · метки · приём · для выхода · ›.
+   Стрелка — сразу за «Для выхода», остаток ширины — после неё: на широкой части нет пустоты посреди строки ── */
+.kk-adr-list { display: grid; grid-template-columns: 8px max-content fit-content(340px) max-content max-content 20px minmax(0, 1fr); column-gap: 16px; min-width: 0; }
+.kk-adr-list__h { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding: 0 0 6px; font: 500 .75rem/1rem var(--font); color: var(--text-3); }
+.kk-adr-list__h > span:nth-child(1) { grid-column: 2; }
+.kk-adr-list__h > span:nth-child(2) { grid-column: 3; }
+.kk-adr-list__h > span:nth-child(3) { grid-column: 4; }
+.kk-adr-list__h > span:nth-child(4) { grid-column: 5; }
+.kk-adr-list__g { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 14px 0 6px; font: 600 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.kk-adr-list__g > .gx-hint { font-weight: 400; }
+.kk-adr-list__g > .kk-adr-warn { font-weight: 500; color: var(--warning-text); }
+.kk-adr-list__e { grid-column: 1 / -1; padding: 10px 0 12px 24px; border-top: 1px solid var(--separator); font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-adr-r { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; border-top: 1px solid var(--separator); min-width: 0; }
+.kk-adr-r--solo { border-top: 0; }   /* деталь во весь экран (телефон): строки-шапки нет */
+.kk-adr-r__b { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; min-height: 48px; padding: 6px 0; border: 0; border-radius: var(--r-tag); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.kk-adr-r__b:hover { background: var(--surface-hover); }
+.kk-adr-r__b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kk-adr-r__d { grid-column: 1; width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+.kk-adr-r__d--off { background: none; box-shadow: inset 0 0 0 1.5px var(--text-3); }
+.kk-adr-r__d--warn { background: var(--warning); }
+.kk-adr-r__d--bad { background: var(--danger); }
+.kk-adr-r__ip { grid-column: 2; min-width: 0; font: 500 .875rem/1.25rem var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-adr-r__tg { grid-column: 3; display: flex; flex-wrap: wrap; gap: 4px 6px; min-width: 0; }
+.kk-adr-r__tg > .gx-chip { max-width: 100%; }
+.kk-adr-r__tg > .gx-chip > .gi { margin-left: -2px; }
+.kk-adr-r__in, .kk-adr-r__out { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--foreground); white-space: nowrap; }
+.kk-adr-r__in { grid-column: 4; }
+.kk-adr-r__out { grid-column: 5; }
+.kk-adr-r__ol { display: none; color: var(--text-2); }
+.kk-adr-r__ch { grid-column: 6; justify-self: start; display: grid; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.kk-adr-r__b[aria-expanded="true"] .kk-adr-r__ch { transform: rotate(180deg); }
+.kk-adr-r.is-gone .kk-adr-r__ip, .kk-adr-r.is-gone .kk-adr-r__in, .kk-adr-r.is-gone .kk-adr-r__out { color: var(--text-3); }
+@container kkpart (max-width: 639.98px) {
+  .kk-adr-list { grid-template-columns: minmax(0, 1fr); }
+  .kk-adr-list__h { display: none; }
+  .kk-adr-r { grid-template-columns: minmax(0, 1fr); }
+  .kk-adr-r__b { grid-template-columns: 8px minmax(0, 1fr) max-content 20px; column-gap: 10px; row-gap: 4px; }
+  .kk-adr-r__d, .kk-adr-r__ip, .kk-adr-r__in, .kk-adr-r__ch { grid-row: 1; }
+  .kk-adr-r__ip { grid-column: 2; } .kk-adr-r__in { grid-column: 3; } .kk-adr-r__ch { grid-column: 4; }
+  .kk-adr-r__tg { grid-column: 2; grid-row: 2; }
+  .kk-adr-r__out { grid-column: 3; grid-row: 2; color: var(--text-2); }
+  .kk-adr-r__ol { display: inline; }
+  .kk-adr-list__e { padding-left: 18px; }
+}
+
+/* ── Раскрытая строка: графика роли → «Приём» и «Для выхода» → цифры → предупреждения ──
+   Часть ≥ 760 (Claude Design option-Д1-grid, D-3315-view-adr-r2 «Д1, пустота»): слева дорожки 2 × 2 → «Приём» → «Для
+   выхода», справа цифры, верх по линии дорожек; колонки 1,15 : 1, промежуток 32. Уже — одна колонка в порядке разметки
+   (дорожки → «Приём» → «Для выхода» → цифры). Предупреждения — во всю ширину под колонками. */
+.kk-adr-det { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 6px 0 20px 24px; min-width: 0; animation: hero-pop var(--dur) var(--ease); }
+@container kkpart (min-width: 760px) {
+  .kk-adr-det { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "lanes kv" "ctl kv"; column-gap: 32px; }
+  .kk-adr-det > .kk-adr-lanes { grid-area: lanes; }
+  .kk-adr-det > .kk-adr-ctl { grid-area: ctl; }
+  .kk-adr-det > .gx-kv { grid-area: kv; }
+  .kk-adr-det > .kk-adr-al { grid-column: 1 / -1; }
+}
+@container kkpart (max-width: 639.98px) { .kk-adr-det { padding-left: 0; } }
+.kk-adr-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; min-width: 0; }   /* 2 × 2 на любой ширине */
+.kk-adr-lane { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.kk-adr-lane__k { font-size: .75rem; line-height: 1rem; color: var(--text-3); }
+.kk-adr-lane__v { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--foreground); text-wrap: pretty; overflow-wrap: anywhere; }
+.kk-adr-lane.is-off .kk-adr-lane__v { color: var(--text-2); }
+.kk-adr-ctl { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.kk-adr-f { display: grid; gap: 8px; min-width: 0; justify-items: start; }
+.kk-adr-f__l { font: 500 var(--fs-sm)/1.125rem var(--font); }
+.kk-adr-f > .gx-seg { max-width: 100%; }
+.kk-adr-f > .gx-seg > button[aria-disabled="true"] { color: var(--text-3); cursor: not-allowed; }
+.kk-adr-f > .gx-sw { justify-self: stretch; max-width: none; padding: 2px 0; border: 0; }
+.kk-adr-f > .gx-sw[aria-disabled="true"] { cursor: not-allowed; }
+.kk-adr-f > .gx-sw[aria-disabled="true"] > .gx-track { opacity: var(--disabled-opacity); }
+.kk-adr-f__na { font: 500 var(--fs)/1.25rem var(--font); color: var(--text-2); }
+/* причина замка или серого значения — строкой под выбором (узор «выключено с подсказкой») */
+.kk-adr-why { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); text-wrap: pretty; overflow-wrap: anywhere; }
+.kk-adr-why > .gi { margin-top: 2px; color: var(--text-3); }
+.kk-adr-det .gx-kv { --kv-label: 152px; align-content: start; }
+/* значение со ссылкой («Адрес для клиентов: да · изменить — в «Шлюзе»»): значение — своей шириной, ссылка не входит —
+   строкой ниже (у gx-kv__text основа 0 — узкая колонка цифр на части 1460 рвала «да» по буквам) */
+.kk-adr-det .gx-kv__text:has(+ .gx-link) { flex: 0 1 auto; }
+.kk-adr-mk { display: inline-flex; align-items: center; gap: 3px; flex: none; font-size: var(--fs-sm); font-weight: 500; }
+.kk-adr-mk--ok { color: var(--success-text); }
+.kk-adr-mk--no { color: var(--danger-text); }
+.kk-adr-al { display: grid; gap: 8px; min-width: 0; }
+[data-device="phone"] .kk-adr-f > .gx-seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
+[data-device="phone"] .kk-adr-f > .gx-seg > button { height: auto; min-height: 40px; padding-block: 4px; white-space: normal; line-height: 1.15; }
+
+/* ── Низ блока «Адреса»: «Проверить заново» · когда проверено · «Сбросить выбор» ── */
+.kk-adr-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: 14px; border-top: 1px solid var(--separator); min-width: 0; }
+.kk-adr-foot__t { font-size: var(--fs-sm); line-height: 1.125rem; color: var(--text-2); }
+.kk-adr-foot__sp { flex: 1 1 0; min-width: 0; }
+.kk-adr-foot__r { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
+.kk-adr-foot__r > .gx-hint { flex: 1 1 200px; }
+
+/* ── «Выдача»: полоса протоколов, получающих строку IPv6 ── */
+.kk-adr-pl { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; min-width: 0; }
+.kk-adr-pl__i { display: grid; gap: 5px; align-content: start; min-width: 0; }
+.kk-adr-pl__n { font: 500 var(--fs-sm)/1.125rem var(--font); overflow-wrap: anywhere; }
+.kk-adr-pl__s { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.kk-adr-pl__i.is-na .kk-adr-pl__n { color: var(--text-2); }
+@container kkpart (max-width: 479.98px) { .kk-adr-pl { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; } }
+.kk-adr-give { display: grid; gap: 12px; min-width: 0; }
+.kk-adr-give > .gx-sw { max-width: none; padding: 12px 0; border-top: 1px solid var(--separator); }
+.kk-adr-give .gx-sw__t > span:first-child b { font: 500 .875rem/1.25rem var(--mono); overflow-wrap: anywhere; }
+
+/* ── «Выход»: схема «наши адреса → выходы», места узлов — по строкам справа (в панели — CSSOM) ── */
+.kk-adr-sch { display: grid; grid-template-columns: minmax(140px, 200px) minmax(40px, 1fr) minmax(170px, 1.4fr); min-width: 0; }
+.kk-adr-sch__l { position: relative; height: 220px; min-width: 0; }
+.kk-adr-sch__n { position: absolute; left: 0; right: 0; transform: translateY(-50%); display: grid; gap: 1px; padding: 6px 10px; border-radius: var(--r-field); background: var(--surface-2); min-width: 0; }
+.kk-adr-sch__ip { font: 500 .8125rem/1.125rem var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-adr-sch__s { font-size: .75rem; line-height: 1rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-adr-sch__svg { display: block; width: 100%; height: 220px; overflow: visible; }
+.kk-adr-sch__svg path { fill: none; stroke: var(--text-3); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.kk-adr-sch__svg path.is-cur { stroke: var(--accent); stroke-width: 2.5; }
+.kk-adr-sch__svg path.is-v6 { stroke-dasharray: 4 3; }
+.kk-adr-sch__r { display: grid; grid-template-rows: repeat(5, 44px); min-width: 0; }
+.kk-adr-sch__t { align-self: center; display: grid; gap: 1px; min-width: 0; padding-left: 10px; border-left: 2px solid var(--border); }
+.kk-adr-sch__t.is-cur { border-left-color: var(--accent); }
+.kk-adr-sch__t > b { font: 500 var(--fs-sm)/1.125rem var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kk-adr-sch__t > span { font-size: .75rem; line-height: 1rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@container kkadrout (max-width: 429.98px) {
+  .kk-adr-sch { grid-template-columns: minmax(0, 120px) 56px minmax(0, 1fr); }
+  .kk-adr-sch__n { padding: 5px 8px; }
+  .kk-adr-sch__ip { font-size: .71875rem; }
+}
+.kk-adr-sees { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0; padding: 10px 14px; border-radius: var(--r-tile); background: var(--tile-bg); font-size: var(--fs-sm); line-height: 1.25rem; color: var(--text-2); }
+.kk-adr-sees > b { font: 500 .9375rem/1.25rem var(--mono); color: var(--foreground); }
+.kk-adr-out .gx-kv { --kv-label: 220px; }
+.kk-adr-out .gx-kv select.gx-input { width: auto; min-width: 0; max-width: 100%; }
+.kk-adr-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; min-width: 0; }
+.kk-adr-acts > .gx-hint { flex: 1 1 220px; }
+
+/* ── Окна: что переедет — «было → станет» перед списком «Что изменится» ── */
+.kk-adr-mv { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 14px; border-radius: var(--r-tile); background: var(--tile-bg); min-width: 0; }
+.kk-adr-mv__n { display: grid; gap: 4px; min-width: 0; }
+.kk-adr-mv__n > b { font: 500 .875rem/1.25rem var(--mono); overflow-wrap: anywhere; }
+.kk-adr-mv__n > span { font-size: .75rem; line-height: 1rem; color: var(--text-2); }
+.kk-adr-mv__n > .kk-adr-map__x { width: 72px; }
+.kk-adr-mv__a { display: grid; color: var(--text-3); }
+.kk-adr-dh { margin: 0; font: 500 var(--fs-sm)/1.125rem var(--font); color: var(--text-2); }
+.kk-adr-q { margin: 0; font-weight: 600; }
+
+/* ── Один адрес, загрузка ── */
+.kk-adr-one { display: grid; gap: 6px; min-width: 0; }
+.kk-adr-one__k { font-size: var(--fs-sm); color: var(--text-2); }
+.kk-adr-one__v { font: 500 1rem/1.5rem var(--mono); }
+.kk-adr-sk { display: block; height: 10px; border-radius: var(--r-pill); background: var(--surface-3); animation: hero-pulse 1.4s var(--ease) infinite; }
+[data-motion="off"] .kk-adr-sk { animation: none; }
+@media (prefers-reduced-motion: reduce) { .kk-adr-sk { animation: none; } }
+.kk-adr-sk--map { height: 132px; border-radius: var(--r-tile); }
+
+/* ── Телефон: строки gx-mrow с огоньком, деталь адреса во весь экран ── */
+.gx-mrow > .kk-adr-r__d { flex: none; margin: 0 4px 0 2px; }
+.kk-adr-ph { display: grid; gap: var(--sp-5); min-width: 0; }
+
+/* Kaskad 3.3.7.15 (натяжка, V2): узел части в «Настройках» (pages/addresses.js) — сам контейнер kkpart той же ширины,
+   что часть: на телефоне часть стоит в gx-page без kk-part (в макете kk-part есть), пороги @container выше иначе не
+   срабатывают. Обёртка полосы ролей с условными знаками — в макете атрибутом style («display: grid; gap: 10px;
+   min-width: 0»; на телефоне — ещё gx-card) */
+.kk-adr-host { display: grid; gap: var(--gap); min-width: 0; container: kkpart / inline-size; }
+.kk-adr-mapw { display: grid; gap: 10px; min-width: 0; }
+/* телефон: общее правило касания (components.css: кнопка не уже 44 px) раздвигало колонки полосы за край карточки
+   (6 адресов на 390 — по ≈ 38 px); колонка — кнопка высотой ≈ 150 px, место нажатия и так больше 44 × 44 */
+[data-hero][data-device="phone"] .kk-adr-map__c { min-width: 0; }
+/* колонка полосы — одна дорожка не шире кнопки: подпись группы («IPv6 · 2», nowrap, overflow: visible) нарочно
+   заходит на соседние колонки, но в макете она же раздвигала дорожку первой колонки группы, и адрес под ней
+   наезжал на адрес соседа (6 адресов на 390, detector overlap); адрес режется многоточием, полный — в title */
+.kk-adr-map__c { grid-template-columns: minmax(0, 1fr); }
+/* телефон: адрес во весь экран (pages/addresses.js, is-det) — пояснение части над ним не нужно (кадр М3) */
+.gx-page:has(> .kk-adr-host.is-det) > .kk-phead__s { display: none; }
+/* Доводка 3.3.7.15 Д2 (stand/logs/D-3315-view-adr.md, советы Claude Design к ошибкам макета):
+   — без IPv6 на сервере в полосе нет дорожек «Выдача IPv6» и «Срок IPv6» (С2, С3): строк сетки меньше на две;
+   — подпись колонки: короткая («.10», «::5»), только когда полный адрес не входит в саму колонку (is-short ставит
+     pages/addresses.js по ширине колонки, а не части: четыре колонки на части 560 — полные адреса входят);
+   — «На этом же интерфейсе» — адреса переносом целиком, длинный IPv6 — по символам (кадр Д1: «2001:db…» обрезалось);
+   — «Выход» — свой контейнер: «Подпись — выбор» в два столбца, только пока выбор входит целиком (уже — подпись над
+     выбором, как gx-kv--stack); середина схемы — не уже 56 px (линии не сливаются) */
+.kk-adr-map.is-no6 > .kk-adr-map__lg, .kk-adr-map.is-no6 > .kk-adr-map__c { grid-template-rows: 22px repeat(3, 18px) 22px; }
+.kk-adr-map__c.is-short .kk-adr-map__ip { display: none; }
+.kk-adr-map__c.is-short .kk-adr-map__ips { display: block; }
+.kk-adr-ips { font-family: var(--mono); font-size: .84375rem; }
+.kk-adr-ips__i { display: inline-block; max-width: 100%; margin-right: .5em; overflow-wrap: anywhere; }
+.kk-adr-out { container: kkadrout / inline-size; }
+@container kkadrout (max-width: 559.98px) {
+  .kk-adr-out .gx-kv { grid-template-columns: minmax(0, 1fr) auto; }
+  .kk-adr-out .gx-kv__k { grid-column: 1 / -1; padding-bottom: 2px; }
+  .kk-adr-out .gx-kv__v, .kk-adr-out .gx-kv__end { padding-top: 0; border-top: 0; }
+  .kk-adr-out .gx-kv__v { padding-left: 0; }
+  .kk-adr-out .gx-kv__end { justify-content: flex-end; }
+}

@@ -1,0 +1,49 @@
+[
+ {
+  "listen": "0.0.0.0",
+  "port": "443,20000-20099",
+  "protocol": "hysteria",
+  "settings": {
+   "clients": [
+    {
+     "auth": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+     "email": "tel-1.h2",
+     "level": 0
+    }
+   ],
+   "version": 2
+  },
+  "streamSettings": {
+   "finalmask": {
+    "quicParams": {
+     "congestion": "bbr"
+    },
+    "udp": [
+     {
+      "settings": {
+       "password": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+      },
+      "type": "salamander"
+     }
+    ]
+   },
+   "hysteriaSettings": {
+    "version": 2
+   },
+   "network": "hysteria",
+   "security": "tls",
+   "tlsSettings": {
+    "alpn": [
+     "h3"
+    ],
+    "certificates": [
+     {
+      "certificateFile": "/opt/kaskad/gw/tls-hy2/self/cert.pem",
+      "keyFile": "/opt/kaskad/gw/tls-hy2/self/key.pem"
+     }
+    ]
+   }
+  },
+  "tag": "gw-hy2"
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "compat.rc": "код {rc}",
+ "compat.refused": "iptables не принял правило совместимости ({comment}): {detail}"
+}

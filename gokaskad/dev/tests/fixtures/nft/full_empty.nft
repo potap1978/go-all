@@ -1,0 +1,17 @@
+table ip kaskad
+delete table ip kaskad
+table ip kaskad {
+	chain fwd_pre {
+		type nat hook prerouting priority -101; policy accept;
+		fib daddr type local iifname != "lo" jump fwd_dnat
+	}
+	chain fwd_dnat {
+	}
+	chain fwd_count {
+		type filter hook forward priority -5; policy accept;
+	}
+	chain fwd_post {
+		type nat hook postrouting priority 101; policy accept;
+		ct status dnat ct mark and 0xff000000 == 0x4b000000 masquerade
+	}
+}

@@ -1,0 +1,65 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libboost-iostreams1.74.0 libboost-thread1.74.0 libdaxctl1 libgfapi0
+  libgfrpc0 libgfxdr0 libglusterfs0 libibverbs1 libluajit-5.1-2
+  libluajit-5.1-common libmysqlclient21 libndctl6 libnl-route-3-200 libpmem1
+  libpmemblk1 libpmemobj1 libpq5 librados2 librbd1 librdmacm1 mysql-common
+Suggested packages:
+  gnuplot gfio python-scipy
+Recommended packages:
+  ibverbs-providers
+The following NEW packages will be installed:
+  fio libboost-iostreams1.74.0 libboost-thread1.74.0 libdaxctl1 libgfapi0
+  libgfrpc0 libgfxdr0 libglusterfs0 libibverbs1 libluajit-5.1-2
+  libluajit-5.1-common libmysqlclient21 libndctl6 libnl-route-3-200 libpmem1
+  libpmemblk1 libpmemobj1 libpq5 librados2 librbd1 librdmacm1 mysql-common
+  sysbench
+0 upgraded, 23 newly installed, 0 to remove and 243 not upgraded.
+Inst libgfxdr0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libglusterfs0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libgfrpc0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libgfapi0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libnl-route-3-200 (3.5.0-0.1 Ubuntu:22.04/jammy [amd64])
+Inst libibverbs1 (39.0-1 Ubuntu:22.04/jammy [amd64])
+Inst libdaxctl1 (72.1-1 Ubuntu:22.04/jammy [amd64])
+Inst libndctl6 (72.1-1 Ubuntu:22.04/jammy [amd64])
+Inst libpmem1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Inst libpmemblk1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Inst libboost-iostreams1.74.0 (1.74.0-14ubuntu3 Ubuntu:22.04/jammy [amd64])
+Inst libboost-thread1.74.0 (1.74.0-14ubuntu3 Ubuntu:22.04/jammy [amd64])
+Inst librdmacm1 (39.0-1 Ubuntu:22.04/jammy [amd64])
+Inst librados2 (17.2.9-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libpmemobj1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Inst librbd1 (17.2.9-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst fio (3.28-1 Ubuntu:22.04/jammy [amd64])
+Inst libluajit-5.1-common (2.1.0~beta3+dfsg-6ubuntu0.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [all])
+Inst libluajit-5.1-2 (2.1.0~beta3+dfsg-6ubuntu0.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst mysql-common (5.8+1.0.8 Ubuntu:22.04/jammy [all])
+Inst libmysqlclient21 (8.0.46-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst libpq5 (14.24-0ubuntu0.22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Inst sysbench (1.0.20+ds-2 Ubuntu:22.04/jammy [amd64])
+Conf libgfxdr0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libglusterfs0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libgfrpc0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libgfapi0 (10.1-1ubuntu0.2 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libnl-route-3-200 (3.5.0-0.1 Ubuntu:22.04/jammy [amd64])
+Conf libibverbs1 (39.0-1 Ubuntu:22.04/jammy [amd64])
+Conf libdaxctl1 (72.1-1 Ubuntu:22.04/jammy [amd64])
+Conf libndctl6 (72.1-1 Ubuntu:22.04/jammy [amd64])
+Conf libpmem1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Conf libpmemblk1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Conf libboost-iostreams1.74.0 (1.74.0-14ubuntu3 Ubuntu:22.04/jammy [amd64])
+Conf libboost-thread1.74.0 (1.74.0-14ubuntu3 Ubuntu:22.04/jammy [amd64])
+Conf librdmacm1 (39.0-1 Ubuntu:22.04/jammy [amd64])
+Conf librados2 (17.2.9-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libpmemobj1 (1.11.1-3build1 Ubuntu:22.04/jammy [amd64])
+Conf librbd1 (17.2.9-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf fio (3.28-1 Ubuntu:22.04/jammy [amd64])
+Conf libluajit-5.1-common (2.1.0~beta3+dfsg-6ubuntu0.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [all])
+Conf libluajit-5.1-2 (2.1.0~beta3+dfsg-6ubuntu0.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf mysql-common (5.8+1.0.8 Ubuntu:22.04/jammy [all])
+Conf libmysqlclient21 (8.0.46-0ubuntu0.22.04.4 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf libpq5 (14.24-0ubuntu0.22.04.1 Ubuntu:22.04/jammy-updates, Ubuntu:22.04/jammy-security [amd64])
+Conf sysbench (1.0.20+ds-2 Ubuntu:22.04/jammy [amd64])

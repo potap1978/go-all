@@ -1,0 +1,21 @@
+{
+ "gw_in_ikev2.legacy_note": "The Kaskad CA certificate is of the old kind: a device that trusts it accepts its signature for any site. Replace it (kaskadctl gw pki rotate ikev2 or “Gateway → Protocols → IKEv2”) and reissue the IKEv2 settings.",
+ "gw_in_ikev2.ca_where.windows": "the Kaskad CA certificate is inside the kaskad-ikev2.ps1 script, no separate file needed",
+ "gw_in_ikev2.ca_where.apple": "the Kaskad CA certificate is inside the kaskad-ikev2.mobileconfig profile",
+ "gw_in_ikev2.ca_where.file": "the Kaskad CA certificate, file kaskad-ikev2-ca.crt",
+ "gw_in_ikev2.err.no_host": "IKEv2: the client address (gateway.host) is unknown — the server certificate needs it: kaskadctl gw host <address or name> or gw host --detect.",
+ "gw_in_ikev2.err.no_certs": "IKEv2 certificates aren’t created yet: kaskadctl gw apply.",
+ "gw_in_ikev2.ca_scope": "The Kaskad CA vouches only for this server ({host}): it isn’t valid for other sites.",
+ "gw_in_ikev2.label.remote_id": "Remote ID",
+ "gw_in_ikev2.label.login_eap": "Login (EAP)",
+ "gw_in_ikev2.label.server_check": "Server verification",
+ "gw_in_ikev2.rec.ca": "IKEv2 — CA certificate",
+ "gw_in_ikev2.ca_purpose": "The device uses it to verify the server.",
+ "gw_in_ikev2.how.ios": "Open the file on the iPhone or iPad → Settings → “Profile Downloaded” → “Install”.",
+ "gw_in_ikev2.how.macos": "Open the file → System Settings → General → Device Management (macOS 13–14: Privacy and Security → Profiles) → “Install”.",
+ "gw_in_ikev2.rec.mobileconfig": "IKEv2 — .mobileconfig profile",
+ "gw_in_ikev2.mobileconfig_note": "The profile contains the device’s password — give the file only to the user it was issued to.",
+ "gw_in_ikev2.ps_trust": "The script adds the Kaskad CA certificate to the computer’s trusted root certificates.",
+ "gw_in_ikev2.rec.android": "IKEv2 — built-in Android 12+ client",
+ "gw_in_ikev2.linux_note": "Package charon-cmd; it asks for the password itself."
+}

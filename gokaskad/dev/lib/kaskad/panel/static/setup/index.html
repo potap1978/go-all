@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="__KASKAD_LANG__" data-hero="" data-qs="" data-theme="dark" data-tint="neutral" data-density="detailed" data-btn="pill" data-cards="border" data-fs="m" data-vibrant="false" data-motion="on" data-device="desktop">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:,">
+  <title>Kaskad PRO</title>
+  <!-- Мастер «Быстрый старт» (дизайн — k3/design/quick-start-design-v2, контракт API — docs/k3/SPEC-setup-api.md).
+       Сервер отдаёт страницу по адресу /setup-<секрет>/: свои файлы мастера — рядом (setup.js → setup/setup.js),
+       общие файлы панели (вид, токены, компоненты, значки, QR, шрифты) — из корня панели, «../». Так же работает
+       и разработка без сервера: python3 -m http.server --directory lib/kaskad/panel/static → /setup/index.html?mock=1.
+       Без вложенных скриптов и стилей: CSP панели — default-src 'self'; style-src 'self'; script-src 'self'.
+       look.js — тема мастера до первой отрисовки (тёмная по умолчанию, общий ключ «Вида» с панелью).
+       __KASKAD_V__ сервер заменяет на «<версия>-<sha10>», __KASKAD_LANG__ — на язык сервера (ru|en). -->
+  <script src="../boot.js?v=__KASKAD_V__"></script>
+  <script src="look.js?v=__KASKAD_V__"></script>
+  <link rel="stylesheet" href="../tokens.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="../components.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="../give.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="../ux.css?v=__KASKAD_V__">
+  <link rel="stylesheet" href="qs.css?v=__KASKAD_V__">
+</head>
+<body>
+  <div id="app"><div class="qs-loading" role="status">…</div></div>
+  <div id="layers"></div>
+  <div class="qs-toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="qs-loading"><span lang="en">Quick Start needs JavaScript.</span><span class="kk-ns-sep" aria-hidden="true"> · </span><span lang="ru">Для мастера нужен JavaScript.</span></p></noscript>
+  <script defer src="../icons.js?v=__KASKAD_V__"></script>
+  <script defer src="../qr.js?v=__KASKAD_V__"></script>
+  <script defer src="../qr-slides.js?v=__KASKAD_V__"></script>
+  <script defer src="../give-i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="../give.js?v=__KASKAD_V__"></script>
+  <script defer src="../ux-i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="../ux.js?v=__KASKAD_V__"></script>
+  <script defer src="setup-i18n-ru.js?v=__KASKAD_V__"></script>
+  <script defer src="setup.js?v=__KASKAD_V__"></script>
+</body>
+</html>

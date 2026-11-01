@@ -1,0 +1,17 @@
+{
+ "bot_proxy.group": "через выходы группы «{group}»",
+ "bot_proxy.fallback": "напрямую: выходы группы «{group}» не отвечают, бот проверяет их раз в 5 минут",
+ "bot_proxy.direct_chosen": "напрямую — так выбрано в панели",
+ "bot_proxy.direct_no_keys": "напрямую: в группе «{group}» нет включённых ключей",
+ "bot_proxy.direct_no_pool": "напрямую: выходов нет",
+ "bot_proxy.none_group": "нет связи с Telegram (через выходы группы «{group}» и напрямую)",
+ "bot_proxy.none_direct": "нет связи с Telegram напрямую",
+ "bot_proxy.off": "бот не настроен",
+ "bot_proxy.line": "Бот ходит в Telegram: {state}",
+ "bot_proxy.log_fallback": "Прокси для API Telegram не отвечает — бот временно ходит в Telegram напрямую",
+ "bot_proxy.log_back": "Прокси для API Telegram снова отвечает — бот ходит через выходы",
+ "bot_proxy.cli_help": "как бот ходит в Telegram: через выходы группы, напрямую или нет связи",
+ "bot_proxy.bad_group": "Выберите группу выходов или «Напрямую».",
+ "bot_proxy.direct_pending": "выбрано «Напрямую» — бот переключится в течение минуты",
+ "bot_proxy.direct_not_built": "напрямую: прокси бота из ключей группы «{group}» не собран — причина в SSH-меню «Прокси для API Telegram»"
+}

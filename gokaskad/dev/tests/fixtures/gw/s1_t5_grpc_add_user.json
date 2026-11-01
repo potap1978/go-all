@@ -1,0 +1,8 @@
+{
+ "about": "AlterInboundRequest for AddUser on a Hysteria2 inbound, framed for gRPC — the bytes grpc_hy.py of T0 (k3/stand/logs/T0-stage1.md, «Файлы») builds for these inputs (SPEC-stage1-exits §2.4, С5)",
+ "tag": "gw-hy2",
+ "email": "telefon-0001.h2",
+ "account_type": "xray.proxy.hysteria.account.Account",
+ "auth": "s3cr3t-auth-0001",
+ "frame_hex": "00000000860a0667772d687932127c0a2a787261792e6170702e70726f78796d616e2e636f6d6d616e642e416464557365724f7065726174696f6e124e0a4c120f74656c65666f6e2d303030312e68321a390a23787261792e70726f78792e68797374657269612e6163636f756e742e4163636f756e7412120a107333637233742d617574682d30303031"
+}

@@ -1,0 +1,4 @@
+{
+ "gw_in_pki.no_result": "openssl {what}: no output",
+ "gw_in_pki.bad_serial": "openssl ca -gencrl: invalid serial number {serial}"
+}

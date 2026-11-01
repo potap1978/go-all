@@ -1,0 +1,69 @@
+bot_menu_install	Установить / перенастроить бота	Install / reconfigure the bot
+bot_menu_status	Состояние бота	Bot status
+bot_menu_claim	Код привязки админа	Admin claim code
+bot_menu_admins	Список админов	Admin list
+bot_menu_restart	Перезапустить бота	Restart the bot
+bot_menu_logs	Журнал бота	Bot journal
+bot_menu_remove	Снять бота	Remove the bot
+bot_wizard_title	Telegram-бот goDNS Pro — установка	goDNS Pro Telegram bot — setup
+bot_wizard_intro	Бот работает БЕЗ root: привилегированные действия исполняет отдельный демон через локальный сокет.	The bot runs WITHOUT root: privileged work goes through a separate daemon over a local socket.
+bot_wizard_intro2	Понадобится токен от @BotFather. Соседи (goVLESS, goTelegram) не затрагиваются: свой юнит, свой токен, свой сокет.	You will need a token from @BotFather. Neighbours (goVLESS, goTelegram) are untouched: own unit, own token, own socket.
+bot_token_hint	Токен выдаёт @BotFather: /newbot → имя → @имя_bot. Вставьте его сюда.	@BotFather issues the token: /newbot → name → @name_bot. Paste it here.
+bot_token_prompt	Токен бота:	Bot token:
+bot_token_bad_format	Не похоже на токен BotFather (цифры:буквы, длинный). Проверьте копирование.	Does not look like a BotFather token (digits:letters, long). Check the paste.
+bot_token_reuse_ask	Токен уже сохранён. Оставить его?	A token is already stored. Keep it?
+bot_token_ok	Токен подтверждён: @%s	Token verified: @%s
+bot_token_unverified	Не удалось подтвердить токен через api.telegram.org (нет сети до Telegram?).	Could not verify the token via api.telegram.org (no route to Telegram?).
+bot_token_continue_ask	Продолжить с этим токеном без проверки?	Continue with this token unverified?
+bot_env_write_failed	Не удалось записать /etc/godns/bot.env.	Failed to write /etc/godns/bot.env.
+bot_user_failed	Не удалось создать пользователя %s.	Failed to create user %s.
+bot_src_missing	Файлы бота не найдены: %s	Bot files not found: %s
+bot_venv_creating	Создаю окружение Python (venv)	Creating the Python environment (venv)
+bot_venv_failed	Не удалось создать venv. Поставьте python3-venv и повторите.	Could not create the venv. Install python3-venv and retry.
+bot_pip_installing	Ставлю зависимости бота (python-telegram-bot)	Installing bot dependencies (python-telegram-bot)
+bot_pip_failed	Не удалось поставить зависимости (нет сети до PyPI?).	Failed to install dependencies (no route to PyPI?).
+bot_no_systemd	Нет systemd — бота ставить некуда.	No systemd — nowhere to install the bot.
+bot_units_failed	Не удалось записать systemd-юниты.	Failed to write the systemd units.
+bot_start_failed	Бот не запустился.	The bot did not start.
+bot_started	Бот запущен.	Bot started.
+bot_claim_explain	Бот никого не слушается, пока админ не привязан. Отправьте боту команду с одноразовым кодом:	The bot obeys nobody until an admin is claimed. Send the bot this command with the one-time code:
+bot_code_issued	Одноразовый код привязки (действует до первого успешного ввода):	One-time claim code (valid until first successful use):
+bot_code_one_time	Код одноразовый: после привязки он гаснет. Новый — этим же пунктом меню.	The code is one-time: it dies after a claim. Reissue it from this very menu item.
+bot_code_valid_until	Код действует %s минут (до %s).	The code is valid for %s minutes (until %s).
+bot_code_until_short	до %s	until %s
+bot_code_gen_failed	Не удалось сгенерировать код.	Failed to generate a code.
+bot_admins_none	админы не привязаны	no admins claimed
+bot_admins_none_hint	Выдайте код привязки (пункт «Код привязки админа») и отправьте боту /start КОД.	Issue a claim code (“Admin claim code”) and send /start CODE to the bot.
+bot_admins_list	Админы: %s	Admins: %s
+bot_status_title	Telegram-бот — состояние	Telegram bot — status
+bot_install_hint	Установка: пункт «Установить / перенастроить бота».	Install via “Install / reconfigure the bot”.
+bot_not_installed	Бот не установлен.	The bot is not installed.
+bot_st_bot	Бот	Bot
+bot_st_botd	Демон	Daemon
+bot_st_sock	Сокет	Socket
+bot_st_sock_missing	нет сокета	no socket
+bot_st_name	Имя	Name
+bot_st_admins	Админы	Admins
+bot_st_claim	Код привязки	Claim code
+bot_st_claim_open	активен — первый верный /start КОД станет админом	active — the first correct /start CODE becomes admin
+bot_st_claim_closed	не активен	not active
+bot_logs_title	Журнал бота	Bot journal
+bot_restarted	Бот перезапущен.	Bot restarted.
+bot_restart_failed	Не удалось перезапустить бота.	Failed to restart the bot.
+bot_remove_ask	Снять Telegram-бота (юниты, код, venv)?	Remove the Telegram bot (units, code, venv)?
+bot_remove_env_ask	Удалить и файл с токеном (/etc/godns/bot.env)?	Also delete the token file (/etc/godns/bot.env)?
+bot_env_kept	Файл с токеном оставлен: %s	Token file kept: %s
+bot_removed	Бот снят.	Bot removed.
+bot_ports_doh	Порт DoH	DoH port
+bot_ports_dot	Порт DoT	DoT port
+bot_ports_path	Секретный путь	Secret path
+bot_svc_started	Служба запущена.	Service started.
+bot_svc_start_failed	Не удалось запустить службу.	Failed to start the service.
+bot_svc_stopped	Служба остановлена.	Service stopped.
+bot_svc_stop_failed	Не удалось остановить службу.	Failed to stop the service.
+bot_uninstall_kept_logs	Журналы и статистика оставлены на месте (удалить их можно из SSH-меню).	Logs and statistics are kept in place (removable from the SSH menu).
+bot_app_updating	Обновляю код бота…	Updating bot code…
+bot_app_updated	Код бота обновлён, бот перезапущен.	Bot code updated, bot restarted.
+bot_app_update_failed	Не удалось обновить код бота — работает прежний.	Could not update bot code — the previous one keeps running.
+bot_token_rejected	Telegram отверг этот токен (ответ сервера: недействителен). Это опечатка или отозванный токен, а не проблема сети.	Telegram rejected this token (the server says it is invalid). That is a typo or a revoked token, not a network problem.
+bot_token_rejected_hint	Возьмите свежий токен у @BotFather: /mybots → бот → API Token.	Get a fresh token from @BotFather: /mybots → your bot → API Token.

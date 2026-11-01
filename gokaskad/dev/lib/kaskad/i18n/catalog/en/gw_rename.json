@@ -1,0 +1,20 @@
+{
+ "gw_rename.bad_what": "Unknown thing to rename: {what}. Possible: {whats}.",
+ "gw_rename.done": "Saved: “{shown}” ({id}).",
+ "gw_rename.done_dup": "The same name is also used by: {ids}.",
+ "gw_rename.done_reset": "The name is reset, shown: “{shown}” ({id}).",
+ "gw_rename.gone.inbound": "The protocol {ref} is not installed.",
+ "gw_rename.gone.sub": "No subscription “{ref}”. Reload the list.",
+ "gw_rename.inbound_shown": "{title} — {label}",
+ "gw_rename.note.device": "The connection works as before.",
+ "gw_rename.note.for": "{kinds}: {text}",
+ "gw_rename.note.forward": "The forwarding rules do not change.",
+ "gw_rename.note.inbound": "The protocol settings and the keys given out do not change.",
+ "gw_rename.note.profile": "The connection works as before. The profile name in the app stays the same until you set it up again.",
+ "gw_rename.note.same": "The key and the settings do not change.",
+ "gw_rename.note.sub": "The name changes in the app at the next subscription update.",
+ "gw_rename.note.user": "The user’s page and the subscription title show the new name. Device logins do not change.",
+ "gw_rename.note.wg": "The app keeps the old name until you issue the settings again. A new .conf file or QR code adds a second tunnel with the same keys in the WireGuard or AmneziaWG app — delete the old tunnel in the app.",
+ "gw_rename.sub_ambiguous": "Several subscriptions have the label “{ref}” ({ids}) — give the number or the id.",
+ "gw_rename.subs_broken": "The file of the exit subscriptions is damaged — renaming is not possible. Check the subscriptions in the exits menu."
+}

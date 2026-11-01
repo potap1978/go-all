@@ -1,0 +1,12 @@
+{
+ "gw_tofu.bad_pin": "The certificate fingerprint isn’t a SHA-256.",
+ "gw_tofu.busy": "The key pool is being changed in another window — try again in a minute.",
+ "gw_tofu.changed": "The server’s certificate changed between the look and the consent — the fingerprint wasn’t pinned. Check the key again.",
+ "gw_tofu.failed": "The key’s server didn’t answer ({why}) — no fingerprint taken, the key wasn’t added. The way from this server to the key’s server may be blocked.",
+ "gw_tofu.log.pinned": "TOFU: the certificate fingerprint of {server} pinned with consent ({by})",
+ "gw_tofu.log.verified": "TOFU: the certificate of {server} checks out against a certificate authority — the check is on, no fingerprint pinned",
+ "gw_tofu.not_needed": "This key needs no pinning: it has its own certificate check or fingerprint.",
+ "gw_tofu.old_parser": "The key parser is outdated — update gokaskad.",
+ "gw_tofu.warn": "The certificate isn’t checked by a certificate authority — the fingerprint {sha256} will be pinned. If the server changes its certificate, the exit stops working: then remove the key and add it again.",
+ "gw_tofu.warn_name": "The server’s certificate checks out by its chain but is issued for another name — {name} (fingerprint {sha256}). That name is trusted only with your consent: if it is not your server or you did not expect that name, refuse."
+}

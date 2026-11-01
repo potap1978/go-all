@@ -1,0 +1,5676 @@
+{
+ "schema": 1,
+ "_comment": "Каталог инструментов MCP-сервера Kaskad (kaskad-mcp): единственный источник правды. Каждый инструмент — команда kaskadctl (cmd) с параметрами: pos — позиционный аргумент по порядку, flag — ключ (--k=значение; boolean — сам ключ при true), stdin — значение через стандартный вход; args — постоянные ключи. Ответ — JSON kaskadctl --json. hidden — команды kaskadctl, которые агенту не публикуются (с причиной). Тест tests/test_mcp.py сверяет каталог с разборщиком kaskadctl.",
+ "param_types": {
+  "person": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f]{1,64}$",
+   "description": {
+    "ru": "Пользователь: u-… или имя",
+    "en": "User: u-… or name"
+   }
+  },
+  "person_name": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f|]{1,40}$",
+   "description": {
+    "ru": "Имя нового пользователя, до 40 знаков, любые буквы (не с «-» и без «|»)",
+    "en": "Name of the new user, up to 40 chars, any letters (not starting with '-', no '|')"
+   }
+  },
+  "device": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f]{1,64}$",
+   "description": {
+    "ru": "Устройство: d-…, логин или имя",
+    "en": "Device: d-…, login or name"
+   }
+  },
+  "ref": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f]{1,64}$",
+   "description": {
+    "ru": "Пользователь (u-…, имя) или устройство (d-…, логин, имя) — по target",
+    "en": "A user (u-…, name) or a device (d-…, login, name) — per target"
+   }
+  },
+  "device_name": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f|]{1,40}$",
+   "description": {
+    "ru": "Имя нового устройства, до 40 знаков («Телефон», «Роутер дома»)",
+    "en": "Name of the new device, up to 40 chars ('Phone', 'Home router')"
+   }
+  },
+  "device_kind": {
+   "type": "string",
+   "enum": [
+    "phone",
+    "tablet",
+    "laptop",
+    "pc",
+    "tv",
+    "router",
+    "other"
+   ],
+   "description": {
+    "ru": "Тип устройства",
+    "en": "Device type"
+   }
+  },
+  "platform": {
+   "type": "string",
+   "enum": [
+    "ios",
+    "android",
+    "androidtv",
+    "windows",
+    "macos",
+    "linux",
+    "keenetic",
+    "mikrotik",
+    "openwrt",
+    "tplink",
+    "huawei",
+    "xiaomi",
+    "asus",
+    "other"
+   ],
+   "description": {
+    "ru": "Платформа устройства",
+    "en": "Device platform"
+   }
+  },
+  "inbound": {
+   "type": "string",
+   "enum": [
+    "wg",
+    "awg1",
+    "awg2",
+    "awg3",
+    "l2tp",
+    "pptp",
+    "sstp",
+    "ikev2",
+    "openvpn",
+    "ocserv",
+    "socks5",
+    "vless",
+    "hy2"
+   ],
+   "description": {
+    "ru": "Вход; awg1/2/3 — AmneziaWG 1.5/2.0/3.1, hy2 — Hysteria2",
+    "en": "Inbound; awg1/2/3 — AmneziaWG 1.5/2.0/3.1, hy2 — Hysteria2"
+   }
+  },
+  "inbounds": {
+   "type": "string",
+   "pattern": "^(wg|awg1|awg2|awg3|l2tp|pptp|sstp|ikev2|openvpn|ocserv|socks5|vless|hy2)(,(wg|awg1|awg2|awg3|l2tp|pptp|sstp|ikev2|openvpn|ocserv|socks5|vless|hy2))*$",
+   "description": {
+    "ru": "Протоколы через запятую: wg,awg2",
+    "en": "Comma-separated protocols: wg,awg2"
+   }
+  },
+  "mtu_kind": {
+   "type": "string",
+   "enum": [
+    "wg",
+    "awg1",
+    "awg2",
+    "awg3"
+   ],
+   "description": {
+    "ru": "Вход WireGuard/AmneziaWG",
+    "en": "A WireGuard/AmneziaWG inbound"
+   }
+  },
+  "s4_kind": {
+   "type": "string",
+   "enum": [
+    "awg2"
+   ],
+   "description": {
+    "ru": "Вход AmneziaWG 2.0",
+    "en": "The AmneziaWG 2.0 inbound"
+   }
+  },
+  "via": {
+   "type": "string",
+   "pattern": "^(pool|direct|block|exit:e-[0-9a-f]{10}|group:(main|g-[0-9a-f]{6}))$",
+   "description": {
+    "ru": "Маршрут: pool, group:<id группы>, exit:<id>, direct, block",
+    "en": "Route: pool, group:<group id>, exit:<id>, direct, block"
+   }
+  },
+  "via_or_inherit": {
+   "type": "string",
+   "pattern": "^(inherit|pool|direct|block|exit:e-[0-9a-f]{10}|group:(main|g-[0-9a-f]{6}))$",
+   "description": {
+    "ru": "Маршрут: inherit (как уровнем выше), pool, group:<id группы>, exit:<id>, direct, block",
+    "en": "Route: inherit (as the level above), pool, group:<group id>, exit:<id>, direct, block"
+   }
+  },
+  "fail": {
+   "type": "string",
+   "enum": [
+    "block",
+    "direct"
+   ],
+   "description": {
+    "ru": "Выходы не работают: block (без интернета) или direct; нет — как было",
+    "en": "Exits fail: block (no internet) or direct; not set — unchanged"
+   }
+  },
+  "exit_id": {
+   "type": "string",
+   "pattern": "^e-[0-9a-f]{10}(-[0-9]{1,4})?$",
+   "description": {
+    "ru": "Выход e-… из exits_list (повтор — e-…-N)",
+    "en": "Exit e-… from exits_list (a repeat — e-…-N)"
+   }
+  },
+  "exit_name": {
+   "type": "string",
+   "pattern": "^[^\\x00-\\x1f\\x7f|]{0,40}$",
+   "description": {
+    "ru": "Понятное имя выхода («Вена»), до 40 знаков; пусто — снова имя из ключа",
+    "en": "Readable exit name ('Vienna'), up to 40 chars; empty — the name from the key again"
+   }
+  },
+  "exit_key": {
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 65536,
+   "description": {
+    "ru": "Ключ выхода: ключ VPN (vless, hy2, ss, trojan, vmess, vpn://) или весь текст .conf AmneziaWG/WireGuard; можно несколько строк. Уходит в ядро через stdin, в журналы — только длина",
+    "en": "Exit key: a VPN key (vless, hy2, ss, trojan, vmess, vpn://) or the whole text of an AmneziaWG/WireGuard .conf; several lines allowed. Goes to the core via stdin, the logs get its length only"
+   }
+  },
+  "exit_key_tofu": {
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 65536,
+   "description": {
+    "ru": "Ключ выхода, как у exit_add; через stdin",
+    "en": "An exit key, as for exit_add; via stdin"
+   }
+  },
+  "port": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 65535,
+   "description": {
+    "ru": "Порт",
+    "en": "Port"
+   }
+  },
+  "proto_inbound": {
+   "type": "string",
+   "enum": [
+    "udp",
+    "tcp"
+   ],
+   "description": {
+    "ru": "Протокол порта (у входов с двумя)",
+    "en": "Port protocol (for inbounds with both)"
+   }
+  },
+  "proto": {
+   "type": "string",
+   "enum": [
+    "tcp",
+    "udp"
+   ],
+   "description": {
+    "ru": "Протокол проброса",
+    "en": "Forward protocol"
+   }
+  },
+  "ipv4": {
+   "type": "string",
+   "pattern": "^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])){3}$",
+   "description": {
+    "ru": "Адрес IPv4 назначения",
+    "en": "Destination IPv4 address"
+   }
+  },
+  "label": {
+   "type": "string",
+   "pattern": "^[^\\x00-\\x1f\\x7f|]{0,40}$",
+   "description": {
+    "ru": "Подпись, до 40 знаков",
+    "en": "Label, up to 40 chars"
+   }
+  },
+  "host": {
+   "type": "string",
+   "pattern": "^(?!-)[A-Za-z0-9.:-]{1,253}$",
+   "description": {
+    "ru": "Адрес для клиентов: внешний IPv4 или имя для настроек (Endpoint)",
+    "en": "Client address: external IPv4 or a name for the settings (Endpoint)"
+   }
+  },
+  "host_force": {
+   "type": "boolean",
+   "description": {
+    "ru": "IPv4, которого нет среди адресов сервера (gateway_addresses): задать без проверки — только по прямой просьбе человека",
+    "en": "An IPv4 not among server addresses (gateway_addresses): set unchecked — only on the human's direct request"
+   }
+  },
+  "addr_refresh": {
+   "type": "boolean",
+   "description": {
+    "ru": "Посмотреть заново сейчас, с проверкой внешних адресов облака с NAT (запросы к api.ipify.org с каждого частного адреса); без него — то, что видели за последние 10 минут",
+    "en": "Look again now, with a NAT cloud's external addresses (api.ipify.org from each private address); without it — what was seen in the last 10 min"
+   }
+  },
+  "base": {
+   "type": "string",
+   "pattern": "^[0-9]{1,3}(\\.[0-9]{1,3}){3}/16$",
+   "description": {
+    "ru": "Сеть шлюза /16 (по умолчанию 10.77.0.0/16)",
+    "en": "Gateway network /16 (default 10.77.0.0/16)"
+   }
+  },
+  "who": {
+   "type": "string",
+   "pattern": "^(-|(?!-)[^\\x00-\\x1f\\x7f]{1,64})$",
+   "description": {
+    "ru": "Кто: устройство (d-…, логин, имя), пользователь (u-…, имя) или «-» — новое устройство по умолчанию",
+    "en": "Who: a device (d-…, login, name), a user (u-…, name) or '-' — a new device with the defaults"
+   }
+  },
+  "target": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\s\\x00-\\x1f\\x7f/]{1,253}$",
+   "description": {
+    "ru": "Куда: домен или адрес IPv4 (youtube.com, ya.ru, 8.8.8.8)",
+    "en": "Where to: a domain or IPv4 (youtube.com, ya.ru, 8.8.8.8)"
+   }
+  },
+  "rules_profile": {
+   "type": "string",
+   "enum": [
+    "ru_direct",
+    "all_exit"
+   ],
+   "description": {
+    "ru": "ru_direct — Россия напрямую, остальное через выход; all_exit — всё через выход",
+    "en": "ru_direct — Russia directly, the rest through the exit; all_exit — everything through the exit"
+   }
+  },
+  "rules_profile_or_inherit": {
+   "type": "string",
+   "enum": [
+    "inherit",
+    "ru_direct",
+    "all_exit"
+   ],
+   "description": {
+    "ru": "inherit — как уровнем выше; ru_direct; all_exit",
+    "en": "inherit — as the level above; ru_direct; all_exit"
+   }
+  },
+  "ru_via": {
+   "type": "string",
+   "pattern": "^(inherit|direct|g-[0-9a-f]{6})$",
+   "description": {
+    "ru": "inherit — как уровнем выше, direct — напрямую с сервера, g-… — внутренняя группа (exit_groups_list, role = ru)",
+    "en": "inherit — as the level above, direct — directly from the server, g-… — a domestic group (exit_groups_list, role = ru)"
+   }
+  },
+  "rules_target": {
+   "type": "string",
+   "enum": [
+    "user",
+    "device"
+   ],
+   "description": {
+    "ru": "Кому: пользователю или устройству",
+    "en": "For a user or a device"
+   }
+  },
+  "block_what": {
+   "type": "string",
+   "enum": [
+    "ads",
+    "torrent"
+   ],
+   "description": {
+    "ru": "Что блокировать: реклама или торренты",
+    "en": "What to block: ads or torrents"
+   }
+  },
+  "onoff": {
+   "type": "string",
+   "enum": [
+    "on",
+    "off"
+   ],
+   "description": {
+    "ru": "on или off",
+    "en": "on or off"
+   }
+  },
+  "option_key": {
+   "type": "string",
+   "enum": [
+    "plain",
+    "udp",
+    "obfs"
+   ],
+   "description": {
+    "ru": "Настройка: plain у l2tp (L2TP без IPsec), udp у socks5, obfs у hy2 (маскировка Salamander)",
+    "en": "Option: plain for l2tp (L2TP without IPsec), udp for socks5, obfs for hy2 (the Salamander mask)"
+   }
+  },
+  "hy2_hop": {
+   "type": "string",
+   "pattern": "^(off|[0-9]{4,5}-[0-9]{4,5})$",
+   "description": {
+    "ru": "Смена портов Hysteria2: диапазон 20000-20099 (не больше 100 портов, 1024–65535) или off",
+    "en": "Hysteria2 port hopping: a range 20000-20099 (100 ports at the most, 1024–65535) or off"
+   }
+  },
+  "hy2_cert": {
+   "type": "string",
+   "enum": [
+    "domain",
+    "self"
+   ],
+   "description": {
+    "ru": "Сертификат Hysteria2: domain — домена, когда он есть; self — всегда самоподписанный",
+    "en": "The Hysteria2 certificate: domain — the domain’s when there is one; self — always self-signed"
+   }
+  },
+  "domain": {
+   "type": "string",
+   "pattern": "^(?!-)[A-Za-z0-9.-]{1,253}$",
+   "description": {
+    "ru": "Домен (A-запись — на этот сервер), IDN — в punycode",
+    "en": "Domain (its A record points here), IDN in punycode"
+   }
+  },
+  "email": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\s@\\x00-\\x1f]{1,64}@[A-Za-z0-9.-]{1,253}$",
+   "description": {
+    "ru": "Почта для Let's Encrypt",
+    "en": "E-mail for Let's Encrypt"
+   }
+  },
+  "site_mode": {
+   "type": "string",
+   "enum": [
+    "site",
+    "domain"
+   ],
+   "description": {
+    "ru": "site — сайт-маскировка на домене (nginx, 443); domain — только домен и сертификат",
+    "en": "site — the cover site on the domain (nginx, 443); domain — the domain and certificate only"
+   }
+  },
+  "template_id": {
+   "type": "string",
+   "pattern": "^[A-Za-z0-9_.][A-Za-z0-9_.-]{0,119}$",
+   "description": {
+    "ru": "id шаблона из site_templates",
+    "en": "Template id from site_templates"
+   }
+  },
+  "category": {
+   "type": "string",
+   "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+   "description": {
+    "ru": "Категория шаблонов (id)",
+    "en": "Template category (id)"
+   }
+  },
+  "query": {
+   "type": "string",
+   "pattern": "^[^\\x00-\\x1f\\x7f]{1,64}$",
+   "description": {
+    "ru": "Слово для поиска",
+    "en": "Search word"
+   }
+  },
+  "page": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 10000,
+   "description": {
+    "ru": "Номер страницы (по 25)",
+    "en": "Page number (25 per page)"
+   }
+  },
+  "use_kind": {
+   "type": "string",
+   "enum": [
+    "sstp",
+    "ocserv"
+   ],
+   "description": {
+    "ru": "SSTP или OpenConnect",
+    "en": "SSTP or OpenConnect"
+   }
+  },
+  "awg_engine": {
+   "type": "string",
+   "enum": [
+    "kernel",
+    "program"
+   ],
+   "description": {
+    "ru": "kernel — модуль ядра (быстрее), program — amneziawg-go",
+    "en": "kernel — kernel module (faster), program — amneziawg-go"
+   }
+  },
+  "pki_kind": {
+   "type": "string",
+   "enum": [
+    "ikev2"
+   ],
+   "description": {
+    "ru": "Вход с центром сертификации",
+    "en": "Inbound with a CA"
+   }
+  },
+  "wait": {
+   "type": "integer",
+   "minimum": 0,
+   "maximum": 300,
+   "description": {
+    "ru": "Ждать готовности DNS до N секунд (0 — проверить один раз)",
+    "en": "Wait up to N seconds for DNS (0 — check once)"
+   }
+  },
+  "force": {
+   "type": "boolean",
+   "description": {
+    "ru": "Занять порт другой программы (она перестанет работать) — только по прямой просьбе человека",
+    "en": "Take the port of another program (it stops working) — only on the human's direct request"
+   }
+  },
+  "engine_force": {
+   "type": "boolean",
+   "description": {
+    "ru": "Модуль ядра и при линии, которую он не ведёт: часть входов останется на программе (смешанный режим)",
+    "en": "The kernel module even with a line it does not run: some inbounds stay on the program (mixed mode)"
+   }
+  },
+  "traffic": {
+   "type": "boolean",
+   "description": {
+    "ru": "Со счётчиками пакетов и байт",
+    "en": "With packet and byte counters"
+   }
+  },
+  "staging": {
+   "type": "boolean",
+   "description": {
+    "ru": "Тестовый Let's Encrypt (сертификату браузеры не верят) — для проверки, не для работы",
+    "en": "Staging Let's Encrypt (browsers do not trust it) — for a test, not for use"
+   }
+  },
+  "random": {
+   "type": "boolean",
+   "description": {
+    "ru": "Случайный шаблон из каталога",
+    "en": "A random template from the catalog"
+   }
+  },
+  "rules_force": {
+   "type": "boolean",
+   "description": {
+    "ru": "Скачать, даже если списки свежие",
+    "en": "Download even if the lists are fresh"
+   }
+  },
+  "with_devices": {
+   "type": "boolean",
+   "description": {
+    "ru": "Удалить и все его устройства (их настройки перестанут работать навсегда). Без флага при устройствах — отказ",
+    "en": "Delete all his devices too (their settings stop working for good). Without it a user with devices is refused"
+   }
+  },
+  "with_users": {
+   "type": "boolean",
+   "description": {
+    "ru": "Удалить и всех пользователей с устройствами — после этого их не вернуть",
+    "en": "Delete every user and device too — they cannot be brought back"
+   }
+  },
+  "group_with_keys": {
+   "type": "boolean",
+   "description": {
+    "ru": "Внутренняя группа вместе с её ключами: ключи уйдут с сервера, их не вернуть (последняя внутренняя группа с ключами иначе не удаляется)",
+    "en": "A domestic group with its keys: the keys leave the server for good (the last domestic group with keys is not deleted otherwise)"
+   }
+  },
+  "exit_sub": {
+   "type": "string",
+   "pattern": "^(s-[0-9a-f]{6}|[0-9]{1,2}|[a-z0-9][a-z0-9.-]{0,252})$",
+   "description": {
+    "ru": "Подписка выходов: s-… из exit_sub_list, номер или домен",
+    "en": "Exits subscription: s-… from exit_sub_list, number or domain"
+   }
+  },
+  "exit_sub_url": {
+   "type": "string",
+   "minLength": 8,
+   "maxLength": 2048,
+   "pattern": "^https?://[^\\s]+$",
+   "description": {
+    "ru": "Адрес подписки http(s)://… (домен или IP); секрет — через stdin, в журналы не попадает",
+    "en": "Subscription address http(s)://… (domain or IP); a secret — via stdin, never logged"
+   }
+  },
+  "exit_sub_manual": {
+   "type": "boolean",
+   "description": {
+    "ru": "true — не обновлять раз в сутки, только по команде exit_sub_refresh",
+    "en": "true — no daily refresh, only by exit_sub_refresh"
+   }
+  },
+  "exit_sub_keep": {
+   "type": "boolean",
+   "description": {
+    "ru": "true — ключи подписки оставить в пуле (как добавленные вручную)",
+    "en": "true — keep the subscription's keys in the pool (as added by hand)"
+   }
+  },
+  "on_off": {
+   "type": "string",
+   "enum": [
+    "on",
+    "off"
+   ],
+   "description": {
+    "ru": "on или off",
+    "en": "on or off"
+   }
+  },
+  "backup_password": {
+   "type": "string",
+   "minLength": 8,
+   "maxLength": 256,
+   "pattern": "^[^\\x00-\\x1f\\x7f]{8,256}$",
+   "description": {
+    "ru": "Пароль копии (8+ знаков), его называет человек; через stdin, не в журналы",
+    "en": "The copy's password (8+ chars) the human chose; via stdin, never logged"
+   }
+  },
+  "backup_parts": {
+   "type": "string",
+   "pattern": "^(gateway|exits|forwards|site|bot|mcp|panel|github)(,(gateway|exits|forwards|site|bot|mcp|panel|github))*$",
+   "description": {
+    "ru": "Части через запятую: gateway, exits, forwards, site, bot, mcp, panel, github",
+    "en": "Comma-separated parts: gateway, exits, forwards, site, bot, mcp, panel, github"
+   }
+  },
+  "mask_site": {
+   "type": "string",
+   "pattern": "^(?!-)[A-Za-z0-9.-]{1,253}$",
+   "description": {
+    "ru": "Сайт маскировки VLESS: имя (www.microsoft.com), own — свой сайт узла, auto — первый подходящий из списка (vless_masks)",
+    "en": "VLESS cover site: a name (www.microsoft.com), own — the node's own site, auto — the first suitable one of the list (vless_masks)"
+   }
+  },
+  "mask_check": {
+   "type": "boolean",
+   "description": {
+    "ru": "Проверить каждый сайт с узла (TLS 1.3; несколько секунд на сайт)",
+    "en": "Check every site from the node (TLS 1.3; a few seconds per site)"
+   }
+  },
+  "mask_no_check": {
+   "type": "boolean",
+   "description": {
+    "ru": "Не проверять сайт с узла — только если проверка не проходит по известной человеку причине",
+    "en": "Do not check the site from the node — only if the check fails for a reason the person knows"
+   }
+  },
+  "rf_phrase": {
+   "type": "string",
+   "maxLength": 200,
+   "description": {
+    "ru": "Подтверждение ⚠РФ для «Россия напрямую»: фраза, которую человек подтвердил сам, увидев блок ⚠РФ (блок и фраза — в отказе: data.block, data.consent). Нужна, пока нет действующего согласия (rules_status → rf.required); true или пересказ — отказ",
+    "en": "The ⚠RU confirmation for “Russia direct”: the phrase the human confirmed themselves after seeing the ⚠RU block (the block and the phrase are in the refusal: data.block, data.consent). Needed while there is no consent in force (rules_status → rf.required); true or a paraphrase is rejected"
+   }
+  },
+  "rf_orgs": {
+   "type": "string",
+   "maxLength": 400,
+   "pattern": "^[a-z0-9][a-z0-9_-]{0,31}(,[a-z0-9][a-z0-9_-]{0,31}){0,31}$",
+   "description": {
+    "ru": "Вместе с confirm_not_rf: коды организаций из блока, который видел человек, через запятую — data.orgs отказа (или rules_status → rf.orgs[].id). Согласие — только на них; без orgs — отказ с блоком",
+    "en": "With confirm_not_rf: the codes of the organizations of the block the human saw, comma-separated — data.orgs of the refusal (or rules_status → rf.orgs[].id). The consent covers only them; without orgs it is refused with the block"
+   }
+  },
+  "host_on": {
+   "type": "boolean",
+   "description": {
+    "ru": "Включить проверку здоровья",
+    "en": "Turn the health check on"
+   }
+  },
+  "host_off": {
+   "type": "boolean",
+   "description": {
+    "ru": "Выключить проверку здоровья (светофор «выключено», без уведомлений)",
+    "en": "Turn the health check off (the light says “off”, no notifications)"
+   }
+  },
+  "host_anchors": {
+   "type": "string",
+   "pattern": "^(default|[0-9A-Fa-f.:]{2,45}(,[0-9A-Fa-f.:]{2,45}){0,4})$",
+   "description": {
+    "ru": "Точки проб: публичные IPv4 или IPv6 цифрами через запятую, до 5; default — по умолчанию",
+    "en": "Probe points: public IPv4 or IPv6 in digits, comma-separated, up to 5; default — the default ones"
+   }
+  },
+  "push_level": {
+   "type": "string",
+   "enum": [
+    "crit",
+    "warn"
+   ],
+   "description": {
+    "ru": "Уведомления бота: crit — только тревоги, warn — и предупреждения",
+    "en": "The bot’s notifications: crit — alarms only, warn — warnings too"
+   }
+  },
+  "tariff_port": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 100000,
+   "description": {
+    "ru": "Скорость порта по тарифу, Мбит/с (1 Гбит/с = 1000) — для правила здоровья «порт»",
+    "en": "Port speed of the plan, Mbit/s (1 Gbit/s = 1000) — for the health rule «port»"
+   }
+  },
+  "tariff_traffic": {
+   "type": "string",
+   "pattern": "^([0-9]{1,8}([.,][0-9]{1,2})?|unlimited)$",
+   "description": {
+    "ru": "Трафик в месяц по тарифу, ГБ, или unlimited — для цены проверок",
+    "en": "Traffic a month of the plan, GB, or unlimited — for the price of the checks"
+   }
+  },
+  "tariff_clear": {
+   "type": "string",
+   "pattern": "^(all|[a-z_]{3,16}(,[a-z_]{3,16}){0,2})$",
+   "description": {
+    "ru": "Очистить поля: port, traffic через запятую или all",
+    "en": "Fields to clear: port, traffic, comma-separated, or all"
+   }
+  },
+  "tariff_code": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{10}$",
+   "description": {
+    "ru": "code из host_tariff action=preview",
+    "en": "code of host_tariff action=preview"
+   }
+  },
+  "bench_confirm": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{8}$",
+   "description": {
+    "ru": "Ключ modes.<вид>.confirm из host_score action=price того же вида (quick или full). Другая цена, вид или программы к установке — отказ, ничего не запущено",
+    "en": "The key modes.<kind>.confirm of host_score action=price of the same kind (quick or full). Another price, kind or programs to install — a refusal, nothing starts"
+   }
+  },
+  "bench_full": {
+   "type": "boolean",
+   "description": {
+    "ru": "true — полная проверка (дольше и больше трафика); по умолчанию — быстрая",
+    "en": "true — a full check (longer and more traffic); the default is a quick one"
+   }
+  },
+  "bench_no_upload_ru": {
+   "type": "boolean",
+   "description": {
+    "ru": "true — полная проверка без замера отдачи из России (iperf3 до точек российских провайдеров); price — upload_ru",
+    "en": "true — a full check without the upload from Russia (iperf3 to Russian providers' points); price — upload_ru"
+   }
+  },
+  "sched_time": {
+   "type": "string",
+   "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+   "description": {
+    "ru": "ЧЧ:ММ",
+    "en": "HH:MM"
+   }
+  },
+  "sched_mode": {
+   "type": "string",
+   "enum": [
+    "quick",
+    "full"
+   ],
+   "description": {
+    "ru": "quick или full",
+    "en": "quick or full"
+   }
+  },
+  "sched_days": {
+   "type": "string",
+   "pattern": "^(all|[1-7](-[1-7])?(,[1-7](-[1-7])?){0,6})$",
+   "description": {
+    "ru": "1-5, 1,3,7 или all (1 — пн)",
+    "en": "1-5, 1,3,7 or all (1 is Mon)"
+   }
+  },
+  "sched_no_quiet": {
+   "type": "boolean",
+   "description": {
+    "ru": "и когда сервер занят",
+    "en": "even when busy"
+   }
+  },
+  "sched_off": {
+   "type": "boolean",
+   "description": {
+    "ru": "добавить выключенной",
+    "en": "add it turned off"
+   }
+  },
+  "sched_monthly": {
+   "type": "boolean",
+   "description": {
+    "ru": "раз в месяц, один день",
+    "en": "monthly, one day"
+   }
+  },
+  "sched_entry": {
+   "type": "string",
+   "pattern": "^([0-9]{1,2}|[0-9a-f]{6})$",
+   "description": {
+    "ru": "номер или id",
+    "en": "number or id"
+   }
+  },
+  "sched_code": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{10}$",
+   "description": {
+    "ru": "code предпросмотра",
+    "en": "code of the preview"
+   }
+  },
+  "bench_id": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{10}$",
+   "description": {
+    "ru": "id проверки",
+    "en": "check id"
+   }
+  },
+  "bench_days": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 400,
+   "description": {
+    "ru": "последние N дней",
+    "en": "the last N days"
+   }
+  },
+  "bench_by": {
+   "type": "string",
+   "enum": [
+    "schedule",
+    "panel",
+    "bot",
+    "cli",
+    "mcp",
+    "ssh",
+    "auto"
+   ],
+   "description": {
+    "ru": "кто запустил",
+    "en": "who started it"
+   }
+  },
+  "bench_skipped": {
+   "type": "boolean",
+   "description": {
+    "ru": "только пропуски",
+    "en": "skipped only"
+   }
+  },
+  "dev_threshold": {
+   "type": "integer",
+   "minimum": 5,
+   "maximum": 30,
+   "description": {
+    "ru": "▲/▼: больше N % (5–30)",
+    "en": "▲/▼: above N % (5–30)"
+   }
+  },
+  "set_code": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{10}$",
+   "description": {
+    "ru": "code предпросмотра",
+    "en": "code of the preview"
+   }
+  },
+  "group_id": {
+   "type": "string",
+   "pattern": "^(main|g-[0-9a-f]{6})$",
+   "description": {
+    "ru": "main или g-…",
+    "en": "main or g-…"
+   }
+  },
+  "group_or_direct": {
+   "type": "string",
+   "pattern": "^(direct|main|g-[0-9a-f]{6})$",
+   "description": {
+    "ru": "direct или группа",
+    "en": "direct or a group"
+   }
+  },
+  "tier_id": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9-]{0,15}$",
+   "description": {
+    "ru": "t1, t2 … (exit_policy_get)",
+    "en": "t1, t2 … (exit_policy_get)"
+   }
+  },
+  "policy_rev": {
+   "type": "integer",
+   "minimum": 0,
+   "description": {
+    "ru": "rev из чтения, иначе conflict",
+    "en": "rev you read; else conflict"
+   }
+  },
+  "dry": {
+   "type": "boolean",
+   "description": {
+    "ru": "Показать moves, не меняя",
+    "en": "Show moves, no change"
+   }
+  },
+  "preset": {
+   "type": "string",
+   "enum": [
+    "compat",
+    "standard",
+    "economy",
+    "strict",
+    "ru_home"
+   ],
+   "description": {
+    "ru": "compat (как раньше), standard, economy, strict; ru_home — для внутренней",
+    "en": "compat (as before), standard, economy, strict; ru_home — for a domestic one"
+   }
+  },
+  "quota_gb": {
+   "type": "string",
+   "pattern": "^[0-9]{1,6}(\\.[0-9])?$",
+   "description": {
+    "ru": "Лимит, ГБ",
+    "en": "The limit, GB"
+   }
+  },
+  "quota_period": {
+   "type": "string",
+   "enum": [
+    "month",
+    "day"
+   ],
+   "description": {
+    "ru": "month или day",
+    "en": "month or day"
+   }
+  },
+  "quota_reset_day": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 28,
+   "description": {
+    "ru": "День сброса, 1–28",
+    "en": "The reset day, 1–28"
+   }
+  },
+  "quota_warn": {
+   "type": "integer",
+   "minimum": 50,
+   "maximum": 99,
+   "description": {
+    "ru": "Порог, %",
+    "en": "Threshold, %"
+   }
+  },
+  "quota_action": {
+   "type": "string",
+   "enum": [
+    "remove",
+    "standby",
+    "push"
+   ],
+   "description": {
+    "ru": "remove — снять, standby — в запас, push — уведомить",
+    "en": "remove, standby — to reserve, push — notify"
+   }
+  },
+  "days": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 90,
+   "description": {
+    "ru": "Дней, 1–90",
+    "en": "Days, 1–90"
+   }
+  },
+  "limit": {
+   "type": "integer",
+   "minimum": 1,
+   "maximum": 500,
+   "description": {
+    "ru": "Записей за раз",
+    "en": "Records at a time"
+   }
+  },
+  "before": {
+   "type": "integer",
+   "minimum": 0,
+   "description": {
+    "ru": "next прошлого ответа",
+    "en": "next of the previous answer"
+   }
+  },
+  "tofu_pin": {
+   "type": "string",
+   "pattern": "^[0-9A-Fa-f:]{64,95}$",
+   "description": {
+    "ru": "SHA-256 из exit_tofu_check",
+    "en": "SHA-256 from exit_tofu_check"
+   }
+  },
+  "tz_name": {
+   "type": "string",
+   "pattern": "^[A-Za-z][A-Za-z0-9_+/-]{0,63}$",
+   "description": {
+    "ru": "Пояс IANA: Europe/Moscow, UTC",
+    "en": "An IANA zone: Europe/Moscow, UTC"
+   }
+  },
+  "new_name": {
+   "type": "string",
+   "pattern": "^[^\\x00-\\x1f\\x7f|]{0,40}$",
+   "description": {
+    "ru": "Новое имя ≤ 40 знаков; пусто — сброс (не у пользователей и устройств); id прежний",
+    "en": "New name, ≤ 40 chars; empty — reset (not for users or devices); id stays"
+   }
+  },
+  "allow_duplicate": {
+   "type": "boolean",
+   "description": {
+    "ru": "И при повторе имени — после need = confirm_duplicate и ответа человека",
+    "en": "A repeated name too — after need = confirm_duplicate and the human’s answer"
+   }
+  },
+  "vless_mode": {
+   "type": "string",
+   "enum": [
+    "tls",
+    "reality"
+   ],
+   "description": {
+    "ru": "tls (рекомендуем) или reality",
+    "en": "tls (recommended) or reality"
+   }
+  },
+  "vless_phrase": {
+   "type": "string",
+   "maxLength": 200,
+   "description": {
+    "ru": "Фраза согласия, подтверждённая человеком после показа рисков",
+    "en": "The consent phrase the human confirmed after seeing the risks"
+   }
+  },
+  "vless_risks": {
+   "type": "string",
+   "pattern": "^r[0-9]{1,3}[ab]$",
+   "description": {
+    "ru": "data.risks",
+    "en": "data.risks"
+   }
+  },
+  "vless_yes": {
+   "type": "boolean",
+   "description": {
+    "ru": "Только после того, как человек увидел цену из отказа ядра и согласился",
+    "en": "Only after the human saw the price from the core's refusal and agreed"
+   }
+  },
+  "vless_site": {
+   "type": "string",
+   "pattern": "^(?!-)[A-Za-z0-9.-]{1,253}$",
+   "description": {
+    "ru": "Сайт Reality из текста (data.site)",
+    "en": "The Reality site from the text (data.site)"
+   }
+  },
+  "act_who": {
+   "type": "string",
+   "pattern": "^(?!-)[^\\x00-\\x1f\\x7f]{1,64}$",
+   "description": {
+    "ru": "Пользователь (u-…, имя) или устройство (d-…, логин, имя)",
+    "en": "A user (u-…, name) or a device (d-…, login, name)"
+   }
+  },
+  "act_range": {
+   "type": "string",
+   "enum": [
+    "1d",
+    "7d",
+    "30d"
+   ],
+   "description": {
+    "ru": "Период: 1d — сутки по часам (по умолчанию), 7d и 30d — по дням",
+    "en": "Period: 1d — a day by the hour (default), 7d and 30d — by the day"
+   }
+  },
+  "share_tariff": {
+   "type": "boolean",
+   "description": {
+    "ru": "share: добавить машину — ядра, память, порт тарифа",
+    "en": "share: add the machine — cores, memory, the port of the plan"
+   }
+  },
+  "share_country": {
+   "type": "boolean",
+   "description": {
+    "ru": "share: добавить страну сервера",
+    "en": "share: add the country of the server"
+   }
+  },
+  "share_cpu": {
+   "type": "boolean",
+   "description": {
+    "ru": "share: добавить модель процессора (с адресом или именем — не попадёт)",
+    "en": "share: add the CPU model (one with an address or a name is left out)"
+   }
+  },
+  "addr_list": {
+   "type": "string",
+   "pattern": "^[0-9]{1,3}(\\.[0-9]{1,3}){3}(,[0-9]{1,3}(\\.[0-9]{1,3}){3}){0,31}$",
+   "description": {
+    "ru": "Адреса сервера через запятую (из gateway_addresses)",
+    "en": "Server addresses, comma separated (of gateway_addresses)"
+   }
+  },
+  "addr_in_all": {
+   "type": "boolean",
+   "description": {
+    "ru": "Снова на всех адресах (возврат)",
+    "en": "On every address again (the way back)"
+   }
+  },
+  "exit_src_ip": {
+   "type": "string",
+   "pattern": "^(main|[0-9]{1,3}(\\.[0-9]{1,3}){3})$",
+   "description": {
+    "ru": "Адрес сервера (из gateway_addresses) или main",
+    "en": "A server address (of gateway_addresses) or main"
+   }
+  }
+ },
+ "actions": {
+  "version": {
+   "cmd": [
+    "version"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Версия Kaskad на сервере",
+    "en": "Kaskad version on the server"
+   }
+  },
+  "gateway_status": {
+   "cmd": [
+    "gw",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Сводка узла: шлюз, сеть, адрес для клиентов, число пользователей и устройств, протоколы (работа, порты, сессии), выходы и здоровье, DNS, xray, правила, движок AmneziaWG, MTU, проблемы. С него начинают",
+    "en": "Node summary: gateway on/off, network, client address, users and devices, protocols (running, ports, sessions), exits and their health, DNS, xray, rules, AmneziaWG engine, MTU, problems. Start here"
+   }
+  },
+  "gateway_addresses": {
+   "cmd": [
+    "gw",
+    "addresses"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "open_world": true,
+   "timeout": 60,
+   "params": {
+    "refresh": {
+     "ref": "addr_refresh",
+     "flag": "--refresh"
+    }
+   },
+   "description": {
+    "ru": "Адреса сервера: найденные на интерфейсах, внешние адреса облака с NAT, добавленные вручную; у каждого — основной ли, адрес ли для клиентов, A-запись домена, уходит ли ответ тем же путём (route_ok). client_found=false — адреса для клиентов на сервере нет; client_primary=false — он есть, но в интернет сервер выходит с другого (primary). Ничего не меняет",
+    "en": "Server addresses: on interfaces, external of a NAT cloud, added by hand; each: primary or not, client address or not, the domain's A record, route_ok (replies leave the same way). client_found=false — the client address is not on the server; client_primary=false — it is, but the server goes online from another (primary). Changes nothing"
+   }
+  },
+  "gateway_addresses_in": {
+   "cmd": [
+    "gw",
+    "addresses",
+    "in"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "params": {
+    "ips": {
+     "ref": "addr_list",
+     "pos": true,
+     "split": ","
+    },
+    "all": {
+     "ref": "addr_in_all",
+     "flag": "--all"
+    }
+   },
+   "one_of": [
+    [
+     "ips",
+     "all"
+    ]
+   ],
+   "description": {
+    "ru": "На каких адресах сервера протоколы и сайт принимают подключения: ips — только на этих (устройства на остальных теряют связь), all=true — снова на всех. SSH, пробросы и порт 80 — всегда на всех. Отказы: client_out, panel_out, via_out, address_not_here",
+    "en": "Server addresses the protocols and the site take connections on: ips — only these (devices on others are cut off), all=true — all again; SSH, forwards, port 80 — always all. Refusals: client_out, panel_out, via_out, address_not_here"
+   }
+  },
+  "gateway_exit_src": {
+   "cmd": [
+    "gw",
+    "addresses",
+    "exit"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "exit": {
+     "ref": "exit_id",
+     "pos": true
+    },
+    "ip": {
+     "ref": "exit_src_ip",
+     "pos": true,
+     "required": true
+    },
+    "group": {
+     "ref": "group_id",
+     "flag": "--group"
+    }
+   },
+   "one_of": [
+    [
+     "exit",
+     "group"
+    ]
+   ],
+   "description": {
+    "ru": "С какого адреса сервера выход (exit) или выходы группы (group) подключаются наружу; ip=main — по маршруту системы. AmneziaWG — SNAT ноги (отказы route_other, same_endpoint), остальные — sendThrough. Адрес пропал — временно с основного. «Прокси для API Telegram» — всегда с основного",
+    "en": "Server address an exit (exit) or a group's exits (group) connect from; ip=main — by the system route. AmneziaWG — leg SNAT (refusals route_other, same_endpoint), others — sendThrough. Address gone — main for now; Telegram API proxy — always main"
+   }
+  },
+  "gateway_probe": {
+   "cmd": [
+    "gw",
+    "probe"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Можно ли включить шлюз на этом сервере (система, nftables); код 5 — нельзя, в ответе причина",
+    "en": "Can the gateway be switched on here (system, nftables); code 5 — no, the reason is in the answer"
+   }
+  },
+  "gateway_check": {
+   "cmd": [
+    "gw",
+    "check"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Проверка шлюза без исправлений: список проблем (пустой — порядок). isError при найденных проблемах",
+    "en": "Gateway check without repairs: the problems (empty — fine). isError when problems were found"
+   }
+  },
+  "net_status": {
+   "cmd": [
+    "net",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Движок пробросов: nft или legacy (iptables), таблица, службы",
+    "en": "Forwarding engine: nft or legacy (iptables), table, services"
+   }
+  },
+  "net_check": {
+   "cmd": [
+    "net",
+    "check"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Проверка движка пробросов без исправлений (сторож); isError при проблемах",
+    "en": "Forwarding engine check without repairs (the watchdog); isError on problems"
+   }
+  },
+  "inbounds_list": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Протоколы (входы): установлен ли, включён, работает, порты, устройства, сессии, предупреждения",
+    "en": "Protocols (inbounds): installed, enabled, running, ports, devices, sessions, warnings"
+   }
+  },
+  "inbounds_plan": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "plan"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "kinds": {
+     "ref": "inbounds",
+     "pos": true,
+     "split": ","
+    }
+   },
+   "description": {
+    "ru": "Какие порты займёт установка протоколов и кто их сейчас держит (ничего не меняет)",
+    "en": "Which ports installing the protocols would take and who holds them now (changes nothing)"
+   }
+  },
+  "users_list": {
+   "cmd": [
+    "gw",
+    "user",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Пользователи: id, имя, свой маршрут, включён ли, число устройств",
+    "en": "Users: id, name, own route, enabled, device count"
+   }
+  },
+  "devices_list": {
+   "cmd": [
+    "gw",
+    "device",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "flag": "--user"
+    }
+   },
+   "description": {
+    "ru": "Устройства (всех или одного пользователя): id, имя, логин, тип, платформа, протоколы, адреса, действующий маршрут. Без ключей",
+    "en": "Devices (all or one user's): id, name, login, kind, platform, protocols, addresses, effective route. No keys"
+   }
+  },
+  "device_offers": {
+   "cmd": [
+    "gw",
+    "offers"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "platform": {
+     "ref": "platform",
+     "flag": "--platform",
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Что выдавать устройству этой платформы первым: протоколы по порядку, установлен ли, заметки",
+    "en": "What to give a device of this platform first: protocols in order, installed or not, notes"
+   }
+  },
+  "device_issue": {
+   "cmd": [
+    "gw",
+    "issue"
+   ],
+   "args": [
+    "--png",
+    "--where=agent"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "secret": true,
+   "timeout": 120,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "inbound": {
+     "ref": "inbound",
+     "flag": "--inbound"
+    },
+    "os": {
+     "ref": "platform",
+     "flag": "--os"
+    }
+   },
+   "description": {
+    "ru": "Настройки устройства: инструкция (howto) и записи (.conf, vpn://, QR-коды картинками). ВНИМАНИЕ: в ответе ПРИВАТНЫЕ КЛЮЧИ и пароли — отдавай только тому, кто попросил, не сохраняй в заметки. Сервер не меняет; в журнал Kaskad — строка о выдаче (без ключей)",
+    "en": "Device settings: how-to and records (.conf, vpn:// link, QR codes as images). WARNING: the answer holds PRIVATE KEYS and passwords — hand them only to whoever asked, never keep them in notes. Changes nothing on the server; logs a line about the issue (no keys)"
+   }
+  },
+  "sessions_list": {
+   "cmd": [
+    "gw",
+    "sessions"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Кто сейчас подключён: протокол, адрес, устройство, с какого времени",
+    "en": "Who is connected now: protocol, address, device, since"
+   }
+  },
+  "gw_activity": {
+   "cmd": [
+    "gw",
+    "activity"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "who": {
+     "ref": "act_who",
+     "pos": true,
+     "required": true
+    },
+    "range": {
+     "ref": "act_range",
+     "flag": "--range"
+    }
+   },
+   "description": {
+    "ru": "Активность одного пользователя или устройства: время на связи, «трафик шёл» и объём ↓ ↑ за сутки, 7 или 30 дней, по устройствам. Только объём и время — без адресов и сайтов; по всем пользователям сразу — нет. История выключена — activity: false",
+    "en": "Activity of one user or device: time online, 'traffic for' and volume ↓ ↑ for a day, 7 or 30 days, by device. Volume and time only — no addresses or sites; never all users at once. History off — activity: false"
+   }
+  },
+  "exits_list": {
+   "cmd": [
+    "gw",
+    "exits"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Выходы (пул «Прокси для API Telegram»; внутренние — отдельно, ru_exits): id, имя, тип, где, включён ли для шлюза, usable — работает ли, рукопожатие, text",
+    "en": "Exits (the pool; the domestic ones apart, ru_exits): id, name, kind, where, enabled for the gateway, usable — working, handshake, text"
+   }
+  },
+  "exit_preview": {
+   "cmd": [
+    "gw",
+    "exit-preview"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {
+    "key": {
+     "ref": "exit_key",
+     "required": true,
+     "stdin": true
+    }
+   },
+   "description": {
+    "ru": "Что в ключе выхода до добавления: тип (VLESS, AmneziaWG 1.5/2.0/3.1, WireGuard), где, есть ли в пуле, проблемы. Ничего не меняет; ключ — через stdin. Нет на узле разборщика ключей — скачивается один раз",
+    "en": "What an exit key holds — before adding: kind, where, already in the pool, problems. Changes nothing; the key goes via stdin. If the node has no key parser yet, it is downloaded once"
+   }
+  },
+  "exit_sub_list": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Подписки выходов: имя («подписка N» или домен), раз в сутки или вручную, её ключей в пуле, состояние (stale, text). Без адресов",
+    "en": "Exits subscriptions: name, daily or manual, its keys in the pool, state (stale, text). No addresses"
+   }
+  },
+  "scheme": {
+   "cmd": [
+    "gw",
+    "scheme"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Схема: маршрут и правила узла, протоколы, выходы, пользователи и устройства — у каждого протоколы, действующий маршрут (откуда: device/user/default) и профиль правил. Без секретов",
+    "en": "The scheme: node route and rules, protocols, exits, users and devices — each with protocols, effective route (source: device/user/default) and rules profile. No secrets"
+   }
+  },
+  "traffic_trace": {
+   "cmd": [
+    "gw",
+    "trace"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 60,
+   "params": {
+    "who": {
+     "ref": "who",
+     "pos": true,
+     "required": true
+    },
+    "target": {
+     "ref": "target",
+     "pos": true,
+     "required": true
+    },
+    "inbound": {
+     "ref": "inbound",
+     "flag": "--inbound"
+    }
+   },
+   "description": {
+    "ru": "Куда пойдёт трафик устройства до домена или адреса: путь по шагам (протокол → правила → маршрут → выход), вердикт. Ничего не меняет",
+    "en": "Where a device's traffic to a domain or address goes: the path step by step (protocol → rules → route → exit), the verdict. Changes nothing"
+   },
+   "open_world": true
+  },
+  "rules_status": {
+   "cmd": [
+    "rules",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Правила «Россия напрямую»: профиль узла, готовы ли списки, блокировка рекламы и торрентов, последнее обновление",
+    "en": "Rules 'Russia directly': the node profile, lists ready, ads/torrent blocking, the last update"
+   }
+  },
+  "forwards_list": {
+   "cmd": [
+    "fwd",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "traffic": {
+     "ref": "traffic",
+     "flag": "--traffic"
+    }
+   },
+   "description": {
+    "ru": "Пробросы портов (движок nft): протокол, порт, куда; traffic — со счётчиками. На старом движке — код 5",
+    "en": "Port forwards (engine nft): protocol, port, target; traffic — with counters. Engine legacy — code 5"
+   }
+  },
+  "awg_engine_status": {
+   "cmd": [
+    "gw",
+    "awg",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Движок AmneziaWG: модуль ядра или программа amneziawg-go, что выбрано и почему, совет, предупреждения",
+    "en": "AmneziaWG engine: kernel module or amneziawg-go, what is chosen and why, advice, warnings"
+   }
+  },
+  "awg_engine_check": {
+   "cmd": [
+    "gw",
+    "awg",
+    "check"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {},
+   "description": {
+    "ru": "Можно ли здесь модуль ядра AmneziaWG (ядро, заголовки, пакеты). Ничего не меняет",
+    "en": "Can the AmneziaWG kernel module work here (kernel, headers, packages). Changes nothing"
+   },
+   "open_world": true
+  },
+  "awg_engine_preview": {
+   "cmd": [
+    "gw",
+    "awg",
+    "engine"
+   ],
+   "args": [
+    "--dry-run"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {
+    "engine": {
+     "ref": "awg_engine",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Проверка смены движка AmneziaWG без смены (сколько клиентов переподключится, что мешает)",
+    "en": "Dry run of switching the AmneziaWG engine (how many clients reconnect, what blocks it)"
+   }
+  },
+  "accel_status": {
+   "cmd": [
+    "gw",
+    "accel",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Модуль ядра AmneziaWG подробно: загружен ли, на чём каждый вход и нога выхода",
+    "en": "The AmneziaWG kernel module in detail: loaded, what each inbound and exit leg runs on"
+   }
+  },
+  "mtu_show": {
+   "cmd": [
+    "gw",
+    "mtu",
+    "show"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Безопасный MTU: карта сервера, бюджет, MTU сервера и клиентов по входам, ноги выходов, советы",
+    "en": "Safe MTU: the server card, budget, server/client MTU per inbound, exit legs, advice"
+   }
+  },
+  "mtu_s4_preview": {
+   "cmd": [
+    "gw",
+    "mtu",
+    "s4"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "s4_kind",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Кому придётся выдать настройки заново, если уменьшить S4 входа AmneziaWG 2.0 (ничего не меняет)",
+    "en": "Who would need new settings if S4 of the AmneziaWG 2.0 inbound were lowered (changes nothing)"
+   }
+  },
+  "site_status": {
+   "cmd": [
+    "site",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Домен и сайт: домен, DNS, сертификат Let's Encrypt (срок), режим (site/domain), шаблон, порт 80",
+    "en": "Domain and site: domain, DNS, Let's Encrypt certificate (expiry), mode (site/domain), template, port 80"
+   }
+  },
+  "site_check": {
+   "cmd": [
+    "site",
+    "check"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {},
+   "description": {
+    "ru": "Проверить сайт, панель на секретном пути, редирект и сертификат с самого сервера; вердикт и что сделать",
+    "en": "Check the site, the panel at the secret path, the redirect and the certificate from the server; verdict and fix"
+   },
+   "open_world": true
+  },
+  "site_dns": {
+   "cmd": [
+    "site",
+    "dns"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 360,
+   "params": {
+    "wait": {
+     "ref": "wait",
+     "flag": "--wait"
+    }
+   },
+   "description": {
+    "ru": "Проверить DNS домена: A-записи против адресов сервера; wait — ждать готовности. Итог запоминается (его показывают меню и панель)",
+    "en": "Check the domain DNS: A records vs the server addresses; wait — until ready. The result is stored (menu and panel show it)"
+   },
+   "open_world": true
+  },
+  "site_templates": {
+   "cmd": [
+    "site",
+    "templates"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {
+    "category": {
+     "ref": "category",
+     "flag": "--category"
+    },
+    "query": {
+     "ref": "query",
+     "flag": "--query"
+    },
+    "page": {
+     "ref": "page",
+     "flag": "--page"
+    }
+   },
+   "description": {
+    "ru": "Каталог шаблонов сайта-маскировки: категории, поиск, страницы по 25. Скачивает каталог в кэш узла при первом обращении",
+    "en": "Cover-site template catalog: categories, search, pages of 25. Downloads the catalog into the node's cache on first use"
+   },
+   "open_world": true
+  },
+  "site_template_status": {
+   "cmd": [
+    "site",
+    "template",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Какой шаблон сайта стоит",
+    "en": "Which site template is installed"
+   }
+  },
+  "site_use_preview": {
+   "cmd": [
+    "site",
+    "use"
+   ],
+   "args": [
+    "--dry-run"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "use_kind",
+     "pos": true,
+     "required": true
+    },
+    "value": {
+     "ref": "onoff",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Сколько устройств затронет перевод SSTP или OpenConnect на сертификат домена (ничего не меняет)",
+    "en": "How many devices moving SSTP or OpenConnect to the domain certificate would affect (changes nothing)"
+   }
+  },
+  "panel_status": {
+   "cmd": [
+    "panel",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Веб-панель: работает ли, адреса, режим, отпечаток сертификата, сессии. Без паролей и ссылок входа",
+    "en": "Web panel: running, addresses, mode, certificate fingerprint, sessions. No passwords or login links"
+   }
+  },
+  "pages_list": {
+   "cmd": [
+    "page",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "У кого включена личная страница с настройками (без ссылок)",
+    "en": "Who has a personal settings page (no links)"
+   }
+  },
+  "page_sub_list": {
+   "cmd": [
+    "page",
+    "sub",
+    "list"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "У кого включена подписка для приложений и сколько в ней устройств (без ссылок)",
+    "en": "Who has a subscription for apps and how many devices it carries (no links)"
+   }
+  },
+  "page_url": {
+   "cmd": [
+    "page",
+    "url"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Ссылка на личную страницу пользователя. ВНИМАНИЕ: ссылка — секрет, по ней открываются настройки его устройств; отдавай только этому пользователю",
+    "en": "The link of a user's page. WARNING: the link is a secret that opens his devices' settings; give it to that user only"
+   }
+  },
+  "page_sub_url": {
+   "cmd": [
+    "page",
+    "sub",
+    "url"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Ссылка подписки пользователя для приложений (v2RayTun, Hiddify, v2rayN, incy). ВНИМАНИЕ: ссылка — секрет (ключи VLESS, Hysteria2, AmneziaWG и WireGuard всех его устройств); отдавай только этому пользователю",
+    "en": "A user's subscription link for apps (v2RayTun, Hiddify, v2rayN, incy). WARNING: the link is a secret that gives the VLESS, Hysteria2, AmneziaWG and WireGuard keys of all his devices; give it to that user only"
+   }
+  },
+  "bot_status": {
+   "cmd": [
+    "bot",
+    "status"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Telegram-бот: настроен ли, последний опрос и ошибка, служба. Токен не показывается",
+    "en": "Telegram bot: configured, last poll and error, the service. The token is never shown"
+   }
+  },
+  "bot_proxy": {
+   "cmd": [
+    "bot",
+    "proxy"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Как бот ходит в Telegram: через выходы группы, напрямую (выбрано, нет ключей или выходы группы не отвечают) или нет связи. Выбор — в панели",
+    "en": "How the bot reaches Telegram: through the exits of a group, directly (chosen, no keys or the exits of the group do not answer) or no connection. The choice is in the panel"
+   }
+  },
+  "update_check": {
+   "cmd": [
+    "update",
+    "check"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 360,
+   "params": {},
+   "description": {
+    "ru": "Есть ли новая версия Kaskad (по правилам меню 11): branch — ветка, auto — выбрана сама. Программу не меняет; найденную сама ветку dev запоминает",
+    "en": "Is there a newer Kaskad version (menu 11 rules): branch, auto — chosen by itself. Does not change the program; remembers the branch dev it found by itself"
+   },
+   "open_world": true
+  },
+  "host_health": {
+   "cmd": [
+    "host",
+    "health"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Здоровье сервера: светофор, находки с советами (процессор, память, диск, сеть, часы, сертификаты, службы), проверки и пробы сети; by — источник: collector (сборщик шлюза), bot (бот без шлюза), panel (снимок без истории); hostmon — настройки. Ничего не меняет",
+    "en": "Server health: the light, findings with advice (CPU, memory, disk, network, clock, certificates, services), checks and network probes; by — the source: collector (gateway), bot (bot without the gateway), panel (instant snapshot, no history); hostmon — settings. Changes nothing"
+   }
+  },
+  "host_set": {
+   "cmd": [
+    "host",
+    "set"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "on": {
+     "ref": "host_on",
+     "flag": "--on"
+    },
+    "off": {
+     "ref": "host_off",
+     "flag": "--off"
+    },
+    "probes": {
+     "ref": "onoff",
+     "flag": "--probes"
+    },
+    "anchors": {
+     "ref": "host_anchors",
+     "flag": "--anchors"
+    },
+    "push_level": {
+     "ref": "push_level",
+     "flag": "--push-level"
+    },
+    "bench_retry": {
+     "ref": "onoff",
+     "flag": "--bench-retry"
+    },
+    "dev_threshold": {
+     "ref": "dev_threshold",
+     "flag": "--dev-threshold"
+    },
+    "dev_spread": {
+     "ref": "onoff",
+     "flag": "--dev-spread"
+    },
+    "code": {
+     "ref": "set_code",
+     "flag": "--code"
+    }
+   },
+   "description": {
+    "ru": "Настройки здоровья: on/off — сама проверка; probes — пробы сети (3 ping к точкам раз в ≈ 30 с; off — ни пакета наружу) — только по просьбе человека; anchors — их точки, только названные им адреса; push_level — уведомления бота. bench_retry (повтор после падения, до 2 проверок в сутки) и dev_* (правило ▲/▼): без code — предпросмотр и code, не сохранено; согласен человек — тот же вызов с code; consent: true — много трафика, повторы включает только человек",
+    "en": "Health settings: on/off — the check itself; probes — network probes (3 pings to the points every ≈ 30 s; off — no packet out) — only when the person asks; anchors — their points, only addresses they named; push_level — bot notifications. bench_retry (a repeat after a drop, up to 2 checks a day) and dev_* (the ▲/▼ rule): without code — a preview and code, not saved; the person agrees — the same call with code; consent: true — much traffic, only the person turns repeats on"
+   },
+   "open_world": true,
+   "args": [
+    "--by-mcp"
+   ]
+  },
+  "host_score": {
+   "readonly": true,
+   "destructive": false,
+   "action_default": "score",
+   "by_action": {
+    "score": {
+     "cmd": [
+      "host",
+      "score"
+     ],
+     "readonly": true
+    },
+    "history": {
+     "cmd": [
+      "host",
+      "bench",
+      "history"
+     ],
+     "readonly": true,
+     "params": [
+      "days",
+      "mode",
+      "by",
+      "skipped"
+     ],
+     "args": [
+      "--limit=50"
+     ]
+    },
+    "show": {
+     "cmd": [
+      "host",
+      "bench",
+      "show"
+     ],
+     "readonly": true,
+     "params": [
+      "id"
+     ],
+     "required": [
+      "id"
+     ]
+    },
+    "schedule": {
+     "cmd": [
+      "host",
+      "bench",
+      "schedule",
+      "list"
+     ],
+     "readonly": true
+    },
+    "price": {
+     "cmd": [
+      "host",
+      "bench"
+     ],
+     "readonly": true,
+     "params": [
+      "full"
+     ],
+     "args": [
+      "--dry"
+     ]
+    },
+    "share": {
+     "cmd": [
+      "host",
+      "share"
+     ],
+     "readonly": true,
+     "params": [
+      "tariff",
+      "country",
+      "cpu"
+     ]
+    }
+   },
+   "params": {
+    "days": {
+     "ref": "bench_days",
+     "flag": "--days"
+    },
+    "mode": {
+     "ref": "sched_mode",
+     "flag": "--mode"
+    },
+    "by": {
+     "ref": "bench_by",
+     "flag": "--by"
+    },
+    "skipped": {
+     "ref": "bench_skipped",
+     "flag": "--skipped"
+    },
+    "id": {
+     "ref": "bench_id",
+     "pos": true
+    },
+    "full": {
+     "ref": "bench_full",
+     "flag": "--full"
+    },
+    "tariff": {
+     "ref": "share_tariff",
+     "flag": "--tariff"
+    },
+    "country": {
+     "ref": "share_country",
+     "flag": "--country"
+    },
+    "cpu": {
+     "ref": "share_cpu",
+     "flag": "--cpu"
+    }
+   },
+   "description": {
+    "ru": "Сервер относительно своей истории и проверок; ничего не меняет. score — как «Обзор › Проверка сервера»: summary.rel_total — главное число, 100 — как обычно у этого сервера (null — меньше 3 звеньев с rel), checked, stale, retry; links — 8 звеньев (сейчас fresh_raw, обычно usual_raw, rel — от обычного; rel null — истории меньше 3 дней (usual_n — дней) или свежего значения нет; ▲/▼ dev, hint); days — 30 дней. Без балла 0–1000 и выводов. history — проверки за 30 дней (до 50): id, вид, кто (auto — повтор), итог; show — тесты и трафик одной. schedule — записи с номерами, следующие, цена, armed, retry. price — цена до запуска: МБ, минуты процессора, pkgs (что поставит); modes.<вид>.confirm — ключ для host_bench. share — что покажет ролик «Поделиться» (собирает браузер): ready, сырые цифры metrics, rel_total, 30 цветов days; tariff/country/cpu — только по флагам; без адресов и имён",
+    "en": "The server against its own history and checks; changes nothing. score — as “Overview › Server check”: summary.rel_total — the main number, 100 — as usual for this server (null — fewer than 3 links with rel), checked, stale, retry; links — 8 links (now fresh_raw, usual usual_raw, rel — of usual; rel null — under 3 days of history (usual_n — days) or no fresh value; ▲/▼ dev, hint); days — 30 days. No 0–1000 score, no verdicts. history — checks of 30 days (up to 50): id, kind, who (auto — a repeat), result; show — tests and traffic of one. schedule — numbered entries, next, price, armed, retry. price — before the start: MB, CPU minutes, pkgs (what it installs); modes.<kind>.confirm — the key for host_bench. share — what the “Share” clip shows (the browser builds it): ready, raw metrics, rel_total, 30 colours of days; tariff/country/cpu — only by the flags; no addresses or names"
+   }
+  },
+  "host_bench": {
+   "cmd": [
+    "host",
+    "bench"
+   ],
+   "args": [
+    "--by-mcp"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 900,
+   "ask_human": true,
+   "open_world": true,
+   "params": {
+    "full": {
+     "ref": "bench_full",
+     "flag": "--full"
+    },
+    "no_upload_ru": {
+     "ref": "bench_no_upload_ru",
+     "flag": "--no-upload-ru"
+    },
+    "confirm": {
+     "ref": "bench_confirm",
+     "flag": "--confirm",
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Запустить проверку сервера (как кнопка панели): процессор, память, диск, канал, сеть — службой с низким приоритетом; сразу — id, итог через минуты — host_score. Тратит трафик (сотни МБ, полная — до гигабайт), без sysbench и fio ставит их (≈ 50 МБ); полная у сервера в России замеряет и отдачу (iperf3, no_upload_ru). Только по просьбе человека и после host_score action=price; confirm — её ключ того же вида (согласие с ценой и установкой). Отказ, ничего не запущено и не поставлено: иная цена или чужой ключ, идёт другая проверка, за день через MCP уже 6 проверок (полных — 2)",
+    "en": "Start a server check (as the panel button): CPU, memory, disk, channel, network — a low-priority service; at once — the id, the result in minutes — host_score. Uses traffic (hundreds of MB, a full one — up to gigabytes), installs sysbench and fio (≈ 50 MB) if missing; a full one of a server in Russia also measures the upload (iperf3, no_upload_ru). Only when the human asks and after host_score action=price; confirm — its key of the same kind (consent to the price and installation). Refused, nothing started or installed: another price or key, another check running, 6 checks through MCP today (2 full)"
+   }
+  },
+  "host_bench_schedule": {
+   "readonly": false,
+   "destructive": false,
+   "ask_human": true,
+   "open_world": true,
+   "by_action": {
+    "add": {
+     "cmd": [
+      "host",
+      "bench",
+      "schedule",
+      "add"
+     ],
+     "args": [
+      "--by-mcp"
+     ],
+     "params": [
+      "time",
+      "mode",
+      "days",
+      "no_quiet",
+      "off",
+      "monthly",
+      "code"
+     ],
+     "required": [
+      "time",
+      "mode",
+      "days"
+     ]
+    },
+    "on": {
+     "cmd": [
+      "host",
+      "bench",
+      "schedule",
+      "on"
+     ],
+     "args": [
+      "--by-mcp"
+     ],
+     "params": [
+      "entry",
+      "code"
+     ],
+     "required": [
+      "entry"
+     ]
+    },
+    "off": {
+     "cmd": [
+      "host",
+      "bench",
+      "schedule",
+      "off"
+     ],
+     "args": [
+      "--by-mcp"
+     ],
+     "params": [
+      "entry",
+      "code"
+     ],
+     "required": [
+      "entry"
+     ]
+    },
+    "rm": {
+     "cmd": [
+      "host",
+      "bench",
+      "schedule",
+      "rm"
+     ],
+     "args": [
+      "--by-mcp"
+     ],
+     "params": [
+      "entry",
+      "code"
+     ],
+     "required": [
+      "entry"
+     ],
+     "destructive": true
+    }
+   },
+   "params": {
+    "time": {
+     "ref": "sched_time",
+     "flag": "--time"
+    },
+    "mode": {
+     "ref": "sched_mode",
+     "flag": "--mode"
+    },
+    "days": {
+     "ref": "sched_days",
+     "flag": "--days"
+    },
+    "no_quiet": {
+     "ref": "sched_no_quiet",
+     "flag": "--no-quiet"
+    },
+    "off": {
+     "ref": "sched_off",
+     "flag": "--off"
+    },
+    "monthly": {
+     "ref": "sched_monthly",
+     "flag": "--monthly"
+    },
+    "entry": {
+     "ref": "sched_entry",
+     "pos": true
+    },
+    "code": {
+     "ref": "sched_code",
+     "flag": "--code"
+    }
+   },
+   "description": {
+    "ru": "Изменить расписание проверок (записи и номера — host_score action=schedule; проверки тратят трафик). Без code — предпросмотр: список, цена, code; не сохранено. Согласен человек — тот же вызов с code. consent — трафик в месяц дорастёт до «много трафика»: сохраняет только человек (отказ heavy)",
+    "en": "Change the check schedule (entries and numbers — host_score action=schedule; checks use traffic). Without code — a preview: list, price, code; not saved. The person agrees — the same call with code. consent — monthly traffic grows to «much traffic»: only a person saves that (refusal heavy)"
+   }
+  },
+  "host_tariff": {
+   "readonly": true,
+   "destructive": false,
+   "action_default": "show",
+   "by_action": {
+    "show": {
+     "cmd": [
+      "host",
+      "tariff",
+      "show"
+     ],
+     "readonly": true
+    },
+    "preview": {
+     "cmd": [
+      "host",
+      "tariff",
+      "set"
+     ],
+     "args": [
+      "--dry"
+     ],
+     "readonly": true,
+     "params": [
+      "port",
+      "traffic",
+      "clear"
+     ]
+    }
+   },
+   "params": {
+    "port": {
+     "ref": "tariff_port",
+     "flag": "--port"
+    },
+    "traffic": {
+     "ref": "tariff_traffic",
+     "flag": "--traffic"
+    },
+    "clear": {
+     "ref": "tariff_clear",
+     "flag": "--clear"
+    }
+   },
+   "description": {
+    "ru": "Тариф сервера; ничего не меняет. Скорость порта — для правила здоровья «порт», трафик в месяц — для цены проверок. show — значения и src (user — человек, catalog — каталог хостера). preview — без сохранения: lines (было → будет) и code; значения — только названные человеком. Покажите lines; согласен — host_tariff_set с теми же значениями и code",
+    "en": "The server plan; changes nothing. The port speed — for the health rule «port», the traffic a month — for the price of the checks. show — the values and src (user — the person, catalog — the provider’s catalog). preview — not saved: lines (old → new) and code; values — only those the person named. Show lines; if they agree — host_tariff_set with the same values and code"
+   }
+  },
+  "host_tariff_set": {
+   "cmd": [
+    "host",
+    "tariff",
+    "set"
+   ],
+   "args": [
+    "--by-mcp"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "port": {
+     "ref": "tariff_port",
+     "flag": "--port"
+    },
+    "traffic": {
+     "ref": "tariff_traffic",
+     "flag": "--traffic"
+    },
+    "clear": {
+     "ref": "tariff_clear",
+     "flag": "--clear"
+    },
+    "code": {
+     "ref": "tariff_code",
+     "flag": "--code",
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Сохранить тариф после согласия человека на lines из host_tariff action=preview: те же значения и code (сервер сверяет, иначе code_mismatch). Новая скорость порта — новая база проверок",
+    "en": "Save the plan after the person agreed to the lines of host_tariff action=preview: the same values and code (the server checks, else code_mismatch). A new port speed — a new baseline of the checks"
+   }
+  },
+  "backup_summary": {
+   "cmd": [
+    "backup",
+    "summary"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "parts": {
+     "ref": "backup_parts",
+     "flag": "--parts"
+    }
+   },
+   "description": {
+    "ru": "Что вошло бы в копию настроек: числа и имена по частям, без секретов",
+    "en": "What a copy of the settings would hold: counts and names per part, no secrets"
+   }
+  },
+  "gateway_enable": {
+   "cmd": [
+    "gw",
+    "enable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "base": {
+     "ref": "base",
+     "flag": "--base"
+    },
+    "host": {
+     "ref": "host",
+     "flag": "--host"
+    },
+    "force": {
+     "ref": "host_force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Включить шлюз (нужен движок nft): сеть, DNS, адрес для клиентов",
+    "en": "Switch the gateway on (engine nft needed): network, DNS, client address"
+   },
+   "open_world": true
+  },
+  "gateway_set_host": {
+   "cmd": [
+    "gw",
+    "host"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "host": {
+     "ref": "host",
+     "pos": true,
+     "required": true
+    },
+    "force": {
+     "ref": "host_force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Задать адрес для клиентов (внешний IP или имя в настройках устройств). IPv4 — только один из адресов сервера (gateway_addresses), иначе отказ. Сменился — ВСЕ выданные настройки смотрят на старый адрес: каждому устройству выдать заново",
+    "en": "Set the client address (external IP or name in device settings). An IPv4 must be a server address (gateway_addresses), else refused. Changed — EVERY issued setting points at the old address: re-issue each device"
+   }
+  },
+  "gateway_detect_host": {
+   "cmd": [
+    "gw",
+    "host"
+   ],
+   "args": [
+    "--detect"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "open_world": true,
+   "params": {},
+   "description": {
+    "ru": "Определить адрес для клиентов заново (внешний IP сервера). Сменился — все выданные настройки выдать заново",
+    "en": "Detect the client address again (the server's external IP). Changed — re-issue every setting"
+   }
+  },
+  "gateway_apply": {
+   "cmd": [
+    "gw",
+    "apply"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Применить всё из настроек заново (таблица, маршруты, xray, DNS). Безопасно повторять",
+    "en": "Apply everything from the settings again (table, routes, xray, DNS). Safe to repeat"
+   }
+  },
+  "gateway_repair": {
+   "cmd": [
+    "gw",
+    "check"
+   ],
+   "args": [
+    "--repair"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Проверить шлюз и исправить найденное (как сторож)",
+    "en": "Check the gateway and repair what is found (as the watchdog)"
+   }
+  },
+  "net_repair": {
+   "cmd": [
+    "net",
+    "check"
+   ],
+   "args": [
+    "--repair"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Проверить движок пробросов и исправить найденное",
+    "en": "Check the forwarding engine and repair what is found"
+   }
+  },
+  "default_route_set": {
+   "cmd": [
+    "gw",
+    "route"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "via": {
+     "ref": "via",
+     "pos": true,
+     "required": true
+    },
+    "fail": {
+     "ref": "fail",
+     "flag": "--fail"
+    }
+   },
+   "description": {
+    "ru": "Маршрут по умолчанию узла: pool, group:<id группы>, exit:<id>, direct, block; fail — если выходы недоступны: block — как у группы, direct — напрямую",
+    "en": "The node's default route: pool, group:<group id>, exit:<id>, direct, block; fail — if the exits are down: block — as its group, direct — directly"
+   }
+  },
+  "user_add": {
+   "cmd": [
+    "gw",
+    "user",
+    "add"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "name": {
+     "ref": "person_name",
+     "pos": true,
+     "required": true
+    },
+    "route": {
+     "ref": "via",
+     "flag": "--route"
+    },
+    "fail": {
+     "ref": "fail",
+     "flag": "--fail"
+    }
+   },
+   "description": {
+    "ru": "Добавить пользователя (без устройств). route/fail — свой маршрут, иначе как по умолчанию узла",
+    "en": "Add a user (no devices). route/fail — own route, else the node default"
+   }
+  },
+  "user_route": {
+   "cmd": [
+    "gw",
+    "user",
+    "route"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    },
+    "via": {
+     "ref": "via_or_inherit",
+     "pos": true,
+     "required": true
+    },
+    "fail": {
+     "ref": "fail",
+     "flag": "--fail"
+    }
+   },
+   "description": {
+    "ru": "Маршрут пользователя: inherit (как у узла), pool, group:<id группы>, exit:<id>, direct, block",
+    "en": "A user's route: inherit (as the node), pool, group:<group id>, exit:<id>, direct, block"
+   }
+  },
+  "user_enable": {
+   "cmd": [
+    "gw",
+    "user",
+    "enable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Включить пользователя (все его устройства снова подключаются)",
+    "en": "Enable a user (all his devices connect again)"
+   }
+  },
+  "user_disable": {
+   "cmd": [
+    "gw",
+    "user",
+    "disable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Выключить пользователя: его устройства перестают подключаться, записи и ключи сохраняются",
+    "en": "Disable a user: his devices stop connecting, records and keys are kept"
+   }
+  },
+  "device_add": {
+   "cmd": [
+    "gw",
+    "device",
+    "add"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "device_name",
+     "pos": true,
+     "required": true
+    },
+    "kind": {
+     "ref": "device_kind",
+     "flag": "--kind"
+    },
+    "platform": {
+     "ref": "platform",
+     "flag": "--platform"
+    },
+    "access": {
+     "ref": "inbounds",
+     "flag": "--access"
+    },
+    "route": {
+     "ref": "via",
+     "flag": "--route"
+    },
+    "fail": {
+     "ref": "fail",
+     "flag": "--fail"
+    }
+   },
+   "description": {
+    "ru": "Добавить устройство пользователю: тип, платформа, протоколы (access; без него входы не выданы), маршрут. Ключи — сразу; настройки выдаёт device_issue",
+    "en": "Add a device to a user: kind, platform, protocols (access; without it no inbound is granted), route. Keys at once; device_issue gives the settings"
+   }
+  },
+  "device_grant": {
+   "cmd": [
+    "gw",
+    "device",
+    "grant"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Выдать устройству ещё один протокол (новые ключи этого протокола)",
+    "en": "Grant a device one more protocol (new keys for it)"
+   }
+  },
+  "device_route": {
+   "cmd": [
+    "gw",
+    "device",
+    "route"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "via": {
+     "ref": "via_or_inherit",
+     "pos": true,
+     "required": true
+    },
+    "fail": {
+     "ref": "fail",
+     "flag": "--fail"
+    }
+   },
+   "description": {
+    "ru": "Маршрут устройства: inherit (как у пользователя), pool, group:<id группы>, exit:<id>, direct, block",
+    "en": "A device's route: inherit (as its user), pool, group:<group id>, exit:<id>, direct, block"
+   }
+  },
+  "device_enable": {
+   "cmd": [
+    "gw",
+    "device",
+    "enable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Включить устройство",
+    "en": "Enable a device"
+   }
+  },
+  "device_disable": {
+   "cmd": [
+    "gw",
+    "device",
+    "disable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Выключить устройство: перестаёт подключаться, ключи сохраняются",
+    "en": "Disable a device: stops connecting, keys are kept"
+   }
+  },
+  "exit_add": {
+   "cmd": [
+    "gw",
+    "exit-add"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "key": {
+     "ref": "exit_key",
+     "required": true,
+     "stdin": true
+    },
+    "group": {
+     "ref": "group_id",
+     "flag": "--group"
+    }
+   },
+   "description": {
+    "ru": "Добавить в пул выход: ключ VPN или текст .conf (можно несколько), как меню и панель. Первый ключ AmneziaWG может собирать модуль ядра 1–3 мин. Ключ — через stdin, в ответе и журналах его нет. Ссылку подписки (https://…) сервер скачивает от root; внутренние адреса (узел, локальная сеть, метаданные облака) отклоняются. group — группа ключей: зарубежная или внутренняя (созданная в панели; ключ ляжет только во внутренние выходы)",
+    "en": "Add an exit to the pool: a VPN key or .conf text (several allowed), as the menu and panel do. The first AmneziaWG key may build the kernel module for 1–3 min. The key goes via stdin, never echoed or logged. A subscription link (https://…) is downloaded by the server as root; internal addresses (the node, its LAN, cloud metadata) are refused. group — the group of the keys: a foreign or a domestic one (made in the panel; the key goes to the domestic exits only)"
+   },
+   "open_world": true,
+   "args": [
+    "--public-only"
+   ]
+  },
+  "exit_tofu_check": {
+   "cmd": [
+    "gw",
+    "exit-preview"
+   ],
+   "args": [
+    "--tofu",
+    "--tofu-by=mcp"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 120,
+   "open_world": true,
+   "params": {
+    "key": {
+     "ref": "exit_key_tofu",
+     "required": true,
+     "stdin": true
+    }
+   },
+   "description": {
+    "ru": "Отпечаток сертификата ключа без своей проверки — показать человеку до exit_add_tofu",
+    "en": "The certificate fingerprint of a key without its own check — show it to the human before exit_add_tofu"
+   }
+  },
+  "exit_add_tofu": {
+   "cmd": [
+    "gw",
+    "exit-add"
+   ],
+   "args": [
+    "--public-only",
+    "--pin-by=mcp"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "pin_tofu",
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "key": {
+     "ref": "exit_key_tofu",
+     "required": true,
+     "stdin": true
+    },
+    "pin_tofu": {
+     "ref": "tofu_pin",
+     "flag": "--pin-tofu",
+     "required": true
+    },
+    "group": {
+     "ref": "group_id",
+     "flag": "--group"
+    }
+   },
+   "description": {
+    "ru": "Добавить ключ с отпечатком из exit_tofu_check (TOFU); сертификат сменился — отказ. Только с согласия человека",
+    "en": "Add a key with the fingerprint from exit_tofu_check (TOFU); the certificate changed — refused. Only with the human’s consent"
+   }
+  },
+  "exit_sub_add": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "add"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "url": {
+     "ref": "exit_sub_url",
+     "required": true,
+     "stdin": true
+    },
+    "manual": {
+     "ref": "exit_sub_manual",
+     "flag": "--manual"
+    }
+   },
+   "description": {
+    "ru": "Добавить подписку выходов: скачивается сразу (только внешние адреса), её ключи — в пул; дальше раз в сутки меняются только её ключи, ручные не трогаются. goAmnezia — адрес all.vpn",
+    "en": "Add an exits subscription: downloaded at once (external addresses only), its keys go to the pool; then daily only its keys change. goAmnezia — the all.vpn address"
+   }
+  },
+  "exit_sub_refresh": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "refresh"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "sub": {
+     "ref": "exit_sub",
+     "pos": true
+    }
+   },
+   "description": {
+    "ru": "Обновить подписку сейчас (без sub — все): меняются только её ключи; сбой или пустой ответ — пул не трогается",
+    "en": "Refresh a subscription now (no sub — all): only its keys change; a failure or empty answer leaves the pool"
+   }
+  },
+  "exit_sub_restore": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "restore"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "sub": {
+     "ref": "exit_sub",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Вернуть исключённые: ключи подписки, удалённые из пула вручную, подписка снова приносит — она скачивается заново",
+    "en": "Bring back the excluded: keys of the subscription removed from the pool by hand come back — it is downloaded again"
+   }
+  },
+  "exit_sub_auto": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "auto"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "sub": {
+     "ref": "exit_sub",
+     "pos": true,
+     "required": true
+    },
+    "value": {
+     "ref": "on_off",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Подписка: on — обновлять раз в сутки, off — только вручную",
+    "en": "Subscription: on — daily refresh, off — manual only"
+   }
+  },
+  "exit_enable": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--enable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Включить выход для шлюза",
+    "en": "Enable an exit for the gateway"
+   }
+  },
+  "exit_disable": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--disable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Выключить выход для шлюза (ключ остаётся в пуле, клиенты уходят на другие)",
+    "en": "Disable an exit for the gateway (the key stays in the pool, clients move to others)"
+   }
+  },
+  "exit_rename": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "exit_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "description": {
+    "ru": "Дать выходу понятное имя (пусто — снова имя из ключа); без перезапуска, id не меняется",
+    "en": "Give an exit a readable name (empty — the name from the key again); no restart, the id stays"
+   },
+   "args": [
+    "--via=mcp"
+   ]
+  },
+  "person_rename": {
+   "cmd": [
+    "gw",
+    "user",
+    "rename"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Переименовать пользователя: id не меняется, страница и заголовок подписки — с новым именем; дубль имени — отказ (код 3)",
+    "en": "Rename a user: the id stays, the page and the subscription title get the new name; a duplicate name is refused (code 3)"
+   }
+  },
+  "device_rename": {
+   "cmd": [
+    "gw",
+    "device",
+    "rename"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Переименовать устройство: id, логин и выданные ключи те же; имя уже у другого устройства пользователя — код 3, data.need = confirm_duplicate",
+    "en": "Rename a device: id, login and issued keys stay; the name at another device of the user — code 3, data.need = confirm_duplicate"
+   }
+  },
+  "inbound_label": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "label"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Понятная подпись протокола («AmneziaWG 2.0 — для роутеров»); пусто — убрать. В выданные настройки не попадает",
+    "en": "A readable label of a protocol ('AmneziaWG 2.0 — for routers'); empty — remove it. Never in the issued settings"
+   }
+  },
+  "exit_sub_rename": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "rename"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "sub": {
+     "ref": "exit_sub",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Подпись подписки выходов; пусто — снова домен. Ключи и адрес подписки не меняются",
+    "en": "A label of an exit subscription; empty — the domain again. The keys and the address stay"
+   }
+  },
+  "forward_rename": {
+   "cmd": [
+    "fwd",
+    "rename"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "proto": {
+     "ref": "proto",
+     "pos": true,
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Переименовать проброс порта; пусто — без имени. Правила проброса не меняются",
+    "en": "Rename a port forward; empty — no name. The forward rules stay"
+   }
+  },
+  "server_rename": {
+   "cmd": [
+    "server",
+    "rename"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "ip": {
+     "ref": "ipv4",
+     "pos": true,
+     "required": true
+    },
+    "name": {
+     "ref": "new_name",
+     "flag": "--name",
+     "required": true
+    },
+    "allow_duplicate": {
+     "ref": "allow_duplicate",
+     "flag": "--allow-duplicate"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "description": {
+    "ru": "Имя сервера мониторинга (и целей его пробросов); пусто — показывать IP. Заметка, страна и провайдер не меняются",
+    "en": "The name of a monitored server (and of its forward targets); empty — show the IP. The note, country and provider stay"
+   }
+  },
+  "inbound_install": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "install"
+   ],
+   "args": [
+    "--new-only"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "flag": "--port"
+    },
+    "force": {
+     "ref": "force",
+     "flag": "--force"
+    },
+    "awg_engine": {
+     "ref": "awg_engine",
+     "flag": "--awg-engine"
+    }
+   },
+   "description": {
+    "ru": "Установить НОВЫЙ протокол (пакеты, служба, порт). Уже есть — код 3, переустановка — inbound_reinstall. Порт занят — отказ с перечнем; force — только по просьбе человека",
+    "en": "Install a NEW protocol (packages, service, port). Installed — code 3, reinstall is inbound_reinstall. Port taken — refused with the list; force — only on the human's request"
+   },
+   "open_world": true,
+   "error_words": {
+    "Переустановка — без --new-only": "Переустановка — инструментом inbound_reinstall (с confirm)"
+   }
+  },
+  "inbound_enable": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "enable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Включить протокол",
+    "en": "Enable a protocol"
+   }
+  },
+  "inbound_disable": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "disable"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Выключить протокол: его клиенты отключаются, настройки сохраняются",
+    "en": "Disable a protocol: its clients drop, settings kept"
+   }
+  },
+  "inbound_port": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "port"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "pos": true,
+     "required": true
+    },
+    "proto": {
+     "ref": "proto_inbound",
+     "flag": "--proto"
+    },
+    "force": {
+     "ref": "force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Сменить порт протокола; выданные настройки со старым портом перестают подключаться — выдать заново",
+    "en": "Change a protocol's port; settings issued with the old port stop connecting — issue them again"
+   }
+  },
+  "inbound_option": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "option"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 600,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    },
+    "key": {
+     "ref": "option_key",
+     "pos": true,
+     "required": true
+    },
+    "value": {
+     "ref": "onoff",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Настройка протокола: l2tp plain (L2TP без IPsec для старых роутеров), socks5 udp, hy2 obfs (маскировка Salamander)",
+    "en": "Protocol option: l2tp plain (L2TP without IPsec for old routers), socks5 udp, hy2 obfs (the Salamander mask)"
+   }
+  },
+  "rules_default": {
+   "cmd": [
+    "rules",
+    "default"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "ask_human": true,
+   "params": {
+    "profile": {
+     "ref": "rules_profile",
+     "pos": true,
+     "required": true
+    },
+    "confirm_not_rf": {
+     "ref": "rf_phrase",
+     "flag": "--confirm-not-rf",
+     "phrase": "rules.rf.consent"
+    },
+    "orgs": {
+     "ref": "rf_orgs",
+     "flag": "--orgs"
+    }
+   },
+   "description": {
+    "ru": "Профиль правил узла: ru_direct (Россия напрямую) или all_exit. ru_direct без действующего согласия ⚠РФ — отказ (code 3, data.need = rf_consent, data.block): покажите блок человеку, затем confirm_not_rf",
+    "en": "The node rules profile: ru_direct or all_exit. ru_direct without a ⚠RU consent in force is refused (code 3, data.need = rf_consent, data.block): show the block to the human, then confirm_not_rf"
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "error_words": {
+    "Повторите с --confirm-not-rf (подтверждение: скрипт не используется на территории РФ).": "Покажите человеку этот блок и передайте в confirm_not_rf фразу, которую он подтвердил, а в orgs — data.orgs.",
+    "Repeat with --confirm-not-rf (confirmation: the script is not used in the Russian Federation).": "Show the human this block and pass in confirm_not_rf the phrase they confirmed, and in orgs — data.orgs."
+   }
+  },
+  "rules_profile": {
+   "cmd": [
+    "rules",
+    "profile"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "ask_human": true,
+   "params": {
+    "target": {
+     "ref": "rules_target",
+     "pos": true,
+     "required": true
+    },
+    "id": {
+     "ref": "ref",
+     "pos": true,
+     "required": true
+    },
+    "profile": {
+     "ref": "rules_profile_or_inherit",
+     "pos": true,
+     "required": true
+    },
+    "confirm_not_rf": {
+     "ref": "rf_phrase",
+     "flag": "--confirm-not-rf",
+     "phrase": "rules.rf.consent"
+    },
+    "orgs": {
+     "ref": "rf_orgs",
+     "flag": "--orgs"
+    }
+   },
+   "description": {
+    "ru": "Профиль правил пользователя или устройства: inherit, ru_direct, all_exit. ru_direct без действующего согласия ⚠РФ — отказ с блоком, как у rules_default",
+    "en": "Rules profile of a user or device: inherit, ru_direct, all_exit. ru_direct without a ⚠RU consent in force is refused with the block, as rules_default"
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "error_words": {
+    "Повторите с --confirm-not-rf (подтверждение: скрипт не используется на территории РФ).": "Покажите человеку этот блок и передайте в confirm_not_rf фразу, которую он подтвердил, а в orgs — data.orgs.",
+    "Repeat with --confirm-not-rf (confirmation: the script is not used in the Russian Federation).": "Show the human this block and pass in confirm_not_rf the phrase they confirmed, and in orgs — data.orgs."
+   }
+  },
+  "rules_consent": {
+   "cmd": [
+    "rules",
+    "consent"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "ask_human": true,
+   "params": {
+    "confirm_not_rf": {
+     "ref": "rf_phrase",
+     "flag": "--confirm-not-rf",
+     "phrase": "rules.rf.consent",
+     "required": true
+    },
+    "orgs": {
+     "ref": "rf_orgs",
+     "flag": "--orgs"
+    }
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "error_words": {
+    "Повторите с --confirm-not-rf (подтверждение: скрипт не используется на территории РФ).": "Покажите человеку этот блок и передайте в confirm_not_rf фразу, которую он подтвердил, а в orgs — data.orgs.",
+    "Repeat with --confirm-not-rf (confirmation: the script is not used in the Russian Federation).": "Show the human this block and pass in confirm_not_rf the phrase they confirmed, and in orgs — data.orgs."
+   },
+   "description": {
+    "ru": "Подтвердить ⚠РФ без смены профиля (rules_status → rf.mode = legacy, need или rf.uncovered не пуст): «Россия напрямую» уже выбрана, согласия нет. Только с фразой, которую подтвердил человек",
+    "en": "Confirm ⚠RU without changing a profile (rules_status → rf.mode = legacy, need, or rf.uncovered not empty): “Russia direct” is chosen, there is no consent. Only with the phrase the human confirmed"
+   }
+  },
+  "rules_block": {
+   "cmd": [
+    "rules",
+    "block"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "what": {
+     "ref": "block_what",
+     "pos": true,
+     "required": true
+    },
+    "value": {
+     "ref": "onoff",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Блокировка рекламы или торрентов: on/off",
+    "en": "Block ads or torrents: on/off"
+   }
+  },
+  "rules_update": {
+   "cmd": [
+    "rules",
+    "update"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "force": {
+     "ref": "rules_force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Скачать списки правил сейчас (таймер делает это раз в сутки)",
+    "en": "Download the rule lists now (the timer does it daily)"
+   }
+  },
+  "forward_add": {
+   "cmd": [
+    "fwd",
+    "add"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "proto": {
+     "ref": "proto",
+     "flag": "--proto",
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "flag": "--port",
+     "required": true
+    },
+    "to": {
+     "ref": "ipv4",
+     "flag": "--to",
+     "required": true
+    },
+    "to_port": {
+     "ref": "port",
+     "flag": "--to-port",
+     "required": true
+    },
+    "name": {
+     "ref": "label",
+     "flag": "--name"
+    },
+    "force": {
+     "ref": "force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Добавить НОВЫЙ проброс порта (nft): входящий порт → адрес:порт. Уже есть — отказ (код 3, data.exists); заменить — forward_delete, затем forward_add. Порт занят другой программой — код 3; force — только по просьбе",
+    "en": "Add a NEW port forward (nft): incoming port → address:port. Exists — refused (code 3, data.exists); to replace — forward_delete, then forward_add. Port held by another program — code 3; force — only on request"
+   },
+   "args": [
+    "--new-only"
+   ]
+  },
+  "site_domain_set": {
+   "cmd": [
+    "site",
+    "domain"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "name": {
+     "ref": "domain",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Задать домен (DNS проверяется сразу; сертификат — site_cert_issue). Рабочий домен (сертификат или сайт) сменится целиком и только после проверки DNS и выпуска сертификата нового; при отказе остаётся прежний",
+    "en": "Set the domain (DNS checked at once; certificate — site_cert_issue). A working domain (certificate or site) is replaced as a whole and only after the new name's DNS check and certificate; on a refusal the old one stays"
+   },
+   "open_world": true
+  },
+  "site_email_set": {
+   "cmd": [
+    "site",
+    "email"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "email": {
+     "ref": "email",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Почта для Let's Encrypt",
+    "en": "E-mail for Let's Encrypt"
+   }
+  },
+  "site_cert_issue": {
+   "cmd": [
+    "site",
+    "cert",
+    "issue"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "staging": {
+     "ref": "staging",
+     "flag": "--staging"
+    }
+   },
+   "description": {
+    "ru": "Выпустить сертификат Let's Encrypt (порт 80; живой не перевыпускается). Отказ — reason и text",
+    "en": "Issue the Let's Encrypt certificate (port 80; a valid one is kept). Refusal — reason and text"
+   }
+  },
+  "site_mode": {
+   "cmd": [
+    "site",
+    "mode"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "mode": {
+     "ref": "site_mode",
+     "pos": true,
+     "required": true
+    },
+    "template": {
+     "ref": "template_id",
+     "flag": "--template"
+    },
+    "random": {
+     "ref": "random",
+     "flag": "--random"
+    },
+    "yes": {
+     "ref": "vless_yes",
+     "flag": "--yes"
+    },
+    "vless_site": {
+     "ref": "vless_site",
+     "flag": "--vless-site"
+    }
+   },
+   "description": {
+    "ru": "site — сайт на домене (template/random), domain — сайт снят; цена для VLESS — отказом ядра (data.text), затем yes",
+    "en": "site — the site on the domain (template/random), domain — site down; the VLESS price comes as the core's refusal (data.text), then yes"
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "open_world": true,
+   "at_most_one": [
+    [
+     "template",
+     "random"
+    ]
+   ],
+   "ask_human": true
+  },
+  "site_template_set": {
+   "cmd": [
+    "site",
+    "template",
+    "set"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "params": {
+    "id": {
+     "ref": "template_id",
+     "pos": true
+    },
+    "random": {
+     "ref": "random",
+     "flag": "--random"
+    }
+   },
+   "description": {
+    "ru": "Поставить шаблон сайта из каталога (id) или случайный (random); прежний сайт — в резервную копию",
+    "en": "Install a site template from the catalog (id) or a random one; the old site goes to a backup"
+   },
+   "open_world": true,
+   "one_of": [
+    [
+     "id",
+     "random"
+    ]
+   ]
+  },
+  "site_use": {
+   "cmd": [
+    "site",
+    "use"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {
+    "kind": {
+     "ref": "use_kind",
+     "pos": true,
+     "required": true
+    },
+    "value": {
+     "ref": "onoff",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Перевести SSTP или OpenConnect на сертификат домена (on) или обратно (off); устройствам — настройки заново",
+    "en": "Move SSTP or OpenConnect to the domain certificate (on) or back (off); devices need new settings"
+   }
+  },
+  "awg_engine_set": {
+   "cmd": [
+    "gw",
+    "awg",
+    "engine"
+   ],
+   "args": [
+    "--why=MCP"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 4000,
+   "open_world": true,
+   "params": {
+    "engine": {
+     "ref": "awg_engine",
+     "pos": true,
+     "required": true
+    },
+    "force": {
+     "ref": "engine_force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Сменить движок AmneziaWG: kernel (модуль ядра, сборка 1–3 мин) или program. Копия до смены, самопроверка, откат; клиенты переподключатся за 15–25 с. Ключи и настройки те же",
+    "en": "Switch the AmneziaWG engine: kernel (module, 1–3 min build) or program. Backup, self-test, rollback; clients reconnect in 15–25 s. Keys and issued settings stay"
+   }
+  },
+  "mtu_reissue": {
+   "cmd": [
+    "gw",
+    "mtu",
+    "reissue"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 600,
+   "params": {
+    "kind": {
+     "ref": "mtu_kind",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Узкая карта сервера: новые настройки протокола с меньшим MTU (перечень устройств — выдать заново)",
+    "en": "A narrow server card: new settings of the protocol with a smaller MTU (the devices to re-issue)"
+   }
+  },
+  "mtu_keep": {
+   "cmd": [
+    "gw",
+    "mtu",
+    "keep"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "kind": {
+     "ref": "mtu_kind",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Оставить MTU как есть: предупреждение не повторится, пока карта та же",
+    "en": "Keep the MTU as is: no repeat warning while the card is the same"
+   }
+  },
+  "page_on": {
+   "cmd": [
+    "page",
+    "on"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Включить личную страницу пользователя и показать ссылку. ВНИМАНИЕ: ссылка — секрет (настройки его устройств)",
+    "en": "Switch a user's page on and show its link. WARNING: the link is a secret (his devices' settings)"
+   }
+  },
+  "page_off": {
+   "cmd": [
+    "page",
+    "off"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Выключить личную страницу: ссылка сразу перестаёт работать",
+    "en": "Switch a user's page off: the link stops working at once"
+   }
+  },
+  "page_sub_on": {
+   "cmd": [
+    "page",
+    "sub",
+    "on"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Включить подписку для приложений (своя ссылка, не страница) и показать ссылку. ВНИМАНИЕ: ссылка — секрет (ключи VLESS, Hysteria2, AmneziaWG и WireGuard его устройств)",
+    "en": "Switch on a subscription for apps (its own link, not the page) and show the link. WARNING: the link is a secret (the VLESS, Hysteria2, AmneziaWG and WireGuard keys of his devices)"
+   }
+  },
+  "page_sub_off": {
+   "cmd": [
+    "page",
+    "sub",
+    "off"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Отозвать подписку для приложений: ссылка сразу перестаёт работать",
+    "en": "Revoke the subscription for apps: the link stops working at once"
+   }
+  },
+  "backup_export": {
+   "cmd": [
+    "backup",
+    "export"
+   ],
+   "args": [
+    "--save"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "timeout": 300,
+   "params": {
+    "password": {
+     "ref": "backup_password",
+     "required": true,
+     "stdin": true
+    },
+    "without": {
+     "ref": "backup_parts",
+     "flag": "--without"
+    }
+   },
+   "description": {
+    "ru": "Копия настроек узла, зашифрованная паролем человека, — на сервер в /var/backups/kaskad/exports (0600); агенту — только путь и числа. Импорт — только человек",
+    "en": "Node settings copy encrypted with the human's password, to /var/backups/kaskad/exports (0600) on the server; the agent gets only the path and counts. Import is for humans"
+   }
+  },
+  "update_run": {
+   "cmd": [
+    "update",
+    "run"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 1500,
+   "params": {},
+   "description": {
+    "ru": "Обновить Kaskad сейчас — меню 11 без вопросов: проверки файла, копия gokaskad.bak, перезапуск бота с откатом. После обновления переподключите MCP-сервер",
+    "en": "Update Kaskad now — menu 11 without questions: file checks, gokaskad.bak backup, bot restart with rollback. Reconnect the MCP server afterwards"
+   },
+   "open_world": true,
+   "confirm": "@tool"
+  },
+  "inbound_reinstall": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "install"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 4000,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "flag": "--port"
+    },
+    "force": {
+     "ref": "force",
+     "flag": "--force"
+    }
+   },
+   "description": {
+    "ru": "Переустановить протокол: службы и пакеты заново; порт и ключи сервера сохраняются, где можно, иначе — список устройств для повторной выдачи",
+    "en": "Reinstall an installed protocol: services and packages again; port and server keys kept where possible, else the list of devices to re-issue"
+   },
+   "open_world": true
+  },
+  "inbound_uninstall": {
+   "cmd": [
+    "gw",
+    "inbound",
+    "uninstall"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 900,
+   "params": {
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Удалить протокол: службы и порт; устройства теряют этот протокол (порт и ключи сервера хранятся до новой установки)",
+    "en": "Remove a protocol: services and port; devices lose it (port and server keys kept for a reinstall)"
+   }
+  },
+  "user_delete": {
+   "cmd": [
+    "gw",
+    "user",
+    "del"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    },
+    "with_devices": {
+     "ref": "with_devices",
+     "flag": "--force",
+     "danger": true
+    }
+   },
+   "description": {
+    "ru": "Удалить пользователя; with_devices — вместе с устройствами (их настройки перестают работать навсегда)",
+    "en": "Delete a user; with_devices — together with his devices (their settings stop working for good)"
+   },
+   "error_words": {
+    "повторите с --force": "повторите с with_devices=true и confirm_with_devices=\"with_devices\""
+   }
+  },
+  "device_delete": {
+   "cmd": [
+    "gw",
+    "device",
+    "del"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Удалить устройство: его ключи и настройки перестают работать навсегда",
+    "en": "Delete a device: its keys and settings stop working for good"
+   }
+  },
+  "device_revoke": {
+   "cmd": [
+    "gw",
+    "device",
+    "revoke"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "kind": {
+     "ref": "inbound",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Снять с устройства протокол: его настройки этого протокола перестают работать (ключи стираются)",
+    "en": "Revoke a protocol from a device: its settings for it stop working (keys erased)"
+   }
+  },
+  "device_reset": {
+   "cmd": [
+    "gw",
+    "device",
+    "reset"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "device": {
+     "ref": "device",
+     "pos": true,
+     "required": true
+    },
+    "inbound": {
+     "ref": "inbound",
+     "flag": "--inbound"
+    }
+   },
+   "description": {
+    "ru": "Новые ключи и пароли устройства (все протоколы или один): старые настройки перестают работать, подключения рвутся",
+    "en": "New keys and passwords for a device (all protocols or one): the old settings stop working, sessions drop"
+   }
+  },
+  "exit_delete": {
+   "cmd": [
+    "gw",
+    "exit-del"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 900,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Убрать ключ выхода из пула. Последний — пул пуст, «Прокси для API Telegram» выключается. Есть копия ключа в пуле (по IP и по домену) — маршруты переходят на неё",
+    "en": "Remove an exit key from the pool. The last one — the pool is empty, the Telegram API proxy switches off. A copy of the key in the pool (by IP and by domain) — the routes move to it"
+   }
+  },
+  "exit_sub_delete": {
+   "cmd": [
+    "gw",
+    "exit-sub",
+    "del"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 900,
+   "params": {
+    "sub": {
+     "ref": "exit_sub",
+     "pos": true,
+     "required": true
+    },
+    "keep_keys": {
+     "ref": "exit_sub_keep",
+     "flag": "--keep-keys"
+    }
+   },
+   "description": {
+    "ru": "Удалить подписку; её ключи уходят из пула (keep_keys — остаются)",
+    "en": "Delete a subscription; its keys leave the pool (keep_keys — they stay)"
+   }
+  },
+  "forward_delete": {
+   "cmd": [
+    "fwd",
+    "del"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "port",
+   "params": {
+    "proto": {
+     "ref": "proto",
+     "flag": "--proto",
+     "required": true
+    },
+    "port": {
+     "ref": "port",
+     "flag": "--port",
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Удалить проброс порта",
+    "en": "Delete a port forward"
+   }
+  },
+  "gateway_disable": {
+   "cmd": [
+    "gw",
+    "disable"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Выключить шлюз: все протоколы и выходы для клиентов останавливаются (пользователи, устройства и настройки сохраняются)",
+    "en": "Switch the gateway off: every protocol stops for clients (users, devices and settings kept)"
+   }
+  },
+  "gateway_purge": {
+   "cmd": [
+    "gw",
+    "purge"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "timeout": 900,
+   "params": {
+    "with_users": {
+     "ref": "with_users",
+     "flag": "--users",
+     "danger": true
+    }
+   },
+   "description": {
+    "ru": "Удалить шлюз целиком: протоколы, службы, настройки; with_users — ещё пользователей и устройства",
+    "en": "Remove the gateway completely: protocols, services, settings; with_users — users and devices too"
+   }
+  },
+  "pki_rotate": {
+   "cmd": [
+    "gw",
+    "pki",
+    "rotate"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "kind": {
+     "ref": "pki_kind",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Новый центр сертификации IKEv2: всем устройствам IKEv2 — настройки заново, старые не подключатся",
+    "en": "A new IKEv2 CA: every IKEv2 device needs new settings, the old ones stop connecting"
+   }
+  },
+  "mtu_s4": {
+   "cmd": [
+    "gw",
+    "mtu",
+    "s4"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {
+    "kind": {
+     "ref": "s4_kind",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Уменьшить S4 входа AmneziaWG 2.0 (сервер ниже 1232): старые настройки входа перестают подключаться — сначала mtu_s4_preview",
+    "en": "Lower S4 of the AmneziaWG 2.0 inbound (server below 1232): the old settings stop connecting — mtu_s4_preview first"
+   }
+  },
+  "page_rotate": {
+   "cmd": [
+    "page",
+    "rotate"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Новая ссылка на личную страницу; старая сразу перестаёт работать. ВНИМАНИЕ: ответ — секрет",
+    "en": "A new link to a user's page; the old one dies at once. WARNING: the answer is a secret"
+   }
+  },
+  "page_sub_rotate": {
+   "cmd": [
+    "page",
+    "sub",
+    "rotate"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "secret": true,
+   "params": {
+    "user": {
+     "ref": "person",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Новая ссылка подписки; старая сразу перестаёт работать — в приложении её нужно заменить. ВНИМАНИЕ: ответ — секрет",
+    "en": "A new subscription link; the old one dies at once and must be replaced in the app. WARNING: the answer is a secret"
+   }
+  },
+  "site_domain_clear": {
+   "cmd": [
+    "site",
+    "domain"
+   ],
+   "args": [
+    "--clear"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "timeout": 600,
+   "params": {
+    "yes": {
+     "ref": "vless_yes",
+     "flag": "--yes"
+    },
+    "vless_site": {
+     "ref": "vless_site",
+     "flag": "--vless-site"
+    }
+   },
+   "description": {
+    "ru": "Убрать домен: панель, страницы пользователей и входы — на самоподписанном сертификате узла; цена для VLESS — отказом ядра (data.text), затем yes",
+    "en": "Clear the domain: the panel, pages and inbounds go back to the node's self-signed certificate; the VLESS price comes as the core's refusal (data.text), then yes"
+   },
+   "ask_human": true
+  },
+  "site_remove": {
+   "cmd": [
+    "site",
+    "remove"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "@tool",
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Убрать домен и все файлы Kaskad для него (сайт, сертификат, таймеры)",
+    "en": "Remove the domain and all Kaskad files for it (site, certificate, timers)"
+   }
+  },
+  "vless_show": {
+   "cmd": [
+    "gw",
+    "vless",
+    "show"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "VLESS: режим, причина Reality, рекомендация, текст рисков (reality_risks), порт, маска, ключ (без секретов)",
+    "en": "VLESS: the mode, why Reality, the recommendation, the risks text (reality_risks), port, cover, key (no secrets)"
+   }
+  },
+  "vless_masks": {
+   "cmd": [
+    "gw",
+    "vless",
+    "masks"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "timeout": 120,
+   "params": {
+    "check": {
+     "ref": "mask_check",
+     "flag": "--check"
+    }
+   },
+   "description": {
+    "ru": "Сайты маскировки VLESS на выбор (свой сайт узла — первым); с check — проверка каждого с узла",
+    "en": "VLESS cover sites to choose from (the node's own site first); with check — each one checked from the node"
+   }
+  },
+  "vless_mask": {
+   "cmd": [
+    "gw",
+    "vless",
+    "mask"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {
+    "site": {
+     "ref": "mask_site",
+     "pos": true,
+     "required": true
+    },
+    "no_check": {
+     "ref": "mask_no_check",
+     "flag": "--no-check"
+    },
+    "accept_risks": {
+     "ref": "vless_phrase",
+     "flag": "--accept-risks",
+     "phrase": "gw_in_vless.consent.phrase",
+     "phrase_block": "vless"
+    },
+    "risks": {
+     "ref": "vless_risks",
+     "flag": "--risks"
+    }
+   },
+   "description": {
+    "ru": "Сайт маскировки Reality (проверка TLS 1.3 с узла); ссылки VLESS — выдать заново. Согласие давали на свой сайт — чужой только с новым (accept_risks, risks из data)",
+    "en": "The Reality cover site (TLS 1.3 checked from the server); VLESS links — issue them again. A consent to the own site — a foreign one only with a new one (accept_risks, risks from data)"
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "ask_human": true
+  },
+  "vless_mode": {
+   "cmd": [
+    "gw",
+    "vless",
+    "mode"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "ask_human": true,
+   "timeout": 600,
+   "params": {
+    "mode": {
+     "ref": "vless_mode",
+     "pos": true,
+     "required": true
+    },
+    "site": {
+     "ref": "vless_site",
+     "flag": "--site"
+    },
+    "accept_risks": {
+     "ref": "vless_phrase",
+     "flag": "--accept-risks",
+     "phrase": "gw_in_vless.consent.phrase",
+     "phrase_block": "vless"
+    },
+    "risks": {
+     "ref": "vless_risks",
+     "flag": "--risks"
+    },
+    "yes": {
+     "ref": "vless_yes",
+     "flag": "--yes"
+    },
+    "no_check": {
+     "ref": "mask_no_check",
+     "flag": "--no-check"
+    }
+   },
+   "description": {
+    "ru": "Reality при домене — только по просьбе человека после показа рисков (vless_show); цена — отказом ядра (data.text), затем yes",
+    "en": "Reality with a domain only at the human's request after the risks are shown (vless_show); the price comes as the core's refusal (data.text), then yes"
+   },
+   "args": [
+    "--via=mcp"
+   ],
+   "open_world": true,
+   "error_words": {
+    "Текст рисков или сайт не совпадают с текущими — покажите новый текст и передайте risks и site из data": "Покажите человеку этот блок и передайте в accept_risks фразу, которую он подтвердил, а в risks и site — data.risks и data.site",
+    "The text of the risks or the site do not match the current ones — show the new text and pass risks and site from data": "Show the human this block and pass in accept_risks the phrase they confirmed, and in risks and site — data.risks and data.site"
+   }
+  },
+  "vless_rekey": {
+   "cmd": [
+    "gw",
+    "vless",
+    "rekey"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Новые ключ узла и shortId VLESS: всем устройствам VLESS — ссылки заново, старые не подключатся",
+    "en": "A new VLESS node key and shortId: every VLESS device needs a new link, the old ones stop connecting"
+   }
+  },
+  "hy2_show": {
+   "cmd": [
+    "gw",
+    "hy2",
+    "show"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Hysteria2: порт и смена портов, маскировка Salamander, сертификат (домена или самоподписанный и его отпечаток), устройства, предупреждения (без секретов)",
+    "en": "Hysteria2: port and hopping, Salamander mask, certificate (domain’s or self-signed with fingerprint), devices, warnings (no secrets)"
+   }
+  },
+  "hy2_option": {
+   "cmd": [
+    "gw",
+    "hy2",
+    "set"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {
+    "hop": {
+     "ref": "hy2_hop",
+     "flag": "--hop"
+    },
+    "cert": {
+     "ref": "hy2_cert",
+     "flag": "--cert"
+    }
+   },
+   "description": {
+    "ru": "Смена портов Hysteria2 (hop 20000-20099 | off) или сертификат (cert domain | self); занятый диапазон — отказ со списком портов; выданные ссылки Hysteria2 — выдать заново",
+    "en": "Hysteria2 port hopping (hop 20000-20099 | off) or certificate (cert domain | self); a busy range is refused with the busy ports; issued Hysteria2 links — issue again"
+   }
+  },
+  "hy2_rekey": {
+   "cmd": [
+    "gw",
+    "hy2",
+    "rekey"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Новый самоподписанный сертификат Hysteria2: ссылки с прежним отпечатком перестают подключаться — выдать заново",
+    "en": "A new self-signed Hysteria2 certificate: links with the old fingerprint stop connecting — issue them again"
+   }
+  },
+  "vless_sync": {
+   "cmd": [
+    "gw",
+    "vless",
+    "sync"
+   ],
+   "args": [],
+   "readonly": false,
+   "destructive": true,
+   "timeout": 600,
+   "params": {},
+   "description": {
+    "ru": "Режим VLESS по выбору узла: без устройств сам переходит на TLS, с устройствами — только рекомендация (переход — vless_mode); ссылки меняет лишь починка: TLS без сайта → Reality",
+    "en": "The VLESS mode by the server's choice: with no devices it switches to TLS itself, with devices — a recommendation only (to switch — vless_mode); links change only on a repair: TLS without the site → Reality"
+   }
+  },
+  "exit_groups_list": {
+   "cmd": [
+    "gw",
+    "groups"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Группы выходов: id, name, label, role (abroad, ru), выходы и method по уровням (order=manual — вручную, без автовыбора: новые устройства — на верхний рабочий выход), active_tier, last_step, fail, no_exit — устройств без интернета (null — нет данных), rev. Настройка — в панели",
+    "en": "Groups of exits: id, name, label, role (abroad, ru), exits and method by tier (order=manual — by hand, no auto choice: new devices go to the topmost working exit), active_tier, last_step, fail, no_exit — devices without the internet (null — no data), rev. Set up in the panel"
+   }
+  },
+  "exit_policy_get": {
+   "cmd": [
+    "gw",
+    "policy"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "group": {
+     "ref": "group_id",
+     "flag": "--group"
+    }
+   },
+   "description": {
+    "ru": "Настройки выходов по группам (только чтение; меняют в панели)",
+    "en": "The exit settings by group (read only; changed in the panel)"
+   }
+  },
+  "exit_policy_reset": {
+   "cmd": [
+    "gw",
+    "policy-reset"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "group": {
+     "ref": "group_id",
+     "flag": "--group",
+     "required": true
+    },
+    "preset": {
+     "ref": "preset",
+     "flag": "--preset"
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Сбросить группу к набору (preset, по умолчанию compat); уровни, выходы и fail остаются",
+    "en": "Reset a group to a set (preset, default compat); tiers, exits and fail stay"
+   },
+   "confirm": "group"
+  },
+  "exit_standby": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--standby"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Выход в запас вручную: устройства уходят на другие выходы группы",
+    "en": "An exit to reserve by hand: devices move to other exits of the group"
+   }
+  },
+  "exit_restore": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--restore"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Вернуть выход в работу",
+    "en": "Put an exit back in work"
+   }
+  },
+  "exit_maintenance": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--maintenance"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Выход на обслуживание: новые устройства на него не идут",
+    "en": "An exit under maintenance: no new devices go to it"
+   }
+  },
+  "exit_accept_country": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--accept-country"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Принять новую страну выхода",
+    "en": "Accept the new country of an exit"
+   }
+  },
+  "exit_move": {
+   "cmd": [
+    "gw",
+    "exit-move"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "group": {
+     "ref": "group_id",
+     "flag": "--group",
+     "required": true
+    },
+    "tier": {
+     "ref": "tier_id",
+     "flag": "--tier"
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Перенести выход в группу той же роли; другая роль — exit_move_role",
+    "en": "Move an exit to a group of the same role; another role — exit_move_role"
+   }
+  },
+  "exit_move_role": {
+   "cmd": [
+    "gw",
+    "exit-move"
+   ],
+   "args": [
+    "--confirm-role",
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "group": {
+     "ref": "group_id",
+     "flag": "--group",
+     "required": true
+    },
+    "tier": {
+     "ref": "tier_id",
+     "flag": "--tier"
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Перенести выход в группу другой роли (зарубежная ↔ внутренняя): трафик пойдёт через другой IP. Только с согласия человека",
+    "en": "Move an exit to a group of another role (abroad ↔ domestic): the traffic goes through another IP. Only with the human's consent"
+   }
+  },
+  "rules_ru_via": {
+   "cmd": [
+    "rules",
+    "ru-via"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "id",
+   "params": {
+    "target": {
+     "ref": "rules_target",
+     "pos": true,
+     "required": true
+    },
+    "id": {
+     "ref": "ref",
+     "pos": true,
+     "required": true
+    },
+    "via": {
+     "ref": "ru_via",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "«Российские сайты» пользователя или устройства: через внутреннюю группу (её ключи — домашний роутер или сервер в России) или напрямую с сервера. Через группу российский трафик идёт с IP роутера — его провайдер увидит эти соединения: только с согласия человека. Действует при профиле «Россия напрямую»",
+    "en": "“Russian sites” of a user or a device: through a domestic group (its keys — a home router or a server in Russia) or directly from the server. Through a group the Russian traffic leaves from the router's IP — its provider sees these connections: only with the human's consent. Acts with the profile “Russian sites direct”"
+   }
+  },
+  "group_delete": {
+   "cmd": [
+    "gw",
+    "group-del"
+   ],
+   "args": [
+    "--yes"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "params": {
+    "group": {
+     "ref": "group_id",
+     "pos": true,
+     "required": true
+    },
+    "exits_to": {
+     "ref": "group_id",
+     "flag": "--exits-to"
+    },
+    "with_keys": {
+     "ref": "group_with_keys",
+     "flag": "--with-keys",
+     "danger": true
+    },
+    "reassign": {
+     "ref": "group_or_direct",
+     "flag": "--reassign"
+    },
+    "tg_proxy_to": {
+     "ref": "group_id",
+     "flag": "--tg-proxy-to"
+    },
+    "new_exits_to": {
+     "ref": "group_id",
+     "flag": "--new-exits-to"
+    },
+    "subs_to": {
+     "ref": "group_id",
+     "flag": "--subs-to"
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Удалить группу (не main): exits_to — выходы, reassign — маршруты пользователей, tg_proxy_to, new_exits_to, subs_to — замены; with_keys — внутренняя группа вместе с её ключами (вместо exits_to); не хватает — conflict",
+    "en": "Delete a group (not main): exits_to — the exits, reassign — the routes of users, tg_proxy_to, new_exits_to, subs_to — replacements; with_keys — a domestic group together with its keys (instead of exits_to); missing — conflict"
+   },
+   "at_most_one": [
+    [
+     "exits_to",
+     "with_keys"
+    ],
+    [
+     "subs_to",
+     "with_keys"
+    ]
+   ],
+   "error_words": {
+    "повторите с --with-keys": "повторите с with_keys=true и confirm_with_keys=\"with_keys\"",
+    "repeat with --with-keys": "repeat with with_keys=true and confirm_with_keys=\"with_keys\"",
+    "--reassign direct": "reassign=\"direct\"",
+    "--exits-to": "exits_to"
+   }
+  },
+  "group_flap_standby_set": {
+   "cmd": [
+    "gw",
+    "group-flap-standby"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "group": {
+     "ref": "group_id",
+     "pos": true,
+     "required": true
+    },
+    "on": {
+     "ref": "on_off",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Нестабильный выход (3 падения за 15 мин) — в запас на 15 мин: on/off у группы",
+    "en": "An unstable exit (3 falls in 15 min) to reserve for 15 min: on/off of a group"
+   }
+  },
+  "exit_quota_set": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "gb": {
+     "ref": "quota_gb",
+     "flag": "--quota-gb",
+     "required": true
+    },
+    "period": {
+     "ref": "quota_period",
+     "flag": "--quota-period"
+    },
+    "reset_day": {
+     "ref": "quota_reset_day",
+     "flag": "--quota-reset-day"
+    },
+    "warn_pct": {
+     "ref": "quota_warn",
+     "flag": "--quota-warn"
+    },
+    "action": {
+     "ref": "quota_action",
+     "flag": "--quota-action"
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Квота трафика выхода; не заданное остаётся",
+    "en": "The traffic quota of an exit; what is not given stays"
+   }
+  },
+  "exit_quota_clear": {
+   "cmd": [
+    "gw",
+    "exit"
+   ],
+   "args": [
+    "--no-quota"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "dry": {
+     "ref": "dry",
+     "flag": "--dry"
+    },
+    "rev": {
+     "ref": "policy_rev",
+     "flag": "--rev"
+    }
+   },
+   "description": {
+    "ru": "Снять квоту трафика выхода",
+    "en": "Remove the traffic quota of an exit"
+   }
+  },
+  "exit_transitions": {
+   "cmd": [
+    "gw",
+    "exit-history"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    },
+    "days": {
+     "ref": "days",
+     "flag": "--days"
+    },
+    "limit": {
+     "ref": "limit",
+     "flag": "--limit"
+    },
+    "before": {
+     "ref": "before",
+     "flag": "--before"
+    }
+   },
+   "description": {
+    "ru": "Смены состояния выхода с причинами; db=false — истории нет",
+    "en": "The state changes of an exit with reasons; db=false — no history"
+   }
+  },
+  "exit_speedtest": {
+   "cmd": [
+    "gw",
+    "exit-speedtest"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Тест скорости выхода сейчас, ждёт до 60 с; отказ — сразу (data.why), не успел — data.running=true",
+    "en": "The speed test of an exit now, waits up to 60 s; a refusal — at once (data.why), not in time — data.running=true"
+   },
+   "timeout": 90,
+   "error_words": {
+    "с --force": "через exit_speedtest_force (только по просьбе человека)",
+    "with --force": "with exit_speedtest_force (only at the human’s request)"
+   }
+  },
+  "exit_speedtest_force": {
+   "cmd": [
+    "gw",
+    "exit-speedtest"
+   ],
+   "args": [
+    "--force"
+   ],
+   "readonly": false,
+   "destructive": true,
+   "confirm": "id",
+   "params": {
+    "id": {
+     "ref": "exit_id",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "То же сверх суточного лимита (месячный остаётся). Только по просьбе человека",
+    "en": "The same beyond the daily limit (the monthly one stays). Only at the human’s request"
+   },
+   "timeout": 90
+  },
+  "tz_get": {
+   "cmd": [
+    "tz",
+    "get"
+   ],
+   "readonly": true,
+   "destructive": false,
+   "params": {},
+   "description": {
+    "ru": "Часовой пояс Kaskad и системы",
+    "en": "The time zone of Kaskad and of the system"
+   }
+  },
+  "tz_set": {
+   "cmd": [
+    "tz",
+    "set"
+   ],
+   "readonly": false,
+   "destructive": false,
+   "params": {
+    "name": {
+     "ref": "tz_name",
+     "pos": true,
+     "required": true
+    }
+   },
+   "description": {
+    "ru": "Задать часовой пояс Kaskad (IANA)",
+    "en": "Set the Kaskad time zone (IANA)"
+   }
+  }
+ },
+ "hidden": {
+  "lang get": {
+   "ru": "Язык сервера (ru/en) — настройка человека: SSH-меню, панель, бот",
+   "en": "Server language (ru/en) — a human setting: SSH menu, panel, bot"
+  },
+  "lang set": {
+   "ru": "Смена языка сервера — только человек: SSH-меню, панель, бот",
+   "en": "Changing the server language — humans only: SSH menu, panel, bot"
+  },
+  "host probes-hint": {
+   "ru": "Строка установщика в итоге обновления; то же видно в host_health (hostmon.probes_key)",
+   "en": "A line of the installer in the result of an update; host_health shows the same (hostmon.probes_key)"
+  },
+  "host tariff": {
+   "ru": "То же, что host tariff show (инструмент host_tariff)",
+   "en": "The same as host tariff show (the tool host_tariff)"
+  },
+  "fwd flush": {
+   "ru": "Удаляет все пробросы разом — только человек (SSH-меню)",
+   "en": "Removes every forward at once — humans only"
+  },
+  "fwd stats": {
+   "ru": "То же, что forwards_list с traffic",
+   "en": "Same as forwards_list with traffic"
+  },
+  "net probe": {
+   "ru": "Служебное: поддержка nftables (меню 16)",
+   "en": "Internal: nftables support (menu 16)"
+  },
+  "net apply": {
+   "ru": "Служебное: применить таблицу (делают сами команды)",
+   "en": "Internal: apply the table (the commands do it)"
+  },
+  "site templates-index": {
+   "ru": "Служебное: указатель каталога шаблонов сайта (панель, мастер и бот собирают его сами; каталог — site_templates)",
+   "en": "Internal: the index of the site template catalog (the panel, wizard and bot build it; the catalog is site_templates)"
+  },
+  "net render": {
+   "ru": "Служебное: текст таблицы",
+   "en": "Internal: the table text"
+  },
+  "net restore": {
+   "ru": "Служебное: загрузка таблицы при старте",
+   "en": "Internal: table load at boot"
+  },
+  "net save-counters": {
+   "ru": "Служебное: таймер счётчиков",
+   "en": "Internal: counters timer"
+  },
+  "net install-units": {
+   "ru": "Служебное: службы движка",
+   "en": "Internal: engine services"
+  },
+  "net remove-units": {
+   "ru": "Служебное: службы движка",
+   "en": "Internal: engine services"
+  },
+  "net teardown": {
+   "ru": "Снимает движок целиком — удаление Kaskad, только человек",
+   "en": "Tears the engine down — removal of Kaskad, humans only"
+  },
+  "migrate scan": {
+   "ru": "Переезд движка пробросов — решение человека (меню 16)",
+   "en": "Engine migration — a human decision (menu 16)"
+  },
+  "migrate plan": {
+   "ru": "Переезд движка пробросов — меню 16",
+   "en": "Engine migration — menu 16"
+  },
+  "migrate apply": {
+   "ru": "Переезд движка пробросов — меню 16",
+   "en": "Engine migration — menu 16"
+  },
+  "migrate rollback": {
+   "ru": "Возврат движка — меню 16",
+   "en": "Engine rollback — menu 16"
+  },
+  "migrate backups": {
+   "ru": "Снимки переезда — меню 16",
+   "en": "Migration snapshots — menu 16"
+  },
+  "gw collect": {
+   "ru": "Служба сборщика",
+   "en": "The collector service"
+  },
+  "gw hook": {
+   "ru": "Для служб входов",
+   "en": "For inbound services"
+  },
+  "gw hook-reset": {
+   "ru": "Для служб входов",
+   "en": "For inbound services"
+  },
+  "gw exit-handover": {
+   "ru": "Служебная: install.sh перед удалением копии ключа переводит её маршруты на оставшуюся (сам ключ удаляет exit_delete)",
+   "en": "Internal: install.sh moves the routes of a key copy to the one that stays right before removing it (exit_delete removes keys)"
+  },
+  "gw tg-proxy-indexes": {
+   "ru": "Служебное: номера строк пула для прокси бота (их берёт сама пересборка прокси для API Telegram)",
+   "en": "Internal: the pool lines of the bot’s proxy (the rebuild of the Telegram API proxy takes them itself)"
+  },
+  "gw accel on": {
+   "ru": "Прежний путь: движок меняет awg_engine_set",
+   "en": "Old path: awg_engine_set switches the engine"
+  },
+  "gw accel off": {
+   "ru": "Прежний путь: движок меняет awg_engine_set",
+   "en": "Old path: awg_engine_set switches the engine"
+  },
+  "gw accel boot": {
+   "ru": "Служба при старте узла",
+   "en": "Boot-time service"
+  },
+  "gw accel upgrade": {
+   "ru": "После обновления, сам",
+   "en": "After an update, by itself"
+  },
+  "update units": {
+   "ru": "После обновления, сам: тексты юнитов этой версии",
+   "en": "After an update, by itself: the unit texts of this version"
+  },
+  "update files": {
+   "ru": "После обновления, сам: проверка файлов мониторов и имён серверов",
+   "en": "After an update, by itself: the monitor files and the names of servers checked"
+  },
+  "gw accel check": {
+   "ru": "Проверка файла конфига (служебное)",
+   "en": "Config file check (internal)"
+  },
+  "gw awg first": {
+   "ru": "Служебное: первый вход AmneziaWG",
+   "en": "Internal: the first AmneziaWG inbound"
+  },
+  "gw awg offer": {
+   "ru": "Служебное: совет после обновления",
+   "en": "Internal: the advice after an update"
+  },
+  "gw awg export": {
+   "ru": "Файл с секретами всех устройств — только человек",
+   "en": "A file with every device's secrets — humans only"
+  },
+  "gw awg import": {
+   "ru": "Перенос с секретами — только человек",
+   "en": "Transfer with secrets — humans only"
+  },
+  "panel serve": {
+   "ru": "Служба панели",
+   "en": "The panel service"
+  },
+  "panel install": {
+   "ru": "Доступ в панель — решение человека",
+   "en": "Panel access — a human decision"
+  },
+  "panel unit": {
+   "ru": "Служебное",
+   "en": "Internal"
+  },
+  "panel remove": {
+   "ru": "Доступ в панель — решение человека",
+   "en": "Panel access — a human decision"
+  },
+  "panel password": {
+   "ru": "Пароль панели — только человек: агент не выдаёт доступ себе",
+   "en": "Panel password — humans only: an agent never grants itself access"
+  },
+  "panel link": {
+   "ru": "Ссылка входа в панель — только человек",
+   "en": "Panel login link — humans only"
+  },
+  "panel public": {
+   "ru": "Открытый доступ к панели — только человек",
+   "en": "Public panel access — humans only"
+  },
+  "panel proxy": {
+   "ru": "Панель на домене — только человек",
+   "en": "Panel on the domain — humans only"
+  },
+  "panel require-password": {
+   "ru": "Доступ в панель — только человек",
+   "en": "Panel access — humans only"
+  },
+  "bot run": {
+   "ru": "Служба бота",
+   "en": "The bot service"
+  },
+  "bot test": {
+   "ru": "Проверка Telegram — из меню или бота",
+   "en": "Telegram check — from the menu or the bot"
+  },
+  "bot send-test": {
+   "ru": "Шлёт сообщение владельцу — только человек",
+   "en": "Sends a message to the owner — humans only"
+  },
+  "site cert renew": {
+   "ru": "Таймер продления",
+   "en": "The renewal timer"
+  },
+  "site cert-installed": {
+   "ru": "Хук certbot",
+   "en": "certbot hook"
+  },
+  "site tick": {
+   "ru": "Таймер срока сертификата",
+   "en": "Certificate expiry timer"
+  },
+  "site panel-url": {
+   "ru": "Секретный путь панели — только человек",
+   "en": "The panel's secret path — humans only"
+  },
+  "site panel-path rotate": {
+   "ru": "Секретный путь панели — только человек",
+   "en": "The panel's secret path — humans only"
+  },
+  "site vhost": {
+   "ru": "Настройки nginx сайта — само обновление (k3_post_update)",
+   "en": "The site's nginx settings — the update itself (k3_post_update)"
+  },
+  "gw mtu": {
+   "ru": "То же, что mtu_show",
+   "en": "Same as mtu_show"
+  },
+  "mcp key add": {
+   "ru": "Ключ SSH агента — выдаёт человек (меню 18 → ключи ИИ-агентов): агент не выдаёт доступ себе",
+   "en": "An agent's SSH key — a human grants it (menu 18): an agent never grants itself access"
+  },
+  "mcp key list": {
+   "ru": "Ключи агентов — меню 18",
+   "en": "Agents' keys — menu 18"
+  },
+  "mcp key del": {
+   "ru": "Ключи агентов — меню 18",
+   "en": "Agents' keys — menu 18"
+  },
+  "summary": {
+   "ru": "Служебное: шапка SSH-меню и «Что не так» (агенту — gateway_status и gateway_check)",
+   "en": "Internal: the SSH menu header and «Что не так» (agents: gateway_status and gateway_check)"
+  },
+  "rules load": {
+   "ru": "Таймер загрузки сетей России в таблицу",
+   "en": "The timer loading the networks of Russia"
+  },
+  "backup import": {
+   "ru": "Загрузка копии заменяет настройки узла (пользователей, протоколы, ключи) — только человек",
+   "en": "Loading a copy replaces the node's settings (users, protocols, keys) — humans only"
+  },
+  "backup undo": {
+   "ru": "Возврат настроек до импорта — только человек",
+   "en": "Rolling back an import — humans only"
+  },
+  "ipcert issue": {
+   "ru": "Сертификат на IP выпускает быстрая настройка и таймер — не агент",
+   "en": "The IP certificate is issued by the quick setup and its timer"
+  },
+  "ipcert remove": {
+   "ru": "Удаление сертификата на IP — только человек",
+   "en": "Removing the IP certificate — humans only"
+  },
+  "ipcert status": {
+   "ru": "Служебное: сертификат на IP (быстрая настройка)",
+   "en": "Internal: the IP certificate (quick setup)"
+  },
+  "ipcert tick": {
+   "ru": "Служебное: таймер продления сертификата на IP",
+   "en": "Internal: the renewal timer of the IP certificate"
+  },
+  "setup finish": {
+   "ru": "Быстрая настройка в браузере — для человека",
+   "en": "The quick setup in the browser is for humans"
+  },
+  "setup link": {
+   "ru": "Ссылка на быструю настройку — секрет человека",
+   "en": "The quick setup link is a human's secret"
+  },
+  "setup off": {
+   "ru": "Быстрая настройка в браузере — для человека",
+   "en": "The quick setup in the browser is for humans"
+  },
+  "setup stage": {
+   "ru": "Быстрая настройка в браузере — для человека",
+   "en": "The quick setup in the browser is for humans"
+  },
+  "setup start": {
+   "ru": "Быстрая настройка в браузере — для человека (установщик)",
+   "en": "The quick setup in the browser is for humans (installer)"
+  },
+  "setup status": {
+   "ru": "Служебное: состояние быстрой настройки",
+   "en": "Internal: the state of the quick setup"
+  },
+  "setup step": {
+   "ru": "Шаги быстрой настройки зовут те же операции, что инструменты агента",
+   "en": "Quick setup steps call the same operations as the agent's tools"
+  },
+  "setup steps": {
+   "ru": "Служебное: список шагов быстрой настройки",
+   "en": "Internal: the steps of the quick setup"
+  },
+  "host bench schedule": {
+   "ru": "Без подкоманды — то же, что host_bench_schedule",
+   "en": "Without a subcommand — the same as host_bench_schedule"
+  },
+  "host bench schedule cost": {
+   "ru": "Цена — в host_bench_schedule (cost)",
+   "en": "The price is in host_bench_schedule (cost)"
+  },
+  "host bench schedule apply": {
+   "ru": "Повтор установки таймера расписания после «таймер не обновлён» — для человека с root",
+   "en": "Setting the timer of the schedule again after «the timer is not updated» — for a person with root"
+  },
+  "host bench compare": {
+   "ru": "Сравнение двух проверок — экран для человека; агенту — host_score action=show каждой",
+   "en": "Two checks side by side — a screen for a person; the agent — host_score action=show of each"
+  },
+  "host bench export": {
+   "ru": "Выгрузка истории в файл на сервере — для человека (панель или SSH)",
+   "en": "The export of the history into a file on the server — for a person (the panel or SSH)"
+  },
+  "gw addresses add": {
+   "ru": "Добавить адрес сервера вручную — пока только администратор: SSH-меню или kaskadctl",
+   "en": "Adding a server address by hand — the administrator only for now: SSH menu or kaskadctl"
+  },
+  "gw addresses give6": {
+   "ru": "IPv6 строкой подписки — операционная команда тестов и стенда (3.3.7.15, решение 13): новое настраивается в панели",
+   "en": "IPv6 as a subscription line — an operational command of the tests and the stand (3.3.7.15, decision 13): new settings are made in the panel"
+  },
+  "gw addresses in6": {
+   "ru": "Приём по IPv6 — операционная команда тестов и стенда (3.3.7.15, решение 13): новое настраивается в панели",
+   "en": "IPv6 intake — an operational command of the tests and the stand (3.3.7.15, decision 13): new settings are made in the panel"
+  },
+  "gw addresses remove": {
+   "ru": "Убрать адрес, добавленный вручную, — пока только администратор: SSH-меню или kaskadctl",
+   "en": "Removing an address added by hand — the administrator only for now: SSH menu or kaskadctl"
+  },
+  "gw inbound set": {
+   "ru": "Новое — только в панели (решение 13): CLI — для SSH-меню и проверок; порт из MCP — прежний inbound_port",
+   "en": "New settings are panel-only (decision 13): the CLI is for the SSH menu and checks; MCP changes the port via inbound_port as before"
+  },
+  "gw inbound undo": {
+   "ru": "«Вернуть прежние» — в панели и SSH-меню; CLI — для меню и проверок",
+   "en": "“Restore previous” is in the panel and the SSH menu; the CLI is for the menu and checks"
+  },
+  "gw inbound show": {
+   "ru": "Окно «Настройки протокола» — панель; CLI — для SSH-меню и проверок",
+   "en": "The “Settings” window is in the panel; the CLI is for the SSH menu and checks"
+  },
+  "gw pending confirm": {
+   "ru": "Подтверждение безопасного применения — в панели или по SSH (меню, kaskadctl); у MCP своего нет: не подтвердили — откат",
+   "en": "The confirmation of a safe apply — in the panel or over SSH (the menu, kaskadctl); MCP has none: no confirmation — a revert"
+  },
+  "gw pending expire": {
+   "ru": "Откат безопасного применения по таймеру — его зовёт systemd, не человек и не агент",
+   "en": "The revert of a safe apply by its timer — systemd calls it, neither a person nor an agent"
+  }
+ },
+ "resources": [
+  {
+   "uri": "kaskad://status",
+   "tool": "gateway_status",
+   "name": "Состояние узла / Node status",
+   "description": {
+    "ru": "Снимок узла: шлюз, протоколы, выходы, правила, проблемы. С него начинают сессию.",
+    "en": "A snapshot of the node: gateway, protocols, exits, rules, problems. Start a session here."
+   }
+  },
+  {
+   "uri": "kaskad://scheme",
+   "tool": "scheme",
+   "name": "Схема / Scheme",
+   "description": {
+    "ru": "Пользователи, устройства, протоколы, маршруты и выходы — без секретов.",
+    "en": "Users, devices, protocols, routes and exits — no secrets."
+   }
+  },
+  {
+   "uri": "kaskad://exits",
+   "tool": "exits_list",
+   "name": "Выходы / Exits",
+   "description": {
+    "ru": "Выходы пула и их здоровье.",
+    "en": "Pool exits and their health."
+   }
+  },
+  {
+   "uri": "kaskad://devices",
+   "tool": "devices_list",
+   "name": "Устройства / Devices",
+   "description": {
+    "ru": "Все устройства без ключей.",
+    "en": "All devices without keys."
+   }
+  },
+  {
+   "uri": "kaskad://version",
+   "tool": "version",
+   "name": "Версия / Version",
+   "description": {
+    "ru": "Версия Kaskad.",
+    "en": "Kaskad version."
+   }
+  },
+  {
+   "uri": "kaskad://guide",
+   "file": "AGENT_GUIDE.md",
+   "mimeType": "text/markdown",
+   "name": "Гайд для агента / Agent guide",
+   "description": {
+    "ru": "Полный гайд: порядок операций, коды ошибок, ограничения. Прочитать до первого изменения.",
+    "en": "The full guide: step order, error codes, limits. Read before the first change."
+   }
+  }
+ ],
+ "prompts": [
+  {
+   "name": "onboard_person",
+   "description": {
+    "ru": "Добавить пользователя с устройством и выдать настройки с QR-кодом",
+    "en": "Add a user with a device and hand out the settings with a QR code"
+   },
+   "arguments": [
+    {
+     "name": "name",
+     "ref": "person_name",
+     "required": true
+    },
+    {
+     "name": "device_name",
+     "ref": "device_name",
+     "required": false
+    },
+    {
+     "name": "platform",
+     "ref": "platform",
+     "required": false
+    }
+   ],
+   "intro": {
+    "ru": "Подключить пользователя «{name}» и выдать настройки его устройству.",
+    "en": "Onboard '{name}' and hand out the settings of his device."
+   },
+   "steps": [
+    {
+     "tool": "gateway_status",
+     "ru": "шлюз включён? Выключен — скажи человеку (включает gateway_enable) и остановись",
+     "en": "is the gateway on? If off — tell the human (gateway_enable switches it on) and stop"
+    },
+    {
+     "tool": "device_offers",
+     "ru": "platform={platform}: какие протоколы выдавать первыми; не установленные — предложи inbound_install (с согласия)",
+     "en": "platform={platform}: which protocols to give first; missing ones — offer inbound_install (with consent)"
+    },
+    {
+     "tool": "users_list",
+     "ru": "есть ли уже «{name}»: есть — бери его id, не создавай второго",
+     "en": "does '{name}' exist already: if so take his id, do not create a second one"
+    },
+    {
+     "tool": "user_add",
+     "ru": "name={name} — только если его нет",
+     "en": "name={name} — only if absent"
+    },
+    {
+     "tool": "device_add",
+     "ru": "user={name}, name={device_name} (можно назвать по платформе: «Телефон», «Роутер»), platform={platform}, access — первые протоколы из device_offers",
+     "en": "user={name}, name={device_name} (may be named by platform: 'Phone', 'Router'), platform={platform}, access — the first protocols from device_offers"
+    },
+    {
+     "tool": "device_issue",
+     "ru": "device=<id из device_add>: перескажи howto по шагам; QR-коды придут картинками — покажи их; ключи не пересказывай текстом без просьбы",
+     "en": "device=<id from device_add>: retell the howto step by step; QR codes arrive as images — show them; do not retell keys as text unless asked"
+    },
+    {
+     "tool": "traffic_trace",
+     "ru": "who=<id устройства>, target=youtube.com — убедись, что путь ведёт через рабочий выход",
+     "en": "who=<device id>, target=youtube.com — make sure the path goes through a working exit"
+    }
+   ]
+  },
+  {
+   "name": "add_exit",
+   "description": {
+    "ru": "Добавить выход (ключ) и проверить, что он работает",
+    "en": "Add an exit (key) and check that it works"
+   },
+   "arguments": [],
+   "intro": {
+    "ru": "Добавить выход. Ключ попроси у человека в чате; не повторяй его в ответах.",
+    "en": "Add an exit. Ask the human for the key in chat; never repeat it in replies."
+   },
+   "steps": [
+    {
+     "tool": "exits_list",
+     "ru": "что уже в пуле и что работает",
+     "en": "what is in the pool and what works"
+    },
+    {
+     "tool": "exit_preview",
+     "ru": "key=<ключ>: тип, где, нет ли уже в пуле, проблемы — покажи человеку",
+     "en": "key=<the key>: kind, where, already in the pool, problems — show the human"
+    },
+    {
+     "tool": "exit_add",
+     "ru": "key=<ключ>: первый ключ AmneziaWG может собирать модуль ядра до 3 минут — предупреди",
+     "en": "key=<the key>: the first AmneziaWG key may build the kernel module for up to 3 min — warn"
+    },
+    {
+     "tool": "exits_list",
+     "ru": "новый выход usable=true? Сторож проверяет раз в несколько секунд — при usable=false повтори через 30–60 с",
+     "en": "is the new exit usable=true? The watchdog checks every few seconds — if false, retry in 30–60 s"
+    },
+    {
+     "tool": "gateway_status",
+     "ru": "проблем нет, маршрут по умолчанию ведёт в пул (или в нужный выход — default_route_set с согласия)",
+     "en": "no problems, the default route goes to the pool (or the right exit — default_route_set with consent)"
+    },
+    {
+     "tool": "traffic_trace",
+     "ru": "who=-, target=youtube.com — путь через новый выход или пул",
+     "en": "who=-, target=youtube.com — the path goes through the new exit or the pool"
+    }
+   ]
+  },
+  {
+   "name": "where_traffic",
+   "description": {
+    "ru": "Проверить, куда пойдёт трафик устройства или пользователя",
+    "en": "Check where a device's or user's traffic goes"
+   },
+   "arguments": [
+    {
+     "name": "who",
+     "ref": "who",
+     "required": true
+    },
+    {
+     "name": "target",
+     "ref": "target",
+     "required": true
+    }
+   ],
+   "intro": {
+    "ru": "Куда пойдёт трафик «{who}» до {target}.",
+    "en": "Where the traffic of '{who}' to {target} goes."
+   },
+   "steps": [
+    {
+     "tool": "scheme",
+     "ru": "найди устройство или пользователя {who}: протоколы, маршрут и откуда он, профиль правил",
+     "en": "find the device or user {who}: protocols, route and its source, rules profile"
+    },
+    {
+     "tool": "traffic_trace",
+     "ru": "who={who}, target={target}; у устройства несколько протоколов — можно inbound=<вход>",
+     "en": "who={who}, target={target}; a device with several protocols — inbound=<kind> is possible"
+    },
+    {
+     "tool": "exits_list",
+     "ru": "выход на пути работает (usable)?",
+     "en": "is the exit on the path usable?"
+    },
+    {
+     "tool": "rules_status",
+     "ru": "при ru_direct: готовы ли списки (ready); не готовы — всё идёт через выход",
+     "en": "with ru_direct: are the lists ready; if not, everything goes through the exit"
+    }
+   ],
+   "outro": {
+    "ru": "Объясни вердикт простыми словами. Менять маршрут (device_route, user_route, default_route_set) или профиль (rules_profile) — только с согласия человека.",
+    "en": "Explain the verdict plainly. Change the route (device_route, user_route, default_route_set) or the profile (rules_profile) only with the human's consent."
+   }
+  }
+ ]
+}

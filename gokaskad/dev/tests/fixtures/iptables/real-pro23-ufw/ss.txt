@@ -1,0 +1,5 @@
+udp UNCONN 0      0         127.0.0.54:53 0.0.0.0:* users:(("systemd-resolve",pid=387,fd=16))
+udp UNCONN 0      0      127.0.0.53%lo:53 0.0.0.0:* users:(("systemd-resolve",pid=387,fd=14))
+tcp LISTEN 0      4096      127.0.0.54:53 0.0.0.0:* users:(("systemd-resolve",pid=387,fd=17))
+tcp LISTEN 0      4096   127.0.0.53%lo:53 0.0.0.0:* users:(("systemd-resolve",pid=387,fd=15))
+tcp LISTEN 0      4096               *:22       *:* users:(("sshd",pid=1016,fd=3),("systemd",pid=1,fd=77))

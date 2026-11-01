@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./settings-assets/react.production.min.js"></script><script src="./settings-assets/react-dom.production.min.js"></script><script src="../support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2563eb"/><text x="50" y="62" font-family="Arial,sans-serif" font-size="34" font-weight="800" fill="#fff" text-anchor="middle">GA</text></svg></template>
+<x-dc>
+<helmet><link rel="stylesheet" href="../heroui-tokens.css"><style>a{color:inherit}a:hover{opacity:.8}</style></helmet>
+<div data-hero="" data-theme="{{ th }}" data-tint="{{ ap.tint }}" data-density="balanced" data-btn="{{ ap.btn }}" data-cards="{{ ap.cards }}" data-fs="{{ ap.fs }}" data-motion="{{ motionAttr }}" data-device="{{ devAttr }}" style="--accent:{{ accent }};--accent-foreground:{{ accentFg }};--radius:{{ radiusPx }};min-height:100%;background:var(--background);color:var(--foreground);font:400 var(--fs)/1.5 var(--font);-webkit-font-smoothing:antialiased;container-type:inline-size;position:relative">
+
+<sc-if value="{{ isTv }}" hint-placeholder-val="{{ false }}">
+  <div data-tv="" style="min-height:720px;padding:48px 64px;display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:48px;align-items:start">
+    <div style="display:grid;gap:28px;min-width:0">
+      <div><div style="font:500 20px var(--font);color:var(--muted)">{{ tv.kicker }}</div><h1 style="margin:6px 0 0;font:600 46px/52px var(--font);letter-spacing:-.02em">{{ tv.title }}</h1></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:18px 24px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh);font-size:26px"><span style="width:16px;height:16px;border-radius:50%;background:var(--success)"></span><span style="flex:1">{{ tv.status }}</span><span style="color:var(--muted);font-variant-numeric:tabular-nums">{{ tv.meta }}</span></div>
+      <div style="display:grid;gap:12px">
+        <sc-for list="{{ tvItems }}" as="b" hint-placeholder-count="6">
+          <sc-if value="{{ b.head }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;font:500 22px var(--font);color:var(--muted)">{{ b.label }}</div></sc-if>
+          <sc-if value="{{ b.btn }}" hint-placeholder-val="{{ true }}"><button type="button" onFocus="{{ b.focus }}" onClick="{{ b.focus }}" style="display:flex;align-items:center;gap:18px;min-height:76px;padding:0 28px;border:0;border-radius:var(--r-card);background:{{ b.bg }};color:{{ b.fg }};font:500 28px/34px var(--font);text-align:left;cursor:pointer;outline:{{ b.ol }};outline-offset:4px;transition:background var(--dur)"><iconify-icon icon="{{ b.icon }}" width="30" height="30"></iconify-icon><span style="flex:1">{{ b.label }}</span><span style="font:400 22px var(--font);opacity:.75">{{ b.meta }}</span></button></sc-if>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:grid;gap:16px;padding:26px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="font:600 26px/32px var(--font)">{{ tv.sideTitle }}</div>
+      <div style="font:20px/28px var(--font);color:var(--muted)">{{ tv.sideText }}</div>
+      <sc-if value="{{ tv.qrOn }}" hint-placeholder-val="{{ false }}"><div style="padding:14px;border-radius:var(--r-field);background:#fff;animation:hero-pop .2s var(--ease)"><div style="width:100%;max-width:360px;margin:0 auto;aspect-ratio:1">{{ tv.qr }}</div></div></sc-if>
+      <sc-if value="{{ tv.hintsOn }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;gap:12px">
+          <sc-for list="{{ tv.hints }}" as="h" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;font:20px/28px var(--font)"><span style="min-width:54px;padding:4px 10px;border-radius:var(--r-sm);background:var(--default);font:600 18px var(--mono);text-align:center">{{ h.k }}</span><span>{{ h.t }}</span></div></sc-for>
+        </div>
+      </sc-if>
+      <div style="font:18px/24px var(--font);color:var(--muted)">{{ tv.foot }}</div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isFrame }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100%;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-content:start;gap:16px;padding:{{ fr.pad }}">
+    <div style="width:{{ fr.w }};max-width:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr;min-height:{{ fr.h }};border-radius:calc(var(--r-card) + 6px);overflow:hidden;background:var(--surface);border:1px solid var(--card-bd);box-shadow:var(--overlay-shadow);position:relative">
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface-secondary);border-bottom:1px solid var(--separator)">
+        <sc-if value="{{ fr.hasNav }}" hint-placeholder-val="{{ false }}"><span style="display:flex;gap:6px;color:var(--muted)"><iconify-icon icon="gravity-ui:chevron-left" width="16" height="16"></iconify-icon><iconify-icon icon="gravity-ui:chevron-right" width="16" height="16"></iconify-icon><iconify-icon icon="gravity-ui:arrow-rotate-right" width="16" height="16"></iconify-icon></span></sc-if>
+        <div style="flex:1;min-width:0;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:var(--default);font:400 13px var(--font)">
+          <iconify-icon icon="{{ fr.urlIcon }}" width="14" height="14" style="flex:none;color:{{ fr.urlIconC }}"></iconify-icon>
+          <sc-if value="{{ fr.unsafe }}" hint-placeholder-val="{{ false }}"><span style="flex:none;color:var(--danger-soft-foreground);font-weight:500">{{ fr.unsafeLabel }}</span></sc-if>
+          <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono);font-size:12.5px">{{ fr.url }}</span>
+          <sc-if value="{{ fr.dlIcon }}" hint-placeholder-val="{{ false }}"><iconify-icon icon="gravity-ui:arrow-down-to-line" width="15" height="15" style="flex:none;color:var(--accent)"></iconify-icon></sc-if>
+        </div>
+      </div>
+      <div style="position:relative;min-height:0">
+        <sc-if value="{{ fr.isWarn }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:18px;align-content:start;padding:{{ fr.bodyPad }};max-width:600px">
+            <span style="width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:var(--danger-soft);color:var(--danger-soft-foreground)"><iconify-icon icon="gravity-ui:triangle-exclamation" width="24" height="24"></iconify-icon></span>
+            <h2 style="margin:0;font:500 24px/30px var(--font)">{{ fr.warnTitle }}</h2>
+            <p style="margin:0;color:var(--muted);font-size:15px;line-height:22px">{{ fr.warnText }}</p>
+            <code style="font:12.5px var(--mono);color:var(--muted)">NET::ERR_CERT_AUTHORITY_INVALID</code>
+            <sc-if value="{{ fr.advOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:12px;padding-top:4px;animation:hero-fade .2s">
+                <p style="margin:0;color:var(--muted);font-size:15px;line-height:22px">{{ fr.advText }}</p>
+                <span style="justify-self:start;padding:6px 10px;margin-left:-10px;border-radius:var(--r-sm);box-shadow:0 0 0 3px var(--accent);font:500 15px var(--font);text-decoration:underline;overflow-wrap:anywhere">{{ fr.proceed }}</span>
+              </div>
+            </sc-if>
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding-top:6px;min-width:0">
+              <span style="height:40px;display:inline-flex;align-items:center;padding:0 14px;border-radius:var(--r-btn);font:500 14px var(--font);box-shadow:{{ fr.advRing }}">{{ fr.advBtn }}</span>
+              <span style="height:40px;display:inline-flex;align-items:center;padding:0 16px;border-radius:var(--r-btn);background:var(--foreground);color:var(--background);font:500 14px var(--font)">{{ fr.backBtn }}</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ fr.isBlank }}" hint-placeholder-val="{{ false }}"><div style="min-height:{{ fr.blankH }}"></div></sc-if>
+        <sc-if value="{{ fr.is404 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:28px 16px;background:#fff;color:#000;font:16px/1.3 'Times New Roman',Times,serif;min-height:{{ fr.blankH }}"><div style="text-align:center;font-weight:700;font-size:32px;margin:21px 0">404 Not Found</div><hr style="border:0;border-top:1px solid #aaa;margin:8px 0"><div style="text-align:center">nginx</div></div>
+        </sc-if>
+        <sc-if value="{{ fr.isChat }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:10px;align-content:end;min-height:{{ fr.blankH }};padding:14px 10px;background:var(--background-secondary)">
+            <div style="justify-self:start;max-width:88%;display:grid;gap:8px;padding:9px 12px;border-radius:18px 18px 18px 6px;background:var(--overlay);box-shadow:var(--surface-shadow)">
+              <span style="font:14px/1.4 var(--mono);color:var(--accent-soft-foreground);overflow-wrap:anywhere">{{ fr.chatUrl }}</span>
+              <div style="display:grid;gap:2px;padding:6px 10px;border-left:3px solid var(--accent);border-radius:4px;background:color-mix(in oklab,var(--accent) 8%,transparent)"><b style="font:600 13px var(--font);color:var(--accent-soft-foreground)">vpn.example.ru</b><b style="font:600 14px var(--font)">{{ fr.pvTitle }}</b><span style="font-size:13px;line-height:18px">{{ fr.pvText }}</span></div>
+              <span style="justify-self:end;font-size:11px;color:var(--muted)">12:04</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ fr.isMemo }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;gap:10px;align-content:end;min-height:{{ fr.blankH }};padding:14px 10px;background:var(--background-secondary)">
+            <div style="justify-self:start;max-width:88%;display:grid;gap:2px;padding:9px 12px;border-radius:18px 18px 18px 6px;background:var(--overlay);box-shadow:var(--surface-shadow)"><span style="font:14px/1.4 var(--mono);color:var(--accent-soft-foreground);overflow-wrap:anywhere">{{ fr.memoUrl }}</span><span style="justify-self:end;font-size:11px;color:var(--muted)">12:04</span></div>
+            <div style="justify-self:start;max-width:88%;display:grid;gap:6px;padding:9px 12px;border-radius:18px 18px 18px 6px;background:var(--overlay);box-shadow:var(--surface-shadow);font-size:14px;line-height:1.4">
+              <b style="font-weight:600">{{ fr.memoTitle }}</b>
+              <sc-for list="{{ fr.memo }}" as="mm" hint-placeholder-count="3"><span>{{ mm }}</span></sc-for>
+              <span style="justify-self:end;font-size:11px;color:var(--muted)">12:04</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ fr.dlBar }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:10px;right:10px;bottom:12px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-card);background:var(--overlay);box-shadow:var(--overlay-shadow);animation:hero-in-up .22s var(--ease)">
+            <span style="width:40px;height:40px;flex:none;border-radius:var(--r-field);background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:file-text" width="20" height="20"></iconify-icon></span>
+            <span style="flex:1;min-width:0;display:grid;line-height:1.3"><b style="font:500 14px var(--mono);overflow-wrap:anywhere">{{ fr.file }}</b><span style="font-size:12px;color:var(--muted)">{{ fr.dlMeta }}</span></span>
+            <span style="flex:none;height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:var(--r-btn);color:var(--accent-soft-foreground);font:600 14px var(--font)">{{ fr.dlOpen }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ fr.iosSheet }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;padding:24px;background:var(--backdrop);animation:hero-fade .2s">
+            <div style="width:min(290px,100%);display:grid;border-radius:14px;background:var(--overlay);box-shadow:var(--overlay-shadow);text-align:center;overflow:hidden">
+              <div style="display:grid;gap:4px;padding:18px 16px 14px"><b style="font:600 16px/21px var(--font)">{{ fr.iosTitle }}</b><span style="font-size:13px;color:var(--muted)">{{ fr.iosText }}</span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--separator)"><span style="padding:12px;border-right:1px solid var(--separator);color:var(--accent-soft-foreground);font:400 16px var(--font)">{{ fr.iosView }}</span><span style="padding:12px;color:var(--accent-soft-foreground);font:600 16px var(--font);box-shadow:inset 0 0 0 3px var(--accent)">{{ fr.iosLoad }}</span></div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ fr.deskBubble }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:10px;right:14px;width:320px;display:grid;gap:10px;padding:14px;border-radius:var(--r-card);background:var(--overlay);box-shadow:var(--overlay-shadow);animation:hero-pop .2s var(--ease)">
+            <b style="font:600 14px var(--font)">{{ fr.deskTitle }}</b>
+            <div style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;flex:none;border-radius:var(--r-field);background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:file-text" width="18" height="18"></iconify-icon></span><span style="flex:1;min-width:0;display:grid;line-height:1.3"><b style="font:500 13px var(--mono);overflow-wrap:anywhere">{{ fr.file }}</b><span style="font-size:12px;color:var(--muted)">{{ fr.dlMeta }}</span></span></div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <div style="width:{{ fr.w }};max-width:100%;display:grid;gap:10px;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:{{ fr.noteBg }};color:{{ fr.noteFg }};display:grid;place-items:center"><iconify-icon icon="{{ fr.noteIcon }}" width="15" height="15"></iconify-icon></span><div style="display:grid;gap:4px;min-width:0"><b style="font:600 15px/20px var(--font)">{{ fr.noteTitle }}</b><span style="font-size:14px;line-height:20px;color:var(--muted);text-wrap:pretty">{{ fr.noteText }}</span></div></div>
+      <sc-if value="{{ fr.hasFp }}" hint-placeholder-val="{{ false }}"><div style="display:grid;gap:4px;padding:10px 12px;border-radius:var(--r-field);background:var(--tile-bg)"><span style="font-size:12.5px;color:var(--muted)">{{ fr.fpLabel }}</span><code style="font:12.5px/18px var(--mono);overflow-wrap:anywhere">{{ fr.fp }}</code></div></sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPage }}" hint-placeholder-val="{{ true }}">
+ <div style="max-width:{{ maxW }};margin:0 auto;padding:{{ pad }};display:grid;gap:{{ gap }}">
+
+  <header style="display:grid;gap:8px">
+   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+    <div style="min-width:0;display:grid;gap:2px"><div style="font:500 13px var(--font);color:var(--muted)">{{ kicker }}</div><h1 style="margin:0;font:600 {{ h1 }} var(--font);letter-spacing:-.02em;overflow-wrap:anywhere;text-wrap:balance">{{ title }}</h1></div>
+    <div style="flex:none;position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:var(--r-btn);background:var(--default)">
+      <span style="position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/2);border-radius:var(--r-btn);background:var(--segment);box-shadow:var(--segment-shadow);transform:{{ langTx }};transition:transform var(--dur) var(--ease)"></span>
+      <button type="button" onClick="{{ setRu }}" aria-pressed="{{ isRu }}" style="position:relative;height:36px;min-width:48px;border:0;background:transparent;color:{{ ruFg }};font:500 13px var(--font);cursor:pointer">RU</button>
+      <button type="button" onClick="{{ setEn }}" aria-pressed="{{ isEn }}" style="position:relative;height:36px;min-width:48px;border:0;background:transparent;color:{{ enFg }};font:500 13px var(--font);cursor:pointer">EN</button>
+    </div>
+   </div>
+   <sc-if value="{{ hasUntil }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:18px;color:{{ untilC }};text-wrap:pretty"><iconify-icon icon="gravity-ui:clock" width="14" height="14" style="flex:none;margin-top:2px"></iconify-icon><span>{{ until }}</span></div></sc-if>
+  </header>
+
+  <sc-if value="{{ hasStatus }}" hint-placeholder-val="{{ true }}">
+    <section style="display:grid;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <span style="width:36px;height:36px;flex:none;border-radius:50%;background:var(--success-soft);color:var(--success-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:circle-check" width="18" height="18"></iconify-icon></span>
+        <div style="flex:1;min-width:0"><div style="font:600 16px/20px var(--font)">{{ st.title }}</div><div style="font-size:13px;color:var(--muted)">{{ st.sub }}</div></div>
+        <span style="font:600 15px var(--font);font-variant-numeric:tabular-nums;white-space:nowrap">{{ st.used }} <span style="color:var(--muted);font-weight:400">{{ st.of }}</span></span>
+      </div>
+      <sc-if value="{{ st.hasMeter }}" hint-placeholder-val="{{ true }}"><div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:{{ st.pct }};height:100%;border-radius:999px;background:var(--accent)"></div></div></sc-if>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isConnect }}" hint-placeholder-val="{{ true }}">
+   <div style="display:grid;grid-template-columns:{{ cols }};gap:{{ colGap }};align-items:start">
+
+    <section style="display:grid;gap:14px;min-width:0">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;flex:none;border-radius:50%;background:var(--foreground);color:var(--background);display:grid;place-items:center;font:600 13px var(--font)">1</span><h2 style="margin:0;font:600 18px/24px var(--font)">{{ s.step1 }}</h2></div>
+      <div role="radiogroup" aria-label="{{ s.device }}" style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ devices }}" as="d" hint-placeholder-count="8">
+          <button type="button" role="radio" aria-checked="{{ d.on }}" onClick="{{ d.pick }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px 0 12px;border:0;border-radius:var(--r-btn);background:{{ d.bg }};color:{{ d.fg }};font:500 14px var(--font);cursor:pointer;white-space:nowrap;transition:background var(--dur)" style-active="transform:scale(.97)"><iconify-icon icon="{{ d.icon }}" width="16" height="16"></iconify-icon>{{ d.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ platNote.on }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;gap:10px;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:28px;height:28px;flex:none;border-radius:50%;background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="{{ platNote.icon }}" width="15" height="15"></iconify-icon></span><div style="display:grid;gap:4px;min-width:0"><b style="font:600 15px/20px var(--font)">{{ platNote.title }}</b><span style="font-size:14px;line-height:20px;color:var(--muted);text-wrap:pretty">{{ platNote.text }}</span></div></div>
+          <sc-if value="{{ platNote.hasBtn }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ platNote.go }}" style="justify-self:start;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;margin-left:38px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 14px var(--font);cursor:pointer" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:server" width="15" height="15"></iconify-icon>{{ platNote.btn }}</button></sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noApps }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:10px;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);color:var(--muted);font-size:14px;line-height:20px"><iconify-icon icon="gravity-ui:circle-info" width="18" height="18" style="flex:none;margin-top:1px"></iconify-icon><span>{{ s.noApps }}</span></div></sc-if>
+      <div style="display:grid;gap:8px">
+        <sc-for list="{{ apps }}" as="a" hint-placeholder-count="3">
+          <div style="display:grid;gap:12px;padding:14px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:{{ a.sh }};transition:box-shadow var(--dur)">
+            <button type="button" role="radio" aria-checked="{{ a.on }}" onClick="{{ a.pick }}" style="display:grid;grid-template-columns:20px minmax(0,1fr);gap:6px 12px;padding:0;border:0;background:none;color:var(--foreground);text-align:left;font:inherit;cursor:pointer">
+              <span style="width:20px;height:20px;margin-top:2px;border-radius:50%;box-shadow:inset 0 0 0 {{ a.bw }} {{ a.bc }};transition:box-shadow var(--dur) var(--ease)"></span>
+              <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font:600 16px/22px var(--font)">{{ a.name }}</b><sc-for list="{{ a.tags }}" as="g" hint-placeholder-count="1"><span style="padding:1px 8px;border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};font:500 12px/18px var(--font);white-space:nowrap">{{ g.t }}</span></sc-for></span>
+              <span></span>
+              <span style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ a.lines }}" as="l" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:4px;padding:1px 7px;border-radius:var(--r-sm);background:{{ l.bg }};color:{{ l.fg }};font:500 12px/18px var(--font);white-space:nowrap;opacity:{{ l.op }}"><iconify-icon icon="{{ l.icon }}" width="11" height="11"></iconify-icon><b style="font:600 12px var(--mono)">{{ l.t }}</b>{{ l.v }}</span></sc-for></span>
+            </button>
+            <sc-if value="{{ a.on }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;gap:10px;padding-left:32px;animation:hero-fade .2s;min-width:0">
+                <span style="font-size:13px;color:var(--muted)">{{ a.meta }}</span>
+                <sc-if value="{{ a.hasNote }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;padding:10px 12px;border-radius:var(--r-field);background:{{ a.noteBg }};color:{{ a.noteFg }};font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:circle-info" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ a.note }}</span></div></sc-if>
+                <div style="display:grid;gap:8px">
+                  <sc-for list="{{ a.links }}" as="k" hint-placeholder-count="2">
+                    <div style="display:grid;gap:6px">
+                      <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button type="button" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 14px var(--font);cursor:pointer;white-space:nowrap" style-hover="background:var(--default-hover)"><iconify-icon icon="gravity-ui:arrow-up-right-from-square" width="14" height="14"></iconify-icon>{{ k.label }}</button>
+                        <sc-if value="{{ k.hasQrBtn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ k.toggle }}" aria-pressed="{{ k.qrOn }}" aria-label="{{ k.qrAria }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:0;border-radius:var(--r-btn);background:{{ k.qbg }};color:{{ k.qfg }};font:500 14px var(--font);cursor:pointer;white-space:nowrap"><iconify-icon icon="gravity-ui:qr-code" width="15" height="15"></iconify-icon>{{ k.qrLabel }}</button></sc-if>
+                      </div>
+                      <sc-if value="{{ k.hasNote }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;line-height:17px;color:var(--muted);text-wrap:pretty">{{ k.note }}</span></sc-if>
+                      <sc-if value="{{ k.qrOn }}" hint-placeholder-val="{{ false }}"><div style="justify-self:start;display:grid;justify-items:center;gap:6px;padding:12px;border-radius:var(--r-field);background:#fff;color:#18181b;animation:hero-pop .2s var(--ease)"><div style="width:180px;aspect-ratio:1">{{ k.qr }}</div><span style="font:500 12px var(--font);text-align:center;max-width:200px">{{ k.qrCap }}</span></div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ a.hasMirror }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:grid;gap:8px;padding:10px 12px;border-radius:var(--r-field);background:var(--tile-bg)">
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                      <span style="flex:1 1 180px;font-size:13px;line-height:18px"><b style="font-weight:500;color:{{ a.mir.titleC }}">{{ a.mir.title }}</b><br><span style="color:var(--muted)">{{ a.mir.sub }}</span></span>
+                      <sc-if value="{{ a.mir.hasBtn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ a.mir.go }}" disabled="{{ a.mir.off }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:0;border-radius:var(--r-btn);background:{{ a.mir.bg }};color:{{ a.mir.fg }};font:500 14px var(--font);cursor:pointer;white-space:nowrap;opacity:{{ a.mir.op }}" style-active="transform:scale(.97)"><iconify-icon icon="{{ a.mir.icon }}" width="15" height="15"></iconify-icon>{{ a.mir.btn }}</button></sc-if>
+                      <sc-if value="{{ a.mir.hasQr }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ a.mir.toggle }}" aria-pressed="{{ a.mir.qrOn }}" aria-label="{{ a.mir.qrAria }}" style="display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--default);color:var(--default-foreground);font:500 14px var(--font);cursor:pointer"><iconify-icon icon="gravity-ui:qr-code" width="15" height="15"></iconify-icon>QR</button></sc-if>
+                    </div>
+                    <sc-if value="{{ a.mir.hasBar }}" hint-placeholder-val="{{ false }}"><div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:{{ a.mir.pct }};height:100%;border-radius:999px;background:var(--accent);transition:width var(--dur)"></div></div></sc-if>
+                    <sc-if value="{{ a.mir.qrOn }}" hint-placeholder-val="{{ false }}"><div style="justify-self:start;display:grid;justify-items:center;gap:6px;padding:12px;border-radius:var(--r-field);background:#fff;color:#18181b;animation:hero-pop .2s var(--ease)"><div style="width:180px;aspect-ratio:1">{{ a.mir.qr }}</div><span style="font:500 12px var(--font);text-align:center;max-width:200px">{{ a.mir.qrCap }}</span></div></sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ a.hasHow }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;line-height:18px"><b style="font-weight:500">{{ s.how }}</b> <span style="color:var(--muted)">{{ a.how }}</span></span></sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:grid;gap:14px;min-width:0">
+      <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;flex:none;border-radius:50%;background:var(--foreground);color:var(--background);display:grid;place-items:center;font:600 13px var(--font)">2</span><h2 style="margin:0;font:600 18px/24px var(--font)">{{ keyTitle }}</h2></div>
+      <sc-if value="{{ kn.on }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r-field);background:{{ kn.bg }};color:{{ kn.fg }};font-size:14px;line-height:20px"><iconify-icon icon="{{ kn.icon }}" width="17" height="17" style="flex:none;animation:{{ kn.anim }}"></iconify-icon><span style="flex:1">{{ kn.text }}</span><sc-if value="{{ kn.hasBtn }}" hint-placeholder-val="{{ false }}"><button type="button" style="flex:none;height:36px;padding:0 12px;border:0;border-radius:var(--r-btn);background:var(--danger);color:var(--danger-foreground);font:500 14px var(--font);cursor:pointer">{{ kn.btn }}</button></sc-if></div></sc-if>
+      <sc-if value="{{ keysGone }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="display:grid;gap:8px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)"><span style="width:40px;height:40px;border-radius:50%;background:var(--default);color:var(--muted);display:grid;place-items:center"><iconify-icon icon="gravity-ui:lock" width="19" height="19"></iconify-icon></span><b style="font:600 16px/22px var(--font)">{{ s.goneTitle }}</b><span style="font-size:14px;line-height:20px;color:var(--muted)">{{ s.gone }}</span></div>
+      </sc-if>
+      <sc-for list="{{ keys }}" as="k" hint-placeholder-count="2">
+        <div style="display:grid;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <span style="width:40px;height:40px;flex:none;border-radius:var(--r-field);background:{{ k.icBg }};color:{{ k.icFg }};display:grid;place-items:center"><iconify-icon icon="gravity-ui:key" width="19" height="19"></iconify-icon></span>
+            <div style="flex:1;min-width:0;display:grid;gap:2px"><div style="display:flex;align-items:center;justify-content:space-between;gap:4px 8px;flex-wrap:wrap"><b style="font:600 16px/22px var(--font)">{{ k.title }}</b><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ k.bg }};color:{{ k.fg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ k.dot }}"></span>{{ k.seen }}</span></div><div style="font-size:13px;color:var(--muted);text-wrap:pretty">{{ k.min }}</div></div>
+          </div>
+          <sc-if value="{{ k.imported }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:15px;line-height:22px;text-wrap:pretty">{{ k.explain }}</p></sc-if>
+          <sc-if value="{{ k.unsupported }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;padding:10px 12px;border-radius:var(--r-field);background:var(--warning-soft);color:var(--warning-soft-foreground);font-size:13px;line-height:18px"><iconify-icon icon="gravity-ui:triangle-exclamation" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ k.unsup }}</span></div></sc-if>
+          <sc-if value="{{ k.hasBtns }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+              <sc-for list="{{ k.btns }}" as="b" hint-placeholder-count="4">
+                <button type="button" onClick="{{ b.go }}" aria-pressed="{{ b.pressed }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 8px;border:0;border-radius:var(--r-btn);background:{{ b.bg }};color:{{ b.fg }};font:500 14px/18px var(--font);cursor:pointer;grid-column:{{ b.span }};transition:background var(--dur);text-align:center" style-active="transform:scale(.97)"><iconify-icon icon="{{ b.icon }}" width="16" height="16" style="flex:none;color:{{ b.ic }}"></iconify-icon>{{ b.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ k.noQr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)"><iconify-icon icon="gravity-ui:qr-code" width="14" height="14"></iconify-icon>{{ s.noQr }}</span></sc-if>
+          <sc-if value="{{ k.qrOn }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;justify-items:center;gap:8px;padding:14px;border-radius:var(--r-field);background:#fff;color:#18181b;animation:hero-pop .2s var(--ease)">
+              <div style="width:min(230px,100%);aspect-ratio:1">{{ k.qr }}</div>
+              <span style="font:500 13px var(--font);text-align:center">{{ k.qrLabel }}</span>
+              <sc-if value="{{ k.qrPager }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px"><button type="button" onClick="{{ k.prev }}" aria-label="{{ s.prevPart }}" style="width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:#f1f1f3;color:#18181b;cursor:pointer;opacity:{{ k.prevOp }}"><iconify-icon icon="gravity-ui:chevron-left" width="18" height="18"></iconify-icon></button><b style="font:600 14px var(--font);font-variant-numeric:tabular-nums;min-width:56px;text-align:center">{{ k.part }}</b><button type="button" onClick="{{ k.next }}" aria-label="{{ s.nextPart }}" style="width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:#f1f1f3;color:#18181b;cursor:pointer;opacity:{{ k.nextOp }}"><iconify-icon icon="gravity-ui:chevron-right" width="18" height="18"></iconify-icon></button></div></sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ k.rawOn }}" hint-placeholder-val="{{ false }}"><div style="display:grid;gap:6px"><span style="font-size:13px;color:var(--muted)">{{ s.rawHint }}</span><div style="max-height:120px;overflow:auto;padding:10px 12px;border-radius:var(--r-field);background:var(--tile-bg);font:12px/17px var(--mono);overflow-wrap:anywhere;user-select:all">{{ k.raw }}</div></div></sc-if>
+        </div>
+      </sc-for>
+      <sc-if value="{{ how.on }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;gap:0;padding:6px 16px;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+          <b style="padding:10px 0 4px;font:600 15px/20px var(--font)">{{ how.title }}</b>
+          <sc-for list="{{ how.steps }}" as="h" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:26px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--separator);font-size:14px;line-height:20px"><span style="width:26px;height:26px;border-radius:50%;background:var(--default);display:grid;place-items:center;font:600 12px var(--font)">{{ h.n }}</span><span><b style="font-weight:500">{{ h.t }}</b><span style="display:block;color:var(--muted);font-size:13px">{{ h.d }}</span></span></div></sc-for>
+        </div>
+      </sc-if>
+    </section>
+   </div>
+  </sc-if>
+
+  <sc-if value="{{ isSuspended }}" hint-placeholder-val="{{ false }}">
+    <section style="display:grid;gap:18px;padding:{{ susPad }};border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <span style="width:52px;height:52px;border-radius:50%;background:{{ sus.bg }};color:{{ sus.fg }};display:grid;place-items:center"><iconify-icon icon="{{ sus.icon }}" width="24" height="24"></iconify-icon></span>
+      <div style="display:grid;gap:6px"><span style="font:500 13px var(--font);color:{{ sus.fg }}">{{ s.suspended }}</span><h2 style="margin:0;font:600 24px/30px var(--font);letter-spacing:-.02em;text-wrap:balance">{{ sus.title }}</h2><p style="margin:0;color:var(--muted);text-wrap:pretty">{{ sus.what }}</p></div>
+      <sc-if value="{{ sus.hasMeter }}" hint-placeholder-val="{{ false }}"><div style="display:grid;gap:6px"><div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;font-variant-numeric:tabular-nums"><span>{{ sus.m1 }}</span><span style="color:var(--muted);text-align:right">{{ sus.m2 }}</span></div><div style="height:6px;border-radius:999px;background:var(--default);overflow:hidden"><div style="width:100%;height:100%;border-radius:999px;background:var(--danger)"></div></div></div></sc-if>
+      <div style="display:grid;gap:10px;padding:14px 16px;border-radius:var(--r-field);background:var(--tile-bg)">
+        <b style="font:600 14px var(--font)">{{ s.todo }}</b>
+        <sc-for list="{{ sus.todo }}" as="t" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:14px;line-height:20px"><span style="width:22px;height:22px;border-radius:50%;background:var(--default);display:grid;place-items:center;font:600 12px var(--font)">{{ t.n }}</span><span>{{ t.t }}</span></div></sc-for>
+      </div>
+      <div style="display:flex;gap:10px;font-size:13px;line-height:18px;color:var(--muted)"><iconify-icon icon="gravity-ui:circle-info" width="16" height="16" style="flex:none;margin-top:1px"></iconify-icon><span>{{ s.hidden }}</span></div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isNoscript }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)"><span style="width:36px;height:36px;flex:none;border-radius:50%;background:var(--accent-soft);color:var(--accent-soft-foreground);display:grid;place-items:center"><iconify-icon icon="gravity-ui:code" width="18" height="18"></iconify-icon></span><div style="display:grid;gap:4px"><b style="font:600 16px/22px var(--font)">{{ s.nsTitle }}</b><span style="color:var(--muted);font-size:14px;line-height:20px;text-wrap:pretty">{{ s.noscript }}</span></div></section>
+  </sc-if>
+
+  <sc-if value="{{ isImportedPage }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ keys }}" as="k" hint-placeholder-count="2">
+      <div style="display:grid;gap:12px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <span style="width:40px;height:40px;flex:none;border-radius:var(--r-field);background:{{ k.icBg }};color:{{ k.icFg }};display:grid;place-items:center"><iconify-icon icon="gravity-ui:key" width="19" height="19"></iconify-icon></span>
+          <div style="flex:1;min-width:0;display:grid;gap:2px"><div style="display:flex;align-items:center;justify-content:space-between;gap:4px 8px;flex-wrap:wrap"><b style="font:600 16px/22px var(--font)">{{ k.title }}</b><span style="display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:{{ k.bg }};color:{{ k.fg }};font:500 12px/18px var(--font);white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:{{ k.dot }}"></span>{{ k.seen }}</span></div><div style="font-size:13px;color:var(--muted)">{{ k.min }}</div></div>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:22px;text-wrap:pretty">{{ k.explain }}</p>
+      </div>
+    </sc-for>
+  </sc-if>
+
+  <sc-if value="{{ isBusy }}" hint-placeholder-val="{{ false }}">
+    <section role="status" style="display:grid;justify-items:center;gap:14px;padding:40px 24px;text-align:center;border-radius:var(--r-card);background:var(--card-bg);border:1px solid var(--card-bd);box-shadow:var(--card-sh)">
+      <span style="width:52px;height:52px;border-radius:50%;background:var(--default);color:var(--muted);display:grid;place-items:center"><iconify-icon icon="gravity-ui:arrow-rotate-right" width="24" height="24" style="animation:hero-spin 1.2s linear infinite"></iconify-icon></span>
+      <div style="display:grid;gap:6px;max-width:360px"><h2 style="margin:0;font:600 22px/28px var(--font);letter-spacing:-.01em">{{ s.busyTitle }}</h2><p style="margin:0;color:var(--muted);text-wrap:pretty">{{ s.busy }}</p></div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isIdeas }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ ideas }}" as="d" hint-placeholder-count="3">
+      <section style="display:grid;gap:8px;padding:var(--card-p);border-radius:var(--r-card);background:var(--card-bg);border:1px dashed var(--border);box-shadow:none">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font:600 16px/22px var(--font)">{{ d.t }}</b><span style="padding:1px 8px;border-radius:999px;background:var(--warning-soft);color:var(--warning-soft-foreground);font:500 12px/18px var(--font);white-space:nowrap">{{ s.needServer }}</span></div>
+        <span style="font-size:14px;line-height:20px;color:var(--muted);text-wrap:pretty">{{ d.d }}</span>
+      </section>
+    </sc-for>
+  </sc-if>
+
+  <footer style="display:grid;gap:4px;padding-top:14px;border-top:1px solid var(--separator);font-size:13px;line-height:18px;color:var(--muted)">
+    <sc-for list="{{ foot }}" as="f" hint-placeholder-count="2"><span>{{ f }}</span></sc-for>
+  </footer>
+ </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:5;max-width:calc(100% - 32px);padding:10px 16px;border-radius:var(--r-field);background:color-mix(in oklab,var(--foreground) 90%,transparent);color:var(--background);box-shadow:var(--overlay-shadow);font:500 14px/19px var(--font);text-align:center;animation:hero-in-up .22s var(--ease)">{{ toast }}</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 390, &quot;height&quot;: 1300}, &quot;page&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;connect&quot;, &quot;suspended&quot;, &quot;imported&quot;, &quot;busy&quot;, &quot;share&quot;, &quot;preview&quot;, &quot;noscript&quot;, &quot;ideas&quot;], &quot;default&quot;: &quot;connect&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;device&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;phone&quot;, &quot;desktop&quot;, &quot;tv&quot;], &quot;default&quot;: &quot;phone&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;platform&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;auto&quot;, &quot;ios&quot;, &quot;android&quot;, &quot;android_tv&quot;, &quot;tvos&quot;, &quot;windows&quot;, &quot;macos&quot;, &quot;linux&quot;, &quot;router&quot;], &quot;default&quot;: &quot;auto&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;app&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;&quot;, &quot;amneziavpn&quot;, &quot;amneziawg&quot;, &quot;defaultvpn&quot;, &quot;wgconnect&quot;, &quot;incy&quot;, &quot;wgtunnel&quot;, &quot;v2raytun&quot;, &quot;wiresock&quot;, &quot;amneziawg-tools&quot;, &quot;keenetic&quot;, &quot;glinet&quot;, &quot;openwrt&quot;, &quot;mikrotik&quot;, &quot;opnsense&quot;], &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;keys&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;ok&quot;, &quot;mixed&quot;, &quot;loading&quot;, &quot;busy&quot;, &quot;failed&quot;, &quot;gone&quot;], &quot;default&quot;: &quot;ok&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;mirror&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;ready&quot;, &quot;none&quot;, &quot;queued&quot;, &quot;downloading&quot;, &quot;failed&quot;, &quot;off&quot;], &quot;default&quot;: &quot;ready&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;lifetime&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;date&quot;, &quot;short&quot;, &quot;forever&quot;], &quot;default&quot;: &quot;date&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;reason&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;quota&quot;, &quot;expired&quot;, &quot;admin&quot;], &quot;default&quot;: &quot;quota&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;share&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;warning&quot;, &quot;warning-open&quot;, &quot;download-android&quot;, &quot;download-ios&quot;, &quot;download-desktop&quot;, &quot;notfound&quot;, &quot;memo&quot;], &quot;default&quot;: &quot;warning&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;qr&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;&quot;, &quot;conf&quot;, &quot;vpn&quot;, &quot;store&quot;, &quot;mirror&quot;], &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;copy&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;&quot;, &quot;ok&quot;, &quot;fail&quot;], &quot;default&quot;: &quot;&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;apps&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;catalog&quot;, &quot;none&quot;], &quot;default&quot;: &quot;catalog&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;noqr&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}, &quot;name&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;short&quot;, &quot;long&quot;], &quot;default&quot;: &quot;short&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;tvFocus&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;], &quot;default&quot;: &quot;0&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;lang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;ru&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;theme&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;, &quot;system&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;preset&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;ga&quot;, &quot;hero&quot;, &quot;lavender&quot;, &quot;mint&quot;, &quot;graphite&quot;, &quot;paper&quot;], &quot;default&quot;: &quot;ga&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;persist&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  // Иконки подключаются после первого кадра: <script> в <helmet> выполнялся при разборе страницы, и уже
+  // «прорисованные» иконки попадали в шаблон — React падал на removeChild (находка предшественника).
+  loadIcons() { if (typeof customElements === 'undefined' || customElements.get('iconify-icon') || document.getElementById('ga-icons-js')) return; const s = document.createElement('script'); s.id = 'ga-icons-js'; s.src = '../ga-icons.js'; document.head.appendChild(s); }
+  state = { ap: null, lang: null, plat: null, app: null, qr: null, part: 1, copied: null, tvf: 0, toast: null, mirror: null };
+  KEY = 'goamnezia-appearance-v1';
+  // Каталог приложений — выжимка lib/clients.json (checked 2026-09-25); в продукте берётся из самого файла
+  CAT = {"checked":"2026-09-25","lines":["1.0","1.5","2.0","3.1"],"apps":[{"id":"amneziavpn","name":"AmneziaVPN","official":true,"dev":"Amnezia","lic":"GPL-3.0","p":{"ios":{"links":[["appstore","https://apps.apple.com/app/id1600529900","Скрыто в российском App Store по требованию Роскомнадзора — нужен Apple ID другой страны","Hidden in the Russian App Store at Roskomnadzor's request — an Apple ID of another country is needed"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"4.8.14","3.1":"5.0.1"},"note":["iPhone и iPad с iOS/iPadOS 16+. Версии — как в App Store. В российском магазине вместо него — DefaultVPN (официальный форк) и AmneziaWG","iPhone and iPad with iOS/iPadOS 16+. Versions as shown in the App Store. In the Russian store use DefaultVPN (official fork) or AmneziaWG instead"]},"android":{"links":[["googleplay","https://play.google.com/store/apps/details?id=org.amnezia.vpn","",""],["github","https://github.com/amnezia-vpn/amnezia-client/releases/latest","APK с GitHub, если Google Play недоступен","APK from GitHub when Google Play is unavailable"]],"sup":{"1.0":"yes","1.5":"4.8.8.3","2.0":"4.8.12.9","3.1":"5.0.1.5"},"note":["Android 9+ (для Android 7–8 сборки временно нет)","Android 9+ (no build for Android 7–8 for now)"]},"android_tv":{"links":[["googleplay","https://play.google.com/store/apps/details?id=org.amnezia.vpn","",""],["github","https://github.com/amnezia-vpn/amnezia-client/releases/latest","APK ставится через файловый менеджер или adb","Install the APK through a file manager or adb"]],"sup":{"1.0":"yes","1.5":"4.8.8.3","2.0":"4.8.12.9","3.1":"5.0.1.5"},"note":["",""]},"windows":{"links":[["github","https://github.com/amnezia-vpn/amnezia-client/releases/latest","",""],["site","https://amnezia.org/downloads","",""]],"sup":{"1.0":"yes","1.5":"4.8.8.3","2.0":"4.8.12.9","3.1":"5.0.1.5"},"note":["Регистрация ссылок vpn:// в системе не подтверждена — ключ вставляется в приложение текстом","vpn:// link registration is unconfirmed — paste the key into the app as text"]},"macos":{"links":[["github","https://github.com/amnezia-vpn/amnezia-client/releases/latest","",""],["site","https://amnezia.org/downloads","",""]],"sup":{"1.0":"yes","1.5":"4.8.8.3","2.0":"4.8.12.9","3.1":"5.0.1.5"},"note":["macOS 13+ (.pkg); сборки для macOS 10.15–12 временно недоступны","macOS 13+ (.pkg); builds for macOS 10.15–12 are temporarily unavailable"]},"linux":{"links":[["github","https://github.com/amnezia-vpn/amnezia-client/releases/latest","",""],["site","https://amnezia.org/downloads","",""]],"sup":{"1.0":"yes","1.5":"4.8.8.3","2.0":"4.8.12.9","3.1":"5.0.1.5"},"note":["",""]}},"imp":{"conf":true,"qrc":true,"vpn":true,"qrv":true,"dl":["android","android_tv"],"hint":["vpn:// — скопировать или показать QR vpn://; подойдёт и файл .conf («Файл с настройками подключения») или QR .conf. На Android ссылка vpn:// открывает приложение сама","vpn:// — copy it or show the vpn:// QR; the .conf file (“Connection settings file”) or the .conf QR also work. On Android the vpn:// link opens the app by itself"]},"mir":["android","windows","macos","linux"]},{"id":"amneziawg","name":"AmneziaWG","official":true,"dev":"Amnezia","lic":"MIT / Apache-2.0","p":{"ios":{"links":[["appstore","https://apps.apple.com/app/id6478942365","Есть в российском App Store","Available in the Russian App Store"]],"sup":{"1.0":"yes","1.5":"2.0.0","2.0":"2.0.0","3.1":"3.1.4"},"note":["iPhone и iPad с iOS/iPadOS 15+","iPhone and iPad with iOS/iPadOS 15+"]},"android":{"links":[["googleplay","https://play.google.com/store/apps/details?id=org.amnezia.awg","В Google Play — 3.1.4 от 21.09.2026, новее выпуска на GitHub","Google Play has 3.1.4 of 21.09.2026, newer than the GitHub release"],["github","https://github.com/amnezia-vpn/amneziawg-android/releases/latest","APK с GitHub: версия внутри — 3.1.20260813, линейку 3.1 тоже держит","GitHub APK: the in-app version is 3.1.20260813, it also supports line 3.1"]],"sup":{"1.0":"yes","1.5":"2.0.0","2.0":"2.0.0","3.1":"3.1.4"},"note":["",""]},"android_tv":{"links":[["googleplay","https://play.google.com/store/apps/details?id=org.amnezia.awg","В Google Play — 3.1.4 от 21.09.2026, новее выпуска на GitHub","Google Play has 3.1.4 of 21.09.2026, newer than the GitHub release"],["github","https://github.com/amnezia-vpn/amneziawg-android/releases/latest","APK ставится через файловый менеджер или adb","Install the APK through a file manager or adb"]],"sup":{"1.0":"yes","1.5":"2.0.0","2.0":"2.0.0","3.1":"3.1.4"},"note":["На ТВ камеры нет: ключ — файлом .conf (скачать со страницы в браузере ТВ и «Импорт из файла»)","A TV has no camera: add the key as a .conf file (download it from this page in the TV browser, then “Import from file”)"]},"windows":{"links":[["github","https://github.com/amnezia-vpn/amneziawg-windows-client/releases/latest","",""]],"sup":{"1.0":"yes","1.5":"2.0.0","2.0":"2.0.0","3.1":"3.1.0"},"note":["",""]},"macos":{"links":[["appstore","https://apps.apple.com/app/id6478942365","Тот же App Store, что у iPhone","Same App Store listing as on iPhone"]],"sup":{"1.0":"yes","1.5":"2.0.0","2.0":"2.0.0","3.1":"3.1.4"},"note":["macOS 12+","macOS 12+"]}},"imp":{"conf":true,"qrc":true,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf или QR .conf; vpn:// это приложение не понимает","The .conf file or the .conf QR; this app does not understand vpn://"]},"mir":["android","windows"]},{"id":"defaultvpn","name":"DefaultVPN","official":true,"dev":"Amnezia","lic":"closed","p":{"ios":{"links":[["appstore","https://apps.apple.com/app/id6744725017","Официальный форк AmneziaVPN для российского App Store","The official AmneziaVPN fork for the Russian App Store"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"2.0.1"},"note":["iPhone и iPad с iOS/iPadOS 16+","iPhone and iPad with iOS/iPadOS 16+"]}},"imp":{"conf":true,"qrc":false,"vpn":true,"qrv":true,"dl":[],"hint":["vpn:// — скопировать или показать QR vpn://; подойдёт и файл .conf","vpn:// — copy it or show the vpn:// QR; the .conf file also works"]}},{"id":"wgconnect","name":"WG Connect","official":false,"dev":"Robert Hansen (HANSEN AI)","lic":"closed","p":{"tvos":{"links":[["appstore","https://apps.apple.com/app/id6760960925","Только Apple TV, tvOS 17+. Бесплатно — пробные сессии по 120 секунд, дальше разовая покупка Lifetime Access","Apple TV only, tvOS 17+. Free 120-second trial sessions, then a one-time Lifetime Access purchase"],["site","https://wgconnect.net/","",""]],"sup":{"1.0":"1.2.4","1.5":"unknown","2.0":"1.2.4","3.1":"1.4.0"},"note":["Неофициальное, платное после пробы","Unofficial, paid after a trial"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["На ТВ показывается QR — телефон в той же Wi-Fi-сети отправляет файл .conf; можно вставить текст .conf или импортировать по ссылке","The TV shows a QR — a phone on the same Wi-Fi sends the .conf file; you can also paste the .conf text or import it by URL"]}},{"id":"incy","name":"incy","official":false,"dev":"ITDev","lic":"closed","p":{"ios":{"links":[["appstore","https://apps.apple.com/app/id6756943388","",""]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"yes"},"note":["iPhone и iPad с iOS/iPadOS 15+","iPhone and iPad with iOS/iPadOS 15+"]},"android":{"links":[["googleplay","https://play.google.com/store/apps/details?id=llc.itdev.incy","Наличие в российском Google Play не подтверждено","Availability in the Russian Google Play is unconfirmed"],["github","https://github.com/INCY-DEV/incy-platforms/releases/latest","APK с GitHub разработчика, если Google Play недоступен","APK from the developer's GitHub when Google Play is unavailable"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"yes"},"note":["",""]},"android_tv":{"links":[["googleplay","https://play.google.com/store/apps/details?id=llc.itdev.incy","",""],["github","https://github.com/INCY-DEV/incy-platforms/releases/latest","APK с GitHub разработчика, если Google Play недоступен","APK from the developer's GitHub when Google Play is unavailable"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"yes"},"note":["",""]},"tvos":{"links":[["appstore","https://apps.apple.com/app/id6756943388","Тот же App Store, что у iPhone; tvOS 17+","Same App Store listing as on iPhone; tvOS 17+"]],"sup":{"1.0":"unknown","1.5":"unknown","2.0":"unknown","3.1":"unknown"},"note":["Работа AmneziaWG на Apple TV источником не подтверждена","Whether AmneziaWG works on Apple TV is not confirmed by any source"],"hint":["Камеры на ТВ нет — ключ передаёт телефон: в incy на Apple TV откройте «TV relay», появятся 8-значный код и QR; в incy на телефоне введите код или отсканируйте QR","The TV has no camera, so the phone sends the key: open «TV relay» in incy on Apple TV to see an 8-character code and a QR, then enter the code or scan the QR in incy on the phone"]},"macos":{"links":[["appstore","https://apps.apple.com/app/id6756943388","То же приложение из App Store, только Mac на Apple M1 и новее","The same App Store app, Apple M1 or newer Macs only"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"yes"},"note":["macOS 12+ на Apple Silicon. Сборки incy для Mac с GitHub (pre-alpha) AmneziaWG не поддерживают — нужна версия из App Store","macOS 12+ on Apple Silicon. The incy Mac builds from GitHub (pre-alpha) do not support AmneziaWG — use the App Store version"]}},"imp":{"conf":true,"qrc":true,"vpn":false,"qrv":false,"dl":["ios","android","android_tv"],"hint":[".conf, QR .conf или одним нажатием «Открыть в приложении»",".conf, the .conf QR or one tap on “Open in the app”"]}},{"id":"wgtunnel","name":"WG Tunnel","official":false,"dev":"Zane Schepke","lic":"MIT","p":{"android":{"links":[["googleplay","https://play.google.com/store/apps/details?id=com.zaneschepke.wireguardautotunnel","",""],["github","https://github.com/wgtunnel/android/releases/latest","",""],["izzy","https://apt.izzysoft.de/fdroid/index/apk/com.zaneschepke.wireguardautotunnel","",""]],"sup":{"1.0":"3.4.3","1.5":"yes","2.0":"4.2.0","3.1":"5.6.0"},"note":["",""]},"android_tv":{"links":[["googleplay","https://play.google.com/store/apps/details?id=com.zaneschepke.wireguardautotunnel","",""],["github","https://github.com/wgtunnel/android/releases/latest","",""]],"sup":{"1.0":"3.4.3","1.5":"yes","2.0":"4.2.0","3.1":"5.6.0"},"note":["На ТВ камеры нет: ключ — файлом .conf","A TV has no camera: add the key as a .conf file"]}},"imp":{"conf":true,"qrc":true,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf или QR .conf","The .conf file or the .conf QR"]},"mir":["android"]},{"id":"v2raytun","name":"v2RayTun","official":false,"dev":"v2RayTun","lic":"closed","p":{"android":{"links":[["googleplay","https://play.google.com/store/apps/details?id=com.v2raytun.android","",""],["github","https://github.com/LXST-CODE/v2RayTun/releases","APK в выпусках android-v…","APK in the android-v… releases"]],"sup":{"1.0":"unknown","1.5":"unknown","2.0":"5.24.76","3.1":"no"},"note":["AmneziaWG 3.x не поддерживается: запрос #5 от 08.08.2026 открыт","AmneziaWG 3.x is not supported: request #5 of 08.08.2026 is still open"]},"android_tv":{"links":[["googleplay","https://play.google.com/store/apps/details?id=com.v2raytun.android","",""],["github","https://github.com/LXST-CODE/v2RayTun/releases","APK ставится через файловый менеджер или adb","Install the APK through a file manager or adb"]],"sup":{"1.0":"unknown","1.5":"unknown","2.0":"5.24.76","3.1":"no"},"note":["AmneziaWG 3.x не поддерживается: запрос #5 от 08.08.2026 открыт","AmneziaWG 3.x is not supported: request #5 of 08.08.2026 is still open"]},"windows":{"links":[["github","https://github.com/LXST-CODE/v2RayTun/releases","Установщик в выпусках windows-v…","Installer in the windows-v… releases"]],"sup":{"1.0":"unknown","1.5":"unknown","2.0":"3.9.13","3.1":"no"},"note":["AmneziaWG 3.x не поддерживается: запрос #5 от 08.08.2026 открыт","AmneziaWG 3.x is not supported: request #5 of 08.08.2026 is still open"]}},"imp":{"conf":true,"qrc":true,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf или QR .conf","The .conf file or the .conf QR"]}},{"id":"wiresock","name":"WireSock Secure Connect","official":false,"dev":"Vadim Smirnov","lic":"closed","p":{"windows":{"links":[["site","https://www.wiresock.net/wiresock-secure-connect/download","",""]],"sup":{"1.0":"2.2.1.1","1.5":"3.4.5.1","2.0":"3.4.5.1","3.1":"no"},"note":["I1–I5 не поддерживает: с 3.4.5.1 пропускает их молча — ключ работает без сигнатурных пакетов (у WireSock своя имитация протоколов). Ключ 2.0 без I1 (пресет router) — с 3.4.4.1","No I1–I5: since 3.4.5.1 it silently skips them — the key works without signature packets (WireSock has its own protocol imitation). A 2.0 key without I1 (router preset) works from 3.4.4.1"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf","The .conf file"]}},{"id":"amneziawg-tools","name":"amneziawg-tools","official":true,"dev":"Amnezia","lic":"GPL-2.0","p":{"linux":{"links":[["github","https://github.com/amnezia-vpn/amneziawg-tools","",""],["site","https://docs.amnezia.org/documentation/amnezia-wg/","",""]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"3.1.20260812"},"note":["Для 3.1 нужны amneziawg-go или модуль ядра линейки 3.1","Line 3.1 needs amneziawg-go or a kernel module of line 3.1"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf → awg-quick up","The .conf file → awg-quick up"]}},{"id":"keenetic","name":"Keenetic / Netcraze","official":false,"dev":"Keenetic","lic":"closed","p":{"router":{"links":[["site","https://docs.amnezia.org/documentation/instructions/keenetic-os-awg/","Инструкция Amnezia","Amnezia instructions"]],"sup":{"1.0":"4.2","1.5":"5.1.1","2.0":"5.1.1","3.1":"no"},"note":["1.5/2.0 — со стабильной 5.1.1 (в канале разработчика — с 5.1 Alpha 3), лучше 5.1.3+; на 5.0.8 и старше импорт падает с «invalid H1 value». 3.1 KeeneticOS пока не умеет","1.5/2.0 need stable 5.1.1 (dev channel: 5.1 Alpha 3), better 5.1.3+; on 5.0.8 and older the import fails with “invalid H1 value”. KeeneticOS does not support 3.1 yet"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf («Загрузить из файла»)","The .conf file (“Load from file”)"]}},{"id":"glinet","name":"GL.iNet","official":false,"dev":"GL.iNet","lic":"closed","p":{"router":{"links":[["site","https://docs.gl-inet.com/router/en/4/faq/amneziawg_obfuscation/","Какие параметры AmneziaWG понимает прошивка","Which AmneziaWG parameters the firmware understands"],["site","https://docs.gl-inet.com/router/en/4/tutorials/how_to_set_up_vpn_obfuscation_on_glinet_routers/","Инструкция: загрузить .conf в WireGuard Client","How-to: upload the .conf into WireGuard Client"]],"sup":{"1.0":"4.9","1.5":"4.9","2.0":"4.9","3.1":"no"},"note":["Прошивка 4.9+; 3.x не заявлена","Firmware 4.9+; 3.x is not announced"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf («Загрузить из файла»)","The .conf file (“Load from file”)"]}},{"id":"openwrt","name":"OpenWrt (amneziawg)","official":false,"dev":"OpenWrt community","lic":"GPL-2.0","p":{"router":{"links":[["github","https://github.com/2Grey/awg-openwrt","Сборки AmneziaWG 3.1 для OpenWrt 24.10 и 25.12","AmneziaWG 3.1 builds for OpenWrt 24.10 and 25.12"],["github","https://github.com/Slava-Shchipunov/awg-openwrt","Сборки из инструкции Amnezia: 2.0 для 23.05.6–25.12.4, 3.1 — для 24.10.8 и 25.12.5","The builds from Amnezia's guide: 2.0 for 23.05.6–25.12.4, 3.1 for 24.10.8 and 25.12.5"],["site","https://docs.amnezia.org/documentation/instructions/openwrt-os-awg/","Инструкция Amnezia","Amnezia instructions"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"yes"},"note":["Официальной ленты пакетов OpenWrt нет — только сборки сообщества. 3.1 — только на OpenWrt 24.10/25.12 со сборками AWG 3.1","No official OpenWrt feed — community builds only. 3.1 only on OpenWrt 24.10/25.12 with AWG 3.1 builds"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf: LuCI → Network → Interfaces → «Load configuration»","The .conf file: LuCI → Network → Interfaces → “Load configuration”"]}},{"id":"mikrotik","name":"MikroTik (контейнер)","official":false,"dev":"timbrs","lic":"MIT","p":{"router":{"links":[["github","https://github.com/timbrs/amneziawg-mikrotik-c","Контейнер AmneziaWG для RouterOS","An AmneziaWG container for RouterOS"],["site","https://timbrs.github.io/amneziawg-mikrotik-c/conf3.0.html","Конфигуратор: вставить .conf — получить команды","Configurator: paste the .conf, get the commands"]],"sup":{"1.0":"yes","1.5":"yes","2.0":"yes","3.1":"1.2.5"},"note":["Версии — самого контейнера. Нужна RouterOS 7.4+ с пакетом container; своей поддержки AmneziaWG в RouterOS нет","Versions are the container's. Needs RouterOS 7.4+ with the container package; RouterOS itself has no AmneziaWG support"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf — в конфигуратор timbrs.github.io, он выдаёт команды RouterOS","The .conf file — into the timbrs.github.io configurator, it prints RouterOS commands"]}},{"id":"opnsense","name":"OPNsense (плагин AmneziaWG)","official":false,"dev":"nvk86","lic":"BSD-2-Clause","p":{"router":{"links":[["github","https://github.com/nvk86/opnsense-awg-plugin","Плагин клиента и сервера AmneziaWG для OPNsense 26.7","AmneziaWG client and server plugin for OPNsense 26.7"]],"sup":{"1.0":"unknown","1.5":"unknown","2.0":"yes","3.1":"yes"},"note":["Нужна OPNsense 26.7.x (FreeBSD 15.1); 3.1 с совместимостью с конфигами 2.x","Needs OPNsense 26.7.x (FreeBSD 15.1); 3.1 with compatibility for 2.x configs"]}},"imp":{"conf":true,"qrc":false,"vpn":false,"qrv":false,"dl":[],"hint":["Файл .conf: Import → Parse & Fill","The .conf file: Import → Parse & Fill"]}}]};
+  presets() { return { ga: { accent: 'ga', tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow' }, hero: { accent: 'blue', tint: 'neutral', radius: 8, btn: 'pill', cards: 'border' }, lavender: { accent: 'lavender', tint: 'cool', radius: 10, btn: 'pill', cards: 'shadow' }, mint: { accent: 'mint', tint: 'neutral', radius: 12, btn: 'round', cards: 'flat' }, graphite: { accent: 'graphite', tint: 'neutral', radius: 4, btn: 'round', cards: 'border' }, paper: { accent: 'coral', tint: 'warm', radius: 6, btn: 'round', cards: 'flat' } }; }
+  accents(th, hue) {
+    const W = 'oklch(0.9911 0 0)', E = 'oklch(0.2103 0.0059 285.89)';
+    return { ga: ['oklch(0.6 0.13 222)', W], blue: ['oklch(0.6204 0.195 253.83)', W], sky: ['oklch(0.72 0.13 228)', E], lavender: ['oklch(0.6 0.19 293)', W], mint: ['oklch(0.74 0.15 163)', E], coral: ['oklch(0.64 0.19 33)', W], graphite: th === 'dark' ? ['oklch(0.95 0 0)', E] : ['oklch(0.24 0.006 286)', W], custom: [`oklch(0.63 0.17 ${hue})`, W] };
+  }
+  buildAp() {
+    const p = this.props;
+    let ap = { theme: 'light', accent: 'ga', hue: 200, tint: 'neutral', radius: 8, btn: 'pill', cards: 'shadow', fs: 'm', motion: true };
+    if (p.persist !== false) { try { const s = JSON.parse(localStorage.getItem(this.KEY) || 'null'); if (s) ap = { ...ap, ...s }; } catch (e) {} }
+    if (p.preset && this.presets()[p.preset]) ap = { ...ap, ...this.presets()[p.preset] };
+    if (p.theme) ap.theme = p.theme;
+    return ap;
+  }
+  fromProps() { const p = this.props; return { lang: p.lang === 'en' ? 'en' : 'ru', plat: null, app: p.app || null, qr: p.qr || null, part: 1, copied: p.copy === 'ok' ? 'k3.1' : null, tvf: Number(p.tvFocus || 0), mirror: p.mirror || 'ready', toast: p.copy === 'fail' ? 'fail' : null }; }
+  componentDidMount() { this.loadIcons(); this.setState({ ap: this.buildAp(), ...this.fromProps() }); }
+  componentDidUpdate(pp) {
+    const keys = ['page', 'device', 'platform', 'app', 'keys', 'mirror', 'lifetime', 'reason', 'share', 'qr', 'copy', 'apps', 'noqr', 'lang', 'tvFocus', 'name'];
+    if (keys.some(k => pp[k] !== this.props[k])) this.setState(this.fromProps());
+    if (pp.theme !== this.props.theme || pp.preset !== this.props.preset) this.setState({ ap: this.buildAp() });
+  }
+  componentWillUnmount() { clearTimeout(this.ct); }
+  flash(t) { clearTimeout(this.ct); this.setState({ toast: t }); this.ct = setTimeout(() => this.setState({ toast: null }), 1800); }
+  qr(seed) {
+    this._q = this._q || {};
+    if (!this._q[seed]) {
+      let s = seed * 9301 + 49297; const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+      const n = 29; let r = ''; const inF = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+      for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!inF(x, y) && rnd() > .52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+      const f = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3"/>`;
+      this._q[seed] = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 33 33" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><g fill="#18181b">${r}${f(0, 0)}${f(n - 7, 0)}${f(0, n - 7)}</g></svg>`);
+    }
+    return React.createElement('img', { src: this._q[seed], alt: 'QR', style: { width: '100%', height: '100%', display: 'block', imageRendering: 'pixelated' } });
+  }
+
+  renderVals() {
+    const st = this.state, p = this.props, ap = st.ap || this.buildAp();
+    let th = ap.theme; if (th === 'system') th = (typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    const [accent, accentFg] = (this.accents(th, ap.hue)[ap.accent] || this.accents(th, 0).ga);
+    const en = (st.lang || p.lang) === 'en', T = (ru, e) => (en ? e : ru), N = o => (o && (en ? o[1] || o[0] : o[0])) || '';
+    // Размеры в демоданных записаны по-русски; в английском — точка в дробях и английские единицы
+    const LC = x => (!en ? x : String(x).replace(/(\d),(\d)/g, '$1.$2').replace(/ МБ/g, ' MB').replace(/ ГБ/g, ' GB'));
+    const device = p.device || 'phone', isTvDev = device === 'tv', isDesk = device === 'desktop';
+    const page = p.page || 'connect';
+    const CAT = this.CAT, LINES = CAT.lines;
+
+    // ── Человек, его ключи и доступ (демо: «Мама», ключи на AmneziaWG 3.1 и 2.0) ──
+    const label = p.name === 'long' ? 'Мама — Галина Петровна, телефон и планшет' : T('Мама', 'Mom');
+    const keysMode = p.keys || 'ok';
+    const PROF = [{ id: 'awg3', line: '3.1', seen: T('подключался 2 мин назад', 'connected 2 min ago'), on: 1 }, { id: 'awg2', line: '2.0', seen: T('ещё не подключался', 'not connected yet'), on: 0 }];
+    const imported = pid => page === 'imported' || (keysMode === 'mixed' && pid === 'awg2');
+    const myLines = PROF.map(x => x.line);
+
+    // ── Устройства: те же 8 вкладок, что у службы страниц; Apple TV — только нажатием (браузера на ТВ нет) ──
+    const DEV = [['ios', T('iPhone и iPad', 'iPhone & iPad'), 'gravity-ui:smartphone'], ['android', 'Android', 'gravity-ui:smartphone'], ['android_tv', 'Android TV', 'gravity-ui:display'], ['tvos', 'Apple TV', 'gravity-ui:display'], ['windows', 'Windows', 'gravity-ui:display'], ['macos', 'macOS', 'gravity-ui:display'], ['linux', 'Linux', 'gravity-ui:terminal'], ['router', T('Роутер', 'Router'), 'gravity-ui:server']];
+    const plat0 = p.platform && p.platform !== 'auto' ? p.platform : (isDesk ? 'windows' : isTvDev ? 'android_tv' : 'ios');
+    const plat = st.plat || plat0;
+    const supTxt = v => (v === 'yes' ? '' : v === 'no' ? T('нет', 'no') : v === 'unknown' ? T('не подтверждено', 'unconfirmed') : T('с ', 'from ') + v);
+    // Приложения под устройство и линейки ключей человека (поддержка хотя бы одной — не «нет»)
+    const list = p.apps === 'none' ? [] : CAT.apps.filter(a => a.p[plat] && myLines.some(l => a.p[plat].sup[l] !== 'no'));
+    const cur = list.find(a => a.id === st.app) || list[0] || null;
+    const kinds = { appstore: 'App Store', googleplay: 'Google Play', github: 'GitHub', site: T('Сайт', 'Website'), izzy: 'IzzyOnDroid' };
+    const MIR = { android: 'APK · 78,4 МБ', windows: 'EXE · 73,6 МБ', macos: 'PKG · 96,2 МБ', linux: 'RUN · 88,0 МБ' };
+    const MIRV = { amneziavpn: '5.0.1.5', amneziawg: '3.1.20260814', wgtunnel: '5.7.2' };
+    const MIRS = { amneziawg: { android: 'APK · 14,8 МБ', windows: 'MSI · 12,1 МБ' }, wgtunnel: { android: 'APK · 21,5 МБ' } };
+    const mirState = st.mirror || p.mirror || 'ready';
+    const mirror = a => {
+      const sz = LC((MIRS[a.id] && MIRS[a.id][plat]) || MIR[plat] || '');
+      const base = { hasBtn: true, off: false, op: 1, bg: 'var(--foreground)', fg: 'var(--background)', icon: 'gravity-ui:arrow-down-to-line', hasQr: false, qrOn: false, hasBar: false, pct: '0%', titleC: 'inherit', go: () => {}, toggle: () => {}, qrAria: T('QR копии на нашем сервере', 'QR of the copy on our server'), qr: null, qrCap: '' };
+      const req = () => { this.setState({ mirror: 'queued' }); };
+      return {
+        ready: { ...base, title: T('Копия на нашем сервере', 'A copy on our server'), sub: a.name + ' ' + (MIRV[a.id] || '') + ' · ' + sz, btn: T('Скачать с нашего сервера', 'Download from our server'), hasQr: true, qrOn: st.qr === 'mirror', toggle: () => this.setState(s => ({ qr: s.qr === 'mirror' ? null : 'mirror' })), qr: this.qr(64), qrCap: T('Отсканируйте другим устройством — скачается эта копия', 'Scan with another device to download this copy') },
+        none: { ...base, title: T('Копии на нашем сервере ещё нет', 'No copy on our server yet'), sub: T('Сервер скачает официальную сборку с GitHub и сверит её отпечаток — обычно за пару минут', 'The server fetches the official GitHub build and checks its fingerprint — usually in a couple of minutes'), btn: T('Запросить копию на наш сервер', 'Request a copy on our server'), bg: 'var(--default)', fg: 'var(--default-foreground)', icon: 'gravity-ui:arrow-up-from-line', go: req },
+        queued: { ...base, title: T('В очереди на загрузку', 'Queued for download'), sub: T('Страница обновит состояние сама', 'The page updates by itself'), btn: T('Запросить копию на наш сервер', 'Request a copy on our server'), bg: 'var(--default)', fg: 'var(--default-foreground)', icon: 'gravity-ui:clock', off: true, op: 'var(--disabled-opacity)', hasBar: true, pct: '0%' },
+        downloading: { ...base, title: T('Загружается, 34 %', 'Downloading, 34 %'), sub: a.name + ' ' + (MIRV[a.id] || '') + ' · ' + sz, btn: T('Запросить копию на наш сервер', 'Request a copy on our server'), bg: 'var(--default)', fg: 'var(--default-foreground)', icon: 'gravity-ui:arrow-down-to-line', off: true, op: 'var(--disabled-opacity)', hasBar: true, pct: '34%' },
+        failed: { ...base, title: T('Копию сделать не удалось — попробуйте через час', 'The copy could not be made — try again in an hour'), titleC: 'var(--danger-soft-foreground)', sub: T('Пока берите приложение по ссылкам выше', 'For now get the app from the links above'), btn: T('Запросить копию на наш сервер', 'Request a copy on our server'), bg: 'var(--default)', fg: 'var(--default-foreground)', icon: 'gravity-ui:arrow-up-from-line', off: true, op: 'var(--disabled-opacity)' },
+        off: { ...base, title: T('Копия на сервер для этой страницы выключена', 'Copies on the server are off for this page'), sub: T('Приложение — по ссылкам выше', 'Get the app from the links above'), hasBtn: false }
+      }[mirState] || null;
+    };
+    const apps = list.map((a, i) => {
+      const pp = a.p[plat], on = cur && a.id === cur.id;
+      const tags = [{ t: a.official ? T('официальное', 'official') : T('неофициальное', 'unofficial'), bg: a.official ? 'var(--success-soft)' : 'var(--default)', fg: a.official ? 'var(--success-soft-foreground)' : 'var(--muted)' }];
+      if (a.id === 'wgconnect') tags.push({ t: T('платное после пробы', 'paid after a trial'), bg: 'var(--warning-soft)', fg: 'var(--warning-soft-foreground)' });
+      const lines = LINES.map(l => { const v = pp.sup[l], mine = myLines.includes(l); return { t: l, v: supTxt(v), icon: v === 'no' ? 'gravity-ui:minus' : v === 'unknown' ? 'gravity-ui:circle-info' : 'gravity-ui:check', bg: mine ? 'var(--default)' : 'transparent', fg: v === 'no' || v === 'unknown' ? 'var(--muted)' : 'var(--foreground)', op: mine ? 1 : .6 }; });
+      const links = pp.links.map(([kind, url, nr, ne], li) => { const key = 'link-' + a.id + '-' + li, qOn = st.qr === key || (st.qr === 'store' && li === 0); return { label: kinds[kind] || kind, note: en ? ne : nr, hasNote: !!(en ? ne : nr), hasQrBtn: !(p.noqr), qrOn: qOn, toggle: () => this.setState(s => ({ qr: s.qr === key ? null : key })), qrLabel: qOn ? T('Скрыть QR', 'Hide QR') : 'QR', qrAria: T('QR-код ссылки ', 'QR code of the link ') + (kinds[kind] || kind), qbg: qOn ? 'var(--foreground)' : 'var(--default)', qfg: qOn ? 'var(--background)' : 'var(--default-foreground)', qr: this.qr(80 + li + a.id.length), qrCap: T('Отсканируйте телефоном — откроется ', 'Scan with a phone to open ') + (kinds[kind] || kind) }; });
+      const mir = a.mir && a.mir.includes(plat) ? mirror(a) : null;
+      const note = N(pp.note);
+      const caveat = /скрыто|не поддерж|не подтвержд|платное|неофициальн|hidden|not supported|unconfirmed|paid/i.test(note);
+      return { name: a.name, tags, on, pick: () => this.setState({ app: a.id, qr: null, part: 1 }), lines, links, meta: T('Разработчик: ', 'Developer: ') + a.dev + (a.lic && a.lic !== 'closed' ? ' · ' + a.lic : T(' · закрытый код', ' · closed source')),
+        note, hasNote: !!note, noteBg: caveat ? 'var(--warning-soft)' : 'var(--tile-bg)', noteFg: caveat ? 'var(--warning-soft-foreground)' : 'var(--foreground)',
+        hasMirror: !!mir, mir: mir || {}, how: N(pp.hint) || N(a.imp.hint), hasHow: !!(N(pp.hint) || N(a.imp.hint)),
+        sh: on ? '0 0 0 2px var(--accent)' : 'var(--card-sh)', bw: on ? '6px' : '2px', bc: on ? 'var(--accent)' : 'var(--muted)' };
+    });
+
+    // ── Заметка под вкладками: Apple TV (браузера нет — страница открыта на iPhone) и ТВ, открытый с телефона ──
+    const platNote = plat === 'tvos'
+      ? { on: true, icon: 'gravity-ui:display', title: T('Официального приложения AmneziaWG для Apple TV нет', 'There is no official AmneziaWG app for Apple TV'), text: T('Ниже — неофициальные. Надёжнее включить VPN на роутере: тогда Apple TV пойдёт через него без всякого приложения. Браузера на Apple TV нет, поэтому эту страницу открывают на iPhone — ключ на телевизор отправит телефон.', 'The apps below are unofficial. VPN on the router is more reliable: then Apple TV goes through it with no app at all. Apple TV has no browser, so this page is opened on an iPhone — the phone sends the key to the TV.'), hasBtn: true, btn: T('VPN на роутере', 'VPN on the router'), go: () => this.setState({ plat: 'router', app: null, qr: null }) }
+      : plat === 'android_tv' && !isTvDev ? { on: true, icon: 'gravity-ui:display', title: T('Ключ добавляется на самом телевизоре', 'The key is added on the TV itself'), text: T('Откройте эту ссылку в браузере телевизора — кнопки «Открыть в приложении» и «Скачать .conf» сработают там. На ТВ нет камеры, поэтому QR-коды для него не нужны.', 'Open this link in the TV browser — “Open in the app” and “Download .conf” work there. A TV has no camera, so it needs no QR codes.'), hasBtn: false, go: () => {} }
+      : { on: false, hasBtn: false, go: () => {} };
+
+    // ── Шаг 2: ключи под выбранное приложение ──
+    const imp = cur ? cur.imp : { conf: true, qrc: true, vpn: true, qrv: true, dl: [], hint: ['', ''] };
+    // «Открыть в …» — только где у приложения есть переход на этой платформе; на Apple TV его нет ни у кого
+    // (у incy там «TV relay»: ключ передаёт телефон)
+    const hasDl = !!cur && imp.dl.includes(plat);
+    const keysReady = keysMode === 'ok' || keysMode === 'mixed';
+    const P = ['var(--accent)', 'var(--accent-foreground)'], S2 = ['var(--default)', 'var(--default-foreground)'];
+    const vpnRaw = 'vpn://AAAHvXicpVPbbtswDH33Vwh5TCTLjpNtCFBgHdZtRRtsWNt9gCzRiVFZMiQ5t2H_PsqO27TFsAHbgyGLPDyHh6QSyWGVKqVLSpTTnslRUnf8mRdOqgR3o6aI3kOjrN1mIIsGUMcKxpRy3HWlFMHnqJcNLdq4xUVx1xCqX1mnCQLLhyXPXXEFbKOJQ3fZntjpxQpsWIXRHD05BqtTlq2HxGpWRFSZkqLY6g9NmaSPXtS8V1YkqsvGBvYxTUdLCwZVkVhZ1eGRFqPh6kuFDYYt5ttB5hjatlUfWXclLdtQT0CIs0+Yds0HHTmhyr9OwjpdDLZ3pmSp13BjDM5TXgR4lq5njWuYmcJHlDHzyvbdLL7lSeWl6BU3SeFKpvvnjhFFbiirIVk3qhp0cG0YuS6rd8Rr5WJBtd0MjHRkN6L8U8b4d2bPULjaM2wdUNXXxS4pm1ECrpwqj7GjXJ3dYHu5ZtW14yy19FF61qlzYitVxUpNXuVTHR+PR4GmCkjAZU6qDPGt0MnvzfsNthnRUnUzRNbEFHl9IlOpkxSEx5sWqdg4C3jm+1CE1EI6RW6ZfLXzRhwFZqPN6tQwvPxk8vfdVKy8nTwxYXzxTNFjSVP3+fG6ZKZhZn+XWKxZLWp0WvR8cT2cbCEZxUb/vZZvW3sBYxm+4jM3d9vvz6/+fvmDQ0/HQ4=';
+    const keys = page === 'suspended' || page === 'ideas' || page === 'busy' || keysMode === 'gone' ? [] : (page === 'noscript' ? PROF.filter(pr => imported(pr.id)) : PROF).map((pr, ki) => {
+      const im = imported(pr.id), v = cur ? cur.p[plat].sup[pr.line] : 'yes';
+      const unsupported = !im && !!cur && v === 'no';
+      const qk = st.qr && st.qr.indexOf('k' + pr.line) === 0 ? st.qr : (st.qr === 'conf' && ki === 0 ? 'k3.1conf' : st.qr === 'vpn' && ki === 0 ? 'k3.1vpn' : null);
+      const setQr = key => () => this.setState(s => ({ qr: s.qr === key ? null : key, part: 1 }));
+      const cp = 'k' + pr.line, copied = st.copied === cp;
+      const b = [];
+      if (!im && !unsupported) {
+        if (hasDl && keysReady) b.push([T('Открыть в ', 'Open in ') + cur.name, 'gravity-ui:arrow-up-right-from-square', P, () => {}, '1 / -1', false]);
+        if (imp.vpn && keysReady) b.push([copied ? T('Скопировано', 'Copied') : T('Скопировать vpn://', 'Copy vpn://'), copied ? 'gravity-ui:check' : 'gravity-ui:copy', S2, () => { this.setState({ copied: cp }); clearTimeout(this.cpt); this.cpt = setTimeout(() => this.setState({ copied: null }), 1600); }, 'auto', false]);
+        if (imp.qrv && !p.noqr && plat !== 'tvos') b.push(['QR vpn://', 'gravity-ui:qr-code', qk === cp + 'vpn' ? ['var(--foreground)', 'var(--background)'] : S2, setQr(cp + 'vpn'), 'auto', qk === cp + 'vpn']);
+        if (imp.conf) b.push([T('Скачать .conf', 'Download .conf'), 'gravity-ui:arrow-down-to-line', !hasDl && !imp.vpn ? P : S2, () => {}, 'auto', false]);
+        if (imp.qrc && !p.noqr && plat !== 'tvos') b.push([T('QR .conf', '.conf QR'), 'gravity-ui:qr-code', qk === cp + 'conf' ? ['var(--foreground)', 'var(--background)'] : S2, setQr(cp + 'conf'), 'auto', qk === cp + 'conf']);
+      }
+      const min = im ? T('линейка ', 'line ') + pr.line : !cur ? T('подойдёт любое приложение из каталога', 'any app from the catalog works') : v === 'yes' ? T('подойдёт любая версия ', 'any version of ') + cur.name + T('', ' works') : v === 'unknown' ? T('поддержка линейки ' + pr.line + ' в ' + cur.name + ' не подтверждена', 'support for line ' + pr.line + ' in ' + cur.name + ' is unconfirmed') : v === 'no' ? '' : cur.name + T(': нужна версия ' + v + ' или новее', ': version ' + v + ' or newer is needed');
+      const vpnQr = qk === cp + 'vpn';
+      return { title: T('Профиль ', 'Profile ') + pr.line, min, seen: pr.seen, bg: pr.on ? 'var(--success-soft)' : 'var(--default)', fg: pr.on ? 'var(--success-soft-foreground)' : 'var(--muted)', dot: pr.on ? 'var(--success)' : 'var(--muted)',
+        icBg: im ? 'var(--default)' : 'var(--accent-soft)', icFg: im ? 'var(--muted)' : 'var(--accent-soft-foreground)',
+        imported: im, explain: T('Ключ для AmneziaWG ' + pr.line + ' у вас уже есть: его выдали раньше в приложении Amnezia, и он там работает. На этой странице его нет. Нужен здесь — напишите тому, кто прислал ссылку.', 'You already have a key for AmneziaWG ' + pr.line + ': it was issued earlier in the Amnezia app and works there. It is not on this page. If you need it here, message whoever sent you the link.'),
+        unsupported, unsup: cur ? T(cur.name + ' не поддерживает AmneziaWG ' + pr.line + ' — для этого ключа выберите другое приложение.', cur.name + ' does not support AmneziaWG ' + pr.line + ' — pick another app for this key.') : '',
+        hasBtns: b.length > 0, btns: b.map(([label, icon, [bg, fg], go, span, pressed]) => ({ label, icon, bg, fg, go, span, pressed, ic: label === T('Скопировано', 'Copied') ? 'var(--success)' : 'currentColor' })),
+        noQr: !!p.noqr && !im && !unsupported && (imp.qrc || imp.qrv),
+        qrOn: !!qk && !im, qr: this.qr(ki * 7 + (vpnQr ? 3 + (st.part - 1) * 11 : 1)), qrLabel: vpnQr ? T('QR ' + st.part + ' из 3 — сканируйте по порядку: «Добавить» → «QR-код»', 'QR ' + st.part + ' of 3 — scan in order: “Add” → “QR code”') : T('.conf · отсканируйте в приложении: «+» → «QR-код»', '.conf · scan it in the app: “+” → “QR code”'),
+        qrPager: vpnQr, part: st.part + ' / 3', prev: () => this.setState(s => ({ part: Math.max(1, s.part - 1) })), next: () => this.setState(s => ({ part: Math.min(3, s.part + 1) })), prevOp: st.part > 1 ? 1 : .35, nextOp: st.part < 3 ? 1 : .35,
+        rawOn: st.toast === 'fail' && ki === 0 && !im, raw: vpnRaw };
+    });
+    // Заметка шага 2: ключи ещё грузятся / сервер занят / не загрузились
+    const kn = { loading: { on: true, icon: 'gravity-ui:arrow-rotate-right', anim: 'hero-spin 1s linear infinite', text: T('Загружаю ключи… Файл .conf и QR уже работают, «Скопировать» и «Открыть» появятся через секунду.', 'Loading the keys… The .conf file and QR already work, “Copy” and “Open” appear in a second.'), bg: 'var(--tile-bg)', fg: 'var(--foreground)', hasBtn: false },
+      busy: { on: true, icon: 'gravity-ui:clock', anim: 'none', text: T('Сервер занят — пробую ещё раз через несколько секунд…', 'The server is busy — trying again in a few seconds…'), bg: 'var(--warning-soft)', fg: 'var(--warning-soft-foreground)', hasBtn: false },
+      failed: { on: true, icon: 'gravity-ui:circle-exclamation', anim: 'none', text: T('Ключи не загрузились — обновите страницу.', 'The keys did not load — reload the page.'), bg: 'var(--danger-soft)', fg: 'var(--danger-soft-foreground)', hasBtn: true, btn: T('Обновить', 'Reload') } }[keysMode] || { on: false, hasBtn: false };
+    // Как отправить ключ на Apple TV — три шага под выбранное приложение
+    const how = plat === 'tvos' && cur ? { on: true, title: T('Как отправить ключ на Apple TV', 'How to send the key to Apple TV'), steps: (cur.id === 'wgconnect'
+      ? [[T('Скачайте .conf на этот iPhone', 'Download the .conf to this iPhone'), T('Кнопкой «Скачать .conf» выше', 'With “Download .conf” above')], [T('Откройте WG Connect на Apple TV', 'Open WG Connect on Apple TV'), T('На экране телевизора появится QR-код', 'A QR code appears on the TV screen')], [T('Отсканируйте его камерой iPhone', 'Scan it with the iPhone camera'), T('Откроется страница отправки — выберите скачанный файл. iPhone и Apple TV должны быть в одной сети Wi-Fi', 'A sending page opens — pick the downloaded file. The iPhone and Apple TV must be on the same Wi-Fi')]]
+      : [[T('Добавьте ключ в incy на этом iPhone', 'Add the key to incy on this iPhone'), T('Вкладка «iPhone и iPad» → «Открыть в incy»; или «Скачать .conf» выше и импорт файла в incy', 'The “iPhone & iPad” tab → “Open in incy”; or “Download .conf” above and import the file in incy')], [T('На Apple TV откройте incy → «TV relay»', 'On Apple TV open incy → “TV relay”'), T('На экране появятся 8-значный код и QR', 'An 8-character code and a QR appear on the screen')], [T('В incy на iPhone введите код или отсканируйте QR', 'In incy on the iPhone enter the code or scan the QR'), T('Камеры на ТВ нет — ключ на телевизор передаёт телефон', 'The TV has no camera — the phone sends the key to the TV')]]).map(([t, d], i) => ({ n: i + 1, t, d })) } : { on: false, steps: [] };
+
+    // ── Шапка: срок страницы — «добавьте ключ заранее» ──
+    const lifetime = p.lifetime || 'date';
+    const until = lifetime === 'forever' ? T('Страница бессрочная', 'This page never expires') : lifetime === 'short' ? T('Страница открывается до 24.10.2026 18:40 — добавьте ключ заранее', 'This page opens until 24.10.2026 18:40 — add the key in advance') : T('Страница открывается до 24.10.2026 18:40 — добавьте ключ заранее, VPN будет работать и после', 'This page opens until 24.10.2026 18:40 — add the key in advance, the VPN keeps working after that');
+    const stat = lifetime === 'short'
+      ? { title: T('Доступ работает', 'Access is working'), sub: T('доступ до 20.10.2026 · осталось 24 дня', 'access until 20.10.2026 · 24 days left'), used: LC('12,3'), of: T('из 50 ГБ', 'of 50 GB'), hasMeter: true, pct: '25%' }
+      : lifetime === 'forever' ? { title: T('Доступ работает', 'Access is working'), sub: T('доступ бессрочный, без лимита', 'no end date, no limit'), used: LC('12,3'), of: T('ГБ', 'GB'), hasMeter: false, pct: '0%' }
+      : { title: T('Доступ работает', 'Access is working'), sub: T('доступ до 01.11.2026 · осталось 36 дней', 'access until 01.11.2026 · 36 days left'), used: LC('12,3'), of: T('из 50 ГБ', 'of 50 GB'), hasMeter: true, pct: '25%' };
+
+    // ── Приостановлено: три причины; лимит считается за всё время и сам не обнуляется ──
+    const reason = ['quota', 'expired', 'admin'].includes(p.reason) ? p.reason : 'quota';
+    const tone = k => (k === 'default' ? ['var(--default)', 'var(--muted)'] : [`var(--${k}-soft)`, `var(--${k}-soft-foreground)`]);
+    const SUS = {
+      quota: { title: T('Трафик закончился', 'The traffic is used up'), what: T('Использовано 50 из 50 ГБ. Доступ включится, когда администратор увеличит лимит.', '50 of 50 GB used. Access turns back on when the administrator raises the limit.'), todo: [T('Напишите тому, кто прислал эту ссылку, — попросите увеличить лимит.', 'Message whoever sent you this link and ask them to raise the limit.'), T('Приложение не удаляйте: когда лимит увеличат, VPN заработает сам.', 'Keep the app: once the limit is raised, the VPN works again by itself.')], k: 'danger', icon: 'gravity-ui:arrow-up-arrow-down', hasMeter: true, m1: T('50 из 50 ГБ', '50 of 50 GB'), m2: T('лимит считается за всё время', 'the limit counts all-time traffic') },
+      expired: { title: T('Срок доступа закончился 20.09.2026', 'Access ended on 20.09.2026'), what: T('Ключи перестали работать в этот день.', 'Your keys stopped working that day.'), todo: [T('Напишите тому, кто прислал эту ссылку, — попросите продлить доступ.', 'Message whoever sent you this link and ask them to extend access.'), T('После продления ничего переустанавливать не нужно.', 'You will not need to reinstall anything after it is extended.')], k: 'warning', icon: 'gravity-ui:clock' },
+      admin: { title: T('Доступ выключен администратором', 'Access was turned off by the administrator'), what: T('Ключи сейчас не работают.', 'Your keys do not work right now.'), todo: [T('Чтобы вернуть доступ, напишите тому, кто прислал эту ссылку.', 'To get access back, message whoever sent you this link.'), T('Приложение не удаляйте: когда доступ включат, всё заработает само.', 'Keep the app: once access is back, everything works by itself.')], k: 'default', icon: 'gravity-ui:lock' }
+    }[reason];
+    const sT = tone(SUS.k);
+
+    // ── Телевизор (Android TV): крупные цели 76 px, фокус пультом; справа — пульт или QR ключа ──
+    const tvDef = [[1, T('Установите приложение', 'Install the app')], [0, T('AmneziaVPN из Google Play', 'AmneziaVPN from Google Play'), T('официальное', 'official'), 'gravity-ui:arrow-up-right-from-square'], [0, T('Скачать с нашего сервера', 'Download from our server'), LC('APK · 78,4 МБ'), 'gravity-ui:arrow-down-to-line'], [1, T('Добавьте ключ', 'Add the key')], [0, T('Открыть ключ в AmneziaVPN', 'Open the key in AmneziaVPN'), T('профиль 3.1', 'profile 3.1'), 'gravity-ui:key'], [0, T('Открыть ключ в AmneziaVPN', 'Open the key in AmneziaVPN'), T('профиль 2.0', 'profile 2.0'), 'gravity-ui:key'], [0, T('Скачать файл .conf', 'Download the .conf file'), T('для «Импорт из файла»', 'for “Import from file”'), 'gravity-ui:file-text'], [0, T('Показать QR ключа', 'Show the key QR'), T('для второго устройства', 'for another device'), 'gravity-ui:qr-code'], [1, T('Другие приложения', 'Other apps')], [0, 'AmneziaWG · incy · WG Tunnel · v2RayTun', T('весь список и ключи', 'full list and keys'), 'gravity-ui:chevron-right']];
+    let bi = 0;
+    const tvItems = tvDef.map(([h, lab, meta, icon]) => { if (h) return { head: true, btn: false, label: lab }; const i = bi++; const f = st.tvf === i; return { head: false, btn: true, label: lab, meta, icon, focus: () => this.setState({ tvf: i }), bg: f ? 'var(--foreground)' : 'var(--card-bg)', fg: f ? 'var(--background)' : 'var(--foreground)', ol: f ? '4px solid var(--accent)' : '0 solid transparent' }; });
+    const tvQr = st.tvf === 5;
+    const tv = { kicker: T('Подключение: ', 'Connect: ') + label + T(' · телевизор', ' · TV'), title: T('Подключите телевизор', 'Connect your TV'), status: T('Доступ работает', 'Access is working'), meta: T('12,3 из 50 ГБ · до 01.11', '12.3 of 50 GB · until 01.11'),
+      sideTitle: tvQr ? T('Ключ картинкой', 'The key as a picture') : T('Пульт', 'Remote'), sideText: tvQr ? T('Отсканируйте телефоном в AmneziaVPN или AmneziaWG — ключ профиля 3.1 добавится и на телефон.', 'Scan it with a phone in AmneziaVPN or AmneziaWG — the profile 3.1 key is added to the phone too.') : T('Эта страница сама узнала телевизор. Всё делается пультом.', 'This page recognised the TV. Everything works with the remote.'),
+      qrOn: tvQr, qr: this.qr(42), hintsOn: !tvQr, hints: [{ k: '▲ ▼', t: T('выбор', 'move') }, { k: 'OK', t: T('нажать', 'press') }, { k: '◀', t: T('назад', 'back') }],
+      foot: tvQr ? T('Не показывайте этот QR посторонним: в нём ваш ключ. Скрыть — ОК ещё раз.', 'Do not show this QR to others: it holds your key. Hide it — press OK again.') : T('Страница открывается до 24.10.2026 — добавьте ключ заранее, VPN будет работать и после.', 'This page opens until 24.10.2026 — add the key in advance, the VPN keeps working after that.') };
+
+    // ── Временная ссылка глазами получателя: своей страницы нет — браузер, скачивание, «404» ──
+    const shareState = p.share || 'warning';
+    const ssUrl = 'https://203.0.113.10:38472/d-Kx7QpvN2mS8dRt1LyWc4Ub9FgHj0AeZnQrTvXsMkP3I/mama-awg3.conf';
+    const okUrl = 'https://vpn.example.ru:41873/d-Q7mX2p9KfL4vRt8wZ3nBx5HcJ1eYdA6uGs0NkWqPoT/mama-awg3.conf';
+    const fpv = '3A:9F:12:B7:04:CE:88:1D:6E:52:AB:77:30:F4:9C:21:55:E0:8B:46:D2:7A:13:C9:60:EF:35:A8:74:1B:5D:92';
+    const isWarn = shareState === 'warning' || shareState === 'warning-open';
+    const frDesk = shareState === 'download-desktop';
+    const FR = {
+      warning: { noteIcon: 'gravity-ui:circle-info', noteTitle: T('Так и должно быть: у сервера нет домена', 'This is expected: the server has no domain'), noteText: T('Сертификат самоподписанный, поэтому браузер предупреждает. Нажмите «Дополнительные» → «Перейти на сайт 203.0.113.10 (небезопасно)» — файл скачается сразу.', 'The certificate is self-signed, so the browser warns. Tap “Advanced” → “Proceed to 203.0.113.10 (unsafe)” — the file downloads at once.'), hasFp: true },
+      'warning-open': { noteIcon: 'gravity-ui:circle-info', noteTitle: T('Нажмите «Перейти на сайт…»', 'Tap “Proceed to…”'), noteText: T('Файл скачается сразу — страницы у ссылки нет. Хотите проверить подлинность — сверьте отпечаток сертификата с тем, что прислал администратор.', 'The file downloads at once — the link has no page. To check it is genuine, compare the certificate fingerprint with the one the administrator sent.'), hasFp: true },
+      'download-android': { noteIcon: 'gravity-ui:circle-check', noteTitle: T('Файл скачан — теперь импортируйте его', 'Downloaded — now import it'), noteText: T('AmneziaWG: «+» → «Импорт из файла» → «Загрузки». AmneziaVPN: «Добавить» → «Файл с настройками подключения». Ссылка работает ещё несколько минут, скачать можно повторно.', 'AmneziaWG: “+” → “Import from file” → “Downloads”. AmneziaVPN: “Add” → “Connection settings file”. The link keeps working for a few more minutes and can be used again.'), hasFp: false },
+      'download-ios': { noteIcon: 'gravity-ui:circle-check', noteTitle: T('Нажмите «Загрузить»', 'Tap “Download”'), noteText: T('Файл попадёт в «Файлы» → «Загрузки». В AmneziaWG: «+» → «Создать из файла или архива» → выберите его там.', 'The file goes to Files → Downloads. In AmneziaWG: “+” → “Create from file or archive” → pick it there.'), hasFp: false },
+      'download-desktop': { noteIcon: 'gravity-ui:circle-check', noteTitle: T('Файл скачан в «Загрузки»', 'Saved to Downloads'), noteText: T('AmneziaWG для Windows: «Импорт туннеля из файла». AmneziaVPN: «Добавить» → «Файл с настройками подключения».', 'AmneziaWG for Windows: “Import tunnel from file”. AmneziaVPN: “Add” → “Connection settings file”.'), hasFp: false },
+      notfound: { noteIcon: 'gravity-ui:circle-info', noteTitle: T('Ссылка истекла, снята или чужая', 'The link expired, was revoked or is not yours'), noteText: T('Сервер отвечает обычной «404», как любой сайт: своей страницы у ссылки нет, по ней нельзя понять, что это VPN. Нужен файл — попросите новую ссылку у того, кто прислал.', 'The server answers a plain “404”, like any site: the link has no page of its own, and nothing shows it is a VPN. Need the file — ask the sender for a new link.'), hasFp: false },
+      memo: { noteIcon: 'gravity-ui:circle-info', noteTitle: T('Памятка приходит вместе со ссылкой', 'The note comes with the link'), noteText: T('Администратор отправляет её из панели кнопкой «Скопировать памятку» или пересылает из бота. Адреса в памятке нет — её можно хранить.', 'The administrator sends it from the panel with “Copy the note” or forwards it from the bot. The note has no address in it — it is safe to keep.'), hasFp: false },
+      preview: { noteIcon: 'gravity-ui:circle-info', noteTitle: T('Превью ссылки в мессенджере', 'Link preview in a messenger'), noteText: T('Робот превью получает пустую оболочку: ни ключей, ни имени человека, и визит не засчитывается.', 'The preview robot gets an empty shell: no keys, no name, and the visit is not counted.'), hasFp: false }
+    };
+    const frKey = page === 'preview' ? 'preview' : shareState;
+    const frN = FR[frKey] || FR.warning;
+    const fr = { pad: isDesk ? '40px 24px' : '16px', w: frDesk || (isDesk && frKey !== 'memo' && frKey !== 'preview') ? '1100px' : '390px', h: frDesk ? '560px' : '640px', bodyPad: '28px 20px',
+      hasNav: frDesk, url: frKey === 'preview' ? '' : isWarn || shareState === 'download-android' || shareState === 'download-ios' ? ssUrl : okUrl, urlIcon: isWarn ? 'gravity-ui:triangle-exclamation' : 'gravity-ui:lock', urlIconC: isWarn ? 'var(--danger-soft-foreground)' : 'var(--muted)', unsafe: isWarn, unsafeLabel: T('Не защищено', 'Not secure'),
+      dlIcon: shareState === 'download-ios', isWarn, advOpen: shareState === 'warning-open', warnTitle: T('Подключение не защищено', 'Your connection is not private'), warnText: T('Злоумышленники могут пытаться похитить ваши данные с сайта 203.0.113.10 (например, пароли, сообщения или номера банковских карт).', 'Attackers might be trying to steal your information from 203.0.113.10 (for example, passwords, messages or credit cards).'),
+      advText: T('Не удалось подтвердить, что это сервер 203.0.113.10: операционная система не доверяет его сертификату безопасности.', 'This server could not prove that it is 203.0.113.10; its security certificate is not trusted by your operating system.'), proceed: T('Перейти на сайт 203.0.113.10 (небезопасно)', 'Proceed to 203.0.113.10 (unsafe)'), advBtn: T('Дополнительные', 'Advanced'), backBtn: T('Вернуться к безопасной странице', 'Back to safety'), advRing: shareState === 'warning' ? '0 0 0 3px var(--accent)' : 'none',
+      isBlank: shareState.indexOf('download') === 0 && page !== 'preview', blankH: frDesk ? '500px' : '580px', is404: shareState === 'notfound' && page !== 'preview',
+      isChat: page === 'preview', chatUrl: 'https://vpn.example.ru/p-8f3Kq2m7X4c9TzWb1Nd5Lh0RvYs6UjEa3GpQkZ2xMnB/', pvTitle: T('Подключение', 'Connect'), pvText: T('Личная ссылка. Откройте её в браузере на устройстве, которое нужно подключить.', 'A personal link. Open it in the browser on the device you want to connect.'),
+      isMemo: shareState === 'memo' && page !== 'preview', memoUrl: okUrl, memoTitle: T('Как импортировать файл', 'How to import the file'), memo: [T('1. Откройте ссылку на устройстве, которое подключаете: файл mama-awg3.conf скачается сразу. Ссылка работает 5 минут, скачать можно несколько раз.', '1. Open the link on the device you are connecting: mama-awg3.conf downloads at once. The link works for 5 minutes and can be used several times.'), T('2. В AmneziaWG нажмите «+» → «Импорт из файла»; в AmneziaVPN — «Добавить» → «Файл с настройками подключения».', '2. In AmneziaWG tap “+” → “Import from file”; in AmneziaVPN — “Add” → “Connection settings file”.'), T('3. Включите VPN и проверьте, что статус стал «Подключено».', '3. Turn the VPN on and check that the status says “Connected”.')],
+      dlBar: shareState === 'download-android' && page !== 'preview', file: 'mama-awg3.conf', dlMeta: T('712 Б · скачан', '712 B · downloaded'), dlOpen: T('Открыть', 'Open'),
+      iosSheet: shareState === 'download-ios' && page !== 'preview', iosTitle: T('Загрузить «mama-awg3.conf»?', 'Download “mama-awg3.conf”?'), iosText: T('712 Б', '712 B'), iosView: T('Просмотреть', 'View'), iosLoad: T('Загрузить', 'Download'),
+      deskBubble: frDesk && page !== 'preview', deskTitle: T('Недавние скачивания', 'Recent downloads'),
+      noteIcon: frN.noteIcon, noteTitle: frN.noteTitle, noteText: frN.noteText, noteBg: frN.noteIcon === 'gravity-ui:circle-check' ? 'var(--success-soft)' : 'var(--accent-soft)', noteFg: frN.noteIcon === 'gravity-ui:circle-check' ? 'var(--success-soft-foreground)' : 'var(--accent-soft-foreground)',
+      hasFp: frN.hasFp, fpLabel: T('Отпечаток SHA-256 сертификата — сверьте с присланным администратором', 'SHA-256 certificate fingerprint — compare with the one the administrator sent'), fp: fpv };
+
+    // ── Лист идей: чего продукт пока не умеет (нужна доработка сервера) ──
+    const ideas = [
+      { t: T('QR адреса этой страницы на телевизоре', 'A QR of this page’s address on the TV'), d: T('В первой итерации ТВ показывал «Удобнее с телефона» с QR адреса страницы. У службы страниц нет маршрута для QR её собственного адреса (разрыв CP-5), поэтому на ТВ справа — пульт и QR ключа по кнопке.', 'In iteration 1 the TV showed “Easier from a phone” with a QR of the page address. The pages service has no route for a QR of its own address (gap CP-5), so the TV side card shows the remote and the key QR on demand.') },
+      { t: T('Тема владельца на странице', 'The owner’s theme on the page'), d: T('Вид из шторки «Вид» панели нужно хранить на сервере и отдавать странице подключения — сейчас он живёт только в браузере администратора (разрыв Р-43).', 'The look chosen in the panel must be stored on the server and served to the connection page — today it only lives in the administrator’s browser (gap Р-43).') }
+    ];
+
+    const isShareLike = page === 'share' || page === 'preview';
+    const keyTitle = cur ? T('Ключ для ', 'Key for ') + cur.name : T('Ключи', 'Keys');
+    const s = { step1: T('Устройство и приложение', 'Device and app'), device: T('Устройство', 'Device'), how: T('Как добавить ключ:', 'How to add the key:'), noApps: T('Для этого устройства и ваших ключей подходящих приложений нет. Выберите другое устройство — или напишите тому, кто прислал ссылку.', 'No suitable apps for this device and your keys. Pick another device — or message whoever sent you the link.'),
+      noQr: T('QR-коды на этом сервере сейчас недоступны — возьмите ключ файлом или скопируйте его.', 'QR codes are not available on this server right now — take the key as a file or copy it.'), goneTitle: T('Эта страница больше не открывается', 'This page no longer opens'), gone: T('Напишите тому, кто прислал вам ссылку, — он выдаст новую.', 'Message whoever sent you the link — they will issue a new one.'),
+      prevPart: T('Предыдущий QR', 'Previous QR'), nextPart: T('Следующий QR', 'Next QR'), rawHint: T('Не скопировалось — выделите ключ целиком и скопируйте вручную:', 'Could not copy — select the whole key and copy it by hand:'),
+      suspended: T('Доступ приостановлен', 'Access suspended'), todo: T('Что сделать', 'What to do'), hidden: T('Ключи скрыты, пока доступ приостановлен.', 'Keys are hidden while access is suspended.'),
+      nsTitle: T('Откройте страницу в браузере с включённым JavaScript', 'Open this page in a browser with JavaScript on'), noscript: T('Ключи и приложения показываются только с включённым JavaScript — откройте эту ссылку в обычном браузере телефона или компьютера.', 'Keys and apps are shown only with JavaScript on — open this link in a regular browser on your phone or computer.'), busyTitle: T('Сервер занят', 'Server busy'), busy: T('Сервер сейчас занят. Страница обновится сама через несколько секунд.', 'The server is busy right now. The page will reload by itself in a few seconds.'), needServer: T('нужна доработка сервера', 'needs server work') };
+    const pageTitle = page === 'ideas' ? T('Идеи — нужна доработка сервера', 'Ideas — need server work') : page === 'busy' ? T('Подключение', 'Connect') : T('Подключение: ', 'Connect: ') + label;
+    const foot = page === 'busy' ? [T('Ссылку выдал администратор сервера vpn.example.ru.', 'This link was issued by the administrator of vpn.example.ru.')] : page === 'ideas' ? [T('Эти блоки не входят в основные экраны: у продукта пока нет нужных данных.', 'These blocks are not on the main screens: the product lacks the data for now.')] : page === 'suspended' ? [T('Ссылку выдал администратор сервера vpn.example.ru.', 'This link was issued by the administrator of vpn.example.ru.')] : [T('Не пересылайте ссылку: по ней можно получить ваши ключи.', 'Do not forward this link: anyone with it can get your keys.'), T('Сведения о приложениях проверены 25.09.2026', 'App details checked on 25.09.2026')];
+
+    return {
+      ap, th, accent, accentFg, radiusPx: ap.radius + 'px', motionAttr: ap.motion ? 'on' : 'off', devAttr: isDesk || (isTvDev && page === 'connect') ? 'desktop' : 'phone',
+      isTv: isTvDev && page === 'connect', isFrame: isShareLike, isPage: !isShareLike && !(isTvDev && page === 'connect'),
+      maxW: isDesk ? '1120px' : '860px', pad: isDesk ? '48px 32px 40px' : '20px 16px 28px', gap: isDesk ? '24px' : '18px', h1: isDesk ? '34px/40px' : '27px/32px', susPad: isDesk ? '28px' : '20px', cols: isDesk && page === 'connect' ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)', colGap: isDesk ? '32px' : '24px',
+      kicker: page === 'ideas' ? T('Страница подключения', 'Connection page') : T('Личная страница', 'Personal page'), title: pageTitle, hasUntil: page === 'connect' || page === 'noscript', until, untilC: 'var(--muted)',
+      isRu: !en, isEn: en, langTx: en ? 'translateX(100%)' : 'none', ruFg: en ? 'var(--muted)' : 'var(--foreground)', enFg: en ? 'var(--foreground)' : 'var(--muted)', setRu: () => this.setState({ lang: 'ru' }), setEn: () => this.setState({ lang: 'en' }),
+      hasStatus: page === 'connect' || page === 'imported' || page === 'noscript', st: stat,
+      isConnect: page === 'connect', isSuspended: page === 'suspended', isImportedPage: page === 'imported' || (page === 'noscript' && keysMode === 'mixed'), isNoscript: page === 'noscript', isIdeas: page === 'ideas', isBusy: page === 'busy',
+      devices: DEV.map(([id, lab, icon]) => ({ label: lab, icon, on: id === plat, pick: () => this.setState({ plat: id, app: null, qr: null, part: 1 }), bg: id === plat ? 'var(--foreground)' : 'var(--default)', fg: id === plat ? 'var(--background)' : 'var(--default-foreground)' })),
+      platNote, noApps: list.length === 0, apps, keyTitle, keys, keysGone: keysMode === 'gone' && page === 'connect', kn, how, s,
+      sus: { ...SUS, bg: sT[0], fg: sT[1], hasMeter: !!SUS.hasMeter, m1: SUS.m1 || '', m2: SUS.m2 || '', todo: SUS.todo.map((t, i) => ({ n: i + 1, t })) },
+      tv, tvItems, fr, ideas, foot,
+      hasToast: st.toast === 'fail', toast: T('Не скопировалось — выделите и скопируйте вручную', 'Could not copy — select and copy by hand')
+    };
+  }
+}
+</script>
+</body>
+</html>
